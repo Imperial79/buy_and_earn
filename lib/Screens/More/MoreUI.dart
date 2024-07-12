@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
@@ -106,6 +107,9 @@ class _MoreUIState extends State<MoreUI> {
                   ],
                 ),
               ),
+              height15,
+              Text("Version $kAppVersion"),
+              kHeight(100),
             ],
           ),
         ),

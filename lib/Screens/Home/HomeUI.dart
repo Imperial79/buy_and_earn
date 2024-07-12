@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kCarousel.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
@@ -99,6 +100,8 @@ class _HomeUIState extends State<HomeUI> {
                             label: "Hotels"),
                         _serviceButton(
                             iconPath: "$kServiceIcon/bus.svg", label: "Bus"),
+                        _serviceButton(
+                            iconPath: "$kServiceIcon/car.svg", label: "Car"),
                       ],
                     ),
                   ],
@@ -118,11 +121,23 @@ class _HomeUIState extends State<HomeUI> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       children: [
-                        _serviceButton(iconPath: "", label: "E-Commerce"),
-                        _serviceButton(iconPath: "", label: "Train"),
-                        _serviceButton(iconPath: "", label: "Hotels"),
-                        _serviceButton(iconPath: "", label: "Bus"),
-                        _serviceButton(iconPath: "", label: "Car"),
+                        _serviceButton(
+                            iconPath: "$kServiceIcon/store.svg",
+                            label: "E-Commerce"),
+                        _serviceButton(
+                            iconPath: "$kServiceIcon/garments.svg",
+                            label: "Garments"),
+                        _serviceButton(
+                            iconPath: "$kServiceIcon/grocery.svg",
+                            label: "Grocery"),
+                        _serviceButton(
+                            iconPath: "$kServiceIcon/food.svg", label: "Food"),
+                        _serviceButton(
+                            iconPath: "$kServiceIcon/courier.svg",
+                            label: "Courier"),
+                        _serviceButton(
+                            iconPath: "$kServiceIcon/local.svg",
+                            label: "Local"),
                       ],
                     ),
                   ],
@@ -207,6 +222,11 @@ class _HomeUIState extends State<HomeUI> {
       children: [
         CircleAvatar(
           radius: 20,
+          child: SvgPicture.asset(
+            kIconMap['electricity']!,
+            height: 20,
+            colorFilter: kSvgColor(kPrimaryColor),
+          ),
         ),
         width10,
         Expanded(
@@ -286,36 +306,32 @@ class _HomeUIState extends State<HomeUI> {
     String? iconPath,
     String? label,
   }) {
-    return Expanded(
-      child: iconPath != null && label != null
-          ? IconButton(
-              onPressed: () {},
-              icon: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircleAvatar(
-                    radius: 25,
-                    child: FittedBox(
-                      child: SvgPicture.asset(
-                        iconPath,
-                        colorFilter: kSvgColor(kPrimaryColor),
-                      ),
-                    ),
+    return iconPath != null && label != null
+        ? IconButton(
+            onPressed: () {},
+            icon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  child: SvgPicture.asset(
+                    iconPath,
+                    colorFilter: kSvgColor(kPrimaryColor),
                   ),
-                  height5,
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                ),
+                height5,
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
-              ),
-            )
-          : SizedBox(),
-    );
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          )
+        : SizedBox();
   }
 }

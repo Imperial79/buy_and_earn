@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/Screens/Auth/LoginUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
@@ -23,7 +24,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: kTheme(context),
       title: "Buy & Earn",
-      home: RootUI(),
+      home: LoginUI(),
     );
   }
 }

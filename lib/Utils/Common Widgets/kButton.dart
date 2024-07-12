@@ -42,26 +42,23 @@ class KButton {
     Color? borderColor,
     Color? textColor,
   }) =>
-      ElevatedButton(
+      MaterialButton(
         onPressed: onPressed,
+        color: Colors.transparent,
+        elevation: 0,
+        highlightElevation: 0,
+        disabledElevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: kRadius(7),
+          side: BorderSide(
+            color: borderColor ?? Colors.white,
+          ),
+        ),
+        visualDensity: VisualDensity.compact,
         child: Text(
           label ?? "label",
           textAlign: TextAlign.center,
-        ),
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          foregroundColor: textColor ?? Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          visualDensity: VisualDensity.compact,
-          shape: RoundedRectangleBorder(
-            borderRadius: kRadius(7),
-            side: BorderSide(
-              color: borderColor ?? Colors.white,
-            ),
-          ),
-          alignment: Alignment.center,
-          textStyle: TextStyle(
+          style: TextStyle(
             color: textColor ?? Colors.white,
             fontWeight: FontWeight.w600,
             fontFamily: 'Jakarta',

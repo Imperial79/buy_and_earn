@@ -18,7 +18,7 @@ class KTextfield {
     Widget? prefix,
     Color? fieldColor,
     Color? borderColor,
-    bool? obscureText,
+    bool obscureText = false,
     int? maxLength,
     int? maxLines = 1,
     String? label,
@@ -43,7 +43,13 @@ class KTextfield {
                               child: labelIcon,
                             )
                           : SizedBox.shrink(),
-                      Text(label),
+                      Text(
+                        label,
+                        style: TextStyle(
+                          color: Colors.grey.shade800,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ],
                   ),
                 )
@@ -53,8 +59,6 @@ class KTextfield {
             children: [
               prefixText != null && prefix == null
                   ? Container(
-                      // width: sdp(context, 35),
-                      // height: sdp(context, 35),
                       padding: EdgeInsets.all(12),
                       margin: EdgeInsets.only(right: 10),
                       alignment: Alignment.center,
@@ -89,12 +93,12 @@ class KTextfield {
                   controller: controller,
                   textCapitalization: textCapitalization,
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 17,
                     fontWeight: FontWeight.w500,
-                    letterSpacing: .5,
+                    letterSpacing: obscureText ? 2 : .5,
                   ),
                   readOnly: readOnly ?? false,
-                  obscureText: obscureText ?? false,
+                  obscureText: obscureText,
                   keyboardType: keyboardType,
                   maxLength: maxLength,
                   maxLines: maxLines,
@@ -106,19 +110,19 @@ class KTextfield {
                     counterText: '',
                     isDense: true,
                     border: OutlineInputBorder(
-                      borderRadius: kRadius(10),
+                      borderRadius: kRadius(7),
                       borderSide: BorderSide(color: Colors.grey.shade300),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: kRadius(10),
+                      borderRadius: kRadius(7),
                       borderSide: BorderSide(color: Colors.red.shade300),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: kRadius(10),
+                      borderRadius: kRadius(7),
                       borderSide: BorderSide(color: Colors.grey.shade500),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: kRadius(10),
+                      borderRadius: kRadius(7),
                       borderSide: BorderSide(color: Colors.grey.shade300),
                     ),
                     hintText: hintText,
@@ -173,7 +177,13 @@ class KTextfield {
                               child: labelIcon,
                             )
                           : SizedBox.shrink(),
-                      Text(label),
+                      Text(
+                        label,
+                        style: TextStyle(
+                          color: Colors.grey.shade800,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ],
                   ),
                 )

@@ -19,16 +19,36 @@ SizedBox kHeight(double height) => SizedBox(
       height: height,
     );
 
+Route _createRoute(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.easeInOut;
+
+      final tween = Tween(begin: begin, end: end);
+      final curvedAnimation = CurvedAnimation(
+        parent: animation,
+        curve: curve,
+      );
+
+      return SlideTransition(
+        position: tween.animate(curvedAnimation),
+        child: child,
+      );
+    },
+  );
+}
+
 BorderRadius kRadius(double radius) => BorderRadius.circular(radius);
 
 Future<void> navPush(BuildContext context, Widget screen) {
-  return Navigator.push(
-      context, MaterialPageRoute(builder: (context) => screen));
+  return Navigator.push(context, _createRoute(screen));
 }
 
 Future<void> navPushReplacement(BuildContext context, Widget screen) {
-  return Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => screen));
+  return Navigator.pushReplacement(context, _createRoute(screen));
 }
 
 Future<void> navPopUntilPush(BuildContext context, Widget screen) {
