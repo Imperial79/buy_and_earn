@@ -1,3 +1,5 @@
+import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/kOTPField.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
 
@@ -94,6 +96,7 @@ class _RegisterUIState extends State<RegisterUI> {
                   context,
                   label: "Phone",
                   keyboardType: TextInputType.phone,
+                  maxLength: 10,
                   hintText: "Eg. 90930***85",
                   validator: (val) {
                     if (val!.isEmpty)
@@ -102,37 +105,62 @@ class _RegisterUIState extends State<RegisterUI> {
                     return null;
                   },
                 ),
-                height15,
-                KTextfield.regular(
-                  context,
-                  controller: password,
-                  label: "Password",
-                  textCapitalization: TextCapitalization.none,
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  hintText: "--------",
-                  validator: (val) {
-                    if (val!.isEmpty)
-                      return "Required!";
-                    else if (val != confirmPassword.text)
-                      return "Password must be same as Confirm Password!";
-                    return null;
-                  },
+                TextButton(onPressed: () {}, child: Text("Send OTP")),
+                height10,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Enter the OTP received on +91 ${phone.text}"),
+                    height10,
+                    Center(
+                      child: KOtpField(
+                        length: 6,
+                      ),
+                    ),
+                  ],
                 ),
                 height15,
                 KTextfield.regular(
                   context,
+                  label: "Email (Optional)",
                   textCapitalization: TextCapitalization.none,
-                  keyboardType: TextInputType.visiblePassword,
-                  label: "Confirm Password",
-                  hintText: "Re-enter password",
-                  validator: (val) {
-                    if (val!.isEmpty)
-                      return "Required!";
-                    else if (val != password.text)
-                      return "Confirm Password must be same as Password!";
-                    return null;
-                  },
+                  keyboardType: TextInputType.emailAddress,
+                  hintText: "Eg. johndoe@mail.com",
+                ),
+                height15,
+                Row(
+                  children: [
+                    Expanded(
+                      child: KTextfield.dropdown(
+                        label: "State",
+                        value: "West Bengal",
+                        items: [
+                          DropdownMenuItem(
+                            value: "West Bengal",
+                            child: Text("West Bengal"),
+                          ),
+                          DropdownMenuItem(
+                            value: "Maharashtra",
+                            child: Text("Maharashtra"),
+                          ),
+                        ],
+                        onChanged: (value) {},
+                      ),
+                    ),
+                    width10,
+                    Expanded(
+                      child: KTextfield.regular(
+                        context,
+                        label: "City",
+                        keyboardType: TextInputType.text,
+                        hintText: "Eg. Durgapur",
+                        validator: (val) {
+                          if (val!.isEmpty) return "Required!";
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 height15,
                 KTextfield.regular(
@@ -141,6 +169,31 @@ class _RegisterUIState extends State<RegisterUI> {
                   textCapitalization: TextCapitalization.characters,
                   label: "Refer Code (Optional)",
                   hintText: "Eg. AJSH67GH",
+                ),
+                height5,
+                kCard(
+                  child: Row(
+                    children: [
+                      CircleAvatar(),
+                      width10,
+                      Expanded(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Jane Foster",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            "+91 909****654",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ))
+                    ],
+                  ),
                 ),
               ],
             ),

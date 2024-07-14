@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
 
 import '../colors.dart';
 
 class KOtpField extends StatefulWidget {
-  final int length; // Length of the OTP code (default 6)
-  final ValueChanged<String> onCompleted; // Callback for completed OTP
-  final bool autoFocus;
-  final double? fontSize;
-
+  final void Function(String)? onCompleted;
+  final String? Function(String?)? validator;
+  final int length;
   const KOtpField({
     super.key,
+    this.onCompleted,
     required this.length,
-    required this.onCompleted,
-    this.fontSize,
-    this.autoFocus = true,
+    this.validator,
   });
 
   @override
@@ -21,113 +19,47 @@ class KOtpField extends StatefulWidget {
 }
 
 class _KOtpFieldState extends State<KOtpField> {
-  List<TextEditingController> controllers = [];
-  String otp = "";
-
-  @override
-  void initState() {
-    super.initState();
-    for (var i = 0; i < widget.length; i++) {
-      controllers.add(TextEditingController());
-    }
-  }
-
-  @override
-  void dispose() {
-    for (var controller in controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  void addText(String text) {
-    if (otp.length <= widget.length) {
-      setState(() {
-        otp += text;
-        int currentDigit = otp.length - 1;
-        if (currentDigit < widget.length - 1) {
-          controllers[currentDigit + 1].text = "";
-          FocusScope.of(context).nextFocus();
-        } else {
-          widget.onCompleted(otp);
-        }
-      });
-    }
-  }
-
-  void removeText() {
-    if (otp.isNotEmpty) {
-      setState(() {
-        otp = otp.substring(0, otp.length - 1);
-        int currentDigit = otp.length;
-        if (currentDigit > 0) {
-          controllers[currentDigit].text = "";
-          FocusScope.of(context).previousFocus();
-        }
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Flex(
-            children: List.generate(
-              widget.length,
-              (index) {
-                return Expanded(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5),
-                    color: Colors.grey.shade100,
-                    width: double.maxFinite,
-                    child: TextField(
-                      controller: controllers[index],
-                      cursorColor: kPrimaryColor,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: widget.fontSize ?? 10,
-                      ),
-                      maxLength: 1,
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      autofocus: widget.autoFocus ? index == 0 : false,
-                      onChanged: (value) {
-                        if (value.isNotEmpty) {
-                          addText(value);
-                        } else {
-                          removeText();
-                        }
-                      },
-                      decoration: InputDecoration(
-                        counterText: '',
-                        hintText: '-',
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                        ),
-                        contentPadding:
-                            EdgeInsets.only(left: 4, top: 20, bottom: 20),
-                        border: InputBorder.none,
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: kSecondaryColor,
-                            width: 3,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            direction: Axis.horizontal,
-          ),
-        );
-      },
+    final defaultPinTheme = PinTheme(
+      width: 56,
+      height: 56,
+      textStyle: TextStyle(
+          fontSize: 20,
+          color: Color.fromRGBO(30, 60, 87, 1),
+          fontWeight: FontWeight.w600),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: kSecondaryColor.withOpacity(.5),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+
+    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+      border: Border.all(color: kColor(context).primary, width: 2),
+      borderRadius: BorderRadius.circular(8),
+    );
+
+    final submittedPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration!.copyWith(
+        border: Border.all(
+          color: kPrimaryColor,
+          width: 1,
+        ),
+        color: kColor(context).primaryContainer.withOpacity(.5),
+      ),
+    );
+    return Pinput(
+      defaultPinTheme: defaultPinTheme,
+      focusedPinTheme: focusedPinTheme,
+      submittedPinTheme: submittedPinTheme,
+      length: widget.length,
+      validator: widget.validator,
+      pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+      showCursor: true,
+      onCompleted: widget.onCompleted,
     );
   }
 }

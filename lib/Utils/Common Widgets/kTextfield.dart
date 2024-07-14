@@ -277,4 +277,40 @@ class KTextfield {
           ),
         ],
       );
+
+  static Widget dropdown({
+    String label = "label",
+    String? value,
+    required List<DropdownMenuItem<String>>? items,
+    required void Function(String?)? onChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label),
+        height10,
+        Card(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: Colors.grey.shade300,
+            ),
+            borderRadius: kRadius(7),
+          ),
+          color: kCardColor,
+          child: Padding(
+            padding: EdgeInsets.all(12),
+            child: DropdownButtonFormField(
+              isDense: true,
+              decoration: InputDecoration.collapsed(
+                hintText: "",
+              ),
+              value: value,
+              items: items,
+              onChanged: onChanged,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
