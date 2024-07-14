@@ -1,7 +1,7 @@
 import 'package:buy_and_earn/Utils/commons.dart';
 
-const kAppVersion = "1.1.0";
-const kAppBuild = "2";
+const kAppVersion = "1.1.1";
+const kAppBuild = "3";
 
 final kIconMap = {
   'mobile': "$kServiceIcon/mobile.svg",
