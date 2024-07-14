@@ -23,7 +23,7 @@ class KTextfield {
     int? maxLines = 1,
     String? label,
     Widget? labelIcon,
-    TextCapitalization textCapitalization = TextCapitalization.none,
+    TextCapitalization textCapitalization = TextCapitalization.words,
     List<TextInputFormatter>? inputFormatters,
     void Function(String)? onChanged,
     String? Function(String?)? validator,
@@ -127,7 +127,7 @@ class KTextfield {
                     ),
                     hintText: hintText,
                     hintStyle: TextStyle(
-                      fontSize: 11,
+                      fontSize: 17,
                       fontWeight: FontWeight.w500,
                       color: Colors.grey,
                     ),

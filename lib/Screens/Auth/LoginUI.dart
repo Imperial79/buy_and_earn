@@ -42,16 +42,12 @@ class _LoginUIState extends State<LoginUI> {
                     ),
                   ),
                   width5,
-                  InkWell(
-                    onTap: () {
+                  TextButton(
+                    onPressed: () {
                       navPush(context, RegisterUI());
                     },
                     child: Text(
                       "Register",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.blue.shade800,
-                      ),
                     ),
                   ),
                 ],
@@ -59,6 +55,7 @@ class _LoginUIState extends State<LoginUI> {
               kHeight(40),
               KTextfield.regular(
                 context,
+                keyboardType: TextInputType.number,
                 label: "Phone",
               ),
               height20,
@@ -66,6 +63,24 @@ class _LoginUIState extends State<LoginUI> {
                 context,
                 label: "Password",
                 obscureText: true,
+              ),
+              height15,
+              Row(
+                children: [
+                  Text(
+                    "Forgot Password ?",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Help",
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -75,10 +90,11 @@ class _LoginUIState extends State<LoginUI> {
         child: Padding(
           padding: EdgeInsets.all(12),
           child: KButton.full(
-              onPressed: () {
-                navPushReplacement(context, RootUI());
-              },
-              label: "Proceed"),
+            onPressed: () {
+              navPushReplacement(context, RootUI());
+            },
+            label: "Proceed",
+          ),
         ),
       ),
     );

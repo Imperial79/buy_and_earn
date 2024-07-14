@@ -3,6 +3,7 @@ import 'commons.dart';
 
 ThemeData kTheme(BuildContext context) => ThemeData(
       useMaterial3: true,
+      secondaryHeaderColor: kSecondaryColor,
       colorSchemeSeed: kPrimaryColor,
       fontFamily: 'Jakarta',
       scaffoldBackgroundColor: kScaffoldColor,
@@ -34,6 +35,17 @@ ThemeData kTheme(BuildContext context) => ThemeData(
           borderRadius: kRadius(10),
         ),
       ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: kTextbuttonColor,
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          visualDensity: VisualDensity(horizontal: -2, vertical: -2),
+          textStyle: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Colors.blue.shade800,
+          ),
+        ),
+      ),
     );
 
 ColorScheme kColor(BuildContext context) => Theme.of(context).colorScheme;
@@ -42,7 +54,8 @@ ColorFilter kSvgColor(Color color) => ColorFilter.mode(color, BlendMode.srcIn);
 
 Color kScaffoldColor = Color(0xfff9f9f9);
 Color kPrimaryColor = Color(0xff034f89);
-Color kPrimaryAccentColor = Color(0xfff9efec);
+Color kPrimaryAccentColor = Color.fromARGB(255, 203, 221, 235);
 Color kSecondaryColor = Color(0xfff89900);
 Color kCardColor = Colors.white;
 Color kCardDarkColor = Color(0xff595c65);
+Color kTextbuttonColor = Colors.blue.shade800;

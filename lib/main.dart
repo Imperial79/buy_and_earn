@@ -1,5 +1,4 @@
 import 'package:buy_and_earn/Screens/Auth/LoginUI.dart';
-import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';

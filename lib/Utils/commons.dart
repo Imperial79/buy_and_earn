@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'colors.dart';
+
 const String kIconPath = "assets/icons";
 const String kServiceIcon = "assets/icons/Service Icons";
 
@@ -33,9 +35,12 @@ Route _createRoute(Widget page) {
         curve: curve,
       );
 
-      return SlideTransition(
-        position: tween.animate(curvedAnimation),
-        child: child,
+      return FadeTransition(
+        opacity: curvedAnimation,
+        child: SlideTransition(
+          position: tween.animate(curvedAnimation),
+          child: child,
+        ),
       );
     },
   );
@@ -67,6 +72,41 @@ kSystemColors() {
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
+}
+
+void KSnackbar(
+  BuildContext context, {
+  required String content,
+  bool? isDanger = false,
+}) {
+  ScaffoldMessenger.of(context).clearSnackBars();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: isDanger!
+          ? kColor(context).errorContainer
+          : kColor(context).primaryContainer,
+      dismissDirection: DismissDirection.vertical,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: kRadius(10),
+        side: BorderSide(
+          color: isDanger
+              ? kColor(context).onErrorContainer
+              : kColor(context).onPrimaryContainer,
+        ),
+      ),
+      content: Text(
+        content,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          color: isDanger
+              ? kColor(context).onErrorContainer
+              : kColor(context).onPrimaryContainer,
+          fontFamily: 'Jakarta',
+        ),
+      ),
     ),
   );
 }

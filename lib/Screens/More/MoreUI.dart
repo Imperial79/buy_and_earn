@@ -4,6 +4,7 @@ import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MoreUI extends StatefulWidget {
@@ -80,6 +81,43 @@ class _MoreUIState extends State<MoreUI> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    kLabel("Refer Code"),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "ABCDJ67S",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Colors.grey.shade700,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                        ),
+                        width5,
+                        IconButton.filledTonal(
+                          onPressed: () {
+                            Clipboard.setData(ClipboardData(text: "ABCDJ67S"));
+                            KSnackbar(context,
+                                content: "Refer Code copied to clipboard",
+                                isDanger: false);
+                          },
+                          icon: Icon(
+                            Icons.copy,
+                            size: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              height15,
+              kCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     _settingButton(
                         label: "My Address",
                         iconPath: "$kIconPath/my-address.svg"),
@@ -109,6 +147,10 @@ class _MoreUIState extends State<MoreUI> {
               ),
               height15,
               Text("Version $kAppVersion"),
+              Text(
+                "ImVy Developers©",
+                style: TextStyle(color: Colors.grey),
+              ),
               kHeight(100),
             ],
           ),
@@ -124,16 +166,16 @@ class _MoreUIState extends State<MoreUI> {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 10),
       minVerticalPadding: 10,
-      titleTextStyle: TextStyle(
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
-        fontSize: 17,
-        fontFamily: "Jakarta",
-      ),
       leading: SvgPicture.asset(
         iconPath,
         height: 20,
         colorFilter: kSvgColor(kPrimaryColor),
+      ),
+      titleTextStyle: TextStyle(
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+        fontSize: 15,
+        fontFamily: "Jakarta",
       ),
       title: Text(label),
       trailing: Icon(

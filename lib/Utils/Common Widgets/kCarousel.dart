@@ -26,7 +26,7 @@ class KCarousel extends StatefulWidget {
     double? radius,
   }) {
     return Padding(
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 15.0),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 5.0),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: kRadius(radius ?? 15),
@@ -41,7 +41,8 @@ class KCarousel extends StatefulWidget {
 }
 
 class _KCarouselState extends State<KCarousel> {
-  final PageController _controller = PageController(initialPage: 0);
+  final PageController _controller =
+      PageController(initialPage: 0, viewportFraction: .9, keepPage: true);
   int _activePage = 0;
   Timer? _timer;
 
