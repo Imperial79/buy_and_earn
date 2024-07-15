@@ -24,7 +24,7 @@ class _MoreUIState extends State<MoreUI> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              kWalletCard(),
+              kWalletCard(context),
               height15,
               kCard(
                 child: Row(

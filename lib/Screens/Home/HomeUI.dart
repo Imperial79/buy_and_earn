@@ -27,7 +27,7 @@ class HomeUI extends StatelessWidget {
                   children: [
                     _header(),
                     height20,
-                    kWalletCard(),
+                    kWalletCard(context),
                     height15,
                   ],
                 ),

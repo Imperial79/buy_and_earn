@@ -102,6 +102,8 @@ class KButton {
     Color? backgroundColor,
     double? fontSize,
     Widget? icon,
+    EdgeInsetsGeometry? padding,
+    Color? textColor,
   }) =>
       ElevatedButton(
         onPressed: onPressed ?? () {},
@@ -118,8 +120,9 @@ class KButton {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: backgroundColor ?? kPrimaryColor,
-          foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          foregroundColor: textColor ?? Colors.white,
+          padding:
+              padding ?? EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           shape: RoundedRectangleBorder(
             borderRadius: kRadius(12),
           ),
@@ -128,7 +131,25 @@ class KButton {
             fontWeight: FontWeight.w600,
             fontFamily: 'Poppins',
             fontSize: fontSize,
+            // color: textColor,
           ),
         ),
       );
+
+  static Widget pill({
+    required void Function()? onPressed,
+    required String label,
+  }) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: kRadius(100),
+          ),
+          backgroundColor: kPrimaryColor,
+          foregroundColor: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 15)),
+      child: Text(label),
+    );
+  }
 }

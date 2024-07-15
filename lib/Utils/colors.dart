@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'commons.dart';
 
+/// Custom Light Theme
 ThemeData kTheme(BuildContext context) => ThemeData(
       useMaterial3: true,
       secondaryHeaderColor: kSecondaryColor,
@@ -26,7 +27,8 @@ ThemeData kTheme(BuildContext context) => ThemeData(
         ),
       ),
       splashFactory: InkSplash.splashFactory,
-      appBarTheme: AppBarTheme(color: kCardColor, elevation: 0),
+      appBarTheme:
+          AppBarTheme(color: Colors.white.withOpacity(0), elevation: 0),
       cardTheme: CardTheme(
         color: kPrimaryColor,
         elevation: 0,
@@ -48,8 +50,10 @@ ThemeData kTheme(BuildContext context) => ThemeData(
       ),
     );
 
+/// Colors according to the primary color seed
 ColorScheme kColor(BuildContext context) => Theme.of(context).colorScheme;
 
+/// For setting SVG icon Color
 ColorFilter kSvgColor(Color color) => ColorFilter.mode(color, BlendMode.srcIn);
 
 Color kScaffoldColor = Color(0xfff9f9f9);

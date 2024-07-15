@@ -110,3 +110,19 @@ void KSnackbar(
     ),
   );
 }
+
+kPill({void Function()? onTap, required String label}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Chip(
+      shape: RoundedRectangleBorder(
+        borderRadius: kRadius(100),
+        side: BorderSide(
+          color: Colors.grey.shade300,
+        ),
+      ),
+      visualDensity: VisualDensity.compact,
+      label: Text(label),
+    ),
+  );
+}

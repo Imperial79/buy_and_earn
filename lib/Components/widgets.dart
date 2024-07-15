@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/Screens/Wallet/WalletUI.dart';
 import 'package:flutter/material.dart';
 
 import '../Utils/Common Widgets/kButton.dart';
@@ -30,7 +31,7 @@ Widget kCard({Widget? child}) {
   );
 }
 
-Widget kWalletCard() {
+Widget kWalletCard(context) {
   return Card(
     child: Padding(
       padding: EdgeInsets.all(12),
@@ -69,7 +70,9 @@ Widget kWalletCard() {
             ),
           ),
           KButton.outlined(
-            onPressed: () {},
+            onPressed: () {
+              navPush(context, WalletUI());
+            },
             label: "Add Money",
           )
         ],
