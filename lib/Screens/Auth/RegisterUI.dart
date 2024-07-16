@@ -1,6 +1,7 @@
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kOTPField.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
+import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../Utils/Common Widgets/kButton.dart';
@@ -80,7 +81,7 @@ class _RegisterUIState extends State<RegisterUI> {
                     ),
                   ],
                 ),
-                kHeight(40),
+                height20,
                 KTextfield.regular(
                   context,
                   label: "Name",
@@ -115,6 +116,7 @@ class _RegisterUIState extends State<RegisterUI> {
                     Center(
                       child: KOtpField(
                         length: 6,
+                        onCompleted: (otp) {},
                       ),
                     ),
                   ],
@@ -167,7 +169,7 @@ class _RegisterUIState extends State<RegisterUI> {
                   context,
                   maxLength: 8,
                   textCapitalization: TextCapitalization.characters,
-                  label: "Refer Code (Optional)",
+                  label: "Refer Code",
                   hintText: "Eg. AJSH67GH",
                 ),
                 height5,

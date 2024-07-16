@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
