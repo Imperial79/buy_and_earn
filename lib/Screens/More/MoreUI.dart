@@ -2,6 +2,7 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +10,30 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class MoreUI extends ConsumerWidget {
+class MoreUI extends ConsumerStatefulWidget {
   const MoreUI({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MoreUI> createState() => _MoreUIState();
+}
+
+class _MoreUIState extends ConsumerState<MoreUI> {
+  bool _isLoading = false;
+
+  _logout() async {
+    setState(() => _isLoading = true);
+    final res = await ref.read(authRepository).logout({});
+    if (!res.error) {
+      print(res);
+    }
+    setState(() => _isLoading = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-    return Scaffold(
+    return KScaffold(
+      isLoading: _isLoading,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(12),
@@ -119,29 +137,39 @@ class MoreUI extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _settingButton(
+                        onTap: () {},
                         label: "My Address",
                         iconPath: "$kIconPath/my-address.svg"),
                     Divider(
                       color: Colors.grey.shade300,
                     ),
                     _settingButton(
+                        onTap: () {},
                         label: "Change Password",
                         iconPath: "$kIconPath/lock.svg"),
                     Divider(
                       color: Colors.grey.shade300,
                     ),
                     _settingButton(
-                        label: "Help", iconPath: "$kIconPath/info.svg"),
+                        onTap: () {},
+                        label: "Help",
+                        iconPath: "$kIconPath/info.svg"),
                     Divider(
                       color: Colors.grey.shade300,
                     ),
                     _settingButton(
-                        label: "Privacy", iconPath: "$kIconPath/privacy.svg"),
+                        onTap: () {},
+                        label: "Privacy",
+                        iconPath: "$kIconPath/privacy.svg"),
                     Divider(
                       color: Colors.grey.shade300,
                     ),
                     _settingButton(
-                        label: "Log Out", iconPath: "$kIconPath/log-out.svg"),
+                        onTap: () {
+                          _logout();
+                        },
+                        label: "Log Out",
+                        iconPath: "$kIconPath/log-out.svg"),
                   ],
                 ),
               ),
@@ -160,10 +188,12 @@ class MoreUI extends ConsumerWidget {
   }
 
   Widget _settingButton({
+    required onTap,
     required String label,
     required String iconPath,
   }) {
     return ListTile(
+      onTap: onTap,
       contentPadding: EdgeInsets.symmetric(horizontal: 10),
       minVerticalPadding: 10,
       leading: SvgPicture.asset(

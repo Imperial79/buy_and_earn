@@ -6,6 +6,7 @@ import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:upgrader/upgrader.dart';
 
 final navigationProvider = StateProvider<int>((ref) => 0);
 
@@ -27,23 +28,28 @@ class _RootUIState extends ConsumerState<RootUI> {
   @override
   Widget build(BuildContext context) {
     final activeIndex = ref.watch(navigationProvider);
-    return Scaffold(
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          PageTransitionSwitcher(
-            transitionBuilder: (child, animation, secondaryAnimation) {
-              return FadeThroughTransition(
-                animation: animation,
-                secondaryAnimation: secondaryAnimation,
-                fillColor: Theme.of(context).colorScheme.surface,
-                child: child,
-              );
-            },
-            child: _screens[activeIndex],
-          ),
-          _bottomBar(),
-        ],
+    return UpgradeAlert(
+      showIgnore: false,
+      showLater: false,
+      shouldPopScope: () => false,
+      child: Scaffold(
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            PageTransitionSwitcher(
+              transitionBuilder: (child, animation, secondaryAnimation) {
+                return FadeThroughTransition(
+                  animation: animation,
+                  secondaryAnimation: secondaryAnimation,
+                  fillColor: Theme.of(context).colorScheme.surface,
+                  child: child,
+                );
+              },
+              child: _screens[activeIndex],
+            ),
+            _bottomBar(),
+          ],
+        ),
       ),
     );
   }

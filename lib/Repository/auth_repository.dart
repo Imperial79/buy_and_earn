@@ -37,4 +37,11 @@ class AuthRepository {
 
     return res;
   }
+
+  Future<ResponseModel> logout(Map<String, dynamic> body) async {
+    final res =
+        await apiCallBack(path: "/users/logout", method: "GET", body: body);
+
+    return res;
+  }
 }

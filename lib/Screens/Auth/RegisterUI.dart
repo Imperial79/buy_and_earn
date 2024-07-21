@@ -41,6 +41,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
     email.dispose();
     city.dispose();
     referCode.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -51,8 +52,8 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
         .fetchReferrerData({"referrerCode": referCode.text});
     if (!res.error) {
       referrerData = res.response;
-      setState(() => _isLoading = false);
     }
+    setState(() => _isLoading = false);
   }
 
   _sendOtp() async {
