@@ -1,46 +1,130 @@
+import 'dart:async';
+
+import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Screens/Auth/LoginUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kOTPField.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
-import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../Utils/Common Widgets/kButton.dart';
 import '../../Utils/Common Widgets/kTextfield.dart';
 import '../../Utils/commons.dart';
-import '../RootUI.dart';
 
-class RegisterUI extends StatefulWidget {
+class RegisterUI extends ConsumerStatefulWidget {
   const RegisterUI({super.key});
 
   @override
-  State<RegisterUI> createState() => _RegisterUIState();
+  ConsumerState<RegisterUI> createState() => _RegisterUIState();
 }
 
-class _RegisterUIState extends State<RegisterUI> {
+class _RegisterUIState extends ConsumerState<RegisterUI> {
   final _formKey = GlobalKey<FormState>();
   final name = TextEditingController();
   final phone = TextEditingController();
-  final password = TextEditingController();
-  final confirmPassword = TextEditingController();
+  final email = TextEditingController();
+  final city = TextEditingController();
   final referCode = TextEditingController();
-
-  _createAccount() async {
-    if (_formKey.currentState!.validate()) {}
-  }
+  Map<String, dynamic> referrerData = {};
+  String _selectedState = "Gujarat";
+  bool _isLoading = false;
+  late Timer _timer;
+  final seconds = StateProvider((ref) => 60);
 
   @override
   void dispose() {
     name.dispose();
     phone.dispose();
-    password.dispose();
-    confirmPassword.dispose();
+    email.dispose();
+    city.dispose();
     referCode.dispose();
     super.dispose();
+  }
+
+  _fetchReferrerData() async {
+    setState(() => _isLoading = true);
+    final res = await ref
+        .read(authRepository)
+        .fetchReferrerData({"referrerCode": referCode.text});
+    if (!res.error) {
+      referrerData = res.response;
+      setState(() => _isLoading = false);
+    }
+  }
+
+  _sendOtp() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+      final res = await ref
+          .read(authRepository)
+          .sendOtp({"phone": phone.text, "otpType": "Register"});
+      if (!res.error) {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          enableDrag: true,
+          builder: (BuildContext context) {
+            return confirmationOTPModal();
+          },
+        );
+        _startTimer();
+      } else {
+        KSnackbar(context, content: res.message, isDanger: res.error);
+      }
+      setState(() => _isLoading = false);
+    }
+  }
+
+  _resendOtp() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+      final res = await ref
+          .read(authRepository)
+          .sendOtp({"phone": phone.text, "otpType": "Register"});
+      if (!res.error) {
+        _startTimer();
+      } else {
+        KSnackbar(context, content: res.message, isDanger: res.error);
+      }
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _startTimer() {
+    ref.read(seconds.notifier).state = 60;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (ref.read(seconds) > 0) {
+        setState(() {
+          ref.read(seconds.notifier).update(
+                (state) => state -= 1,
+              );
+        });
+      } else {
+        timer.cancel();
+        // Handle the timer completion here, if needed
+        print('Countdown finished!');
+      }
+    });
+  }
+
+  _createAccount() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+      final res = await ref
+          .read(authRepository)
+          .fetchReferrerData({"referrerCode": referCode.text});
+      if (!res.error) {
+        referrerData = res.response;
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return KScaffold(
+      isLoading: _isLoading,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(12),
@@ -69,7 +153,7 @@ class _RegisterUIState extends State<RegisterUI> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        navPush(context, LoginUI());
                       },
                       child: Text(
                         "Login",
@@ -84,6 +168,7 @@ class _RegisterUIState extends State<RegisterUI> {
                 height20,
                 KTextfield.regular(
                   context,
+                  controller: name,
                   label: "Name",
                   keyboardType: TextInputType.name,
                   hintText: "Eg. John Doe",
@@ -95,10 +180,11 @@ class _RegisterUIState extends State<RegisterUI> {
                 height15,
                 KTextfield.regular(
                   context,
+                  controller: phone,
                   label: "Phone",
                   keyboardType: TextInputType.phone,
                   maxLength: 10,
-                  hintText: "Eg. 90930***85",
+                  hintText: "Eg. 909*****85",
                   validator: (val) {
                     if (val!.isEmpty)
                       return "Required!";
@@ -106,24 +192,10 @@ class _RegisterUIState extends State<RegisterUI> {
                     return null;
                   },
                 ),
-                TextButton(onPressed: () {}, child: Text("Send OTP")),
-                height10,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Enter the OTP received on +91 ${phone.text}"),
-                    height10,
-                    Center(
-                      child: KOtpField(
-                        length: 6,
-                        onCompleted: (otp) {},
-                      ),
-                    ),
-                  ],
-                ),
                 height15,
                 KTextfield.regular(
                   context,
+                  controller: email,
                   label: "Email (Optional)",
                   textCapitalization: TextCapitalization.none,
                   keyboardType: TextInputType.emailAddress,
@@ -135,24 +207,26 @@ class _RegisterUIState extends State<RegisterUI> {
                     Expanded(
                       child: KTextfield.dropdown(
                         label: "State",
-                        value: "West Bengal",
-                        items: [
-                          DropdownMenuItem(
-                            value: "West Bengal",
-                            child: Text("West Bengal"),
+                        value: _selectedState,
+                        items: List.generate(
+                          statesList.length,
+                          (index) => DropdownMenuItem(
+                            value: statesList[index],
+                            child: Text("${statesList[index]}"),
                           ),
-                          DropdownMenuItem(
-                            value: "Maharashtra",
-                            child: Text("Maharashtra"),
-                          ),
-                        ],
-                        onChanged: (value) {},
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedState = value!;
+                          });
+                        },
                       ),
                     ),
                     width10,
                     Expanded(
                       child: KTextfield.regular(
                         context,
+                        controller: city,
                         label: "City",
                         keyboardType: TextInputType.text,
                         hintText: "Eg. Durgapur",
@@ -167,36 +241,53 @@ class _RegisterUIState extends State<RegisterUI> {
                 height15,
                 KTextfield.regular(
                   context,
+                  controller: referCode,
                   maxLength: 8,
                   textCapitalization: TextCapitalization.characters,
                   label: "Refer Code",
                   hintText: "Eg. AJSH67GH",
+                  onChanged: (value) {
+                    if (value.length == 8) {
+                      FocusScope.of(context).unfocus();
+                      _fetchReferrerData();
+                    }
+                  },
+                  validator: (val) {
+                    if (val!.isEmpty) return "Required!";
+                    return null;
+                  },
                 ),
                 height5,
-                kCard(
-                  child: Row(
-                    children: [
-                      CircleAvatar(),
-                      width10,
-                      Expanded(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Jane Foster",
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            "+91 909****654",
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ))
-                    ],
-                  ),
-                ),
+                referrerData.isEmpty
+                    ? SizedBox.shrink()
+                    : kCard(
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              child: Text("${referrerData['name'][0]}"),
+                            ),
+                            width10,
+                            Expanded(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${referrerData['name']}",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Text(
+                                  "+91 ${referrerData['phone']}",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ))
+                          ],
+                        ),
+                      ),
               ],
             ),
           ),
@@ -207,12 +298,46 @@ class _RegisterUIState extends State<RegisterUI> {
           padding: EdgeInsets.all(12),
           child: KButton.full(
               onPressed: () {
-                // _createAccount();
-                navPushReplacement(context, RootUI());
+                _sendOtp();
               },
               label: "Proceed"),
         ),
       ),
     );
+  }
+
+  Widget confirmationOTPModal() {
+    return Consumer(builder: (context, ref, child) {
+      final _seconds = ref.watch(seconds);
+      return Container(
+        margin:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        height: 250,
+        color: Colors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text("Enter the OTP received on +91 ${phone.text}"),
+              height10,
+              Center(
+                child: KOtpField(
+                  length: 6,
+                  onCompleted: (otp) {},
+                ),
+              ),
+              _seconds != 0
+                  ? Text("${_seconds}")
+                  : TextButton(
+                      onPressed: () {
+                        _resendOtp();
+                      },
+                      child: Text("Send OTP"),
+                    ),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

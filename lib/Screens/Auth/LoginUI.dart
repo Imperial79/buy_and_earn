@@ -44,7 +44,7 @@ class _LoginUIState extends State<LoginUI> {
                   width5,
                   TextButton(
                     onPressed: () {
-                      navPush(context, RegisterUI());
+                      Navigator.pop(context);
                     },
                     child: Text(
                       "Register",
