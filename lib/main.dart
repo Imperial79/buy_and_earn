@@ -6,6 +6,9 @@ import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 void main() {
   runApp(ProviderScope(child: MyApp()));
 }
@@ -33,6 +36,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     kSystemColors();
     final user = ref.watch(userProvider);
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldMessengerKey,
       debugShowCheckedModeBanner: false,
       theme: kTheme(context),
       title: "Buy & Earn",

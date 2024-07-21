@@ -30,4 +30,11 @@ class AuthRepository {
 
     return res;
   }
+
+  Future<ResponseModel> register(Map<String, dynamic> body) async {
+    final res =
+        await apiCallBack(path: "/users/register", method: "POST", body: body);
+
+    return res;
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kCarousel.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
@@ -9,11 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomeUI extends StatelessWidget {
+class HomeUI extends ConsumerWidget {
   const HomeUI({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return KScaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -165,24 +166,27 @@ class HomeUI extends StatelessWidget {
                       ),
                     ),
                     height15,
-                    kCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          kLabel("Recent Payments"),
-                          height20,
-                          ListView.separated(
-                            separatorBuilder: (context, index) => Divider(
-                              height: 30,
-                              color: Colors.grey.shade300,
+                    Visibility(
+                      visible: false,
+                      child: kCard(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            kLabel("Recent Payments"),
+                            height20,
+                            ListView.separated(
+                              separatorBuilder: (context, index) => Divider(
+                                height: 30,
+                                color: Colors.grey.shade300,
+                              ),
+                              itemCount: 5,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) =>
+                                  _recentHistoryCard(),
                             ),
-                            itemCount: 5,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) =>
-                                _recentHistoryCard(),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     kHeight(100),
@@ -198,6 +202,7 @@ class HomeUI extends StatelessWidget {
 
   Widget _header() {
     return Consumer(builder: (context, ref, _) {
+      final user = ref.watch(userProvider);
       return Row(
         children: [
           Expanded(
@@ -206,7 +211,7 @@ class HomeUI extends StatelessWidget {
                 children: [
                   TextSpan(text: "hi ", style: TextStyle(fontSize: 20)),
                   TextSpan(
-                    text: "Avishek!",
+                    text: "${user!.name.split(' ').first}!",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                 ],
@@ -227,7 +232,7 @@ class HomeUI extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "+91 1234567890",
+                    "+91 ${user.phone}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -81,8 +82,8 @@ void KSnackbar(
   required String content,
   bool? isDanger = false,
 }) {
-  ScaffoldMessenger.of(context).clearSnackBars();
-  ScaffoldMessenger.of(context).showSnackBar(
+  scaffoldMessengerKey.currentState?.clearSnackBars();
+  scaffoldMessengerKey.currentState?.showSnackBar(
     SnackBar(
       backgroundColor: isDanger!
           ? kColor(context).errorContainer

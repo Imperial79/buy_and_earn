@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Models/user_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/LoginUI.dart';
+import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kOTPField.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
@@ -85,6 +87,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
       if (!res.error) {
         _startTimer();
       } else {
+        Navigator.pop(context);
         KSnackbar(context, content: res.message, isDanger: res.error);
       }
       setState(() => _isLoading = false);
@@ -92,7 +95,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
   }
 
   void _startTimer() {
-    ref.read(seconds.notifier).state = 60;
+    ref.read(seconds.notifier).state = 59;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (ref.read(seconds) > 0) {
         setState(() {
@@ -102,22 +105,30 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
         });
       } else {
         timer.cancel();
-        // Handle the timer completion here, if needed
-        print('Countdown finished!');
       }
     });
   }
 
-  _createAccount() async {
+  _register(otp) async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
-      final res = await ref
-          .read(authRepository)
-          .fetchReferrerData({"referrerCode": referCode.text});
+      final res = await ref.read(authRepository).register({
+        "name": name.text,
+        "phone": phone.text,
+        "email": email.text,
+        "state": _selectedState,
+        "city": city.text,
+        "referrerCode": referCode.text,
+        "fcmToken": "",
+        "otp": otp
+      });
       if (!res.error) {
-        referrerData = res.response;
-        setState(() => _isLoading = false);
+        ref.read(userProvider.notifier).state = UserModel.fromMap(res.response);
+        navPopUntilPush(context, RootUI());
+      } else {
+        KSnackbar(context, content: res.message, isDanger: res.error);
       }
+      setState(() => _isLoading = false);
     }
   }
 
@@ -212,7 +223,14 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                           statesList.length,
                           (index) => DropdownMenuItem(
                             value: statesList[index],
-                            child: Text("${statesList[index]}"),
+                            child: SizedBox(
+                              width: double.maxFinite,
+                              child: Text(
+                                "${statesList[index]}",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ),
                         ),
                         onChanged: (value) {
@@ -297,10 +315,11 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
         child: Padding(
           padding: EdgeInsets.all(12),
           child: KButton.full(
-              onPressed: () {
-                _sendOtp();
-              },
-              label: "Proceed"),
+            onPressed: () {
+              _sendOtp();
+            },
+            label: "Proceed",
+          ),
         ),
       ),
     );
@@ -323,7 +342,9 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
               Center(
                 child: KOtpField(
                   length: 6,
-                  onCompleted: (otp) {},
+                  onCompleted: (otp) {
+                    _register(otp);
+                  },
                 ),
               ),
               _seconds != 0

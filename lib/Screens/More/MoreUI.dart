@@ -1,22 +1,20 @@
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class MoreUI extends StatefulWidget {
+class MoreUI extends ConsumerWidget {
   const MoreUI({super.key});
 
   @override
-  State<MoreUI> createState() => _MoreUIState();
-}
-
-class _MoreUIState extends State<MoreUI> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -35,6 +33,7 @@ class _MoreUIState extends State<MoreUI> {
                       children: [
                         CircleAvatar(
                           radius: 30,
+                          child: Text("${user!.name[0]}"),
                         ),
                         CircleAvatar(
                           backgroundColor: Colors.white,
@@ -54,15 +53,15 @@ class _MoreUIState extends State<MoreUI> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Avishek",
+                            "${user.name}",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
                             ),
                           ),
                           height5,
-                          Text("+91 9090293832"),
-                          Text("avishek@gmail.com"),
+                          Text("+91 ${user.phone}"),
+                          Text("${user.email}"),
                           height5,
                           KButton.outlined(
                             onPressed: () {},
@@ -86,7 +85,7 @@ class _MoreUIState extends State<MoreUI> {
                       children: [
                         Expanded(
                           child: Text(
-                            "ABCDJ67S",
+                            "${user.referCode}",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
@@ -98,7 +97,8 @@ class _MoreUIState extends State<MoreUI> {
                         width5,
                         IconButton.filledTonal(
                           onPressed: () {
-                            Clipboard.setData(ClipboardData(text: "ABCDJ67S"));
+                            Clipboard.setData(
+                                ClipboardData(text: "${user.referCode}"));
                             KSnackbar(context,
                                 content: "Refer Code copied to clipboard",
                                 isDanger: false);
