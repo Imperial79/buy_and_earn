@@ -9,6 +9,7 @@ import '../commons.dart';
 class KTextfield {
   static Widget regular(
     BuildContext context, {
+    bool dismissKeyboardOnTapOutside = false,
     double? textSize,
     void Function()? onTap,
     bool? readOnly,
@@ -57,7 +58,7 @@ class KTextfield {
               : SizedBox.shrink(),
           TextFieldTapRegion(
             onTapOutside: (event) {
-              FocusScope.of(context).unfocus();
+              if (dismissKeyboardOnTapOutside) FocusScope.of(context).unfocus();
             },
             child: TextFormField(
               onTap: onTap,
@@ -93,8 +94,8 @@ class KTextfield {
                         ),
                       )
                     : SizedBox(),
-                prefixIconConstraints:
-                    BoxConstraints(minHeight: 0, minWidth: 12),
+                prefixIconConstraints: BoxConstraints(
+                    minHeight: 0, minWidth: prefixText == null ? 12 : 0),
                 prefixStyle: TextStyle(
                   fontSize: textSize ?? 17,
                   fontWeight: FontWeight.w600,
@@ -121,6 +122,7 @@ class KTextfield {
                   fontSize: textSize ?? 17,
                   fontWeight: FontWeight.w500,
                   color: Colors.grey,
+                  letterSpacing: .7,
                 ),
               ),
               onChanged: onChanged,
@@ -133,6 +135,7 @@ class KTextfield {
   static Widget otp(
     BuildContext context, {
     void Function()? onTap,
+    bool dismissKeyboardOnTapOutside = false,
     bool? readOnly,
     TextEditingController? controller,
     String? hintText,
@@ -213,7 +216,8 @@ class KTextfield {
               Flexible(
                 child: TextFieldTapRegion(
                   onTapOutside: (event) {
-                    FocusScope.of(context).unfocus();
+                    if (dismissKeyboardOnTapOutside)
+                      FocusScope.of(context).unfocus();
                   },
                   child: TextFormField(
                     controller: controller,

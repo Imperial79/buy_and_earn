@@ -30,6 +30,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
   Map<String, dynamic> referrerData = {};
   String _selectedState = "Gujarat";
   bool _isLoading = false;
+  bool _otpLoading = false;
   late Timer _timer;
   final seconds = StateProvider((ref) => 60);
 
@@ -68,6 +69,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
           context: context,
           isScrollControlled: true,
           enableDrag: true,
+          isDismissible: false,
           builder: (BuildContext context) {
             return confirmationOTPModal();
           },
@@ -82,7 +84,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
 
   _resendOtp() async {
     if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
+      setState(() => _otpLoading = true);
       final res = await ref
           .read(authRepository)
           .sendOtp({"phone": phone.text, "otpType": "Register"});
@@ -92,7 +94,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
         Navigator.pop(context);
         KSnackbar(context, content: res.message, isDanger: res.error);
       }
-      setState(() => _isLoading = false);
+      setState(() => _otpLoading = false);
     }
   }
 
@@ -113,6 +115,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
 
   _register(otp) async {
     if (_formKey.currentState!.validate()) {
+      FocusScope.of(context).unfocus();
       setState(() => _isLoading = true);
       final res = await ref.read(authRepository).register({
         "name": name.text,
@@ -323,14 +326,29 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
       return Container(
         margin:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: kRadius(15),
+        ),
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        height: 250,
-        color: Colors.white,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text("Enter the OTP received on +91 ${phone.text}"),
+              height20,
+              Text(
+                "Verification",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                ),
+                textAlign: TextAlign.center,
+              ),
               height10,
+              Text(
+                "Enter the OTP received on +91 ${phone.text}",
+                style: TextStyle(fontSize: 15),
+              ),
+              kHeight(30),
               Center(
                 child: KOtpField(
                   length: 6,
@@ -339,14 +357,33 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   },
                 ),
               ),
-              _seconds != 0
-                  ? Text("${_seconds}")
-                  : TextButton(
-                      onPressed: () {
-                        _resendOtp();
-                      },
-                      child: Text("Send OTP"),
-                    ),
+              height20,
+              Align(
+                alignment: Alignment.topLeft,
+                child: _otpLoading
+                    ? Row(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          ),
+                          width10,
+                          Text("Sending OTP")
+                        ],
+                      )
+                    : _seconds != 0
+                        ? Text("Resend after ${_seconds} s")
+                        : TextButton(
+                            onPressed: () {
+                              _resendOtp();
+                            },
+                            child: Text("Resend OTP"),
+                          ),
+              ),
+              height20,
             ],
           ),
         ),

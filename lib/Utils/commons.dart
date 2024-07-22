@@ -49,7 +49,7 @@ SizedBox kHeight(double height) => SizedBox(
 
 BorderRadius kRadius(double radius) => BorderRadius.circular(radius);
 
-Future<void> navPush(BuildContext context, Widget screen) {
+Future<T?> navPush<T extends Object?>(BuildContext context, Widget screen) {
   return Navigator.push(
       context,
       MaterialPageRoute(
@@ -57,7 +57,8 @@ Future<void> navPush(BuildContext context, Widget screen) {
       ));
 }
 
-Future<void> navPushReplacement(BuildContext context, Widget screen) {
+Future<T?> pushReplacement<T extends Object?, TO extends Object?>(
+    BuildContext context, Widget screen) {
   return Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -65,9 +66,10 @@ Future<void> navPushReplacement(BuildContext context, Widget screen) {
       ));
 }
 
-Future<void> navPopUntilPush(BuildContext context, Widget screen) {
+Future<T?> navPopUntilPush<T extends Object?>(
+    BuildContext context, Widget screen) async {
   Navigator.popUntil(context, (route) => false);
-  return navPush(context, screen);
+  return await navPush(context, screen);
 }
 
 kSystemColors() {

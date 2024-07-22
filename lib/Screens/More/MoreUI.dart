@@ -26,11 +26,14 @@ class _MoreUIState extends ConsumerState<MoreUI> {
     setState(() => _isLoading = true);
     final res = await ref.read(authRepository).logout({});
     if (!res.error) {
-      navPopUntilPush(context, RegisterUI());
-      ref.read(userProvider.notifier).state = null;
-      ref.read(navigationProvider.notifier).state = 0;
+      navPopUntilPush(context, RegisterUI()).then(
+        (value) {
+          ref.read(userProvider.notifier).state = null;
+          ref.read(navigationProvider.notifier).state = 0;
+        },
+      );
     }
-    setState(() => _isLoading = false);
+    if (mounted) setState(() => _isLoading = false);
   }
 
   @override

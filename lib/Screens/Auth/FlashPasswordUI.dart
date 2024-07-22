@@ -1,7 +1,10 @@
 import 'package:buy_and_earn/Components/constants.dart';
+import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
+import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../Utils/Common Widgets/kButton.dart';
 import '../../Utils/commons.dart';
@@ -42,33 +45,90 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
             children: [
               height15,
               Text(
-                "Remember Password",
+                "Credentials",
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 25,
                 ),
               ),
-              height20,
               Text(
-                "MPIN",
+                "Save these credentials for future use",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15,
                 ),
               ),
-              Text(
-                "${encryptedMpin}",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
               height20,
-              Text(
-                "TPIN",
-                style: TextStyle(
-                  fontSize: 20,
+              kCard(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "MPIN",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(
+                            "${encryptedMpin}",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    width10,
+                    IconButton.filled(
+                      onPressed: () {
+                        Clipboard.setData(
+                            ClipboardData(text: "MPIN: $encryptedMpin"));
+                      },
+                      icon: Icon(
+                        Icons.copy,
+                        size: 15,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                "${encryptedTpin}",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              height20,
+              kCard(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "TPIN",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(
+                            "${encryptedTpin}",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    width10,
+                    IconButton.filled(
+                      onPressed: () {
+                        Clipboard.setData(
+                            ClipboardData(text: "TPIN: $encryptedTpin"));
+                      },
+                      icon: Icon(
+                        Icons.copy,
+                        size: 15,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

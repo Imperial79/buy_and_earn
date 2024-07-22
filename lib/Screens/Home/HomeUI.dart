@@ -21,6 +21,7 @@ class HomeUI extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              height10,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12),
                 child: Column(
