@@ -44,4 +44,11 @@ class AuthRepository {
 
     return res;
   }
+
+  Future<ResponseModel> login(Map<String, dynamic> body) async {
+    final res =
+        await apiCallBack(path: "/users/login", method: "POST", body: body);
+
+    return res;
+  }
 }

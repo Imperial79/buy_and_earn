@@ -1,6 +1,8 @@
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Screens/Auth/RegisterUI.dart';
+import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
@@ -24,7 +26,9 @@ class _MoreUIState extends ConsumerState<MoreUI> {
     setState(() => _isLoading = true);
     final res = await ref.read(authRepository).logout({});
     if (!res.error) {
-      print(res);
+      navPopUntilPush(context, RegisterUI());
+      ref.read(userProvider.notifier).state = null;
+      ref.read(navigationProvider.notifier).state = 0;
     }
     setState(() => _isLoading = false);
   }

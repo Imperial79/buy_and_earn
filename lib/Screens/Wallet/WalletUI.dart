@@ -56,10 +56,10 @@ class _WalletUIState extends State<WalletUI> {
                       ),
                     ),
                     width10,
-                    KButton.pill(
-                      onPressed: () {},
-                      label: "Recharge",
-                    ),
+                    // KButton.pill(
+                    //   onPressed: () {},
+                    //   label: "Recharge",
+                    // ),
                   ],
                 ),
               ),

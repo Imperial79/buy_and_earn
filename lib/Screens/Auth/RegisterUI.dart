@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/user_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Screens/Auth/FlashPasswordUI.dart';
 import 'package:buy_and_earn/Screens/Auth/LoginUI.dart';
-import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kOTPField.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +40,9 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
     email.dispose();
     city.dispose();
     referCode.dispose();
-    _timer.cancel();
+    try {
+      _timer.cancel();
+    } catch (e) {}
     super.dispose();
   }
 
@@ -125,7 +126,12 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
       });
       if (!res.error) {
         ref.read(userProvider.notifier).state = UserModel.fromMap(res.response);
-        navPopUntilPush(context, RootUI());
+        navPopUntilPush(
+            context,
+            FlashPasswordUI(
+              mpin: res.response['mpin'],
+              tpin: res.response['tpin'],
+            ));
       } else {
         KSnackbar(context, content: res.message, isDanger: res.error);
       }
@@ -153,7 +159,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     fontSize: 25,
                   ),
                 ),
-                height20,
+                height15,
                 Row(
                   children: [
                     Text(
@@ -177,7 +183,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     ),
                   ],
                 ),
-                height20,
+                height15,
                 KTextfield.regular(
                   context,
                   controller: name,
@@ -189,7 +195,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     return null;
                   },
                 ),
-                height15,
+                height10,
                 KTextfield.regular(
                   context,
                   controller: phone,
@@ -204,7 +210,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     return null;
                   },
                 ),
-                height15,
+                height10,
                 KTextfield.regular(
                   context,
                   controller: email,
@@ -213,51 +219,40 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   keyboardType: TextInputType.emailAddress,
                   hintText: "Eg. johndoe@mail.com",
                 ),
-                height15,
-                Row(
-                  children: [
-                    Expanded(
-                      child: KTextfield.dropdown(
-                        label: "State",
-                        value: _selectedState,
-                        items: List.generate(
-                          statesList.length,
-                          (index) => DropdownMenuItem(
-                            value: statesList[index],
-                            child: SizedBox(
-                              width: double.maxFinite,
-                              child: Text(
-                                "${statesList[index]}",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedState = value!;
-                          });
-                        },
+                height10,
+                KTextfield.dropdown(
+                  label: "State",
+                  value: _selectedState,
+                  items: List.generate(
+                    statesList.length,
+                    (index) => DropdownMenuItem(
+                      value: statesList[index],
+                      child: Text(
+                        "${statesList[index]}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    width10,
-                    Expanded(
-                      child: KTextfield.regular(
-                        context,
-                        controller: city,
-                        label: "City",
-                        keyboardType: TextInputType.text,
-                        hintText: "Eg. Durgapur",
-                        validator: (val) {
-                          if (val!.isEmpty) return "Required!";
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedState = value!;
+                    });
+                  },
                 ),
-                height15,
+                height10,
+                KTextfield.regular(
+                  context,
+                  controller: city,
+                  label: "City",
+                  keyboardType: TextInputType.text,
+                  hintText: "Eg. Durgapur",
+                  validator: (val) {
+                    if (val!.isEmpty) return "Required!";
+                    return null;
+                  },
+                ),
+                height10,
                 KTextfield.regular(
                   context,
                   controller: referCode,
