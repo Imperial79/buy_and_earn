@@ -260,35 +260,49 @@ class KTextfield {
 
   static Widget dropdown({
     String label = "label",
-    String? value,
-    required List<DropdownMenuItem<String>>? items,
-    required void Function(String?)? onChanged,
+    String? hintText,
+    required List<DropdownMenuEntry<dynamic>>? items,
+    required void Function(dynamic)? onSelect,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label),
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey.shade800,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
         height10,
-        Card(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.grey.shade300,
+        DropdownMenu(
+          hintText: hintText,
+          expandedInsets: EdgeInsets.zero,
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: kRadius(10),
+              borderSide: BorderSide(color: Colors.grey.shade300),
             ),
-            borderRadius: kRadius(7),
-          ),
-          color: kCardColor,
-          child: Padding(
-            padding: EdgeInsets.all(12),
-            child: DropdownButtonFormField(
-              isDense: true,
-              decoration: InputDecoration.collapsed(
-                hintText: "",
-              ),
-              value: value,
-              items: items,
-              onChanged: onChanged,
+            errorBorder: OutlineInputBorder(
+              borderRadius: kRadius(10),
+              borderSide: BorderSide(color: Colors.red.shade300),
             ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: kRadius(10),
+              borderSide: BorderSide(color: Colors.grey.shade500),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: kRadius(10),
+              borderSide: BorderSide(color: Colors.grey.shade300),
+            ),
+            filled: true,
+            fillColor: kCardColor,
           ),
+          trailingIcon: Icon(Icons.keyboard_arrow_down_rounded),
+          menuStyle:
+              MenuStyle(backgroundColor: WidgetStatePropertyAll(Colors.white)),
+          dropdownMenuEntries: items!,
+          onSelected: onSelect,
         ),
       ],
     );

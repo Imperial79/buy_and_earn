@@ -1,8 +1,12 @@
+import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
+import '../../Repository/internet_repository.dart';
 import '../colors.dart';
 
-class KScaffold extends StatefulWidget {
+class KScaffold extends ConsumerStatefulWidget {
   final bool? isLoading;
   final String? loadingText;
   final PreferredSizeWidget? appBar;
@@ -21,12 +25,14 @@ class KScaffold extends StatefulWidget {
       this.floatingActionButtonLocation});
 
   @override
-  State<KScaffold> createState() => _KScaffoldState();
+  ConsumerState<KScaffold> createState() => _KScaffoldState();
 }
 
-class _KScaffoldState extends State<KScaffold> {
+class _KScaffoldState extends ConsumerState<KScaffold> {
   @override
   Widget build(BuildContext context) {
+    final hasInternet = ref.watch(internetStream);
+
     return Scaffold(
       appBar: widget.appBar,
       body: Stack(
@@ -37,6 +43,52 @@ class _KScaffoldState extends State<KScaffold> {
             child: widget.isLoading ?? false
                 ? kFullLoading(context, loadingText: widget.loadingText)
                 : SizedBox(),
+          ),
+          hasInternet.when(
+            data: (data) => data == InternetStatus.disconnected
+                ? Align(
+                    alignment: Alignment.topCenter,
+                    child: SafeArea(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 20),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: kColor(context).errorContainer,
+                          borderRadius: kRadius(100),
+                          boxShadow: [
+                            BoxShadow(
+                              color: kColor(context)
+                                  .errorContainer
+                                  .withOpacity(.5),
+                              blurRadius: 30,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.signal_wifi_connected_no_internet_4_rounded,
+                              color: kColor(context).onErrorContainer,
+                            ),
+                            width10,
+                            Text(
+                              "No Internet",
+                              style: TextStyle(
+                                color: kColor(context).onErrorContainer,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
+            error: (error, stackTrace) => SizedBox(),
+            loading: () => SizedBox(),
           ),
         ],
       ),

@@ -222,19 +222,15 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                 height10,
                 KTextfield.dropdown(
                   label: "State",
-                  value: _selectedState,
+                  hintText: "Select State",
                   items: List.generate(
                     statesList.length,
-                    (index) => DropdownMenuItem(
+                    (index) => DropdownMenuEntry(
+                      label: "${statesList[index]}",
                       value: statesList[index],
-                      child: Text(
-                        "${statesList[index]}",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
                     ),
                   ),
-                  onChanged: (value) {
+                  onSelect: (value) {
                     setState(() {
                       _selectedState = value!;
                     });

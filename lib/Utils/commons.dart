@@ -22,39 +22,47 @@ SizedBox kHeight(double height) => SizedBox(
       height: height,
     );
 
-Route _createRoute(Widget page) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => page,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
-      const end = Offset.zero;
-      const curve = Curves.easeInOut;
+// Route _createRoute(Widget page) {
+//   return PageRouteBuilder(
+//     pageBuilder: (context, animation, secondaryAnimation) => page,
+//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//       const begin = Offset(1.0, 0.0);
+//       const end = Offset.zero;
+//       const curve = Curves.easeInOut;
 
-      final tween = Tween(begin: begin, end: end);
-      final curvedAnimation = CurvedAnimation(
-        parent: animation,
-        curve: curve,
-      );
+//       final tween = Tween(begin: begin, end: end);
+//       final curvedAnimation = CurvedAnimation(
+//         parent: animation,
+//         curve: curve,
+//       );
 
-      return FadeTransition(
-        opacity: curvedAnimation,
-        child: SlideTransition(
-          position: tween.animate(curvedAnimation),
-          child: child,
-        ),
-      );
-    },
-  );
-}
+//       return FadeTransition(
+//         opacity: curvedAnimation,
+//         child: SlideTransition(
+//           position: tween.animate(curvedAnimation),
+//           child: child,
+//         ),
+//       );
+//     },
+//   );
+// }
 
 BorderRadius kRadius(double radius) => BorderRadius.circular(radius);
 
 Future<void> navPush(BuildContext context, Widget screen) {
-  return Navigator.push(context, _createRoute(screen));
+  return Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => screen,
+      ));
 }
 
 Future<void> navPushReplacement(BuildContext context, Widget screen) {
-  return Navigator.pushReplacement(context, _createRoute(screen));
+  return Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => screen,
+      ));
 }
 
 Future<void> navPopUntilPush(BuildContext context, Widget screen) {
