@@ -66,7 +66,7 @@ class KTextfield {
               style: TextStyle(
                 fontSize: textSize ?? 17,
                 fontWeight: FontWeight.w500,
-                letterSpacing: obscureText ? 2 : .5,
+                letterSpacing: obscureText ? 2 : 1,
               ),
               readOnly: readOnly ?? false,
               obscureText: obscureText,
@@ -80,7 +80,21 @@ class KTextfield {
                 fillColor: kCardColor,
                 counterText: '',
                 isDense: true,
-                prefixText: prefixText,
+                prefixIcon: prefixText != null
+                    ? Padding(
+                        padding: EdgeInsets.only(left: 12, right: 5),
+                        child: Text(
+                          prefixText,
+                          style: TextStyle(
+                            fontSize: textSize ?? 17,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: .5,
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
+                prefixIconConstraints:
+                    BoxConstraints(minHeight: 0, minWidth: 12),
                 prefixStyle: TextStyle(
                   fontSize: textSize ?? 17,
                   fontWeight: FontWeight.w600,
@@ -303,6 +317,7 @@ class KTextfield {
               MenuStyle(backgroundColor: WidgetStatePropertyAll(Colors.white)),
           dropdownMenuEntries: items!,
           onSelected: onSelect,
+          menuHeight: 300,
         ),
       ],
     );

@@ -100,7 +100,8 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                   label: "Phone",
                   keyboardType: TextInputType.phone,
                   maxLength: 10,
-                  hintText: "Eg. 909*****85",
+                  prefixText: "+91",
+                  hintText: "909XXXXX85",
                   validator: (val) {
                     if (val!.isEmpty)
                       return "Required!";
@@ -114,7 +115,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                   controller: mpin,
                   label: "Mpin",
                   obscureText: true,
-                  hintText: "xxxxxxxxxxxxx",
+                  hintText: "Enter your MPIN",
                   validator: (val) {
                     if (val!.isEmpty) return "Required!";
                     return null;

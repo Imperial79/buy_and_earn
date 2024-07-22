@@ -152,4 +152,22 @@ class KButton {
       child: Text(label),
     );
   }
+
+  static Widget thickPill({
+    required void Function()? onPressed,
+    required String label,
+  }) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: kRadius(100),
+        ),
+        backgroundColor: kSecondaryColor,
+        foregroundColor: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      ),
+      child: Text(label),
+    );
+  }
 }
