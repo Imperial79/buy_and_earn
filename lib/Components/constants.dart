@@ -3,8 +3,8 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
-const kAppVersion = "1.1.2";
-const kAppBuild = "4";
+const kAppVersion = "1.1.4";
+const kAppBuild = "5";
 
 final kIconMap = {
   'mobile': "$kServiceIcon/mobile.svg",
