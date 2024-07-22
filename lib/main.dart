@@ -8,12 +8,15 @@ import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -32,12 +35,14 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   _auth() async {
+    // FlutterNativeSplash.remove();
     await ref.read(auth);
   }
 
   @override
   Widget build(BuildContext context) {
     kSystemColors();
+
     final user = ref.watch(userProvider);
     return MaterialApp(
       scaffoldMessengerKey: scaffoldMessengerKey,
@@ -45,7 +50,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       theme: kTheme(context),
       title: "Buy & Earn",
       home: ref.watch(auth).isLoading
-          ? SplashUI()
+          ? null
           : user != null
               ? RootUI()
               : RegisterUI(),

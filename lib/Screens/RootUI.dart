@@ -4,6 +4,7 @@ import 'package:buy_and_earn/Screens/More/MoreUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upgrader/upgrader.dart';
@@ -24,6 +25,13 @@ class _RootUIState extends ConsumerState<RootUI> {
     HomeUI(),
     MoreUI(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    FlutterNativeSplash.remove();
+  }
 
   @override
   Widget build(BuildContext context) {

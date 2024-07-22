@@ -2,7 +2,6 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
-import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
