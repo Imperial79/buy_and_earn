@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Models/user_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
@@ -26,6 +27,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
   void initState() {
     super.initState();
     // print(encryptDecryptText("encrypt", "1234"));
+    print(encryptDecryptText("decrypt", "hFG8q/vivaVSKkMwojycrA=="));
   }
 
   @override

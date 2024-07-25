@@ -137,3 +137,13 @@ kPill({void Function()? onTap, required String label}) {
     ),
   );
 }
+
+kWidgetPill(context, {void Function()? onTap, required Widget child}) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: kRadius(100),
+      color: kColor(context).tertiaryContainer,
+    ),
+    child: child,
+  );
+}

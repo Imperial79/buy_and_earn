@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:buy_and_earn/Screens/Home/HomeUI.dart';
 import 'package:buy_and_earn/Screens/More/MoreUI.dart';
+import 'package:buy_and_earn/Screens/Refer/ReferUI.dart';
+import 'package:buy_and_earn/Screens/Transactions/TransactionsUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,8 @@ class RootUI extends ConsumerStatefulWidget {
 class _RootUIState extends ConsumerState<RootUI> {
   final _screens = [
     HomeUI(),
-    HomeUI(),
-    HomeUI(),
+    ReferUI(),
+    TransactionsUI(),
     MoreUI(),
   ];
 
@@ -80,6 +82,7 @@ class _RootUIState extends ConsumerState<RootUI> {
           ],
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _navigationButton(
               0,
@@ -89,15 +92,15 @@ class _RootUIState extends ConsumerState<RootUI> {
             ),
             _navigationButton(
               1,
-              label: "home",
-              iconPath: "$kIconPath/home.svg",
-              selectedIconPath: "$kIconPath/home-filled.svg",
+              label: "refer",
+              iconPath: "$kIconPath/refer.svg",
+              selectedIconPath: "$kIconPath/refer-filled.svg",
             ),
             _navigationButton(
               2,
-              label: "home",
-              iconPath: "$kIconPath/home.svg",
-              selectedIconPath: "$kIconPath/home-filled.svg",
+              label: "transactions",
+              iconPath: "$kIconPath/transactions.svg",
+              selectedIconPath: "$kIconPath/transactions-filled.svg",
             ),
             _navigationButton(
               3,
@@ -117,28 +120,25 @@ class _RootUIState extends ConsumerState<RootUI> {
     required String iconPath,
     required String selectedIconPath,
   }) {
-    return Flexible(
-      flex: 1,
-      fit: FlexFit.tight,
-      child: Consumer(builder: (context, ref, _) {
-        final activeIndex = ref.watch(navigationProvider);
-        bool isActive = activeIndex == index;
+    return Consumer(builder: (context, ref, _) {
+      final activeIndex = ref.watch(navigationProvider);
+      bool isActive = activeIndex == index;
 
-        return IconButton(
-          onPressed: () {
-            ref.read(navigationProvider.notifier).state = index;
-          },
-          icon: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(
-                isActive ? selectedIconPath : iconPath,
-                height: 20,
-                colorFilter:
-                    kSvgColor(isActive ? kSecondaryColor : Colors.grey),
-              ),
-              AnimatedSize(
+      return IconButton(
+        onPressed: () {
+          ref.read(navigationProvider.notifier).state = index;
+        },
+        icon: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SvgPicture.asset(
+              isActive ? selectedIconPath : iconPath,
+              height: 20,
+              colorFilter: kSvgColor(isActive ? kSecondaryColor : Colors.grey),
+            ),
+            Flexible(
+              child: AnimatedSize(
                 duration: Duration(milliseconds: 200),
                 alignment: Alignment.centerLeft,
                 child: isActive
@@ -156,16 +156,18 @@ class _RootUIState extends ConsumerState<RootUI> {
                             fontWeight: FontWeight.w700,
                             color: kSecondaryColor,
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       )
                     : Container(
                         child: Text(""),
                       ),
               ),
-            ],
-          ),
-        );
-      }),
-    );
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

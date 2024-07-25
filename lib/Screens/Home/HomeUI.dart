@@ -1,4 +1,3 @@
-import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
@@ -168,7 +167,7 @@ class HomeUI extends ConsumerWidget {
                     ),
                     height15,
                     Visibility(
-                      visible: false,
+                      visible: true,
                       child: kCard(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,7 +183,7 @@ class HomeUI extends ConsumerWidget {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) =>
-                                  _recentHistoryCard(),
+                                  kRecentHistoryCard(context),
                             ),
                           ],
                         ),
@@ -252,92 +251,6 @@ class HomeUI extends ConsumerWidget {
         ],
       );
     });
-  }
-
-  Row _recentHistoryCard() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CircleAvatar(
-          radius: 20,
-          child: SvgPicture.asset(
-            kIconMap['electricity']!,
-            height: 20,
-            colorFilter: kSvgColor(kPrimaryColor),
-          ),
-        ),
-        width10,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Electricity bill paid',
-                      style: TextStyle(
-                        // fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    "- ₹199",
-                    style: TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-              Text(
-                '12736736127362',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              height5,
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      '10 July 2024 • 9:10 pm',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  width10,
-                  Flexible(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Expanded(
-                            child: Text(
-                          'Debited from',
-                          style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.end,
-                        )),
-                        width5,
-                        Icon(
-                          Icons.wallet,
-                          size: 15,
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
   }
 
   Widget _serviceButton({

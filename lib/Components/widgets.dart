@@ -2,10 +2,13 @@ import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/Wallet/WalletUI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
+import '../Screens/Transactions/TransactionDetailUI.dart';
 import '../Utils/Common Widgets/kButton.dart';
 import '../Utils/colors.dart';
 import '../Utils/commons.dart';
+import 'constants.dart';
 
 Widget kLabel(String label) {
   return Text(
@@ -13,6 +16,16 @@ Widget kLabel(String label) {
     style: TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: 17,
+    ),
+  );
+}
+
+Widget kHeading(String label) {
+  return Text(
+    label.toLowerCase(),
+    style: TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: 20,
     ),
   );
 }
@@ -46,7 +59,6 @@ Widget kWalletCard(context) {
               child: Icon(
                 Icons.wallet,
                 color: Colors.white,
-                // size: 60,
               ),
             ),
             width10,
@@ -82,10 +94,101 @@ Widget kWalletCard(context) {
                 navPush(context, WalletUI());
               },
               label: "Report",
-            )
+            ),
           ],
         ),
       ),
     );
   });
+}
+
+Widget kRecentHistoryCard(context) {
+  return InkWell(
+    onTap: () {
+      navPush(context, TransactionDetailUI());
+    },
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CircleAvatar(
+          radius: 20,
+          child: SvgPicture.asset(
+            kIconMap['electricity']!,
+            height: 20,
+            colorFilter: kSvgColor(kPrimaryColor),
+          ),
+        ),
+        width10,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Electricity bill paid',
+                      style: TextStyle(
+                        // fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "- ₹199",
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+              Text(
+                '12736736127362',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              height5,
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '10 July 2024 • 9:10 pm',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  // width10,
+                  // Flexible(
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       Expanded(
+                  //           child: Text(
+                  //         'Debited from',
+                  //         style: TextStyle(
+                  //             fontSize: 13,
+                  //             color: Colors.grey,
+                  //             fontWeight: FontWeight.w600),
+                  //         textAlign: TextAlign.end,
+                  //       )),
+                  //       width5,
+                  //       Icon(
+                  //         Icons.wallet,
+                  //         size: 15,
+                  //       )
+                  //     ],
+                  //   ),
+                  // )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

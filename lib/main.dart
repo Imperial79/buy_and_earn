@@ -35,7 +35,6 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   _auth() async {
-    // FlutterNativeSplash.remove();
     await ref.read(auth);
   }
 

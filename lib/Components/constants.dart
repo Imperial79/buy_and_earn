@@ -3,6 +3,8 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 const kAppVersion = "1.1.4";
 const kAppBuild = "5";
 
@@ -90,4 +92,14 @@ String encryptDecryptText(String action, String string) {
   }
 
   return output;
+}
+
+String kFormatDate(String val) {
+  return DateFormat("dd-MM-yyyy").format(DateTime.parse(val));
+}
+
+String kFormatTime(String val) {
+  return DateFormat("hh:mm a").format(
+    DateFormat("HH:mm").parse(val),
+  );
 }
