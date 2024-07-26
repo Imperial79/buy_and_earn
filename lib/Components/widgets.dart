@@ -1,9 +1,7 @@
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
-import 'package:buy_and_earn/Screens/Wallet/WalletUI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../Screens/Transactions/TransactionDetailUI.dart';
 import '../Utils/Common Widgets/kButton.dart';
 import '../Utils/colors.dart';

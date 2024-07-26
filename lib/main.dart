@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:buy_and_earn/Repository/auth_repository.dart';
-import 'package:buy_and_earn/Repository/internet_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/RegisterUI.dart';
-import 'package:buy_and_earn/Screens/Auth/SplashUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
