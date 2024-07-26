@@ -167,7 +167,7 @@ class HomeUI extends ConsumerWidget {
                     ),
                     height15,
                     Visibility(
-                      visible: true,
+                      visible: false,
                       child: kCard(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

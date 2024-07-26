@@ -1,7 +1,10 @@
+// ignore_for_file: unused_result
+
 import 'dart:convert';
 
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Models/response_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/refer_repository.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
@@ -21,6 +24,15 @@ class ReferUI extends ConsumerStatefulWidget {
 class _ReferUIState extends ConsumerState<ReferUI> {
   int pageNo = 0;
   int _selectedTier = 1;
+
+  _refresh() async {
+    ref.refresh(myReferFuture(jsonEncode({
+      "pageNo": 0,
+      "tier": _selectedTier,
+    })).future);
+    await ref.refresh(referralSettingsFuture.future);
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
@@ -29,14 +41,14 @@ class _ReferUIState extends ConsumerState<ReferUI> {
       "tier": _selectedTier,
     })));
 
+    final referSettings = ref.watch(referralSettingsFuture);
+
     return RefreshIndicator(
-      onRefresh: () => ref.refresh(myReferFuture(jsonEncode({
-        "pageNo": 0,
-        "tier": _selectedTier,
-      })).future),
+      onRefresh: () => _refresh(),
       child: KScaffold(
         body: SafeArea(
           child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,119 +92,100 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                     ),
                   ],
                 ),
-                height20,
-                Card(
-                  color: kColor(context).tertiary,
-                  child: SizedBox(
-                    width: double.maxFinite,
-                    child: Padding(
-                      padding: EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Get ₹10 bonus on referal*",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,
-                            ),
-                          ),
-                          height10,
-                          Card(
-                            color: kColor(context).onTertiaryFixedVariant,
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                "Note: Valid for only complete registrations during offer period",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          height15,
-                          Row(
-                            children: [
-                              kWidgetPill(
-                                context,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 5),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        "${user.referCode}",
-                                        style: TextStyle(
-                                          color: kColor(context).tertiary,
-                                          fontWeight: FontWeight.w700,
+                referSettings.when(
+                  data: (data) => data.response['referralAmount'] > 0
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 20.0),
+                          child: Card(
+                            color: kColor(context).tertiary,
+                            child: SizedBox(
+                              width: double.maxFinite,
+                              child: Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Get ₹${data.response['referralAmount']} bonus on referal*",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    height10,
+                                    Card(
+                                      color: kColor(context)
+                                          .onTertiaryFixedVariant,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Note: Valid for only complete registrations during offer period",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              width10,
-                              IconButton.filledTonal(
-                                onPressed: () {
-                                  Clipboard.setData(
-                                      ClipboardData(text: "${user.referCode}"));
+                                    ),
+                                    height15,
+                                    Row(
+                                      children: [
+                                        kWidgetPill(
+                                          context,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 5),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  "${user.referCode}",
+                                                  style: TextStyle(
+                                                    color: kColor(context)
+                                                        .tertiary,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        width10,
+                                        IconButton.filledTonal(
+                                          onPressed: () {
+                                            Clipboard.setData(ClipboardData(
+                                                text: "${user.referCode}"));
 
-                                  KSnackbar(context,
-                                      content:
-                                          "Refer code copied to clipboard!");
-                                },
-                                visualDensity: VisualDensity.compact,
-                                icon: Icon(
-                                  Icons.copy,
-                                  color: kColor(context).tertiary,
-                                  size: 15,
+                                            KSnackbar(context,
+                                                content:
+                                                    "Refer code copied to clipboard!");
+                                          },
+                                          visualDensity: VisualDensity.compact,
+                                          icon: Icon(
+                                            Icons.copy,
+                                            color: kColor(context).tertiary,
+                                            size: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                  error: (error, stackTrace) => SizedBox(),
+                  loading: () => SizedBox(),
                 ),
                 height20,
                 kLabel("Distribution"),
                 height15,
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    decoration: BoxDecoration(
-                      color: kCardColor,
-                      borderRadius: kRadius(10),
-                    ),
-                    columns: [
-                      DataColumn(
-                        label: Text("Level/Tier"),
-                      ),
-                      DataColumn(
-                        label: Text("Commission"),
-                      ),
-                      DataColumn(
-                        label: Text("Direct Refers"),
-                      ),
-                    ],
-                    rows: List.generate(
-                      6,
-                      (index) => DataRow(
-                        cells: [
-                          DataCell(
-                            Text("Lvl. ${index + 1}"),
-                          ),
-                          DataCell(
-                            Text("12%"),
-                          ),
-                          DataCell(
-                            Text("10"),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                referSettings.when(
+                  data: (data) => _distributionChart(data),
+                  error: (error, stackTrace) => SizedBox(),
+                  loading: () => SizedBox(),
                 ),
                 height20,
                 kLabel("My Referals"),
@@ -263,6 +256,57 @@ class _ReferUIState extends ConsumerState<ReferUI> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  SingleChildScrollView _distributionChart(ResponseModel data) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        decoration: BoxDecoration(
+          color: kCardColor,
+          borderRadius: kRadius(10),
+        ),
+        columns: [
+          DataColumn(
+            label: Text("Level/Tier"),
+          ),
+          DataColumn(
+            label: Text("Commission"),
+          ),
+          DataColumn(
+            label: Text("Direct Refers"),
+          ),
+        ],
+        rows: List.generate(data.response['charts'].length, (index) {
+          final item = data.response['charts'][index];
+          return DataRow(
+            cells: [
+              DataCell(
+                Center(
+                  child: Text(
+                    "${item['level']}",
+                  ),
+                ),
+              ),
+              DataCell(
+                Center(
+                  child: Text(
+                    "${item['commission']}%",
+                  ),
+                ),
+              ),
+              DataCell(
+                Center(
+                  child: Text(
+                    "${item['threshold']}",
+                  ),
+                ),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

@@ -8,6 +8,7 @@ import 'package:buy_and_earn/Screens/Auth/LoginUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kOTPField.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../Utils/Common Widgets/kButton.dart';
@@ -213,6 +214,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   label: "Phone",
                   keyboardType: TextInputType.phone,
                   maxLength: 10,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   hintText: "Eg. 909*****85",
                   validator: (val) {
                     if (val!.isEmpty)
@@ -319,7 +321,8 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
           padding: EdgeInsets.all(12),
           child: KButton.full(
             onPressed: () {
-              _sendOtp();
+              // _sendOtp();
+              _register("123456");
             },
             label: "Proceed",
           ),

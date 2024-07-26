@@ -2,7 +2,6 @@ import 'package:animations/animations.dart';
 import 'package:buy_and_earn/Screens/Home/HomeUI.dart';
 import 'package:buy_and_earn/Screens/More/MoreUI.dart';
 import 'package:buy_and_earn/Screens/Refer/ReferUI.dart';
-import 'package:buy_and_earn/Screens/Transactions/TransactionsUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class _RootUIState extends ConsumerState<RootUI> {
   final _screens = [
     HomeUI(),
     ReferUI(),
-    TransactionsUI(),
+    // TransactionsUI(),
     MoreUI(),
   ];
 
@@ -68,7 +67,7 @@ class _RootUIState extends ConsumerState<RootUI> {
     return SafeArea(
       top: false,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        padding: EdgeInsets.all(10),
         margin: EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: kCardColor,
@@ -96,14 +95,14 @@ class _RootUIState extends ConsumerState<RootUI> {
               iconPath: "$kIconPath/refer.svg",
               selectedIconPath: "$kIconPath/refer-filled.svg",
             ),
+            // _navigationButton(
+            //   2,
+            //   label: "transactions",
+            //   iconPath: "$kIconPath/transactions.svg",
+            //   selectedIconPath: "$kIconPath/transactions-filled.svg",
+            // ),
             _navigationButton(
               2,
-              label: "transactions",
-              iconPath: "$kIconPath/transactions.svg",
-              selectedIconPath: "$kIconPath/transactions-filled.svg",
-            ),
-            _navigationButton(
-              3,
               label: "more",
               iconPath: "$kIconPath/more.svg",
               selectedIconPath: "$kIconPath/more-filled.svg",
@@ -128,6 +127,7 @@ class _RootUIState extends ConsumerState<RootUI> {
         onPressed: () {
           ref.read(navigationProvider.notifier).state = index;
         },
+        visualDensity: VisualDensity(horizontal: 2, vertical: 2),
         icon: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,

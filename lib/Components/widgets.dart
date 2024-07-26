@@ -91,7 +91,7 @@ Widget kWalletCard(context) {
             ),
             KButton.outlined(
               onPressed: () {
-                navPush(context, WalletUI());
+                // navPush(context, WalletUI());
               },
               label: "Report",
             ),
