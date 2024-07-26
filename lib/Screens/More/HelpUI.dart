@@ -14,7 +14,7 @@ class HelpUI extends ConsumerStatefulWidget {
 
 class _HelpUIState extends ConsumerState<HelpUI> {
   String _directChatLink =
-      "https://tawk.to/chat/66a273a032dca6db2cb5b09a/1i3l97av8";
+      "https://tawk.to/chat/66a3d12832dca6db2cb639eb/1i3nui26e";
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
