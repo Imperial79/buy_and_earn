@@ -31,7 +31,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
   final city = TextEditingController();
   final referCode = TextEditingController();
   Map<String, dynamic> referrerData = {};
-  String _selectedState = "Gujarat";
+  String _selectedState = "";
   bool _isLoading = false;
   bool _otpLoading = false;
   late Timer _timer;
@@ -235,21 +235,26 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   hintText: "Eg. johndoe@mail.com",
                 ),
                 height10,
-                KTextfield.dropdown(
-                  label: "State",
-                  hintText: "Select State",
-                  items: List.generate(
-                    statesList.length,
-                    (index) => DropdownMenuEntry(
-                      label: "${statesList[index]}",
-                      value: statesList[index],
-                    ),
-                  ),
-                  onSelect: (value) {
-                    setState(() {
-                      _selectedState = value!;
-                    });
+                GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
                   },
+                  child: KTextfield.dropdown(
+                    label: "State",
+                    hintText: "Select State",
+                    items: List.generate(
+                      statesList.length,
+                      (index) => DropdownMenuEntry(
+                        label: "${statesList[index]}",
+                        value: statesList[index],
+                      ),
+                    ),
+                    onSelect: (value) {
+                      setState(() {
+                        _selectedState = value!;
+                      });
+                    },
+                  ),
                 ),
                 height10,
                 KTextfield.regular(
