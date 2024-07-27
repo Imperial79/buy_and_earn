@@ -27,8 +27,8 @@ class _HelpUIState extends ConsumerState<HelpUI> {
           },
           directChatLink: _directChatLink,
           visitor: TawkVisitor(
-            name: '${user!.name}',
-            email: '${user.email}',
+            name: '${user?.name ?? ''}',
+            email: '${user?.email ?? ''}',
           ),
         ),
       ),

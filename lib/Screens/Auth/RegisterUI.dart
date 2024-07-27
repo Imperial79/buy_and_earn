@@ -64,6 +64,8 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
         .fetchReferrerData({"referrerCode": referCode.text});
     if (!res.error) {
       referrerData = res.response;
+    } else {
+      referrerData = {};
     }
     setState(() => _isLoading = false);
   }
