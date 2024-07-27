@@ -84,7 +84,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                               fontWeight: FontWeight.w500, fontSize: 20),
                         ),
                         Text(
-                          "₹ 500.00",
+                          "₹ 0.0",
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 15),
                         ),

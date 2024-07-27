@@ -237,26 +237,21 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   hintText: "Eg. johndoe@mail.com",
                 ),
                 height10,
-                GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: KTextfield.dropdown(
-                    label: "State",
-                    hintText: "Select State",
-                    items: List.generate(
-                      statesList.length,
-                      (index) => DropdownMenuEntry(
-                        label: "${statesList[index]}",
-                        value: statesList[index],
-                      ),
+                KTextfield.dropdown(
+                  label: "State",
+                  hintText: "Select State",
+                  items: List.generate(
+                    statesList.length,
+                    (index) => DropdownMenuEntry(
+                      label: "${statesList[index]}",
+                      value: statesList[index],
                     ),
-                    onSelect: (value) {
-                      setState(() {
-                        _selectedState = value!;
-                      });
-                    },
                   ),
+                  onSelect: (value) {
+                    setState(() {
+                      _selectedState = value!;
+                    });
+                  },
                 ),
                 height10,
                 KTextfield.regular(

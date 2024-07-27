@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import '../Models/response_model.dart';
 import 'dart:developer';
 
-final String baseUrl = "https://usersbneapi.buynearn.shop";
+final String baseUrl = "https://usersapi.buynearn.shop";
 
 Future<ResponseModel> apiCallBack({
   String method = 'POST',

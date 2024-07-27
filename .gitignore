@@ -45,3 +45,5 @@ app.*.map.json
 
 lib/Services/SA-CREDS.dart
 lib/Services/buy-n-earn-firebase-adminsdk-9ohrd-67b0c72fb8.json
+upload-keystore.jks
+upload-keystore.jks.old

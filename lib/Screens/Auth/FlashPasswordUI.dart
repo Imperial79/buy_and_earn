@@ -23,13 +23,13 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
   final tpin;
   _FlashPasswordUIState({required this.mpin, required this.tpin});
 
-  String encryptedMpin = "";
-  String encryptedTpin = "";
+  String decryptedMpin = "";
+  String decryptedTpin = "";
   @override
   void initState() {
     super.initState();
-    encryptedMpin = encryptDecryptText("decrypt", mpin);
-    encryptedTpin = encryptDecryptText("decrypt", tpin);
+    decryptedMpin = encryptDecryptText("decrypt", mpin);
+    decryptedTpin = encryptDecryptText("decrypt", tpin);
     setState(() {});
   }
 
@@ -72,7 +72,7 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
                             ),
                           ),
                           Text(
-                            "${encryptedMpin}",
+                            "${decryptedMpin}",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -83,7 +83,8 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
                     IconButton.filled(
                       onPressed: () {
                         Clipboard.setData(
-                            ClipboardData(text: "MPIN: $encryptedMpin"));
+                            ClipboardData(text: "MPIN: $decryptedMpin"));
+                        KSnackbar(context, content: "MPIN Copied");
                       },
                       icon: Icon(
                         Icons.copy,
@@ -108,7 +109,7 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
                             ),
                           ),
                           Text(
-                            "${encryptedTpin}",
+                            "${decryptedTpin}",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -119,7 +120,8 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
                     IconButton.filled(
                       onPressed: () {
                         Clipboard.setData(
-                            ClipboardData(text: "TPIN: $encryptedTpin"));
+                            ClipboardData(text: "TPIN: $decryptedTpin"));
+                        KSnackbar(context, content: "TPIN Copied");
                       },
                       icon: Icon(
                         Icons.copy,
