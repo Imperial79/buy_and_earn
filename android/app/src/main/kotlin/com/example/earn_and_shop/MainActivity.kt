@@ -1,4 +1,4 @@
-package com.example.buy_and_earn
+package com.imvy.buynearn
 
 import io.flutter.embedding.android.FlutterActivity
 

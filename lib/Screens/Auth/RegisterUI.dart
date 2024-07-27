@@ -3,6 +3,7 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/user_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Repository/notiification_methods.dart';
 import 'package:buy_and_earn/Screens/Auth/FlashPasswordUI.dart';
 import 'package:buy_and_earn/Screens/Auth/LoginUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kOTPField.dart';
@@ -126,6 +127,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
     if (_formKey.currentState!.validate()) {
       FocusScope.of(context).unfocus();
       setState(() => _isLoading = true);
+      final fcmToken = ref.read(fcmTokenProvider);
       final res = await ref.read(authRepository).register({
         "name": name.text,
         "phone": phone.text,
@@ -133,7 +135,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
         "state": _selectedState,
         "city": city.text,
         "referrerCode": referCode.text,
-        "fcmToken": "",
+        "fcmToken": fcmToken,
         "otp": otp
       });
       if (!res.error) {

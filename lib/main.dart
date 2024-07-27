@@ -3,16 +3,22 @@ import 'package:buy_and_earn/Screens/Auth/RegisterUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'Repository/notiification_methods.dart';
+import 'Services/notification_config.dart';
+
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
-void main() {
+void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+  await FirebaseNotification().init();
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -28,10 +34,18 @@ class _MyAppState extends ConsumerState<MyApp> {
   void initState() {
     super.initState();
     _auth();
+    _generateFCM();
   }
 
   _auth() async {
     await ref.read(auth);
+  }
+
+  _generateFCM() async {
+    ref.read(notificationRepository).generateMyToken(ref);
+    final accessToken =
+        await ref.read(notificationRepository).generateAccessToken();
+    ref.read(accessTokenProvider.notifier).update((state) => accessToken);
   }
 
   @override
