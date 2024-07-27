@@ -1,6 +1,7 @@
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Models/user_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Repository/notiification_methods.dart';
 import 'package:buy_and_earn/Screens/More/HelpUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
@@ -41,10 +42,11 @@ class _LoginUIState extends ConsumerState<LoginUI> {
   _login() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
+      final fcmToken = ref.read(fcmTokenProvider);
       final res = await ref.read(authRepository).login({
         "phone": phone.text,
         "mpin": mpin.text,
-        "fcmToken": "",
+        "fcmToken": fcmToken,
       });
       if (!res.error) {
         ref.read(userProvider.notifier).state = UserModel.fromMap(res.response);

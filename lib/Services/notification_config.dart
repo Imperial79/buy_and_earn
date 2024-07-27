@@ -31,8 +31,7 @@ class FirebaseNotification {
 
   Future initLocalNotifications() async {
     const ios = DarwinInitializationSettings();
-    const android =
-        AndroidInitializationSettings('@drawable/ic_stat_ic_launcher');
+    const android = AndroidInitializationSettings('@drawable/ic_stat_bne');
     const setting = InitializationSettings(android: android, iOS: ios);
 
     await _localNotifications.initialize(
@@ -79,7 +78,7 @@ class FirebaseNotification {
             _androidChannel.id,
             _androidChannel.name,
             channelDescription: _androidChannel.description,
-            icon: '@drawable/ic_stat_ic_launcher',
+            icon: '@drawable/ic_stat_bne',
             styleInformation: _bigPicture.isNotEmpty
                 ? BigPictureStyleInformation(
                     FilePathAndroidBitmap(_bigPicture),
