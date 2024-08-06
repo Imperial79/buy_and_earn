@@ -1,4 +1,5 @@
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
+import 'package:buy_and_earn/Screens/Wallet/CalculateUI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -89,6 +90,7 @@ Widget kWalletCard(context) {
             ),
             KButton.outlined(
               onPressed: () {
+                navPush(context, CalculateUI());
                 // navPush(context, WalletUI());
               },
               label: "Report",
