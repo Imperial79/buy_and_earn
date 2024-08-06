@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
 import 'package:buy_and_earn/Utils/api_config.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CalculateUI extends StatefulWidget {
   const CalculateUI({super.key});
