@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:buy_and_earn/Repository/mobile_recharge_repository.dart';
 import 'package:buy_and_earn/Screens/Home/HomeUI.dart';
 import 'package:buy_and_earn/Screens/More/MoreUI.dart';
 import 'package:buy_and_earn/Screens/Refer/ReferUI.dart';
@@ -37,6 +38,7 @@ class _RootUIState extends ConsumerState<RootUI> {
   @override
   Widget build(BuildContext context) {
     final activeIndex = ref.watch(navigationProvider);
+
     return UpgradeAlert(
       showIgnore: false,
       showLater: false,

@@ -1,5 +1,6 @@
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/Wallet/CalculateUI.dart';
+import 'package:buy_and_earn/Screens/Wallet/WalletUI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,7 +30,7 @@ Widget kHeading(String label) {
   );
 }
 
-Widget kCard({Widget? child}) {
+Widget kCard({Widget? child, Color? cardColor}) {
   return Card(
     shape: RoundedRectangleBorder(
       side: BorderSide(
@@ -37,7 +38,7 @@ Widget kCard({Widget? child}) {
       ),
       borderRadius: kRadius(7),
     ),
-    color: kCardColor,
+    color: cardColor ?? kCardColor,
     child: Padding(
       padding: EdgeInsets.all(12),
       child: child,
@@ -90,10 +91,10 @@ Widget kWalletCard(context) {
             ),
             KButton.outlined(
               onPressed: () {
-                navPush(context, CalculateUI());
-                // navPush(context, WalletUI());
+                // navPush(context, CalculateUI());
+                navPush(context, WalletUI());
               },
-              label: "Report",
+              label: "Add Money",
             ),
           ],
         ),
@@ -188,6 +189,33 @@ Widget kRecentHistoryCard(context) {
             ],
           ),
         ),
+      ],
+    ),
+  );
+}
+
+Widget kNoData({required String title, String? subtitle, Widget? action}) {
+  return Center(
+    child: Column(
+      children: [
+        Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+          textAlign: TextAlign.center,
+        ),
+        subtitle != null
+            ? Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  subtitle,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : SizedBox(),
+        action != null
+            ? Padding(padding: EdgeInsets.only(top: 12.0), child: action)
+            : SizedBox(),
       ],
     ),
   );

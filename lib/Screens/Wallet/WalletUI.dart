@@ -2,6 +2,7 @@ import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
+import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,7 @@ class _WalletUIState extends State<WalletUI> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               kCard(
+                cardColor: kColor(context).primary,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -42,24 +44,22 @@ class _WalletUIState extends State<WalletUI> {
                           Text(
                             "Wallet",
                             style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                                color: Colors.white),
                           ),
                           height10,
                           Text(
                             "₹ 1,000.20",
                             style: TextStyle(
                               fontSize: 25,
-                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    width10,
-                    // KButton.pill(
-                    //   onPressed: () {},
-                    //   label: "Recharge",
-                    // ),
                   ],
                 ),
               ),

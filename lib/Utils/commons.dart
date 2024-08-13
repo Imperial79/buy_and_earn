@@ -7,6 +7,8 @@ import 'colors.dart';
 const String kIconPath = "assets/icons";
 const String kServiceIcon = "assets/icons/Service Icons";
 
+double get kPadding => 12;
+
 SizedBox get height5 => SizedBox(height: 5);
 SizedBox get height10 => SizedBox(height: 10);
 SizedBox get height15 => SizedBox(height: 15);
@@ -108,15 +110,46 @@ void KSnackbar(
               : kColor(context).onPrimaryContainer,
         ),
       ),
-      content: Text(
-        content,
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          color: isDanger
-              ? kColor(context).onErrorContainer
-              : kColor(context).onPrimaryContainer,
-          fontFamily: 'Jakarta',
-        ),
+      padding: EdgeInsets.all(12),
+      behavior: SnackBarBehavior.floating,
+      content: Row(
+        children: [
+          Icon(
+            isDanger ? Icons.dangerous : Icons.download_done_outlined,
+            color: isDanger
+                ? kColor(context).onErrorContainer
+                : kColor(context).onPrimaryContainer,
+          ),
+          width10,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  isDanger ? "Oops!" : "Success!",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: isDanger
+                        ? kColor(context).onErrorContainer
+                        : kColor(context).onPrimaryContainer,
+                    fontFamily: 'Jakarta',
+                  ),
+                ),
+                Text(
+                  content,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: isDanger
+                        ? kColor(context).onErrorContainer
+                        : kColor(context).onPrimaryContainer,
+                    fontFamily: 'Jakarta',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     ),
   );

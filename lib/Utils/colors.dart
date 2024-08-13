@@ -16,7 +16,7 @@ ThemeData kTheme(BuildContext context) => ThemeData(
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           shape: RoundedRectangleBorder(
-            borderRadius: kRadius(7),
+            borderRadius: kRadius(5),
           ),
           alignment: Alignment.center,
           textStyle: TextStyle(

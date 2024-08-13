@@ -25,7 +25,7 @@ class KButton {
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           shape: RoundedRectangleBorder(
-            borderRadius: kRadius(12),
+            borderRadius: kRadius(5),
           ),
           alignment: Alignment.center,
           textStyle: TextStyle(
@@ -49,7 +49,7 @@ class KButton {
         highlightElevation: 0,
         disabledElevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: kRadius(7),
+          borderRadius: kRadius(5),
           side: BorderSide(
             color: borderColor ?? Colors.white,
           ),
@@ -85,7 +85,7 @@ class KButton {
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           shape: RoundedRectangleBorder(
-            borderRadius: kRadius(12),
+            borderRadius: kRadius(5),
           ),
           alignment: Alignment.center,
           textStyle: TextStyle(
@@ -124,7 +124,7 @@ class KButton {
           padding:
               padding ?? EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           shape: RoundedRectangleBorder(
-            borderRadius: kRadius(12),
+            borderRadius: kRadius(5),
           ),
           alignment: Alignment.center,
           textStyle: TextStyle(

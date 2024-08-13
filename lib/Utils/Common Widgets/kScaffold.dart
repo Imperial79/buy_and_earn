@@ -107,12 +107,13 @@ AppBar KAppBar(
   List<Widget>? actions,
 }) {
   return AppBar(
+    centerTitle: true,
     title: Text(title),
     automaticallyImplyLeading: showBack ?? false,
     actions: actions,
     titleTextStyle: TextStyle(
-      fontSize: 12,
-      color: kSecondaryColor,
+      fontSize: 20,
+      color: kPrimaryColor,
       fontWeight: FontWeight.w500,
       fontFamily: 'Poppins',
       letterSpacing: .5,

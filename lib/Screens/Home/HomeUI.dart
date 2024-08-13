@@ -1,6 +1,8 @@
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Repository/mobile_recharge_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
+import 'package:buy_and_earn/Screens/Services%20Screens/Mobile_Providers_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kCarousel.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
@@ -14,6 +16,7 @@ class HomeUI extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(contactPermissionFuture);
     return KScaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -22,7 +25,7 @@ class HomeUI extends ConsumerWidget {
             children: [
               height10,
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
+                padding: EdgeInsets.symmetric(horizontal: kPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -38,12 +41,10 @@ class HomeUI extends ConsumerWidget {
                 children: [
                   KCarousel.Item(
                       radius: 10,
-                      // padding: EdgeInsets.zero,
                       url:
                           "https://img.freepik.com/free-vector/mega-sale-offers-banner-template_1017-31299.jpg"),
                   KCarousel.Item(
                       radius: 10,
-                      // padding: EdgeInsets.zero,
                       url:
                           "https://img.freepik.com/free-vector/mega-sale-offers-banner-template_1017-31299.jpg"),
                 ],
@@ -70,6 +71,9 @@ class HomeUI extends ConsumerWidget {
                             physics: NeverScrollableScrollPhysics(),
                             children: [
                               _serviceButton(
+                                  onPressed: () {
+                                    navPush(context, Mobile_Providers_UI());
+                                  },
                                   iconPath: "$kServiceIcon/mobile.svg",
                                   label: "Mobile"),
                               _serviceButton(
@@ -254,12 +258,13 @@ class HomeUI extends ConsumerWidget {
   }
 
   Widget _serviceButton({
+    void Function()? onPressed,
     String? iconPath,
     String? label,
   }) {
     return iconPath != null && label != null
         ? IconButton(
-            onPressed: () {},
+            onPressed: onPressed,
             icon: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

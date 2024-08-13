@@ -18,6 +18,7 @@ class KTextfield {
     TextInputType? keyboardType,
     String? prefixText,
     Widget? prefix,
+    Widget? suffix,
     Color? fieldColor,
     Color? borderColor,
     bool obscureText = false,
@@ -81,6 +82,9 @@ class KTextfield {
                 fillColor: kCardColor,
                 counterText: '',
                 isDense: true,
+                suffix: suffix,
+                suffixIconConstraints: BoxConstraints(
+                    minHeight: 0, minWidth: prefixText == null ? 12 : 0),
                 prefixIcon: prefixText != null
                     ? Padding(
                         padding: EdgeInsets.only(left: 12, right: 5),
@@ -93,7 +97,11 @@ class KTextfield {
                           ),
                         ),
                       )
-                    : SizedBox(),
+                    : prefix != null
+                        ? Padding(
+                            padding: EdgeInsets.only(left: 12, right: 5),
+                            child: prefix)
+                        : SizedBox(),
                 prefixIconConstraints: BoxConstraints(
                     minHeight: 0, minWidth: prefixText == null ? 12 : 0),
                 prefixStyle: TextStyle(

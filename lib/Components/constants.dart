@@ -103,3 +103,7 @@ String kFormatTime(String val) {
     DateFormat("HH:mm").parse(val),
   );
 }
+
+bool kCompare(String searchKey, String text) {
+  return text.trim().toLowerCase().contains(searchKey.trim().toLowerCase());
+}
