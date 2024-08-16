@@ -1,5 +1,4 @@
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
-import 'package:buy_and_earn/Screens/Wallet/CalculateUI.dart';
 import 'package:buy_and_earn/Screens/Wallet/WalletUI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +29,7 @@ Widget kHeading(String label) {
   );
 }
 
-Widget kCard({Widget? child, Color? cardColor}) {
+Widget kCard({Widget? child, Color? cardColor, EdgeInsetsGeometry? padding}) {
   return Card(
     shape: RoundedRectangleBorder(
       side: BorderSide(
@@ -40,7 +39,7 @@ Widget kCard({Widget? child, Color? cardColor}) {
     ),
     color: cardColor ?? kCardColor,
     child: Padding(
-      padding: EdgeInsets.all(12),
+      padding: padding ?? EdgeInsets.all(12),
       child: child,
     ),
   );
@@ -216,6 +215,50 @@ Widget kNoData({required String title, String? subtitle, Widget? action}) {
         action != null
             ? Padding(padding: EdgeInsets.only(top: 12.0), child: action)
             : SizedBox(),
+      ],
+    ),
+  );
+}
+
+Widget kPlanCard(
+    {required String providerImage,
+    required String providerName,
+    String region = "Pan India"}) {
+  return kCard(
+    child: Row(
+      children: [
+        Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(providerImage),
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+        width20,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                providerName,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 17,
+                ),
+              ),
+              Text(
+                region,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     ),
   );

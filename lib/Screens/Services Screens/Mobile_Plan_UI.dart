@@ -5,15 +5,23 @@ import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class Plan_UI extends StatefulWidget {
-  const Plan_UI({super.key});
+class Mobile_Plan_UI extends StatefulWidget {
+  final int providerId;
+  final String providerName;
+  final String providerImage;
+  const Mobile_Plan_UI(
+      {super.key,
+      required this.providerId,
+      required this.providerName,
+      required this.providerImage});
 
   @override
-  State<Plan_UI> createState() => _Plan_UIState();
+  State<Mobile_Plan_UI> createState() => _Mobile_Plan_UIState();
 }
 
-class _Plan_UIState extends State<Plan_UI> {
+class _Mobile_Plan_UIState extends State<Mobile_Plan_UI> {
   @override
   Widget build(BuildContext context) {
     return KScaffold(
@@ -30,10 +38,21 @@ class _Plan_UIState extends State<Plan_UI> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Enter recharge amount"),
-                    height10,
+                    kPlanCard(
+                      providerImage: widget.providerImage,
+                      providerName: widget.providerName,
+                    ),
+                    height20,
                     KTextfield.regular(context,
-                        hintText: "Amount", prefixText: "₹"),
+                        label: "Enter recharge amount",
+                        hintText: "Amount",
+                        prefixText: "₹",
+                        textSize: 25,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        fieldColor: Colors.grey.shade100),
                     height10,
                     KButton.full(
                         onPressed: () {

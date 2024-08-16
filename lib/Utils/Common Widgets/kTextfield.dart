@@ -78,11 +78,16 @@ class KTextfield {
               minLines: maxLines,
               inputFormatters: inputFormatters,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(15),
                 filled: true,
-                fillColor: kCardColor,
+                fillColor: fieldColor ?? kCardColor,
                 counterText: '',
                 isDense: true,
-                suffix: suffix,
+                suffix: suffix != null
+                    ? Padding(
+                        padding: EdgeInsets.only(left: 12, right: 5),
+                        child: suffix)
+                    : SizedBox(),
                 suffixIconConstraints: BoxConstraints(
                     minHeight: 0, minWidth: prefixText == null ? 12 : 0),
                 prefixIcon: prefixText != null

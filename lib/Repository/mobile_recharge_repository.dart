@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/Utils/api_config.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,5 +23,24 @@ final contactsFuture = FutureProvider.autoDispose<List<Contact>>(
     return contacts.where((contact) {
       return contact.phones.isNotEmpty;
     }).toList();
+  },
+);
+
+final providersListFuture = FutureProvider.autoDispose<List>(
+  (ref) async {
+    final res = await apiCallBack(
+      path: "/recharge-providers/fetch",
+      method: "POST",
+      body: {
+        "service": "Mobile",
+      },
+    );
+
+    ref.keepAlive();
+
+    if (!res.error) {
+      return res.response as List;
+    }
+    return [];
   },
 );
