@@ -25,11 +25,11 @@ class Mobile_Recharge_UI extends ConsumerStatefulWidget {
 }
 
 class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
-  final phone = TextEditingController();
-
+  final _phone = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
-    phone.dispose();
+    _phone.dispose();
     super.dispose();
   }
 
@@ -40,67 +40,82 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(kPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              kPlanCard(
-                providerImage: widget.providerImage,
-                providerName: widget.providerName,
-              ),
-              height20,
-              Text("Enter or Select your phone number"),
-              height10,
-              Row(
-                children: [
-                  Flexible(
-                    child: KTextfield.regular(
-                      context,
-                      controller: phone,
-                      prefixText: "+91",
-                      keyboardType: TextInputType.phone,
-                      hintText: "Enter phone number here",
-                      maxLength: 10,
-                    ),
-                  ),
-                  width10,
-                  IconButton(
-                    onPressed: () async {
-                      Map? contact =
-                          await navPush(context, ContactsUI()) as Map?;
-
-                      if (contact != null) {
-                        String sanitized =
-                            contact['phone'].toString().replaceFirst("91", "");
-
-                        if (sanitized.length > 10) {
-                          sanitized = sanitized.substring(1);
-                        }
-
-                        setState(() {
-                          phone.text = sanitized;
-                        });
-                      }
-                    },
-                    icon: Icon(
-                      Icons.contacts_rounded,
-                      color: Colors.blue.shade700,
-                    ),
-                  ),
-                ],
-              ),
-              height10,
-              KButton.full(
-                  onPressed: () {
-                    navPush(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                kPlanCard(
+                  context,
+                  providerImage: widget.providerImage,
+                  providerName: widget.providerName,
+                ),
+                height20,
+                Text("Enter or Select your phone number"),
+                height10,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: KTextfield.regular(
                         context,
-                        Mobile_Plan_UI(
-                          providerId: widget.providerId,
-                          providerName: widget.providerName,
-                          providerImage: widget.providerImage,
-                        ));
-                  },
-                  label: "Proceed"),
-            ],
+                        controller: _phone,
+                        prefixText: "+91",
+                        keyboardType: TextInputType.phone,
+                        hintText: "Enter phone number here",
+                        maxLength: 10,
+                        validator: (val) {
+                          if (val!.isEmpty)
+                            return "Required!";
+                          else if (val.length != 10)
+                            return "Length must be 10!";
+                          return null;
+                        },
+                      ),
+                    ),
+                    width10,
+                    IconButton(
+                      onPressed: () async {
+                        Map? contact =
+                            await navPush(context, ContactsUI()) as Map?;
+
+                        if (contact != null) {
+                          String sanitized = contact['phone']
+                              .toString()
+                              .replaceFirst("91", "");
+
+                          if (sanitized.length > 10) {
+                            sanitized = sanitized.substring(1);
+                          }
+
+                          setState(() {
+                            _phone.text = sanitized;
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.contacts_rounded,
+                        color: Colors.blue.shade700,
+                      ),
+                    ),
+                  ],
+                ),
+                height10,
+                KButton.full(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate())
+                        navPush(
+                            context,
+                            Mobile_Plan_UI(
+                              providerId: widget.providerId,
+                              providerName: widget.providerName,
+                              providerImage: widget.providerImage,
+                              phone: _phone.text,
+                            ));
+                    },
+                    label: "Proceed"),
+              ],
+            ),
           ),
         ),
       ),

@@ -24,13 +24,30 @@ class _TPin_UIState extends State<TPin_UI> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Enter MPIN"),
                     Text(
-                      tpin,
+                      "Verification",
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    height20,
+                    Text(
+                      "Enter your 6-digits TPIN",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    height20,
+                    Text(
+                      tpin.isEmpty ? "------" : tpin,
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 10,
+                        color: tpin.isEmpty ? Colors.grey : Colors.black,
                       ),
                     ),
                   ],
@@ -82,27 +99,29 @@ class _TPin_UIState extends State<TPin_UI> {
   }
 
   Widget _keyboardBtn(String label) {
+    bool isDelete = label == "back";
     return Expanded(
       child: Padding(
         padding: EdgeInsets.all(3.0),
         child: InkWell(
           borderRadius: kRadius(5),
+          splashColor: kPrimaryColor,
           onLongPress: () {
-            if (label == "back") {
+            if (isDelete) {
               setState(() {
                 tpin = "";
               });
             }
           },
           onTap: () {
-            if (label == "back") {
+            if (isDelete) {
               if (tpin.isNotEmpty) {
                 setState(() {
                   tpin = tpin.substring(0, tpin.length - 1);
                 });
               }
             } else {
-              if (tpin.length != 5) {
+              if (tpin.length != 6) {
                 if (tpin.length < 3) {
                   setState(() {
                     tpin = tpin + label;
@@ -117,16 +136,21 @@ class _TPin_UIState extends State<TPin_UI> {
             }
           },
           child: Ink(
-            height: 50,
+            height: 55,
             decoration: BoxDecoration(
-              borderRadius: kRadius(10),
-              color: kColor(context).secondaryContainer,
+              borderRadius: kRadius(5),
+              color: isDelete
+                  ? Colors.redAccent
+                  : kColor(context).secondaryContainer,
             ),
             child: Padding(
               padding: EdgeInsets.all(10),
               child: FittedBox(
                 child: label == "back"
-                    ? Icon(Icons.backspace)
+                    ? Icon(
+                        Icons.backspace,
+                        color: Colors.white,
+                      )
                     : Text(
                         label,
                         style: TextStyle(

@@ -90,7 +90,6 @@ Widget kWalletCard(context) {
             ),
             KButton.outlined(
               onPressed: () {
-                // navPush(context, CalculateUI());
                 navPush(context, WalletUI());
               },
               label: "Add Money",
@@ -221,9 +220,12 @@ Widget kNoData({required String title, String? subtitle, Widget? action}) {
 }
 
 Widget kPlanCard(
-    {required String providerImage,
-    required String providerName,
-    String region = "Pan India"}) {
+  context, {
+  required String providerImage,
+  required String providerName,
+  String? phone,
+  String region = "Pan India",
+}) {
   return kCard(
     child: Row(
       children: [
@@ -249,6 +251,18 @@ Widget kPlanCard(
                   fontSize: 17,
                 ),
               ),
+              phone != null
+                  ? Padding(
+                      padding: EdgeInsets.only(top: 0.0),
+                      child: Text(
+                        "+91 $phone",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
               Text(
                 region,
                 style: TextStyle(
@@ -259,6 +273,12 @@ Widget kPlanCard(
             ],
           ),
         ),
+        width10,
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("Change")),
       ],
     ),
   );
