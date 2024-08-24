@@ -58,26 +58,36 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
               Expanded(
                 child: hasPermission
                     ? contactsData.when(
-                        data: (data) => ListView.builder(
-                          itemCount: data.length,
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            if (kCompare(
-                                    searchKey.text, data[index].displayName) ||
-                                kCompare(searchKey.text,
-                                    data[index].phones[0].normalizedNumber)) {
-                              return _contactCard(data[index]);
-                            }
-                            return SizedBox();
-                          },
-                        ),
+                        data: (data) => data.length > 0
+                            ? ListView.builder(
+                                itemCount: data.length,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                itemBuilder: (context, index) {
+                                  if (kCompare(searchKey.text,
+                                          data[index].displayName) ||
+                                      kCompare(
+                                          searchKey.text,
+                                          data[index]
+                                              .phones[0]
+                                              .normalizedNumber)) {
+                                    return _contactCard(data[index]);
+                                  }
+                                  return SizedBox();
+                                },
+                              )
+                            : kNoData(
+                                image: "assets/images/contacts.svg",
+                                title: "No Contacts!",
+                                subtitle: "Please add contacts on your phone",
+                              ),
                         error: (error, stackTrace) =>
                             Text("Cannot load contacts!"),
                         loading: () =>
                             Center(child: CircularProgressIndicator.adaptive()),
                       )
                     : kNoData(
+                        image: "assets/images/contacts.svg",
                         title: "No Contacts!",
                         subtitle:
                             "Please provider contacts permission to view your contacts.",

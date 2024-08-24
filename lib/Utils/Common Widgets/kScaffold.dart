@@ -102,7 +102,7 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
 AppBar KAppBar(
   BuildContext context, {
   required String title,
-  bool? isLoading,
+  bool isLoading = false,
   bool? showBack,
   List<Widget>? actions,
 }) {
@@ -119,7 +119,7 @@ AppBar KAppBar(
     ),
     bottom: PreferredSize(
       preferredSize: Size.fromHeight(1),
-      child: isLoading ?? false
+      child: isLoading
           ? LinearProgressIndicator(
               minHeight: 2,
               color: kPrimaryColor,

@@ -192,10 +192,27 @@ Widget kRecentHistoryCard(context) {
   );
 }
 
-Widget kNoData({required String title, String? subtitle, Widget? action}) {
+Widget kNoData({
+  String? image,
+  required String title,
+  String? subtitle,
+  Widget? action,
+}) {
   return Center(
     child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        image != null
+            ? Padding(
+                padding: EdgeInsets.only(bottom: 30.0),
+                child: image.contains(".svg")
+                    ? SvgPicture.asset(
+                        image,
+                        height: 200,
+                      )
+                    : Image.asset(image),
+              )
+            : SizedBox(),
         Text(
           title,
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
