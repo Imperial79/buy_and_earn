@@ -33,7 +33,7 @@ Future<ResponseModel> apiCallBack({
   } else {
     response = await dio.get(baseUrl + path);
   }
-  log(response.data.toString());
+
   return ResponseModel.fromMap(response.data);
 }
 
@@ -58,6 +58,6 @@ Future<ResponseModel> apiCallBackMedia({
     baseUrl + path,
     data: formData,
   );
-  log(response.data.toString());
+
   return ResponseModel.fromMap(response.data);
 }

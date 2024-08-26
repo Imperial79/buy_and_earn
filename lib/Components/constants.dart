@@ -5,8 +5,8 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const kAppVersion = "1.1.6";
-const kAppBuild = "7";
+const kAppVersion = "1.2.0";
+const kAppBuild = "9";
 
 final kIconMap = {
   'mobile': "$kServiceIcon/mobile.svg",

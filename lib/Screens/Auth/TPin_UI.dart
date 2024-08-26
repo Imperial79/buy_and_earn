@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:buy_and_earn/Screens/Services%20Screens/Recharge_Loading_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +8,14 @@ import '../../Utils/colors.dart';
 import '../../Utils/commons.dart';
 
 class TPin_UI extends StatefulWidget {
-  const TPin_UI({super.key});
+  final String providerId;
+  final String phone;
+  final String amount;
+  const TPin_UI(
+      {super.key,
+      required this.providerId,
+      required this.phone,
+      required this.amount});
 
   @override
   State<TPin_UI> createState() => _TPin_UIState();
@@ -13,6 +23,7 @@ class TPin_UI extends StatefulWidget {
 
 class _TPin_UIState extends State<TPin_UI> {
   String tpin = "";
+
   @override
   Widget build(BuildContext context) {
     return KScaffold(
@@ -90,8 +101,9 @@ class _TPin_UIState extends State<TPin_UI> {
         ),
         Row(
           children: [
-            _keyboardBtn('0'),
             _keyboardBtn('back'),
+            _keyboardBtn('0'),
+            _keyboardBtn('OK'),
           ],
         ),
       ],
@@ -100,6 +112,7 @@ class _TPin_UIState extends State<TPin_UI> {
 
   Widget _keyboardBtn(String label) {
     bool isDelete = label == "back";
+    bool isDone = label == "OK";
     return Expanded(
       child: Padding(
         padding: EdgeInsets.all(3.0),
@@ -114,24 +127,39 @@ class _TPin_UIState extends State<TPin_UI> {
             }
           },
           onTap: () {
-            if (isDelete) {
-              if (tpin.isNotEmpty) {
-                setState(() {
-                  tpin = tpin.substring(0, tpin.length - 1);
-                });
+            if (!isDone) {
+              if (isDelete) {
+                if (tpin.isNotEmpty) {
+                  setState(() {
+                    tpin = tpin.substring(0, tpin.length - 1);
+                  });
+                }
+              } else {
+                if (tpin.length != 6) {
+                  if (tpin.length < 3) {
+                    setState(() {
+                      tpin = tpin + label;
+                    });
+                  } else {
+                    setState(() {
+                      tpin = tpin + label;
+                    });
+                  }
+                }
               }
             } else {
-              if (tpin.length != 6) {
-                if (tpin.length < 3) {
-                  setState(() {
-                    tpin = tpin + label;
-                  });
-                } else {
-                  setState(() {
-                    tpin = tpin + label;
-                  });
-                  // _login();
-                }
+              if (tpin.length == 6)
+                navPush(
+                    context,
+                    Recharge_Loading_UI(
+                      amount: widget.amount,
+                      phone: widget.phone,
+                      providerId: widget.providerId,
+                      tpin: tpin,
+                    ));
+              else {
+                KSnackbar(context,
+                    content: "Enter 6-digit tpin!", isDanger: true);
               }
             }
           },
@@ -139,27 +167,31 @@ class _TPin_UIState extends State<TPin_UI> {
             height: 55,
             decoration: BoxDecoration(
               borderRadius: kRadius(5),
-              color: isDelete
-                  ? Colors.redAccent
-                  : kColor(context).secondaryContainer,
+              color: isDone
+                  ? Colors.greenAccent
+                  : isDelete
+                      ? Colors.redAccent
+                      : kColor(context).secondaryContainer,
             ),
             child: Padding(
               padding: EdgeInsets.all(10),
               child: FittedBox(
-                child: label == "back"
-                    ? Icon(
-                        Icons.backspace,
-                        color: Colors.white,
-                      )
-                    : Text(
-                        label,
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                child: isDone
+                    ? Icon(Icons.done)
+                    : label == "back"
+                        ? Icon(
+                            Icons.backspace,
+                            color: Colors.white,
+                          )
+                        : Text(
+                            label,
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
               ),
             ),
           ),

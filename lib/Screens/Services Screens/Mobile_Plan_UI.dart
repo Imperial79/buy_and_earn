@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Repository/mobile_recharge_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/TPin_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
@@ -6,9 +9,10 @@ import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Mobile_Plan_UI extends StatefulWidget {
-  final int providerId;
+class Mobile_Plan_UI extends ConsumerStatefulWidget {
+  final String providerId;
   final String providerName;
   final String providerImage;
   final String phone;
@@ -20,12 +24,20 @@ class Mobile_Plan_UI extends StatefulWidget {
       required this.phone});
 
   @override
-  State<Mobile_Plan_UI> createState() => _Mobile_Plan_UIState();
+  ConsumerState<Mobile_Plan_UI> createState() => _Mobile_Plan_UIState();
 }
 
-class _Mobile_Plan_UIState extends State<Mobile_Plan_UI> {
+class _Mobile_Plan_UIState extends ConsumerState<Mobile_Plan_UI> {
   final _formKey = GlobalKey<FormState>();
   final _amount = TextEditingController();
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    _amount.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return KScaffold(
@@ -64,7 +76,10 @@ class _Mobile_Plan_UIState extends State<Mobile_Plan_UI> {
                         ],
                         fieldColor: Colors.grey.shade100,
                         validator: (val) {
-                          if (val!.isEmpty) return "Required!";
+                          if (val!.isEmpty)
+                            return "Required!";
+                          else if (int.parse(val) < 1)
+                            return "Enter valid amount!";
                           return null;
                         },
                       ),
@@ -72,7 +87,13 @@ class _Mobile_Plan_UIState extends State<Mobile_Plan_UI> {
                       KButton.full(
                         onPressed: () {
                           if (_formKey.currentState!.validate())
-                            navPush(context, TPin_UI());
+                            navPush(
+                                context,
+                                TPin_UI(
+                                  amount: _amount.text.trim(),
+                                  phone: widget.phone,
+                                  providerId: widget.providerId,
+                                ));
                         },
                         label: "Recharge",
                       ),

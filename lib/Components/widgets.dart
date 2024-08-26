@@ -48,6 +48,7 @@ Widget kCard({Widget? child, Color? cardColor, EdgeInsetsGeometry? padding}) {
 Widget kWalletCard(context) {
   return Consumer(builder: (context, ref, child) {
     final wallet = ref.watch(walletFuture);
+
     return Card(
       child: Padding(
         padding: EdgeInsets.all(12),
@@ -75,9 +76,9 @@ Widget kWalletCard(context) {
                   ),
                   Text(
                     wallet.when(
-                      data: (data) => "₹ ${data?.balance ?? 0.0}",
+                      data: (data) => "₹ ${data!["balance"]}",
                       error: (error, stackTrace) => "-",
-                      loading: () => "-",
+                      loading: () => "...",
                     ),
                     style: TextStyle(
                       fontWeight: FontWeight.w800,

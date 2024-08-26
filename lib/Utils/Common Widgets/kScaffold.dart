@@ -140,18 +140,16 @@ Container kFullLoading(BuildContext context, {String? loadingText}) {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        loadingText != null
-            ? Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: Text(
-                  loadingText,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: .7,
-                      ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10.0),
+          child: Text(
+            loadingText ?? "Please wait...",
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: .7,
                 ),
-              )
-            : SizedBox(),
+          ),
+        ),
         SizedBox(
           width: 60,
           child: LinearProgressIndicator(

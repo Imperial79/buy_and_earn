@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/Models/response_model.dart';
 import 'package:buy_and_earn/Utils/api_config.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,17 +15,17 @@ final contactPermissionFuture = FutureProvider(
   },
 );
 
-final contactsFuture = FutureProvider.autoDispose<List<Contact>>(
-  (ref) async {
-    List<Contact> contacts = await FlutterContacts.getContacts(
-        withProperties: true, withPhoto: true);
+// final contactsFuture = FutureProvider.autoDispose<List<Contact>>(
+//   (ref) async {
+//     List<Contact> contacts = await FlutterContacts.getContacts(
+//         withProperties: true, withPhoto: true);
 
-    ref.keepAlive();
-    return contacts.where((contact) {
-      return contact.phones.isNotEmpty;
-    }).toList();
-  },
-);
+//     ref.keepAlive();
+//     return contacts.where((contact) {
+//       return contact.phones.isNotEmpty;
+//     }).toList();
+//   },
+// );
 
 final providersListFuture = FutureProvider.autoDispose<List>(
   (ref) async {
@@ -44,3 +45,38 @@ final providersListFuture = FutureProvider.autoDispose<List>(
     return [];
   },
 );
+
+final mobile_recharge_repository = Provider(
+  (ref) => MobileRechargeRepository(),
+);
+
+class MobileRechargeRepository {
+  Future<ResponseModel> rechargeMobile({
+    required String providerId,
+    required String mobile,
+    required String tpin,
+    required String rechargeAmount,
+  }) async {
+    final res = await apiCallBack(
+      path: "/recharge-providers/recharge-mobile",
+      body: {
+        "providerId": providerId,
+        "mobile": mobile,
+        "tpin": tpin,
+        "rechargeAmount": rechargeAmount,
+      },
+    );
+
+    return res;
+  }
+
+  Future<List<Contact>> fetchContacts() async {
+    List<Contact> contacts = await FlutterContacts.getContacts(
+        withProperties: true, withPhoto: true);
+
+    // return contacts.where((contact) {
+    //   return contact.phones.isNotEmpty;
+    // }).toList();
+    return contacts;
+  }
+}

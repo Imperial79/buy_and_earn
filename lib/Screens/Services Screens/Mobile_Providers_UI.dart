@@ -32,7 +32,7 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
                   navPush(
                     context,
                     Mobile_Recharge_UI(
-                      providerId: data[index]["providerId"],
+                      providerId: "${data[index]["providerId"]}",
                       providerName: data[index]["providerName"],
                       providerImage: data[index]["image"],
                     ),

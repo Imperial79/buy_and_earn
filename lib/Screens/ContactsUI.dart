@@ -1,5 +1,6 @@
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,6 +20,27 @@ class ContactsUI extends ConsumerStatefulWidget {
 
 class _ContactsUIState extends ConsumerState<ContactsUI> {
   final searchKey = TextEditingController();
+  List<Contact> _contacts = [];
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance
+        .addPostFrameCallback((timeStamp) => _fetchContacts());
+  }
+
+  _fetchContacts() async {
+    setState(() {
+      isLoading = true;
+    });
+    final res = await ref.watch(mobile_recharge_repository).fetchContacts();
+
+    setState(() {
+      _contacts = res;
+      isLoading = false;
+    });
+  }
 
   @override
   void dispose() {
@@ -30,8 +52,10 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
   Widget build(BuildContext context) {
     final hasPermission = ref.watch(hasContactPermission);
 
-    var contactsData = ref.watch(contactsFuture);
+    // var contactsData = ref.watch(contactsFuture);
     return KScaffold(
+      isLoading: isLoading,
+      loadingText: "Fetching contacts...",
       appBar: KAppBar(
         context,
         title: "Contacts",
@@ -56,39 +80,86 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
               ),
               height10,
               Expanded(
+                // child: hasPermission
+                //     ? contactsData.when(
+                //         data: (data) => data.length > 0
+                //             ? ListView.builder(
+                //                 itemCount: data.length,
+                //                 shrinkWrap: true,
+                //                 padding: EdgeInsets.zero,
+                //                 itemBuilder: (context, index) {
+                //                   if (kCompare(searchKey.text,
+                //                           data[index].displayName) ||
+                //                       kCompare(
+                //                           searchKey.text,
+                //                           data[index]
+                //                               .phones[0]
+                //                               .normalizedNumber)) {
+                //                     return _contactCard(data[index]);
+                //                   }
+                //                   return SizedBox();
+                //                 },
+                //               )
+                //             : kNoData(
+                //                 image: "assets/images/contacts.svg",
+                //                 title: "No Contacts!",
+                //                 subtitle: "Please add contacts on your phone",
+                //               ),
+                //         error: (error, stackTrace) =>
+                //             Text("Cannot load contacts!"),
+                //         loading: () =>
+                //             Center(child: CircularProgressIndicator.adaptive()),
+                //       )
+                // : kNoData(
+                //     image: "assets/images/contacts.svg",
+                //     title: "No Contacts!",
+                //     subtitle:
+                //         "Please provider contacts permission to view your contacts.",
+                //     action: KButton.pill(
+                //       onPressed: () async {
+                //         final res =
+                //             await FlutterContacts.requestPermission();
+                //         ref.read(hasContactPermission.notifier).state = res;
+                //         if (!res) {
+                //           KSnackbar(context,
+                //               content:
+                //                   "Enable contacts permission from settings!",
+                //               isDanger: true);
+                //         }
+                //       },
+                //       label: "Allow",
+                //     ),
+                //   ),
+
                 child: hasPermission
-                    ? contactsData.when(
-                        data: (data) => data.length > 0
-                            ? ListView.builder(
-                                itemCount: data.length,
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                itemBuilder: (context, index) {
-                                  if (kCompare(searchKey.text,
-                                          data[index].displayName) ||
-                                      kCompare(
-                                          searchKey.text,
-                                          data[index]
-                                              .phones[0]
-                                              .normalizedNumber)) {
-                                    return _contactCard(data[index]);
-                                  }
-                                  return SizedBox();
-                                },
-                              )
-                            : kNoData(
-                                image: "assets/images/contacts.svg",
-                                title: "No Contacts!",
-                                subtitle: "Please add contacts on your phone",
-                              ),
-                        error: (error, stackTrace) =>
-                            Text("Cannot load contacts!"),
-                        loading: () =>
-                            Center(child: CircularProgressIndicator.adaptive()),
-                      )
+                    ? _contacts.length > 0
+                        ? ListView.builder(
+                            itemCount: _contacts.length,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              if (_contacts[index].phones.isNotEmpty) {
+                                if (kCompare(searchKey.text,
+                                        _contacts[index].displayName) ||
+                                    kCompare(
+                                        searchKey.text,
+                                        _contacts[index]
+                                            .phones[0]
+                                            .normalizedNumber)) {
+                                  return _contactCard(_contacts[index]);
+                                }
+                                return SizedBox();
+                              }
+                              return SizedBox();
+                            },
+                          )
+                        : kNoData(
+                            image: "assets/images/contacts.svg",
+                            title: "No Contacts!",
+                            subtitle: "Add contacts in your phone to view!")
                     : kNoData(
                         image: "assets/images/contacts.svg",
-                        title: "No Contacts!",
+                        title: "Permission Required!",
                         subtitle:
                             "Please provider contacts permission to view your contacts.",
                         action: KButton.pill(

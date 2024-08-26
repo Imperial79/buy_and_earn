@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Mobile_Recharge_UI extends ConsumerStatefulWidget {
-  final int providerId;
+  final String providerId;
   final String providerName;
   final String providerImage;
   const Mobile_Recharge_UI({
@@ -102,18 +102,19 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                 ),
                 height10,
                 KButton.full(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate())
-                        navPush(
-                            context,
-                            Mobile_Plan_UI(
-                              providerId: widget.providerId,
-                              providerName: widget.providerName,
-                              providerImage: widget.providerImage,
-                              phone: _phone.text,
-                            ));
-                    },
-                    label: "Proceed"),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate())
+                      navPush(
+                          context,
+                          Mobile_Plan_UI(
+                            providerId: widget.providerId,
+                            providerName: widget.providerName,
+                            providerImage: widget.providerImage,
+                            phone: _phone.text,
+                          ));
+                  },
+                  label: "Proceed",
+                ),
               ],
             ),
           ),
