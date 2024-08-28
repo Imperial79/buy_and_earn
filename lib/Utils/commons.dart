@@ -24,31 +24,6 @@ SizedBox kHeight(double height) => SizedBox(
       height: height,
     );
 
-// Route _createRoute(Widget page) {
-//   return PageRouteBuilder(
-//     pageBuilder: (context, animation, secondaryAnimation) => page,
-//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//       const begin = Offset(1.0, 0.0);
-//       const end = Offset.zero;
-//       const curve = Curves.easeInOut;
-
-//       final tween = Tween(begin: begin, end: end);
-//       final curvedAnimation = CurvedAnimation(
-//         parent: animation,
-//         curve: curve,
-//       );
-
-//       return FadeTransition(
-//         opacity: curvedAnimation,
-//         child: SlideTransition(
-//           position: tween.animate(curvedAnimation),
-//           child: child,
-//         ),
-//       );
-//     },
-//   );
-// }
-
 BorderRadius kRadius(double radius) => BorderRadius.circular(radius);
 
 Future<T?> navPush<T extends Object?>(BuildContext context, Widget screen) {
@@ -106,18 +81,18 @@ void KSnackbar(
         borderRadius: kRadius(10),
         side: BorderSide(
           color: isDanger
-              ? kColor(context).onErrorContainer
+              ? Colors.red.shade700
               : kColor(context).onPrimaryContainer,
         ),
       ),
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(kPadding),
       behavior: SnackBarBehavior.floating,
       content: Row(
         children: [
           Icon(
             isDanger ? Icons.dangerous : Icons.download_done_outlined,
             color: isDanger
-                ? kColor(context).onErrorContainer
+                ? Colors.red.shade700
                 : kColor(context).onPrimaryContainer,
           ),
           width10,
@@ -131,7 +106,7 @@ void KSnackbar(
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: isDanger
-                        ? kColor(context).onErrorContainer
+                        ? Colors.red.shade700
                         : kColor(context).onPrimaryContainer,
                     fontFamily: 'Jakarta',
                   ),
@@ -141,7 +116,7 @@ void KSnackbar(
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: isDanger
-                        ? kColor(context).onErrorContainer
+                        ? Colors.red.shade700
                         : kColor(context).onPrimaryContainer,
                     fontFamily: 'Jakarta',
                   ),

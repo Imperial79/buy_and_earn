@@ -34,26 +34,35 @@ class _LoginUIState extends ConsumerState<LoginUI> {
 
   @override
   void dispose() {
-    super.dispose();
     phone.dispose();
     mpin.dispose();
+    super.dispose();
   }
 
   _login() async {
-    if (_formKey.currentState!.validate()) {
+    FocusScope.of(context).unfocus();
+    try {
       setState(() => _isLoading = true);
-      final fcmToken = ref.read(fcmTokenProvider);
-      final res = await ref.read(authRepository).login({
-        "phone": phone.text,
-        "mpin": mpin.text,
-        "fcmToken": fcmToken,
-      });
-      if (!res.error) {
-        ref.read(userProvider.notifier).state = UserModel.fromMap(res.response);
-        navPopUntilPush(context, RootUI());
+      if (_formKey.currentState!.validate()) {
+        final fcmToken = ref.read(fcmTokenProvider);
+        final res = await ref.read(authRepository).login({
+          "phone": phone.text,
+          "mpin": mpin.text,
+          "fcmToken": fcmToken,
+        });
+        if (!res.error) {
+          ref.read(userProvider.notifier).state =
+              UserModel.fromMap(res.response);
+          navPopUntilPush(context, RootUI());
+        }
+        KSnackbar(context, content: res.message, isDanger: res.error);
       }
-      KSnackbar(context, content: res.message, isDanger: res.error);
-      setState(() => _isLoading = false);
+    } catch (e) {
+      KSnackbar(context, content: "Something went wrong!", isDanger: true);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -61,6 +70,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
   Widget build(BuildContext context) {
     return KScaffold(
       isLoading: _isLoading,
+      loadingText: "Login in...",
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(12),
@@ -158,7 +168,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
             onPressed: () {
               _login();
             },
-            label: "Proceed",
+            label: "Log In",
           ),
         ),
       ),

@@ -68,7 +68,7 @@ class KTextfield {
               style: TextStyle(
                 fontSize: textSize ?? 17,
                 fontWeight: FontWeight.w500,
-                letterSpacing: obscureText ? 2 : 1,
+                letterSpacing: obscureText ? 5 : 1,
               ),
               readOnly: readOnly ?? false,
               obscureText: obscureText,

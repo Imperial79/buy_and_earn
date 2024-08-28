@@ -31,7 +31,7 @@ class _RootUIState extends ConsumerState<RootUI> {
   void initState() {
     super.initState();
 
-    FlutterNativeSplash.remove();
+    // FlutterNativeSplash.remove();
   }
 
   @override

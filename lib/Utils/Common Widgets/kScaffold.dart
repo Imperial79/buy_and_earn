@@ -34,10 +34,15 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
     final hasInternet = ref.watch(internetStream);
 
     return Scaffold(
-      appBar: widget.appBar,
       body: Stack(
         children: [
-          widget.body,
+          Scaffold(
+            appBar: widget.appBar,
+            body: widget.body,
+            floatingActionButton: widget.floatingActionButton,
+            floatingActionButtonLocation: widget.floatingActionButtonLocation,
+            bottomNavigationBar: widget.bottomNavigationBar,
+          ),
           AnimatedSwitcher(
             duration: Duration(milliseconds: 250),
             child: widget.isLoading ?? false
@@ -46,55 +51,53 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
           ),
           hasInternet.when(
             data: (data) => data == InternetStatus.disconnected
-                ? Align(
-                    alignment: Alignment.topCenter,
-                    child: SafeArea(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 20),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        decoration: BoxDecoration(
-                          color: kColor(context).errorContainer,
-                          borderRadius: kRadius(100),
-                          boxShadow: [
-                            BoxShadow(
-                              color: kColor(context)
-                                  .errorContainer
-                                  .withOpacity(.5),
-                              blurRadius: 30,
-                              spreadRadius: 5,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.signal_wifi_connected_no_internet_4_rounded,
-                              color: kColor(context).onErrorContainer,
-                            ),
-                            width10,
-                            Text(
-                              "No Internet",
-                              style: TextStyle(
-                                color: kColor(context).onErrorContainer,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
+                ? _noInternetPill(context)
                 : Container(),
             error: (error, stackTrace) => SizedBox(),
             loading: () => SizedBox(),
           ),
         ],
       ),
-      floatingActionButton: widget.floatingActionButton,
-      floatingActionButtonLocation: widget.floatingActionButtonLocation,
-      bottomNavigationBar: widget.bottomNavigationBar,
+    );
+  }
+
+  Align _noInternetPill(BuildContext context) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SafeArea(
+        child: Container(
+          margin: EdgeInsets.only(top: 20),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          decoration: BoxDecoration(
+            color: kColor(context).errorContainer,
+            borderRadius: kRadius(100),
+            boxShadow: [
+              BoxShadow(
+                color: kColor(context).errorContainer.withOpacity(.5),
+                blurRadius: 30,
+                spreadRadius: 5,
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.signal_wifi_connected_no_internet_4_rounded,
+                color: kColor(context).onErrorContainer,
+              ),
+              width10,
+              Text(
+                "No Internet",
+                style: TextStyle(
+                  color: kColor(context).onErrorContainer,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -114,7 +117,7 @@ AppBar KAppBar(
       fontSize: 20,
       color: Colors.black,
       fontWeight: FontWeight.w400,
-      fontFamily: 'Poppins',
+      fontFamily: 'Jakarta',
       letterSpacing: .5,
     ),
     bottom: PreferredSize(

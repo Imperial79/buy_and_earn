@@ -10,6 +10,7 @@ class KCarousel extends StatefulWidget {
   final double? height;
   final bool isLooped;
   final bool showIndicator;
+  final double viewportFraction;
   final void Function(int)? onPageChange;
   KCarousel({
     super.key,
@@ -18,6 +19,7 @@ class KCarousel extends StatefulWidget {
     required this.isLooped,
     this.showIndicator = true,
     this.onPageChange,
+    this.viewportFraction = .9,
   });
 
   static Widget Item({
@@ -41,14 +43,18 @@ class KCarousel extends StatefulWidget {
 }
 
 class _KCarouselState extends State<KCarousel> {
-  final PageController _controller =
-      PageController(initialPage: 0, viewportFraction: .9, keepPage: true);
+  late PageController _controller;
   int _activePage = 0;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
+
+    _controller = PageController(
+        initialPage: 0,
+        viewportFraction: widget.viewportFraction,
+        keepPage: true);
 
     if (widget.isLooped) {
       _timer = Timer.periodic(Duration(seconds: 3), (timer) {

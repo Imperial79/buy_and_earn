@@ -30,7 +30,7 @@ class KButton {
           alignment: Alignment.center,
           textStyle: TextStyle(
             fontWeight: FontWeight.w600,
-            fontFamily: 'Poppins',
+            fontFamily: 'Jakarta',
             fontSize: fontSize,
           ),
         ),
@@ -90,7 +90,7 @@ class KButton {
           alignment: Alignment.center,
           textStyle: TextStyle(
             fontWeight: FontWeight.w600,
-            fontFamily: 'Poppins',
+            fontFamily: 'Jakarta',
             fontSize: fontSize,
           ),
         ),
@@ -129,7 +129,7 @@ class KButton {
           alignment: Alignment.center,
           textStyle: TextStyle(
             fontWeight: FontWeight.w600,
-            fontFamily: 'Poppins',
+            fontFamily: 'Jakarta',
             fontSize: fontSize,
             // color: textColor,
           ),

@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 const kAppVersion = "1.2.0";
 const kAppBuild = "9";
 
+final String welcomeImages = "assets/images/welcome-images";
+
 final kIconMap = {
   'mobile': "$kServiceIcon/mobile.svg",
   'postpaid': "$kServiceIcon/postpaid.svg",

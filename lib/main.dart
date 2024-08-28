@@ -1,5 +1,7 @@
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/RegisterUI.dart';
+import 'package:buy_and_earn/Screens/Auth/SplashUI.dart';
+import 'package:buy_and_earn/Screens/Auth/WelcomeUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
@@ -7,7 +9,6 @@ import 'package:buy_and_earn/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'Repository/notiification_methods.dart';
 import 'Services/notification_config.dart';
@@ -20,7 +21,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   await FirebaseNotification().init();
   runApp(ProviderScope(child: MyApp()));
@@ -63,10 +64,10 @@ class _MyAppState extends ConsumerState<MyApp> {
       theme: kTheme(context),
       title: "Buy & Earn",
       home: ref.watch(auth).isLoading
-          ? null
+          ? SplashUI()
           : user != null
               ? RootUI()
-              : RegisterUI(),
+              : WelcomeUI(),
     );
   }
 }

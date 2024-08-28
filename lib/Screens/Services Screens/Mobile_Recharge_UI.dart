@@ -87,7 +87,6 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                           if (sanitized.length > 10) {
                             sanitized = sanitized.substring(1);
                           }
-
                           setState(() {
                             _phone.text = sanitized;
                           });

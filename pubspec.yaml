@@ -46,6 +46,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/icons/Service Icons/
+    - assets/images/welcome-images/
   fonts:
     - family: Jakarta
       fonts:
