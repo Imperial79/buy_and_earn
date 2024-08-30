@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animations/animations.dart';
 import 'package:buy_and_earn/Screens/Home/HomeUI.dart';
 import 'package:buy_and_earn/Screens/More/MoreUI.dart';
@@ -31,34 +33,58 @@ class _RootUIState extends ConsumerState<RootUI> {
   void initState() {
     super.initState();
 
-    // FlutterNativeSplash.remove();
+    FlutterNativeSplash.remove();
+  }
+
+  bool canPop = false;
+  _popScope() {
+    setState(() {
+      canPop = true;
+    });
+
+    KSnackbar(context, content: "Click back again to exit...", isDanger: false);
+
+    Future.delayed(
+      Duration(seconds: 3),
+      () {
+        setState(() {
+          canPop = false;
+        });
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final activeIndex = ref.watch(navigationProvider);
 
-    return UpgradeAlert(
-      showIgnore: false,
-      showLater: false,
-      shouldPopScope: () => false,
-      child: Scaffold(
-        body: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            PageTransitionSwitcher(
-              transitionBuilder: (child, animation, secondaryAnimation) {
-                return FadeThroughTransition(
-                  animation: animation,
-                  secondaryAnimation: secondaryAnimation,
-                  fillColor: Theme.of(context).colorScheme.surface,
-                  child: child,
-                );
-              },
-              child: _screens[activeIndex],
-            ),
-            _bottomBar(),
-          ],
+    return PopScope(
+      canPop: canPop,
+      onPopInvokedWithResult: (didPop, result) {
+        _popScope();
+      },
+      child: UpgradeAlert(
+        showIgnore: false,
+        showLater: false,
+        shouldPopScope: () => false,
+        child: Scaffold(
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              PageTransitionSwitcher(
+                transitionBuilder: (child, animation, secondaryAnimation) {
+                  return FadeThroughTransition(
+                    animation: animation,
+                    secondaryAnimation: secondaryAnimation,
+                    fillColor: Theme.of(context).colorScheme.surface,
+                    child: child,
+                  );
+                },
+                child: _screens[activeIndex],
+              ),
+              _bottomBar(),
+            ],
+          ),
         ),
       ),
     );

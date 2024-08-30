@@ -116,9 +116,9 @@ AppBar KAppBar(
     titleTextStyle: TextStyle(
       fontSize: 20,
       color: Colors.black,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
       fontFamily: 'Jakarta',
-      letterSpacing: .5,
+      letterSpacing: .1,
     ),
     bottom: PreferredSize(
       preferredSize: Size.fromHeight(1),

@@ -54,13 +54,8 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
 
     // var contactsData = ref.watch(contactsFuture);
     return KScaffold(
-      isLoading: isLoading,
-      loadingText: "Fetching contacts...",
-      appBar: KAppBar(
-        context,
-        title: "Contacts",
-        showBack: true,
-      ),
+      appBar: KAppBar(context,
+          title: "Contacts", showBack: true, isLoading: isLoading),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(kPadding),
@@ -80,57 +75,6 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
               ),
               height10,
               Expanded(
-                // child: hasPermission
-                //     ? contactsData.when(
-                //         data: (data) => data.length > 0
-                //             ? ListView.builder(
-                //                 itemCount: data.length,
-                //                 shrinkWrap: true,
-                //                 padding: EdgeInsets.zero,
-                //                 itemBuilder: (context, index) {
-                //                   if (kCompare(searchKey.text,
-                //                           data[index].displayName) ||
-                //                       kCompare(
-                //                           searchKey.text,
-                //                           data[index]
-                //                               .phones[0]
-                //                               .normalizedNumber)) {
-                //                     return _contactCard(data[index]);
-                //                   }
-                //                   return SizedBox();
-                //                 },
-                //               )
-                //             : kNoData(
-                //                 image: "assets/images/contacts.svg",
-                //                 title: "No Contacts!",
-                //                 subtitle: "Please add contacts on your phone",
-                //               ),
-                //         error: (error, stackTrace) =>
-                //             Text("Cannot load contacts!"),
-                //         loading: () =>
-                //             Center(child: CircularProgressIndicator.adaptive()),
-                //       )
-                // : kNoData(
-                //     image: "assets/images/contacts.svg",
-                //     title: "No Contacts!",
-                //     subtitle:
-                //         "Please provider contacts permission to view your contacts.",
-                //     action: KButton.pill(
-                //       onPressed: () async {
-                //         final res =
-                //             await FlutterContacts.requestPermission();
-                //         ref.read(hasContactPermission.notifier).state = res;
-                //         if (!res) {
-                //           KSnackbar(context,
-                //               content:
-                //                   "Enable contacts permission from settings!",
-                //               isDanger: true);
-                //         }
-                //       },
-                //       label: "Allow",
-                //     ),
-                //   ),
-
                 child: hasPermission
                     ? _contacts.length > 0
                         ? ListView.builder(
@@ -189,6 +133,7 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
     return ListTile(
       onTap: () {
         Navigator.pop(context, {
+          "name": data.displayName,
           "phone": data.phones[0].normalizedNumber,
         });
       },

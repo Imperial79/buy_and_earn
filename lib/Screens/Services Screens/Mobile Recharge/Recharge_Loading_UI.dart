@@ -59,7 +59,7 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: !isLoading,
+      canPop: false,
       child: Scaffold(
         backgroundColor: isSuccess == null
             ? Colors.white

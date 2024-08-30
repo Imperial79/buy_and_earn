@@ -1,4 +1,4 @@
-import 'package:buy_and_earn/Screens/Services%20Screens/Recharge_Loading_UI.dart';
+import 'package:buy_and_earn/Screens/Services%20Screens/Mobile%20Recharge/Recharge_Loading_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
 import '../../Utils/colors.dart';
@@ -146,7 +146,7 @@ class _TPin_UIState extends State<TPin_UI> {
               }
             } else {
               if (tpin.length == 6)
-                navPush(
+                navPopUntilPush(
                     context,
                     Recharge_Loading_UI(
                       amount: widget.amount,

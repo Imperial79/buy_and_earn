@@ -13,8 +13,8 @@ Widget kLabel(String label) {
   return Text(
     label,
     style: TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 17,
+      fontWeight: FontWeight.w500,
+      fontSize: 15,
     ),
   );
 }
@@ -29,18 +29,25 @@ Widget kHeading(String label) {
   );
 }
 
-Widget kCard({Widget? child, Color? cardColor, EdgeInsetsGeometry? padding}) {
-  return Card(
-    shape: RoundedRectangleBorder(
-      side: BorderSide(
-        color: Colors.grey.shade300,
+Widget kCard(
+    {Widget? child,
+    double? width,
+    Color? cardColor,
+    EdgeInsetsGeometry? padding}) {
+  return SizedBox(
+    width: width,
+    child: Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: Colors.grey.shade300,
+        ),
+        borderRadius: kRadius(7),
       ),
-      borderRadius: kRadius(7),
-    ),
-    color: cardColor ?? kCardColor,
-    child: Padding(
-      padding: padding ?? EdgeInsets.all(12),
-      child: child,
+      color: cardColor ?? kCardColor,
+      child: Padding(
+        padding: padding ?? EdgeInsets.all(12),
+        child: child,
+      ),
     ),
   );
 }
@@ -241,9 +248,13 @@ Widget kPlanCard(
   context, {
   required String providerImage,
   required String providerName,
+  String? customerName,
   String? phone,
   String region = "Pan India",
 }) {
+  customerName =
+      customerName != null && customerName.isEmpty ? null : customerName;
+  phone = phone != null ? "+91 " + phone : phone;
   return kCard(
     child: Row(
       children: [
@@ -263,17 +274,17 @@ Widget kPlanCard(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                providerName,
+                customerName ?? phone ?? providerName,
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 17,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-              phone != null
+              phone != null && customerName != null
                   ? Padding(
-                      padding: EdgeInsets.only(top: 0.0),
+                      padding: EdgeInsets.only(bottom: 10.0),
                       child: Text(
-                        "+91 $phone",
+                        phone,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
@@ -282,7 +293,7 @@ Widget kPlanCard(
                     )
                   : SizedBox(),
               Text(
-                region,
+                "$providerName - $region",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 12,

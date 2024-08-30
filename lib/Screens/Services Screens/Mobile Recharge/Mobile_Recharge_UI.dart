@@ -1,7 +1,8 @@
 // ignore_for_file: unused_result
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Models/mobile_recharge_modal.dart';
 import 'package:buy_and_earn/Screens/ContactsUI.dart';
-import 'package:buy_and_earn/Screens/Services%20Screens/Mobile_Plan_UI.dart';
+import 'package:buy_and_earn/Screens/Services%20Screens/Mobile%20Recharge/Mobile_Plan_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
@@ -10,21 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Mobile_Recharge_UI extends ConsumerStatefulWidget {
-  final String providerId;
-  final String providerName;
-  final String providerImage;
-  const Mobile_Recharge_UI({
-    super.key,
-    required this.providerId,
-    required this.providerName,
-    required this.providerImage,
-  });
+  final Mobile_Recharge_Modal masterdata;
+  const Mobile_Recharge_UI({super.key, required this.masterdata});
 
   @override
   ConsumerState<Mobile_Recharge_UI> createState() => _Mobile_Recharge_UIState();
 }
 
 class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
+  String _customerName = "";
   final _phone = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
@@ -38,7 +33,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
     return KScaffold(
       appBar: KAppBar(context, title: "Mobile Recharge", showBack: true),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: EdgeInsets.all(kPadding),
           child: Form(
             key: _formKey,
@@ -47,8 +42,8 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
               children: [
                 kPlanCard(
                   context,
-                  providerImage: widget.providerImage,
-                  providerName: widget.providerName,
+                  providerImage: widget.masterdata.providerImage!,
+                  providerName: widget.masterdata.providerName!,
                 ),
                 height20,
                 Text("Enter or Select your phone number"),
@@ -88,6 +83,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                             sanitized = sanitized.substring(1);
                           }
                           setState(() {
+                            _customerName = contact["name"];
                             _phone.text = sanitized;
                           });
                         }
@@ -102,17 +98,38 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                 height10,
                 KButton.full(
                   onPressed: () {
-                    if (_formKey.currentState!.validate())
+                    if (_formKey.currentState!.validate()) {
+                      final data = widget.masterdata.copyWith(
+                        customerName: _customerName,
+                        customerPhone: _phone.text.trim(),
+                      );
+
                       navPush(
                           context,
                           Mobile_Plan_UI(
-                            providerId: widget.providerId,
-                            providerName: widget.providerName,
-                            providerImage: widget.providerImage,
-                            phone: _phone.text,
-                          ));
+                            masterdata: data,
+                          )).then(
+                        (value) => _customerName = "",
+                      );
+                    }
                   },
                   label: "Proceed",
+                ),
+                height20,
+                kLabel("Recent contacts"),
+                height15,
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: 2,
+                    itemBuilder: (context, index) => ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: CircleAvatar(
+                        child: Text("A"),
+                      ),
+                      title: Text('Name'),
+                      subtitle: Text('+91 1234567890'),
+                    ),
+                  ),
                 ),
               ],
             ),

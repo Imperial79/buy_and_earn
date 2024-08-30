@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:buy_and_earn/Components/widgets.dart';
-import 'package:buy_and_earn/Repository/mobile_recharge_repository.dart';
-import 'package:buy_and_earn/Screens/Auth/TPin_UI.dart';
+import 'package:buy_and_earn/Models/mobile_recharge_modal.dart';
+import 'package:buy_and_earn/Screens/Services%20Screens/Mobile%20Recharge/Mobile_Checkout_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
@@ -12,16 +10,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Mobile_Plan_UI extends ConsumerStatefulWidget {
-  final String providerId;
-  final String providerName;
-  final String providerImage;
-  final String phone;
-  const Mobile_Plan_UI(
-      {super.key,
-      required this.providerId,
-      required this.providerName,
-      required this.providerImage,
-      required this.phone});
+  final Mobile_Recharge_Modal masterdata;
+  const Mobile_Plan_UI({
+    super.key,
+    required this.masterdata,
+  });
 
   @override
   ConsumerState<Mobile_Plan_UI> createState() => _Mobile_Plan_UIState();
@@ -58,9 +51,10 @@ class _Mobile_Plan_UIState extends ConsumerState<Mobile_Plan_UI> {
                     children: [
                       kPlanCard(
                         context,
-                        providerImage: widget.providerImage,
-                        providerName: widget.providerName,
-                        phone: widget.phone,
+                        customerName: widget.masterdata.customerName,
+                        providerImage: widget.masterdata.providerImage!,
+                        providerName: widget.masterdata.providerName!,
+                        phone: widget.masterdata.customerPhone,
                       ),
                       height20,
                       KTextfield.regular(
@@ -74,7 +68,6 @@ class _Mobile_Plan_UIState extends ConsumerState<Mobile_Plan_UI> {
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                        fieldColor: Colors.grey.shade100,
                         validator: (val) {
                           if (val!.isEmpty)
                             return "Required!";
@@ -89,10 +82,10 @@ class _Mobile_Plan_UIState extends ConsumerState<Mobile_Plan_UI> {
                           if (_formKey.currentState!.validate())
                             navPush(
                                 context,
-                                TPin_UI(
-                                  amount: _amount.text.trim(),
-                                  phone: widget.phone,
-                                  providerId: widget.providerId,
+                                Mobile_Checkout_UI(
+                                  masterdata: widget.masterdata.copyWith(
+                                    planAmount: _amount.text.trim(),
+                                  ),
                                 ));
                         },
                         label: "Recharge",

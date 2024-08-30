@@ -1,5 +1,6 @@
+import 'package:buy_and_earn/Models/mobile_recharge_modal.dart';
 import 'package:buy_and_earn/Repository/mobile_recharge_repository.dart';
-import 'package:buy_and_earn/Screens/Services%20Screens/Mobile_Recharge_UI.dart';
+import 'package:buy_and_earn/Screens/Services%20Screens/Mobile%20Recharge/Mobile_Recharge_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +33,11 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
                   navPush(
                     context,
                     Mobile_Recharge_UI(
-                      providerId: "${data[index]["providerId"]}",
-                      providerName: data[index]["providerName"],
-                      providerImage: data[index]["image"],
+                      masterdata: Mobile_Recharge_Modal(
+                        providerId: "${data[index]['providerId']}",
+                        providerName: data[index]['providerName'],
+                        providerImage: data[index]['image'],
+                      ),
                     ),
                   );
                 },

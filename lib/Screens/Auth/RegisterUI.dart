@@ -10,7 +10,6 @@ import 'package:buy_and_earn/Utils/Common%20Widgets/kOTPField.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../Utils/Common Widgets/kButton.dart';
 import '../../Utils/Common Widgets/kTextfield.dart';
@@ -36,13 +35,6 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
   bool _otpLoading = false;
   late Timer _timer;
   final seconds = StateProvider((ref) => 60);
-
-  @override
-  void initState() {
-    super.initState();
-
-    FlutterNativeSplash.remove();
-  }
 
   @override
   void dispose() {
