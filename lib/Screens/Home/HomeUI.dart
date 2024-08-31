@@ -221,7 +221,7 @@ class HomeUI extends ConsumerWidget {
           ),
           GestureDetector(
             onTap: () {
-              ref.read(navigationProvider.notifier).state = 2;
+              ref.read(navigationProvider.notifier).state = 3;
             },
             child: Container(
               padding: EdgeInsets.all(5),

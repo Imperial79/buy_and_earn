@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MoreUI extends ConsumerStatefulWidget {
   const MoreUI({super.key});
@@ -151,7 +152,11 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                         iconPath: "$kIconPath/info.svg"),
                     Divider(),
                     _settingButton(
-                        onTap: () {},
+                        onTap: () async {
+                          await launchUrl(
+                            Uri.parse("https://buynearn.shop/privacy"),
+                          );
+                        },
                         label: "Privacy",
                         iconPath: "$kIconPath/privacy.svg"),
                     Divider(
