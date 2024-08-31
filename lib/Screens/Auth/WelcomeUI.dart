@@ -5,7 +5,6 @@ import 'package:buy_and_earn/Utils/Common%20Widgets/kCarousel.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomeUI extends StatefulWidget {
@@ -16,13 +15,6 @@ class WelcomeUI extends StatefulWidget {
 }
 
 class _WelcomeUIState extends State<WelcomeUI> {
-  @override
-  void initState() {
-    super.initState();
-
-    FlutterNativeSplash.remove();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +55,7 @@ class _WelcomeUIState extends State<WelcomeUI> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

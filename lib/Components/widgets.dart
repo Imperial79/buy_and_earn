@@ -1,8 +1,10 @@
+import 'package:buy_and_earn/Models/transactions_model.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/Wallet/WalletUI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import '../Screens/Transactions/TransactionDetailUI.dart';
 import '../Utils/Common Widgets/kButton.dart';
 import '../Utils/colors.dart';
@@ -53,63 +55,65 @@ Widget kCard(
 }
 
 Widget kWalletCard(context) {
-  return Consumer(builder: (context, ref, child) {
-    final wallet = ref.watch(walletFuture);
+  return Consumer(
+    builder: (context, ref, child) {
+      final wallet = ref.watch(walletFuture);
 
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(12),
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.white.withOpacity(.2),
-              child: Icon(
-                Icons.wallet,
-                color: Colors.white,
+      return Card(
+        child: Padding(
+          padding: EdgeInsets.all(12),
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.white.withOpacity(.2),
+                child: Icon(
+                  Icons.wallet,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            width10,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Wallet Balance",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                      color: Colors.white,
+              width10,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Wallet Balance",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Text(
-                    wallet.when(
-                      data: (data) => "₹ ${data!["balance"]}",
-                      error: (error, stackTrace) => "-",
-                      loading: () => "...",
+                    Text(
+                      wallet.when(
+                        data: (data) => "₹ ${data!["balance"]}",
+                        error: (error, stackTrace) => "-",
+                        loading: () => "...",
+                      ),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
                     ),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            KButton.outlined(
-              onPressed: () {
-                navPush(context, WalletUI());
-              },
-              label: "Add Money",
-            ),
-          ],
+              // KButton.outlined(
+              //   onPressed: () {
+              //     navPush(context, WalletUI());
+              //   },
+              //   label: "Add Money",
+              // ),
+            ],
+          ),
         ),
-      ),
-    );
-  });
+      );
+    },
+  );
 }
 
-Widget kRecentHistoryCard(context) {
+Widget kRecentHistoryCard(context, Transactions_Model data) {
   return InkWell(
     onTap: () {
       navPush(context, TransactionDetailUI());
@@ -120,7 +124,7 @@ Widget kRecentHistoryCard(context) {
         CircleAvatar(
           radius: 20,
           child: SvgPicture.asset(
-            kIconMap['electricity']!,
+            kIconMap[data.source] ?? "$kServiceIcon/mobile.svg",
             height: 20,
             colorFilter: kSvgColor(kPrimaryColor),
           ),
@@ -134,7 +138,7 @@ Widget kRecentHistoryCard(context) {
                 children: [
                   Expanded(
                     child: Text(
-                      'Electricity bill paid',
+                      data.title.split('for').first.trim(),
                       style: TextStyle(
                         // fontSize: 17,
                         fontWeight: FontWeight.w600,
@@ -142,13 +146,13 @@ Widget kRecentHistoryCard(context) {
                     ),
                   ),
                   Text(
-                    "- ₹199",
+                    "${data.type == "Credit" ? "+" : "-"} ₹${data.amount}",
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ],
               ),
               Text(
-                '12736736127362',
+                data.title.split('for').last.trim(),
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey.shade600,
@@ -160,7 +164,8 @@ Widget kRecentHistoryCard(context) {
                 children: [
                   Expanded(
                     child: Text(
-                      '10 July 2024 • 9:10 pm',
+                      DateFormat('dd MMM yyyy • h:mm a')
+                          .format(DateTime.parse(data.date)),
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey,

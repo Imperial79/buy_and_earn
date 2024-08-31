@@ -11,7 +11,7 @@ const kAppBuild = "10";
 final String welcomeImages = "assets/images/welcome-images";
 
 final kIconMap = {
-  'mobile': "$kServiceIcon/mobile.svg",
+  'prepaid': "$kServiceIcon/mobile.svg",
   'postpaid': "$kServiceIcon/postpaid.svg",
   'dth': "$kServiceIcon/dth.svg",
   'electricity': "$kServiceIcon/electricity.svg",
@@ -28,6 +28,7 @@ final kIconMap = {
   'food': "$kServiceIcon/food.svg",
   'courier': "$kServiceIcon/courier.svg",
   'local': "$kServiceIcon/local.svg",
+  'club house': "$kServiceIcon/club.svg",
 };
 
 List<String> statesList = [

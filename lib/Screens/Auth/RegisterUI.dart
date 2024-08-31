@@ -33,7 +33,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
   String _selectedState = "";
   bool _isLoading = false;
   bool _otpLoading = false;
-  late Timer _timer;
+  Timer? _timer;
   final seconds = StateProvider((ref) => 60);
 
   @override
@@ -43,9 +43,8 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
     email.dispose();
     city.dispose();
     referCode.dispose();
-    try {
-      _timer.cancel();
-    } catch (e) {}
+    if (_timer != null) _timer!.cancel();
+
     super.dispose();
   }
 

@@ -26,6 +26,9 @@ ThemeData kTheme(BuildContext context) => ThemeData(
           ),
         ),
       ),
+      dividerTheme: DividerThemeData(
+        color: Colors.grey.shade300,
+      ),
       splashFactory: InkSplash.splashFactory,
       appBarTheme:
           AppBarTheme(color: Colors.white.withOpacity(0), elevation: 0),

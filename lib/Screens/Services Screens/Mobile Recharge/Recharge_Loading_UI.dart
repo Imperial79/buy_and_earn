@@ -4,6 +4,7 @@ import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Recharge_Loading_UI extends ConsumerStatefulWidget {
@@ -31,7 +32,11 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
   @override
   void initState() {
     super.initState();
-    _rechargeMobile();
+    SchedulerBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        _rechargeMobile();
+      },
+    );
   }
 
   _rechargeMobile() async {
@@ -61,11 +66,6 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: isSuccess == null
-            ? Colors.white
-            : isSuccess!
-                ? Colors.green.shade100
-                : Colors.red.shade100,
         body: SafeArea(
           child: Center(
             child: Padding(
@@ -83,18 +83,18 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                         )
                       : CircleAvatar(
                           backgroundColor: isSuccess!
-                              ? Colors.greenAccent.shade700
-                              : Colors.redAccent.shade700,
-                          radius: 100,
+                              ? Colors.green.shade700
+                              : Colors.red.shade700,
+                          radius: 50,
                           child: isSuccess!
                               ? Icon(
                                   Icons.done,
-                                  size: 100,
+                                  size: 50,
                                   color: Colors.white,
                                 )
                               : Icon(
                                   Icons.error,
-                                  size: 100,
+                                  size: 50,
                                   color: Colors.white,
                                 ),
                         ),
@@ -103,12 +103,13 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                     isLoading
                         ? "Please Wait..."
                         : isSuccess!
-                            ? "Recharge Successful!"
-                            : "Recharge Failed!",
+                            ? "Recharge successful of ₹${widget.amount} on\n+91 ${widget.phone}."
+                            : "Recharge failed of ₹${widget.amount} on\n+91 ${widget.phone}.",
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.w700,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                   height50,
                   Visibility(
@@ -162,7 +163,7 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
             child: Padding(
               padding: EdgeInsets.all(20.0),
               child: KButton.full(
-                backgroundColor: kPrimaryColor,
+                backgroundColor: kSecondaryColor,
                 onPressed: () {
                   navPopUntilPush(context, RootUI());
                 },

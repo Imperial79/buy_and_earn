@@ -1,81 +1,117 @@
+// ignore_for_file: unused_result
+
+import 'dart:convert';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TransactionsUI extends StatefulWidget {
+class TransactionsUI extends ConsumerStatefulWidget {
   const TransactionsUI({super.key});
 
   @override
-  State<TransactionsUI> createState() => _TransactionsUIState();
+  ConsumerState<TransactionsUI> createState() => _TransactionsUIState();
 }
 
-class _TransactionsUIState extends State<TransactionsUI> {
+class _TransactionsUIState extends ConsumerState<TransactionsUI> {
+  int pageNo = 0;
+
   @override
   Widget build(BuildContext context) {
-    return KScaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  kHeading("Transactions"),
-                  MaterialButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        enableDrag: false,
-                        isDismissible: false,
-                        isScrollControlled: true,
-                        useSafeArea: true,
-                        elevation: 0,
-                        backgroundColor: Colors.white,
-                        builder: (context) => _filterModal(),
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: kRadius(10),
-                      side: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                    visualDensity: VisualDensity.compact,
-                    child: Row(
-                      children: [
-                        Text("Filters"),
-                        width5,
-                        Icon(
-                          Icons.filter_alt,
-                          size: 17,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              height20,
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: ListView.separated(
+    final asyncData = ref.watch(transactionFuture(jsonEncode({
+      "pageNo": pageNo,
+      "fromDate": "",
+      "toDate": "",
+      "type": "All",
+    })));
+
+    final transactionData = ref.watch(transactionList);
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification.metrics.pixels ==
+            notification.metrics.maxScrollExtent) {
+          setState(() {
+            pageNo += 1;
+          });
+        }
+        return true;
+      },
+      child: RefreshIndicator(
+        onRefresh: () async {
+          if (pageNo != 0)
+            setState(() {
+              pageNo = 0;
+            });
+          else {
+            await ref.refresh(transactionFuture(jsonEncode({
+              "pageNo": pageNo,
+              "fromDate": "",
+              "toDate": "",
+              "type": "All",
+            })).future);
+          }
+        },
+        child: KScaffold(
+          appBar: KAppBar(
+            context,
+            title: "Transactions",
+            actions: [
+              // MaterialButton(
+              //   onPressed: () {
+              //     showModalBottomSheet(
+              //       context: context,
+              //       enableDrag: false,
+              //       isDismissible: false,
+              //       isScrollControlled: true,
+              //       useSafeArea: true,
+              //       elevation: 0,
+              //       backgroundColor: Colors.white,
+              //       builder: (context) => _filterModal(),
+              //     );
+              //   },
+              //   shape: RoundedRectangleBorder(
+              //     borderRadius: kRadius(10),
+              //     side: BorderSide(
+              //       color: Colors.black,
+              //     ),
+              //   ),
+              //   visualDensity: VisualDensity.compact,
+              //   child: Row(
+              //     children: [
+              //       Text("Filters"),
+              //       width5,
+              //       Icon(
+              //         Icons.filter_alt,
+              //         size: 17,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              width10,
+            ],
+            isLoading: pageNo > 0 && asyncData.isLoading,
+          ),
+          isLoading: asyncData.isLoading && pageNo == 0,
+          body: SafeArea(
+            child: !asyncData.hasError
+                ? ListView.separated(
+                    padding: EdgeInsets.only(
+                        bottom: 120, left: 12, right: 12, top: 12),
                     separatorBuilder: (context, index) => Divider(
                       height: 30,
                       color: Colors.grey.shade300,
                     ),
-                    itemCount: 5,
+                    itemCount: transactionData.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) =>
-                        kRecentHistoryCard(context),
-                  ),
-                ),
-              ),
-            ],
+                    itemBuilder: (context, index) => kRecentHistoryCard(
+                      context,
+                      transactionData[index],
+                    ),
+                  )
+                : kNoData(title: "Some Error occurred!"),
           ),
         ),
       ),

@@ -74,12 +74,12 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                           Text("+91 ${user.phone}"),
                           Text("${user.email}"),
                           height5,
-                          KButton.outlined(
-                            onPressed: () {},
-                            label: "Edit Details",
-                            textColor: kPrimaryColor,
-                            borderColor: kPrimaryColor,
-                          ),
+                          // KButton.outlined(
+                          //   onPressed: () {},
+                          //   label: "Edit Details",
+                          //   textColor: kPrimaryColor,
+                          //   borderColor: kPrimaryColor,
+                          // ),
                         ],
                       ),
                     ),
@@ -129,36 +129,34 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _settingButton(
-                        onTap: () {},
-                        label: "My Address",
-                        iconPath: "$kIconPath/my-address.svg"),
-                    Divider(
-                      color: Colors.grey.shade300,
-                    ),
-                    _settingButton(
-                        onTap: () {},
-                        label: "Change Password",
-                        iconPath: "$kIconPath/lock.svg"),
-                    Divider(
-                      color: Colors.grey.shade300,
-                    ),
+                    // _settingButton(
+                    //     onTap: () {},
+                    //     label: "My Address",
+                    //     iconPath: "$kIconPath/my-address.svg"),
+                    // Divider(
+                    //   color: Colors.grey.shade300,
+                    // ),
+                    // _settingButton(
+                    //     onTap: () {},
+                    //     label: "Change Password",
+                    //     iconPath: "$kIconPath/lock.svg"),
+                    // Divider(
+                    //   color: Colors.grey.shade300,
+                    // ),
                     _settingButton(
                         onTap: () {
                           navPush(context, HelpUI());
                         },
                         label: "Help",
                         iconPath: "$kIconPath/info.svg"),
-                    Divider(
-                      color: Colors.grey.shade300,
-                    ),
+                    Divider(),
                     _settingButton(
                         onTap: () {},
                         label: "Privacy",
                         iconPath: "$kIconPath/privacy.svg"),
                     Divider(
-                      color: Colors.grey.shade300,
-                    ),
+                        // color: Colors.grey.shade300,
+                        ),
                     _settingButton(
                         onTap: () {
                           _logout();

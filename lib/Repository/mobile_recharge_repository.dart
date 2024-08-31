@@ -19,7 +19,6 @@ final contactPermissionFuture = FutureProvider(
 //   (ref) async {
 //     List<Contact> contacts = await FlutterContacts.getContacts(
 //         withProperties: true, withPhoto: true);
-
 //     ref.keepAlive();
 //     return contacts.where((contact) {
 //       return contact.phones.isNotEmpty;
@@ -58,7 +57,7 @@ class MobileRechargeRepository {
     required String rechargeAmount,
   }) async {
     final res = await apiCallBack(
-      path: "/recharge-providers/recharge-mobile",
+      path: "/recharge-providers/prepaid/recharge",
       body: {
         "providerId": providerId,
         "mobile": mobile,

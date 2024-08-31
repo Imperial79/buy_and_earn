@@ -52,7 +52,6 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
   Widget build(BuildContext context) {
     final hasPermission = ref.watch(hasContactPermission);
 
-    // var contactsData = ref.watch(contactsFuture);
     return KScaffold(
       appBar: KAppBar(context,
           title: "Contacts", showBack: true, isLoading: isLoading),

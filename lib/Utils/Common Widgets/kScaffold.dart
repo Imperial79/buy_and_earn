@@ -110,7 +110,13 @@ AppBar KAppBar(
   List<Widget>? actions,
 }) {
   return AppBar(
-    title: Text(title),
+    title: Text(
+      title.toLowerCase(),
+      style: TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 20,
+      ),
+    ),
     automaticallyImplyLeading: showBack ?? false,
     actions: actions,
     titleTextStyle: TextStyle(

@@ -1,13 +1,11 @@
-import 'dart:developer';
-
 import 'package:animations/animations.dart';
 import 'package:buy_and_earn/Screens/Home/HomeUI.dart';
 import 'package:buy_and_earn/Screens/More/MoreUI.dart';
 import 'package:buy_and_earn/Screens/Refer/ReferUI.dart';
+import 'package:buy_and_earn/Screens/Transactions/TransactionsUI.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upgrader/upgrader.dart';
@@ -25,16 +23,9 @@ class _RootUIState extends ConsumerState<RootUI> {
   final _screens = [
     HomeUI(),
     ReferUI(),
-    // TransactionsUI(),
+    TransactionsUI(),
     MoreUI(),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-
-    FlutterNativeSplash.remove();
-  }
 
   bool canPop = false;
   _popScope() {
@@ -59,10 +50,6 @@ class _RootUIState extends ConsumerState<RootUI> {
     final activeIndex = ref.watch(navigationProvider);
 
     return PopScope(
-      canPop: canPop,
-      onPopInvokedWithResult: (didPop, result) {
-        _popScope();
-      },
       child: UpgradeAlert(
         showIgnore: false,
         showLater: false,
@@ -122,14 +109,14 @@ class _RootUIState extends ConsumerState<RootUI> {
               iconPath: "$kIconPath/refer.svg",
               selectedIconPath: "$kIconPath/refer-filled.svg",
             ),
-            // _navigationButton(
-            //   2,
-            //   label: "transactions",
-            //   iconPath: "$kIconPath/transactions.svg",
-            //   selectedIconPath: "$kIconPath/transactions-filled.svg",
-            // ),
             _navigationButton(
               2,
+              label: "transactions",
+              iconPath: "$kIconPath/transactions.svg",
+              selectedIconPath: "$kIconPath/transactions-filled.svg",
+            ),
+            _navigationButton(
+              3,
               label: "more",
               iconPath: "$kIconPath/more.svg",
               selectedIconPath: "$kIconPath/more-filled.svg",

@@ -75,124 +75,121 @@ class HomeUI extends ConsumerWidget {
                                     navPush(context, Mobile_Providers_UI());
                                   },
                                   iconPath: "$kServiceIcon/mobile.svg",
-                                  label: "Mobile"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/postpaid.svg",
-                                  label: "Postpaid"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/dth.svg",
-                                  label: "DTH"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/electricity.svg",
-                                  label: "Electricity"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/broadband.svg",
-                                  label: "Broadband"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/fasttag.svg",
-                                  label: "Fast Tag"),
+                                  label: "Prepaid"),
+                              // _serviceButton(
+                              //     iconPath: "$kServiceIcon/postpaid.svg",
+                              //     label: "Postpaid"),
+                              // _serviceButton(
+                              //     iconPath: "$kServiceIcon/dth.svg",
+                              //     label: "DTH"),
+                              // _serviceButton(
+                              //     iconPath: "$kServiceIcon/electricity.svg",
+                              //     label: "Electricity"),
+                              // _serviceButton(
+                              //     iconPath: "$kServiceIcon/broadband.svg",
+                              //     label: "Broadband"),
+                              // _serviceButton(
+                              //     iconPath: "$kServiceIcon/fasttag.svg",
+                              //     label: "Fast Tag"),
                             ],
                           ),
                         ],
                       ),
                     ),
-                    height15,
-                    kCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          kLabel('Tours & Travel'),
-                          height20,
-                          GridView(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                            ),
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            children: [
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/flight.svg",
-                                  label: "Flight"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/train.svg",
-                                  label: "Train"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/hotel.svg",
-                                  label: "Hotels"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/bus.svg",
-                                  label: "Bus"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/car.svg",
-                                  label: "Car"),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    height15,
-                    kCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          kLabel('Others'),
-                          height20,
-                          GridView(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                            ),
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            children: [
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/store.svg",
-                                  label: "E-Commerce"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/garments.svg",
-                                  label: "Garments"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/grocery.svg",
-                                  label: "Grocery"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/food.svg",
-                                  label: "Food"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/courier.svg",
-                                  label: "Courier"),
-                              _serviceButton(
-                                  iconPath: "$kServiceIcon/local.svg",
-                                  label: "Local"),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    height15,
-                    Visibility(
-                      visible: false,
-                      child: kCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            kLabel("Recent Payments"),
-                            height20,
-                            ListView.separated(
-                              separatorBuilder: (context, index) => Divider(
-                                height: 30,
-                                color: Colors.grey.shade300,
-                              ),
-                              itemCount: 5,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) =>
-                                  kRecentHistoryCard(context),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // height15,
+                    // kCard(
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       kLabel('Tours & Travel'),
+                    //       height20,
+                    //       GridView(
+                    //         gridDelegate:
+                    //             SliverGridDelegateWithFixedCrossAxisCount(
+                    //           crossAxisCount: 4,
+                    //         ),
+                    //         shrinkWrap: true,
+                    //         physics: NeverScrollableScrollPhysics(),
+                    //         children: [
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/flight.svg",
+                    //               label: "Flight"),
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/train.svg",
+                    //               label: "Train"),
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/hotel.svg",
+                    //               label: "Hotels"),
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/bus.svg",
+                    //               label: "Bus"),
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/car.svg",
+                    //               label: "Car"),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // height15,
+                    // kCard(
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       kLabel('Others'),
+                    //       height20,
+                    //       GridView(
+                    //         gridDelegate:
+                    //             SliverGridDelegateWithFixedCrossAxisCount(
+                    //           crossAxisCount: 4,
+                    //         ),
+                    //         shrinkWrap: true,
+                    //         physics: NeverScrollableScrollPhysics(),
+                    //         children: [
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/store.svg",
+                    //               label: "E-Commerce"),
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/garments.svg",
+                    //               label: "Garments"),
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/grocery.svg",
+                    //               label: "Grocery"),
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/food.svg",
+                    //               label: "Food"),
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/courier.svg",
+                    //               label: "Courier"),
+                    //           _serviceButton(
+                    //               iconPath: "$kServiceIcon/local.svg",
+                    //               label: "Local"),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    //     height15,
+                    // kCard(
+                    //         child: Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             kLabel("Recent Payments"),
+                    //             height20,
+                    //             ListView.separated(
+                    //               separatorBuilder: (context, index) => Divider(
+                    //                 height: 30,
+                    //                 color: Colors.grey.shade300,
+                    //               ),
+                    //               itemCount: 5,
+                    //               shrinkWrap: true,
+                    //               physics: NeverScrollableScrollPhysics(),
+                    //               itemBuilder: (context, index) =>
+                    //                   kRecentHistoryCard(context),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
                     kHeight(100),
                   ],
                 ),

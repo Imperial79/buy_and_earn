@@ -38,10 +38,6 @@ class NotificationMethods {
     await fcmMessaging.requestPermission();
     final fcmToken = await fcmMessaging.getToken();
     ref.read(fcmTokenProvider.notifier).update((state) => fcmToken!);
-
-    await fcmMessaging.subscribeToTopic("All").then((value) {
-      log("User with token ${fcmToken} has been subscribed to All!");
-    });
   }
 }
 
@@ -65,7 +61,7 @@ class SendNotification {
     };
     String accessToken = ref.read(accessTokenProvider);
     try {
-      final res = await Dio().post(
+      await Dio().post(
         NotificationConstants.baseUrl,
         options: Options(
           headers: {
@@ -75,7 +71,6 @@ class SendNotification {
         ),
         data: jsonEncode(body),
       );
-      log("$res");
     } catch (e) {
       log("Unable to send notification-> $e");
     }
@@ -96,7 +91,7 @@ class SendNotification {
 
     String accessToken = await NotificationMethods().generateAccessToken();
     try {
-      final res = await Dio().post(
+      await Dio().post(
         NotificationConstants.baseUrl,
         options: Options(
           headers: {
@@ -106,7 +101,6 @@ class SendNotification {
         ),
         data: jsonEncode(body),
       );
-      log(res.data.toString());
     } catch (e) {
       log("Unable to send notification-> $e");
     }
@@ -117,26 +111,23 @@ class SendNotification {
     required List<String> fcmTokensList,
   }) async {
     String accessToken = ref.read(accessTokenProvider);
-    log("$accessToken");
+
     final body = {
       "operation": "create",
       "notification_key_name": UniqueKey().toString(),
       "registration_ids": fcmTokensList,
     };
-    log("$body");
     final headers = {
       "Content-Type": 'application/json',
       "access_token_auth": true,
       "Authorization": "Bearer $accessToken",
       "project_id": "398664121175"
     };
-    log("$headers");
     final res = await Dio().post(
       NotificationConstants.groupBaseUrl,
       options: Options(headers: headers),
       data: jsonEncode(body),
     );
-    log("$res");
     return res.data['notification_key'];
   }
 }
