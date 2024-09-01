@@ -34,7 +34,7 @@ Future<T?> navPush<T extends Object?>(BuildContext context, Widget screen) {
       ));
 }
 
-Future<T?> pushReplacement<T extends Object?, TO extends Object?>(
+Future<T?> navPushReplacement<T extends Object?, TO extends Object?>(
     BuildContext context, Widget screen) {
   return Navigator.pushReplacement(
       context,
@@ -68,60 +68,39 @@ void KSnackbar(
   BuildContext context, {
   required String content,
   bool? isDanger = false,
+  bool showIcon = true,
 }) {
   scaffoldMessengerKey.currentState?.clearSnackBars();
   scaffoldMessengerKey.currentState?.showSnackBar(
     SnackBar(
-      backgroundColor: isDanger!
-          ? kColor(context).errorContainer
-          : kColor(context).primaryContainer,
-      dismissDirection: DismissDirection.vertical,
+      backgroundColor:
+          isDanger! ? kColor(context).error : kColor(context).primary,
+      dismissDirection: DismissDirection.horizontal,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: kRadius(10),
-        side: BorderSide(
-          color: isDanger
-              ? Colors.red.shade700
-              : kColor(context).onPrimaryContainer,
-        ),
       ),
       padding: EdgeInsets.all(kPadding),
       behavior: SnackBarBehavior.floating,
       content: Row(
         children: [
-          Icon(
-            isDanger ? Icons.dangerous : Icons.download_done_outlined,
-            color: isDanger
-                ? Colors.red.shade700
-                : kColor(context).onPrimaryContainer,
-          ),
-          width10,
+          showIcon
+              ? Padding(
+                  padding: EdgeInsets.only(right: 10.0),
+                  child: Icon(
+                    isDanger ? Icons.dangerous : Icons.download_done_outlined,
+                    color: Colors.white,
+                  ),
+                )
+              : SizedBox(),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  isDanger ? "Oops!" : "Success!",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: isDanger
-                        ? Colors.red.shade700
-                        : kColor(context).onPrimaryContainer,
-                    fontFamily: 'Jakarta',
-                  ),
-                ),
-                Text(
-                  content,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: isDanger
-                        ? Colors.red.shade700
-                        : kColor(context).onPrimaryContainer,
-                    fontFamily: 'Jakarta',
-                  ),
-                ),
-              ],
+            child: Text(
+              content,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontFamily: 'Jakarta',
+              ),
             ),
           ),
         ],

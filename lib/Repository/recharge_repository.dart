@@ -15,24 +15,27 @@ final contactPermissionFuture = FutureProvider(
   },
 );
 
-// final contactsFuture = FutureProvider.autoDispose<List<Contact>>(
-//   (ref) async {
-//     List<Contact> contacts = await FlutterContacts.getContacts(
-//         withProperties: true, withPhoto: true);
-//     ref.keepAlive();
-//     return contacts.where((contact) {
-//       return contact.phones.isNotEmpty;
-//     }).toList();
-//   },
-// );
+final rechargeHistoryFuture = FutureProvider.autoDispose.family<List, String>(
+  (ref, service) async {
+    final res = await apiCallBack(
+      path: "/recharge-providers/${service.toLowerCase()}/history",
+      method: "GET",
+    );
 
-final providersListFuture = FutureProvider.autoDispose<List>(
-  (ref) async {
+    if (!res.error) {
+      return res.response;
+    }
+    return [];
+  },
+);
+
+final providersListFuture = FutureProvider.autoDispose.family<List, String>(
+  (ref, service) async {
     final res = await apiCallBack(
       path: "/recharge-providers/fetch",
       method: "POST",
       body: {
-        "service": "Mobile",
+        "service": service,
       },
     );
 
@@ -52,7 +55,7 @@ final mobile_recharge_repository = Provider(
 class MobileRechargeRepository {
   Future<ResponseModel> rechargeMobile({
     required String providerId,
-    required String mobile,
+    required String consumerNo,
     required String tpin,
     required String rechargeAmount,
   }) async {
@@ -60,7 +63,34 @@ class MobileRechargeRepository {
       path: "/recharge-providers/prepaid/recharge",
       body: {
         "providerId": providerId,
-        "mobile": mobile,
+        "consumerNo": consumerNo,
+        "tpin": tpin,
+        "rechargeAmount": rechargeAmount,
+      },
+    );
+
+    return res;
+  }
+
+  Future<ResponseModel> recharge({
+    required String providerId,
+    required String consumerNo,
+    required String tpin,
+    required String rechargeAmount,
+  }) async {
+    print(
+      {
+        "providerId": providerId,
+        "consumerNo": consumerNo,
+        "tpin": tpin,
+        "rechargeAmount": rechargeAmount,
+      },
+    );
+    final res = await apiCallBack(
+      path: "/recharge-providers/dth/recharge",
+      body: {
+        "providerId": providerId,
+        "consumerNo": consumerNo,
         "tpin": tpin,
         "rechargeAmount": rechargeAmount,
       },

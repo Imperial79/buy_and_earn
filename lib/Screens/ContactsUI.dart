@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Components/constants.dart';
 import '../Components/widgets.dart';
-import '../Repository/mobile_recharge_repository.dart';
+import '../Repository/recharge_repository.dart';
 import '../Utils/Common Widgets/kButton.dart';
 import '../Utils/Common Widgets/kTextfield.dart';
 import '../Utils/commons.dart';
@@ -50,8 +50,8 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(contactPermissionFuture);
     final hasPermission = ref.watch(hasContactPermission);
-
     return KScaffold(
       appBar: KAppBar(context,
           title: "Contacts", showBack: true, isLoading: isLoading),

@@ -2,7 +2,7 @@ name: buy_and_earn
 description: "A new Flutter project."
 publish_to: "none"
 
-version: 1.2.2+11
+version: 1.2.3+12
 
 environment:
   sdk: ">=3.4.1 <4.0.0"

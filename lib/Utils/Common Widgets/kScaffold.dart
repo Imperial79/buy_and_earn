@@ -134,7 +134,9 @@ AppBar KAppBar(
               color: kPrimaryColor,
               backgroundColor: Colors.white,
             )
-          : SizedBox.shrink(),
+          : SizedBox(
+              height: 2,
+            ),
     ),
   );
 }

@@ -1,4 +1,4 @@
-import 'package:buy_and_earn/Repository/mobile_recharge_repository.dart';
+import 'package:buy_and_earn/Repository/recharge_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
@@ -8,14 +8,16 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Recharge_Loading_UI extends ConsumerStatefulWidget {
+  final String service;
   final String providerId;
-  final String phone;
+  final String consumerNo;
   final String amount;
   final String tpin;
   const Recharge_Loading_UI(
       {super.key,
+      required this.service,
       required this.providerId,
-      required this.phone,
+      required this.consumerNo,
       required this.amount,
       required this.tpin});
 
@@ -34,16 +36,42 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        _rechargeMobile();
+        if (["Prepaid", "Postpaid"].contains(widget.service)) {
+          _rechargeMobile();
+        } else {
+          _recharge();
+        }
       },
     );
+  }
+
+  _recharge() async {
+    try {
+      final res = await ref.read(mobile_recharge_repository).recharge(
+            providerId: widget.providerId,
+            consumerNo: widget.consumerNo,
+            tpin: widget.tpin,
+            rechargeAmount: widget.amount,
+          );
+      await Future.delayed(Duration(seconds: 5));
+      if (res.error) {
+        errorText = res.message;
+      }
+      isSuccess = !res.error;
+    } catch (e) {
+      errorText = "$e";
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   _rechargeMobile() async {
     try {
       final res = await ref.read(mobile_recharge_repository).rechargeMobile(
             providerId: widget.providerId,
-            mobile: widget.phone,
+            consumerNo: widget.consumerNo,
             tpin: widget.tpin,
             rechargeAmount: widget.amount,
           );
@@ -64,7 +92,7 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: true,
       child: Scaffold(
         body: SafeArea(
           child: Center(
@@ -99,18 +127,31 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                                 ),
                         ),
                   height20,
-                  Text(
-                    isLoading
-                        ? "Please Wait..."
-                        : isSuccess!
-                            ? "Recharge successful of ₹${widget.amount} on\n+91 ${widget.phone}."
-                            : "Recharge failed of ₹${widget.amount} on\n+91 ${widget.phone}.",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+                  ["Prepaid", "Postpaid"].contains(widget.service)
+                      ? Text(
+                          isLoading
+                              ? "Please Wait..."
+                              : isSuccess!
+                                  ? "Recharge successful of ₹${widget.amount} on\n+91 ${widget.consumerNo}."
+                                  : "Recharge failed of ₹${widget.amount} on\n+91 ${widget.consumerNo}.",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        )
+                      : Text(
+                          isLoading
+                              ? "Please Wait..."
+                              : isSuccess!
+                                  ? "Recharge successful of ₹${widget.amount} on\n${widget.consumerNo}."
+                                  : "Recharge failed of ₹${widget.amount} on\n${widget.consumerNo}.",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                   height50,
                   Visibility(
                     visible: isLoading,

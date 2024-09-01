@@ -1,27 +1,55 @@
 // ignore_for_file: unused_result
+import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/mobile_recharge_modal.dart';
+import 'package:buy_and_earn/Repository/recharge_repository.dart';
 import 'package:buy_and_earn/Screens/ContactsUI.dart';
-import 'package:buy_and_earn/Screens/Services%20Screens/Mobile%20Recharge/Mobile_Plan_UI.dart';
+import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Recharge_Plan_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
+import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Mobile_Recharge_UI extends ConsumerStatefulWidget {
-  final Mobile_Recharge_Modal masterdata;
+  final Mobile_Recharge_Model masterdata;
   const Mobile_Recharge_UI({super.key, required this.masterdata});
 
   @override
-  ConsumerState<Mobile_Recharge_UI> createState() => _Mobile_Recharge_UIState();
+  ConsumerState<Mobile_Recharge_UI> createState() =>
+      _Mobile_Recharge_UIState(masterdata: masterdata);
 }
 
 class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
+  final Mobile_Recharge_Model masterdata;
+  _Mobile_Recharge_UIState({required this.masterdata});
   String _customerName = "";
   final _phone = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  String providerImage = "";
+  String providerName = "";
+  String providerId = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        providerId = widget.masterdata.providerId!;
+        providerImage = widget.masterdata.providerImage!;
+        providerName = widget.masterdata.providerName!;
+        setState(() {});
+      },
+    );
+  }
+
   @override
   void dispose() {
     _phone.dispose();
@@ -30,8 +58,11 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
 
   @override
   Widget build(BuildContext context) {
+    final historyAsync =
+        ref.watch(rechargeHistoryFuture(widget.masterdata.service));
     return KScaffold(
-      appBar: KAppBar(context, title: "Mobile Recharge", showBack: true),
+      appBar: KAppBar(context,
+          title: "${widget.masterdata.service} Recharge", showBack: true),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(kPadding),
@@ -42,8 +73,8 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
               children: [
                 kPlanCard(
                   context,
-                  providerImage: widget.masterdata.providerImage!,
-                  providerName: widget.masterdata.providerName!,
+                  providerImage: providerImage,
+                  providerName: providerName,
                 ),
                 height20,
                 Text("Enter or Select your phone number"),
@@ -57,6 +88,9 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                         controller: _phone,
                         prefixText: "+91",
                         keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                         hintText: "Enter phone number here",
                         maxLength: 10,
                         validator: (val) {
@@ -99,15 +133,19 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                 KButton.full(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      final data = widget.masterdata.copyWith(
+                      final data = masterdata.copyWith(
                         customerName: _customerName,
                         customerPhone: _phone.text.trim(),
+                        providerId: providerId,
+                        providerName: providerName,
+                        providerImage: providerImage,
                       );
 
                       navPush(
                           context,
-                          Mobile_Plan_UI(
-                            masterdata: data,
+                          Recharge_Plan_UI(
+                            recharge_data: null,
+                            mobile_recharge_data: data,
                           )).then(
                         (value) => _customerName = "",
                       );
@@ -119,21 +157,73 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                 kLabel("Recent contacts"),
                 height15,
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 2,
-                    itemBuilder: (context, index) => ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: CircleAvatar(
-                        child: Text("A"),
-                      ),
-                      title: Text('Name'),
-                      subtitle: Text('+91 1234567890'),
+                  child: historyAsync.when(
+                    data: (data) => ListView.separated(
+                      separatorBuilder: (context, index) => height10,
+                      itemCount: data.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) =>
+                          _historyTile(data[index]),
+                    ),
+                    error: (error, stackTrace) => kNoData(
+                      title: "Some error occurred!",
+                    ),
+                    loading: () => Center(
+                      child: CircularProgressIndicator(),
                     ),
                   ),
                 ),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _historyTile(Map data) {
+    return GestureDetector(
+      onTap: () {
+        _phone.text = data["consumerNo"];
+        providerId = "${data["providerId"]}";
+        providerName = data["providerName"];
+        providerImage = data["image"];
+        setState(() {});
+      },
+      child: Container(
+        color: kCardColor,
+        padding: EdgeInsets.all(12),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 45,
+              height: 45,
+              child: CachedNetworkImage(
+                imageUrl: data["image"],
+                fit: BoxFit.contain,
+              ),
+            ),
+            width20,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${data["providerName"]}",
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  Text("${data["consumerNo"]}"),
+                  height5,
+                  Text(
+                    "Last recharged ₹${data["amount"]} on ${kFormatDateInWords(data["date"])}",
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

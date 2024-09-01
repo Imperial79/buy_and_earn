@@ -1,43 +1,39 @@
 import 'dart:convert';
 
-class Mobile_Recharge_Model {
+class Recharge_Model {
   String service = "";
   String? providerId = "";
   String? providerName = "";
   String? providerImage = "";
   String? circle = "";
-  String? customerName = "";
-  String? customerPhone = "";
+  String? consumerNo = "";
   String? planAmount = "";
-  Mobile_Recharge_Model({
+  Recharge_Model({
     required this.service,
     this.providerId,
     this.providerName,
     this.providerImage,
     this.circle,
-    this.customerName,
-    this.customerPhone,
+    this.consumerNo,
     this.planAmount,
   });
 
-  Mobile_Recharge_Model copyWith({
+  Recharge_Model copyWith({
     String? service,
     String? providerId,
     String? providerName,
     String? providerImage,
     String? circle,
-    String? customerName,
-    String? customerPhone,
+    String? consumerNo,
     String? planAmount,
   }) {
-    return Mobile_Recharge_Model(
+    return Recharge_Model(
       service: service ?? this.service,
       providerId: providerId ?? this.providerId,
       providerName: providerName ?? this.providerName,
       providerImage: providerImage ?? this.providerImage,
       circle: circle ?? this.circle,
-      customerName: customerName ?? this.customerName,
-      customerPhone: customerPhone ?? this.customerPhone,
+      consumerNo: consumerNo ?? this.consumerNo,
       planAmount: planAmount ?? this.planAmount,
     );
   }
@@ -49,57 +45,55 @@ class Mobile_Recharge_Model {
       'providerName': providerName,
       'providerImage': providerImage,
       'circle': circle,
-      'customerName': customerName,
-      'customerPhone': customerPhone,
+      'consumerNo': consumerNo,
       'planAmount': planAmount,
     };
   }
 
-  factory Mobile_Recharge_Model.fromMap(Map<String, dynamic> map) {
-    return Mobile_Recharge_Model(
+  factory Recharge_Model.fromMap(Map<String, dynamic> map) {
+    return Recharge_Model(
       service: map['service'] ?? '',
       providerId: map['providerId'],
       providerName: map['providerName'],
       providerImage: map['providerImage'],
       circle: map['circle'],
-      customerName: map['customerName'],
-      customerPhone: map['customerPhone'],
+      consumerNo: map['consumerNo'],
       planAmount: map['planAmount'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Mobile_Recharge_Model.fromJson(String source) =>
-      Mobile_Recharge_Model.fromMap(json.decode(source));
+  factory Recharge_Model.fromJson(String source) =>
+      Recharge_Model.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Mobile_Recharge_Modal(providerId: $providerId, providerName: $providerName, providerImage: $providerImage, circle: $circle, customerName: $customerName, customerPhone: $customerPhone, planAmount: $planAmount)';
+    return 'Recharge_Model(service: $service, providerId: $providerId, providerName: $providerName, providerImage: $providerImage, circle: $circle, consumerNo: $consumerNo, planAmount: $planAmount)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Mobile_Recharge_Model &&
+    return other is Recharge_Model &&
+        other.service == service &&
         other.providerId == providerId &&
         other.providerName == providerName &&
         other.providerImage == providerImage &&
         other.circle == circle &&
-        other.customerName == customerName &&
-        other.customerPhone == customerPhone &&
+        other.consumerNo == consumerNo &&
         other.planAmount == planAmount;
   }
 
   @override
   int get hashCode {
-    return providerId.hashCode ^
+    return service.hashCode ^
+        providerId.hashCode ^
         providerName.hashCode ^
         providerImage.hashCode ^
         circle.hashCode ^
-        customerName.hashCode ^
-        customerPhone.hashCode ^
+        consumerNo.hashCode ^
         planAmount.hashCode;
   }
 }

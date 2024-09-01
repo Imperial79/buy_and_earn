@@ -1,12 +1,11 @@
 import 'package:buy_and_earn/Models/transactions_model.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
-import 'package:buy_and_earn/Screens/Wallet/WalletUI.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import '../Screens/Transactions/TransactionDetailUI.dart';
-import '../Utils/Common Widgets/kButton.dart';
 import '../Utils/colors.dart';
 import '../Utils/commons.dart';
 import 'constants.dart';
@@ -206,7 +205,7 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
 }
 
 Widget kNoData({
-  String? image,
+  String image = "assets/images/no-data.svg",
   required String title,
   String? subtitle,
   Widget? action,
@@ -215,17 +214,15 @@ Widget kNoData({
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        image != null
-            ? Padding(
-                padding: EdgeInsets.only(bottom: 30.0),
-                child: image.contains(".svg")
-                    ? SvgPicture.asset(
-                        image,
-                        height: 200,
-                      )
-                    : Image.asset(image),
-              )
-            : SizedBox(),
+        Padding(
+          padding: EdgeInsets.only(bottom: 30.0),
+          child: image.contains(".svg")
+              ? SvgPicture.asset(
+                  image,
+                  height: 200,
+                )
+              : Image.asset(image),
+        ),
         Text(
           title,
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
@@ -259,17 +256,20 @@ Widget kPlanCard(
 }) {
   customerName =
       customerName != null && customerName.isEmpty ? null : customerName;
-  phone = phone != null ? "+91 " + phone : phone;
+
   return kCard(
     child: Row(
       children: [
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(providerImage),
-              fit: BoxFit.contain,
+        CachedNetworkImage(
+          imageUrl: providerImage,
+          imageBuilder: (context, imageProvider) => Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ),

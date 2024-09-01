@@ -1,13 +1,17 @@
 import 'package:buy_and_earn/Models/mobile_recharge_modal.dart';
-import 'package:buy_and_earn/Repository/mobile_recharge_repository.dart';
-import 'package:buy_and_earn/Screens/Services%20Screens/Mobile%20Recharge/Mobile_Recharge_UI.dart';
+import 'package:buy_and_earn/Repository/recharge_repository.dart';
+import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Mobile%20Recharge/Mobile_Recharge_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Mobile_Providers_UI extends ConsumerStatefulWidget {
-  const Mobile_Providers_UI({super.key});
+  final String service;
+  const Mobile_Providers_UI({
+    super.key,
+    required this.service,
+  });
 
   @override
   ConsumerState<Mobile_Providers_UI> createState() =>
@@ -17,7 +21,7 @@ class Mobile_Providers_UI extends ConsumerStatefulWidget {
 class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
   @override
   Widget build(BuildContext context) {
-    final providersListData = ref.watch(providersListFuture);
+    final providersListData = ref.watch(providersListFuture(widget.service));
     return KScaffold(
       appBar: KAppBar(context, title: "Select Provider", showBack: true),
       body: SafeArea(
@@ -33,7 +37,8 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
                   navPush(
                     context,
                     Mobile_Recharge_UI(
-                      masterdata: Mobile_Recharge_Modal(
+                      masterdata: Mobile_Recharge_Model(
+                        service: widget.service,
                         providerId: "${data[index]['providerId']}",
                         providerName: data[index]['providerName'],
                         providerImage: data[index]['image'],

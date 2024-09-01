@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
+import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
@@ -29,89 +30,95 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
     })));
 
     final transactionData = ref.watch(transactionList);
-    return NotificationListener<ScrollNotification>(
-      onNotification: (notification) {
-        if (notification.metrics.pixels ==
-            notification.metrics.maxScrollExtent) {
-          setState(() {
-            pageNo += 1;
-          });
-        }
-        return true;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        ref.read(navigationProvider.notifier).state = 0;
       },
-      child: RefreshIndicator(
-        onRefresh: () async {
-          if (pageNo != 0)
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (notification) {
+          if (notification.metrics.pixels ==
+              notification.metrics.maxScrollExtent) {
             setState(() {
-              pageNo = 0;
+              pageNo += 1;
             });
-          else {
-            await ref.refresh(transactionFuture(jsonEncode({
-              "pageNo": pageNo,
-              "fromDate": "",
-              "toDate": "",
-              "type": "All",
-            })).future);
           }
+          return true;
         },
-        child: KScaffold(
-          appBar: KAppBar(
-            context,
-            title: "Transactions",
-            actions: [
-              // MaterialButton(
-              //   onPressed: () {
-              //     showModalBottomSheet(
-              //       context: context,
-              //       enableDrag: false,
-              //       isDismissible: false,
-              //       isScrollControlled: true,
-              //       useSafeArea: true,
-              //       elevation: 0,
-              //       backgroundColor: Colors.white,
-              //       builder: (context) => _filterModal(),
-              //     );
-              //   },
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: kRadius(10),
-              //     side: BorderSide(
-              //       color: Colors.black,
-              //     ),
-              //   ),
-              //   visualDensity: VisualDensity.compact,
-              //   child: Row(
-              //     children: [
-              //       Text("Filters"),
-              //       width5,
-              //       Icon(
-              //         Icons.filter_alt,
-              //         size: 17,
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              width10,
-            ],
-            isLoading: pageNo > 0 && asyncData.isLoading,
-          ),
-          isLoading: asyncData.isLoading && pageNo == 0,
-          body: SafeArea(
-            child: !asyncData.hasError
-                ? ListView.separated(
-                    padding: EdgeInsets.only(
-                        bottom: 120, left: 12, right: 12, top: 12),
-                    separatorBuilder: (context, index) => Divider(
-                      height: 30,
-                      color: Colors.grey.shade300,
-                    ),
-                    itemCount: transactionData.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => kRecentHistoryCard(
-                      context,
-                      transactionData[index],
-                    ),
-                  )
-                : kNoData(title: "Some Error occurred!"),
+        child: RefreshIndicator(
+          onRefresh: () async {
+            if (pageNo != 0)
+              setState(() {
+                pageNo = 0;
+              });
+            else {
+              await ref.refresh(transactionFuture(jsonEncode({
+                "pageNo": pageNo,
+                "fromDate": "",
+                "toDate": "",
+                "type": "All",
+              })).future);
+            }
+          },
+          child: KScaffold(
+            appBar: KAppBar(
+              context,
+              title: "Transactions",
+              actions: [
+                // MaterialButton(
+                //   onPressed: () {
+                //     showModalBottomSheet(
+                //       context: context,
+                //       enableDrag: false,
+                //       isDismissible: false,
+                //       isScrollControlled: true,
+                //       useSafeArea: true,
+                //       elevation: 0,
+                //       backgroundColor: Colors.white,
+                //       builder: (context) => _filterModal(),
+                //     );
+                //   },
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: kRadius(10),
+                //     side: BorderSide(
+                //       color: Colors.black,
+                //     ),
+                //   ),
+                //   visualDensity: VisualDensity.compact,
+                //   child: Row(
+                //     children: [
+                //       Text("Filters"),
+                //       width5,
+                //       Icon(
+                //         Icons.filter_alt,
+                //         size: 17,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                width10,
+              ],
+              isLoading: pageNo > 0 && asyncData.isLoading,
+            ),
+            isLoading: asyncData.isLoading && pageNo == 0,
+            body: SafeArea(
+              child: !asyncData.hasError
+                  ? ListView.separated(
+                      padding: EdgeInsets.only(
+                          bottom: 120, left: 12, right: 12, top: 12),
+                      separatorBuilder: (context, index) => Divider(
+                        height: 30,
+                        color: Colors.grey.shade300,
+                      ),
+                      itemCount: transactionData.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => kRecentHistoryCard(
+                        context,
+                        transactionData[index],
+                      ),
+                    )
+                  : kNoData(title: "Some Error occurred!"),
+            ),
           ),
         ),
       ),

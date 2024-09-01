@@ -7,6 +7,7 @@ import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/response_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/refer_repository.dart';
+import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
@@ -43,216 +44,226 @@ class _ReferUIState extends ConsumerState<ReferUI> {
 
     final referSettings = ref.watch(referralSettingsFuture);
 
-    return RefreshIndicator(
-      onRefresh: () => _refresh(),
-      child: KScaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kWalletCard(context),
-                height15,
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        ref.read(navigationProvider.notifier).state = 0;
+      },
+      child: RefreshIndicator(
+        onRefresh: () => _refresh(),
+        child: KScaffold(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  kWalletCard(context),
+                  height15,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user?.name.toLowerCase() ?? "",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 20),
+                            ),
+                            Text(
+                              "Level ${user!.level}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            user?.name.toLowerCase() ?? "",
+                            "Earnings",
                             style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 20),
+                                fontWeight: FontWeight.w500, fontSize: 20),
                           ),
                           Text(
-                            "Level ${user!.level}",
+                            "₹ 0.0",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 15),
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                  referSettings.when(
+                    data: (data) => data.response['referralAmount'] > 0
+                        ? Padding(
+                            padding: EdgeInsets.only(top: 20.0),
+                            child: Card(
+                              color: kColor(context).tertiary,
+                              child: SizedBox(
+                                width: double.maxFinite,
+                                child: Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Get ₹${data.response['referralAmount']} bonus on referal*",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      height10,
+                                      Card(
+                                        color: kColor(context)
+                                            .onTertiaryFixedVariant,
+                                        child: Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Note: Valid for only complete registrations during offer period",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12),
+                                          ),
+                                        ),
+                                      ),
+                                      height15,
+                                      Row(
+                                        children: [
+                                          kWidgetPill(
+                                            context,
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 15, vertical: 5),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    "${user.referCode}",
+                                                    style: TextStyle(
+                                                      color: kColor(context)
+                                                          .tertiary,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          width10,
+                                          IconButton.filledTonal(
+                                            onPressed: () {
+                                              Clipboard.setData(ClipboardData(
+                                                  text: "${user.referCode}"));
+
+                                              KSnackbar(context,
+                                                  content:
+                                                      "Refer code copied to clipboard!");
+                                            },
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            icon: Icon(
+                                              Icons.copy,
+                                              color: kColor(context).tertiary,
+                                              size: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : SizedBox(),
+                    error: (error, stackTrace) => SizedBox(),
+                    loading: () => SizedBox(),
+                  ),
+                  height20,
+                  kLabel("Distribution"),
+                  height15,
+                  referSettings.when(
+                    data: (data) => _distributionChart(data),
+                    error: (error, stackTrace) => SizedBox(),
+                    loading: () => SizedBox(),
+                  ),
+                  height20,
+                  kLabel("My Referals"),
+                  height15,
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children:
+                          List.generate(6, (index) => _levelBtn(index + 1)),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Earnings",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 20),
-                        ),
-                        Text(
-                          "₹ 0.0",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                referSettings.when(
-                  data: (data) => data.response['referralAmount'] > 0
-                      ? Padding(
-                          padding: EdgeInsets.only(top: 20.0),
-                          child: Card(
-                            color: kColor(context).tertiary,
-                            child: SizedBox(
-                              width: double.maxFinite,
-                              child: Padding(
-                                padding: EdgeInsets.all(12),
+                  ),
+                  height15,
+                  referListData.when(
+                    data: (data) => ListView.separated(
+                      separatorBuilder: (context, index) => height10,
+                      itemCount: data.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => Card(
+                        color: kCardColor,
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                child: Text(
+                                  data[index]['name'][0].toUpperCase(),
+                                ),
+                              ),
+                              width10,
+                              Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Get ₹${data.response['referralAmount']} bonus on referal*",
+                                      data[index]['name'],
                                       style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15,
                                       ),
                                     ),
-                                    height10,
-                                    Card(
-                                      color: kColor(context)
-                                          .onTertiaryFixedVariant,
-                                      child: Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "Note: Valid for only complete registrations during offer period",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                        ),
-                                      ),
+                                    Text(
+                                      "+91 ${data[index]['phone']}",
+                                      style: TextStyle(fontSize: 12),
                                     ),
-                                    height15,
-                                    Row(
-                                      children: [
-                                        kWidgetPill(
-                                          context,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 5),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(
-                                                  "${user.referCode}",
-                                                  style: TextStyle(
-                                                    color: kColor(context)
-                                                        .tertiary,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        width10,
-                                        IconButton.filledTonal(
-                                          onPressed: () {
-                                            Clipboard.setData(ClipboardData(
-                                                text: "${user.referCode}"));
-
-                                            KSnackbar(context,
-                                                content:
-                                                    "Refer code copied to clipboard!");
-                                          },
-                                          visualDensity: VisualDensity.compact,
-                                          icon: Icon(
-                                            Icons.copy,
-                                            color: kColor(context).tertiary,
-                                            size: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    )
+                                    Text(
+                                      "Joined On: ${kFormatDate(data[index]["date"])}",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
                                   ],
                                 ),
                               ),
-                            ),
+                              width10,
+                              Text(
+                                "₹100",
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              )
+                            ],
                           ),
-                        )
-                      : SizedBox(),
-                  error: (error, stackTrace) => SizedBox(),
-                  loading: () => SizedBox(),
-                ),
-                height20,
-                kLabel("Distribution"),
-                height15,
-                referSettings.when(
-                  data: (data) => _distributionChart(data),
-                  error: (error, stackTrace) => SizedBox(),
-                  loading: () => SizedBox(),
-                ),
-                height20,
-                kLabel("My Referals"),
-                height15,
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(6, (index) => _levelBtn(index + 1)),
-                  ),
-                ),
-                height15,
-                referListData.when(
-                  data: (data) => ListView.separated(
-                    separatorBuilder: (context, index) => height10,
-                    itemCount: data.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => Card(
-                      color: kCardColor,
-                      child: Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              child: Text(
-                                data[index]['name'][0].toUpperCase(),
-                              ),
-                            ),
-                            width10,
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    data[index]['name'],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    "+91 ${data[index]['phone']}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  Text(
-                                    "Joined On: ${kFormatDate(data[index]["date"])}",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            width10,
-                            Text(
-                              "₹100",
-                              style: TextStyle(fontWeight: FontWeight.w600),
-                            )
-                          ],
                         ),
                       ),
                     ),
+                    error: (error, stackTrace) => SizedBox(),
+                    loading: () => CircularProgressIndicator(),
                   ),
-                  error: (error, stackTrace) => SizedBox(),
-                  loading: () => CircularProgressIndicator(),
-                ),
-                kHeight(100),
-              ],
+                  kHeight(100),
+                ],
+              ),
             ),
           ),
         ),

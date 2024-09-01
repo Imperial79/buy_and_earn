@@ -1,18 +1,12 @@
-import 'package:buy_and_earn/Screens/Services%20Screens/Mobile%20Recharge/Recharge_Loading_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
 import '../../Utils/colors.dart';
 import '../../Utils/commons.dart';
 
 class TPin_UI extends StatefulWidget {
-  final String providerId;
-  final String phone;
-  final String amount;
-  const TPin_UI(
-      {super.key,
-      required this.providerId,
-      required this.phone,
-      required this.amount});
+  const TPin_UI({
+    super.key,
+  });
 
   @override
   State<TPin_UI> createState() => _TPin_UIState();
@@ -145,18 +139,8 @@ class _TPin_UIState extends State<TPin_UI> {
                 }
               }
             } else {
-              if (tpin.length == 6)
-                navPopUntilPush(
-                    context,
-                    Recharge_Loading_UI(
-                      amount: widget.amount,
-                      phone: widget.phone,
-                      providerId: widget.providerId,
-                      tpin: tpin,
-                    ));
-              else {
-                KSnackbar(context,
-                    content: "Enter 6-digit tpin!", isDanger: true);
+              if (tpin.length == 6) {
+                Navigator.pop(context, {"tpin": tpin});
               }
             }
           },

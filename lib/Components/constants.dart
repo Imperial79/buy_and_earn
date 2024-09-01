@@ -5,30 +5,30 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const kAppVersion = "1.2.2";
-const kAppBuild = "11";
+const kAppVersion = "1.2.3";
+const kAppBuild = "12";
 
 final String welcomeImages = "assets/images/welcome-images";
 
 final kIconMap = {
-  'prepaid': "$kServiceIcon/mobile.svg",
-  'postpaid': "$kServiceIcon/postpaid.svg",
-  'dth': "$kServiceIcon/dth.svg",
-  'electricity': "$kServiceIcon/electricity.svg",
-  'broadband': "$kServiceIcon/broadband.svg",
-  'fasttag': "$kServiceIcon/fasttag.svg",
-  'flight': "$kServiceIcon/flight.svg",
-  'train': "$kServiceIcon/train.svg",
-  'hotel': "$kServiceIcon/hotel.svg",
-  'bus': "$kServiceIcon/bus.svg",
-  'car': "$kServiceIcon/car.svg",
-  'ecommerce': "$kServiceIcon/ecommerce.svg",
-  'garments': "$kServiceIcon/garments.svg",
-  'grocery': "$kServiceIcon/grocery.svg",
-  'food': "$kServiceIcon/food.svg",
-  'courier': "$kServiceIcon/courier.svg",
-  'local': "$kServiceIcon/local.svg",
-  'club house': "$kServiceIcon/club.svg",
+  'Prepaid': "$kServiceIcon/mobile.svg",
+  'Postpaid': "$kServiceIcon/postpaid.svg",
+  'DTH': "$kServiceIcon/dth.svg",
+  'Electricity': "$kServiceIcon/electricity.svg",
+  'Broadband': "$kServiceIcon/broadband.svg",
+  'Fastag': "$kServiceIcon/fasttag.svg",
+  'Flight': "$kServiceIcon/flight.svg",
+  'Train': "$kServiceIcon/train.svg",
+  'Hotel': "$kServiceIcon/hotel.svg",
+  'Bus': "$kServiceIcon/bus.svg",
+  'Car': "$kServiceIcon/car.svg",
+  'Ecommerce': "$kServiceIcon/ecommerce.svg",
+  'Garments': "$kServiceIcon/garments.svg",
+  'Grocery': "$kServiceIcon/grocery.svg",
+  'Food': "$kServiceIcon/food.svg",
+  'Courier': "$kServiceIcon/courier.svg",
+  'Local': "$kServiceIcon/local.svg",
+  'Club House': "$kServiceIcon/club.svg",
 };
 
 List<String> statesList = [
@@ -99,6 +99,10 @@ String encryptDecryptText(String action, String string) {
 
 String kFormatDate(String val) {
   return DateFormat("dd-MM-yyyy").format(DateTime.parse(val));
+}
+
+String kFormatDateInWords(String val) {
+  return DateFormat("dd MMM, yyyy").format(DateTime.parse(val));
 }
 
 String kFormatTime(String val) {
