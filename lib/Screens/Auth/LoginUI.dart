@@ -2,6 +2,7 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Models/user_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/notiification_methods.dart';
+import 'package:buy_and_earn/Screens/More/HelpUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
@@ -147,7 +148,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                     ),
                     TextButton(
                       onPressed: () {
-                        // navPush(context, HelpUI());
+                        navPush(context, HelpUI());
                       },
                       child: Text(
                         "Help",
