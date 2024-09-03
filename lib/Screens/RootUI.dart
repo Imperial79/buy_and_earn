@@ -69,8 +69,8 @@ class _RootUIState extends ConsumerState<RootUI> {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(.03),
-              blurRadius: 10,
-              spreadRadius: 20,
+              blurRadius: 20,
+              spreadRadius: 10,
             ),
           ],
         ),

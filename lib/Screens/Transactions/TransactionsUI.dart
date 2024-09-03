@@ -103,20 +103,24 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
             isLoading: asyncData.isLoading && pageNo == 0,
             body: SafeArea(
               child: !asyncData.hasError
-                  ? ListView.separated(
-                      padding: EdgeInsets.only(
-                          bottom: 120, left: 12, right: 12, top: 12),
-                      separatorBuilder: (context, index) => Divider(
-                        height: 30,
-                        color: Colors.grey.shade300,
-                      ),
-                      itemCount: transactionData.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => kRecentHistoryCard(
-                        context,
-                        transactionData[index],
-                      ),
-                    )
+                  ? transactionData.length > 0
+                      ? ListView.separated(
+                          padding: EdgeInsets.only(
+                              bottom: 120, left: 12, right: 12, top: 12),
+                          separatorBuilder: (context, index) => Divider(
+                            height: 30,
+                            color: Colors.grey.shade300,
+                          ),
+                          itemCount: transactionData.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) => kRecentHistoryCard(
+                            context,
+                            transactionData[index],
+                          ),
+                        )
+                      : kNoData(
+                          title: "No transactions!",
+                          subtitle: "Initiate with your first recharge!")
                   : kNoData(title: "Some Error occurred!"),
             ),
           ),

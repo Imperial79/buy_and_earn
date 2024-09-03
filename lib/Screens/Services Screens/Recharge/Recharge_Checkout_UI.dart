@@ -1,15 +1,18 @@
+import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/mobile_recharge_modal.dart';
 import 'package:buy_and_earn/Models/recharge_model.dart';
+import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/TPin_UI.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Recharge_Loading_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../Utils/Common Widgets/kButton.dart';
 
-class Recharge_Checkout_UI extends StatefulWidget {
+class Recharge_Checkout_UI extends ConsumerStatefulWidget {
   final Mobile_Recharge_Model? mobile_recharge_data;
   final Recharge_Model? recharge_data;
   const Recharge_Checkout_UI({
@@ -19,11 +22,11 @@ class Recharge_Checkout_UI extends StatefulWidget {
   });
 
   @override
-  State<Recharge_Checkout_UI> createState() =>
+  ConsumerState<Recharge_Checkout_UI> createState() =>
       _Recharge_Checkout_UIState(mobile_recharge_data, recharge_data);
 }
 
-class _Recharge_Checkout_UIState extends State<Recharge_Checkout_UI> {
+class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
   final Mobile_Recharge_Model? mobile_recharge_data;
   final Recharge_Model? recharge_data;
   _Recharge_Checkout_UIState(
@@ -58,6 +61,8 @@ class _Recharge_Checkout_UIState extends State<Recharge_Checkout_UI> {
     consumerNo = (mobile_recharge_data != null
         ? mobile_recharge_data!.customerPhone
         : recharge_data!.consumerNo)!;
+
+    final user = ref.watch(userProvider);
     return KScaffold(
       appBar: KAppBar(context, title: "Checkout", showBack: true),
       body: SafeArea(
@@ -98,7 +103,7 @@ class _Recharge_Checkout_UIState extends State<Recharge_Checkout_UI> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "₹ $planAmount",
+                      kCurrencyFormat("$planAmount"),
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -136,13 +141,21 @@ class _Recharge_Checkout_UIState extends State<Recharge_Checkout_UI> {
               height15,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text("Plan price"), Text("₹ $planAmount")],
+                children: [
+                  Text("Plan price"),
+                  Text(kCurrencyFormat("$planAmount"))
+                ],
               ),
               height10,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text("GST"), Text("+ ₹ 0.5")],
-              ),
+              user!.status == "Pending"
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("ID Activation"),
+                        Text("+ ${kCurrencyFormat("${user.idActiveAmount}")}")
+                      ],
+                    )
+                  : SizedBox(),
             ],
           ),
         ),
@@ -169,7 +182,7 @@ class _Recharge_Checkout_UIState extends State<Recharge_Checkout_UI> {
             },
             backgroundColor: kPrimaryColor,
             label: "Pay",
-            icon: Text("₹$planAmount"),
+            icon: Text(kCurrencyFormat("$planAmount")),
             fontSize: 16,
           ),
         ),

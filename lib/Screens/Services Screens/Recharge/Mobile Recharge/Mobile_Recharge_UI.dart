@@ -71,11 +71,13 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                kPlanCard(
-                  context,
-                  providerImage: providerImage,
-                  providerName: providerName,
-                ),
+                providerImage.isNotEmpty
+                    ? kPlanCard(
+                        context,
+                        providerImage: providerImage,
+                        providerName: providerName,
+                      )
+                    : SizedBox(),
                 height20,
                 Text("Enter or Select your phone number"),
                 height10,
@@ -109,13 +111,14 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                             await navPush(context, ContactsUI()) as Map?;
 
                         if (contact != null) {
-                          String sanitized = contact['phone']
-                              .toString()
-                              .replaceFirst("91", "");
+                          // String sanitized = contact['phone']
+                          //     .toString()
+                          //     .replaceFirst("91", "");
 
-                          if (sanitized.length > 10) {
-                            sanitized = sanitized.substring(1);
-                          }
+                          // if (sanitized.length > 10) {
+                          //   sanitized = sanitized.substring(1);
+                          // }
+                          String sanitized = sanitizeContact(contact["phone"]);
                           setState(() {
                             _customerName = contact["name"];
                             _phone.text = sanitized;
@@ -158,13 +161,17 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                 height15,
                 Expanded(
                   child: historyAsync.when(
-                    data: (data) => ListView.separated(
-                      separatorBuilder: (context, index) => height10,
-                      itemCount: data.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) =>
-                          _historyTile(data[index]),
-                    ),
+                    data: (data) => data.length > 0
+                        ? ListView.separated(
+                            separatorBuilder: (context, index) => height10,
+                            itemCount: data.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) =>
+                                _historyTile(data[index]),
+                          )
+                        : kNoData(
+                            title: "No recent recharges!",
+                            subtitle: "Initiate with your first recharge!"),
                     error: (error, stackTrace) => kNoData(
                       title: "Some error occurred!",
                     ),

@@ -15,6 +15,7 @@ class UserModel {
   String status = "Pending";
   String lastLogin = "";
   String date = "";
+  double idActiveAmount = 0;
   UserModel({
     required this.id,
     required this.name,
@@ -30,6 +31,7 @@ class UserModel {
     required this.status,
     required this.lastLogin,
     required this.date,
+    required this.idActiveAmount,
   });
 
   UserModel copyWith({
@@ -47,6 +49,7 @@ class UserModel {
     String? status,
     String? lastLogin,
     String? date,
+    double? idActiveAmount,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -63,6 +66,7 @@ class UserModel {
       status: status ?? this.status,
       lastLogin: lastLogin ?? this.lastLogin,
       date: date ?? this.date,
+      idActiveAmount: idActiveAmount ?? this.idActiveAmount,
     );
   }
 
@@ -82,25 +86,27 @@ class UserModel {
       'status': status,
       'lastLogin': lastLogin,
       'date': date,
+      'idActiveAmount': idActiveAmount,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] ?? 0,
+      id: map['id']?.toInt() ?? 0,
       name: map['name'] ?? '',
       phone: map['phone'] ?? '',
       email: map['email'],
       state: map['state'] ?? '',
       city: map['city'] ?? '',
       referCode: map['referCode'] ?? '',
-      level: map['level'] ?? 0,
+      level: map['level']?.toInt() ?? 0,
       firstService: map['firstService'] ?? '',
       referrerCode: map['referrerCode'] ?? '',
       fcmToken: map['fcmToken'],
       status: map['status'] ?? '',
       lastLogin: map['lastLogin'] ?? '',
       date: map['date'] ?? '',
+      idActiveAmount: double.parse("${map['idActiveAmount']}"),
     );
   }
 

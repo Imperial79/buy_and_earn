@@ -1,19 +1,9 @@
 import 'package:buy_and_earn/Models/response_model.dart';
 import 'package:buy_and_earn/Utils/api_config.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final hasContactPermission = StateProvider((ref) => false);
-
-final contactPermissionFuture = FutureProvider(
-  (ref) async {
-    if (await FlutterContacts.requestPermission()) {
-      ref.read(hasContactPermission.notifier).state = true;
-    } else {
-      ref.read(hasContactPermission.notifier).state = false;
-    }
-  },
-);
 
 final rechargeHistoryFuture = FutureProvider.autoDispose.family<List, String>(
   (ref, service) async {
@@ -100,8 +90,10 @@ class MobileRechargeRepository {
   }
 
   Future<List<Contact>> fetchContacts() async {
-    List<Contact> contacts = await FlutterContacts.getContacts(
-        withProperties: true, withPhoto: true);
+    // List<Contact> contacts = await FlutterContacts.getContacts(
+    //     withProperties: true, withPhoto: true);
+    List<Contact> contacts =
+        await ContactsService.getContacts(withThumbnails: false);
 
     // return contacts.where((contact) {
     //   return contact.phones.isNotEmpty;

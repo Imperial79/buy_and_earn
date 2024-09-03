@@ -70,6 +70,20 @@ List<String> statesList = [
   'Jammu and Kashmir'
 ];
 
+String sanitizeContact(String phoneNumber) {
+  String sanitized = phoneNumber.replaceAll(RegExp(r'[^\d+]'), '');
+
+  if (sanitized.startsWith('0')) {
+    sanitized = sanitized.substring(1);
+  }
+
+  if (sanitized.startsWith("+91")) {
+    sanitized = sanitized.substring(3);
+  }
+
+  return sanitized;
+}
+
 String encryptDecryptText(String action, String string) {
   final encryptMethod = encrypt.AESMode.cbc;
   final secretKey = 'buy-and-earn-2024';
@@ -113,4 +127,10 @@ String kFormatTime(String val) {
 
 bool kCompare(String searchKey, String text) {
   return text.trim().toLowerCase().contains(searchKey.trim().toLowerCase());
+}
+
+String kCurrencyFormat(String number, {int decimalDigit = 2}) {
+  var f = NumberFormat.currency(
+      symbol: "₹", locale: 'en_US', decimalDigits: decimalDigit);
+  return f.format(double.parse(number));
 }

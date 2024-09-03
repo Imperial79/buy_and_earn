@@ -85,7 +85,7 @@ Widget kWalletCard(context) {
                     ),
                     Text(
                       wallet.when(
-                        data: (data) => "₹ ${data!["balance"]}",
+                        data: (data) => kCurrencyFormat("${data!["balance"]}"),
                         error: (error, stackTrace) => "-",
                         loading: () => "...",
                       ),
@@ -145,7 +145,7 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
                     ),
                   ),
                   Text(
-                    "${data.type == "Credit" ? "+" : "-"} ₹${data.amount}",
+                    "${data.type == "Credit" ? "+" : "-"} ${kCurrencyFormat("${data.amount}")}",
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ],

@@ -90,7 +90,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                 fontWeight: FontWeight.w500, fontSize: 20),
                           ),
                           Text(
-                            "₹ 0.0",
+                            kCurrencyFormat("0.0"),
                             style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 15),
                           ),
@@ -113,7 +113,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Get ₹${data.response['referralAmount']} bonus on referal*",
+                                        "Get ${kCurrencyFormat("${data.response['referralAmount']}", decimalDigit: 0)} bonus on referal*",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w700,
@@ -208,56 +208,62 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                   ),
                   height15,
                   referListData.when(
-                    data: (data) => ListView.separated(
-                      separatorBuilder: (context, index) => height10,
-                      itemCount: data.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => Card(
-                        color: kCardColor,
-                        child: Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                child: Text(
-                                  data[index]['name'][0].toUpperCase(),
-                                ),
-                              ),
-                              width10,
-                              Expanded(
-                                child: Column(
+                    data: (data) => data.length > 0
+                        ? ListView.separated(
+                            separatorBuilder: (context, index) => height10,
+                            itemCount: data.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => Card(
+                              color: kCardColor,
+                              child: Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      data[index]['name'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15,
+                                    CircleAvatar(
+                                      child: Text(
+                                        data[index]['name'][0].toUpperCase(),
                                       ),
                                     ),
-                                    Text(
-                                      "+91 ${data[index]['phone']}",
-                                      style: TextStyle(fontSize: 12),
+                                    width10,
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            data[index]['name'],
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            "+91 ${data[index]['phone']}",
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                          Text(
+                                            "Joined On: ${kFormatDate(data[index]["date"])}",
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
                                     ),
+                                    width10,
                                     Text(
-                                      "Joined On: ${kFormatDate(data[index]["date"])}",
-                                      style: TextStyle(fontSize: 12),
-                                    ),
+                                      kCurrencyFormat(
+                                          "${data[index]["firstPurchase"]}"),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
+                                    )
                                   ],
                                 ),
                               ),
-                              width10,
-                              Text(
-                                "₹100",
-                                style: TextStyle(fontWeight: FontWeight.w600),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                            ),
+                          )
+                        : kNoData(
+                            title: "No Data!", subtitle: "Refer more people!"),
                     error: (error, stackTrace) => SizedBox(),
                     loading: () => CircularProgressIndicator(),
                   ),

@@ -69,6 +69,7 @@ void KSnackbar(
   required String content,
   bool? isDanger = false,
   bool showIcon = true,
+  SnackBarAction? action,
 }) {
   scaffoldMessengerKey.currentState?.clearSnackBars();
   scaffoldMessengerKey.currentState?.showSnackBar(
@@ -82,6 +83,7 @@ void KSnackbar(
       ),
       padding: EdgeInsets.all(kPadding),
       behavior: SnackBarBehavior.floating,
+      action: action,
       content: Row(
         children: [
           showIcon

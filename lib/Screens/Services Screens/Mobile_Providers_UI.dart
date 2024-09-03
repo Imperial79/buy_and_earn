@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/mobile_recharge_modal.dart';
 import 'package:buy_and_earn/Repository/recharge_repository.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Mobile%20Recharge/Mobile_Recharge_UI.dart';
@@ -28,47 +29,50 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(kPadding),
           child: providersListData.when(
-            data: (data) => ListView.separated(
-              separatorBuilder: (context, index) => height10,
-              itemCount: data.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) => ListTile(
-                onTap: () {
-                  navPush(
-                    context,
-                    Mobile_Recharge_UI(
-                      masterdata: Mobile_Recharge_Model(
-                        service: widget.service,
-                        providerId: "${data[index]['providerId']}",
-                        providerName: data[index]['providerName'],
-                        providerImage: data[index]['image'],
+            data: (data) => data.length > 0
+                ? ListView.separated(
+                    separatorBuilder: (context, index) => height10,
+                    itemCount: data.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => ListTile(
+                      onTap: () {
+                        navPush(
+                          context,
+                          Mobile_Recharge_UI(
+                            masterdata: Mobile_Recharge_Model(
+                              service: widget.service,
+                              providerId: "${data[index]['providerId']}",
+                              providerName: data[index]['providerName'],
+                              providerImage: data[index]['image'],
+                            ),
+                          ),
+                        );
+                      },
+                      contentPadding: EdgeInsets.all(10),
+                      tileColor: Colors.white,
+                      leading: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              data[index]["image"],
+                            ),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                      title: Text(
+                        data[index]["providerName"],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17,
+                        ),
                       ),
                     ),
-                  );
-                },
-                contentPadding: EdgeInsets.all(10),
-                tileColor: Colors.white,
-                leading: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        data[index]["image"],
-                      ),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                title: Text(
-                  data[index]["providerName"],
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 17,
-                  ),
-                ),
-              ),
-            ),
+                  )
+                : kNoData(
+                    title: "No Providers!", subtitle: "Check back later!"),
             error: (error, stackTrace) => Text("Unable to load providers!"),
             loading: () => LinearProgressIndicator(),
           ),
