@@ -34,8 +34,8 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
     this.recharge_data,
   );
   double netPayable = 0.0;
-  String planAmount = "0.0";
-  String providerId = "";
+  double planAmount = 0.0;
+  int providerId = 0;
   String providerName = "";
   String consumerNo = "";
   String providerImage = "";
@@ -63,6 +63,13 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
         : recharge_data!.consumerNo)!;
 
     final user = ref.watch(userProvider);
+
+    netPayable = planAmount;
+
+    if (user!.status == "Pending" && planAmount >= user.idActiveMinThreshold) {
+      netPayable += user.idActiveAmount;
+    }
+
     return KScaffold(
       appBar: KAppBar(context, title: "Checkout", showBack: true),
       body: SafeArea(
@@ -146,8 +153,13 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                   Text(kCurrencyFormat("$planAmount"))
                 ],
               ),
+              Text(
+                "*Includes all taxes in the net payable amount below.",
+                style: TextStyle(fontSize: 11, color: Colors.grey),
+              ),
               height10,
-              user!.status == "Pending"
+              user.status == "Pending" &&
+                      planAmount >= user.idActiveMinThreshold
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -156,6 +168,16 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                       ],
                     )
                   : SizedBox(),
+              Divider(
+                color: Colors.black,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Net Payable"),
+                  Text(kCurrencyFormat("$netPayable"))
+                ],
+              ),
             ],
           ),
         ),
@@ -182,7 +204,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
             },
             backgroundColor: kPrimaryColor,
             label: "Pay",
-            icon: Text(kCurrencyFormat("$planAmount")),
+            icon: Text(kCurrencyFormat("$netPayable")),
             fontSize: 16,
           ),
         ),

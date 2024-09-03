@@ -16,6 +16,7 @@ class UserModel {
   String lastLogin = "";
   String date = "";
   double idActiveAmount = 0;
+  double idActiveMinThreshold = 0;
   UserModel({
     required this.id,
     required this.name,
@@ -32,6 +33,7 @@ class UserModel {
     required this.lastLogin,
     required this.date,
     required this.idActiveAmount,
+    required this.idActiveMinThreshold,
   });
 
   UserModel copyWith({
@@ -50,6 +52,7 @@ class UserModel {
     String? lastLogin,
     String? date,
     double? idActiveAmount,
+    double? idActiveMinThreshold,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -67,6 +70,7 @@ class UserModel {
       lastLogin: lastLogin ?? this.lastLogin,
       date: date ?? this.date,
       idActiveAmount: idActiveAmount ?? this.idActiveAmount,
+      idActiveMinThreshold: idActiveMinThreshold ?? this.idActiveMinThreshold,
     );
   }
 
@@ -87,6 +91,7 @@ class UserModel {
       'lastLogin': lastLogin,
       'date': date,
       'idActiveAmount': idActiveAmount,
+      'idActiveMinThreshold': idActiveMinThreshold,
     };
   }
 
@@ -107,6 +112,7 @@ class UserModel {
       lastLogin: map['lastLogin'] ?? '',
       date: map['date'] ?? '',
       idActiveAmount: double.parse("${map['idActiveAmount']}"),
+      idActiveMinThreshold: double.parse("${map['idActiveMinThreshold']}"),
     );
   }
 
@@ -117,7 +123,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, phone: $phone, email: $email, state: $state, city: $city, referCode: $referCode, level: $level, firstService: $firstService, referrerCode: $referrerCode, fcmToken: $fcmToken, status: $status, lastLogin: $lastLogin, date: $date)';
+    return 'UserModel(id: $id, name: $name, phone: $phone, email: $email, state: $state, city: $city, referCode: $referCode, level: $level, firstService: $firstService, referrerCode: $referrerCode, fcmToken: $fcmToken, status: $status, lastLogin: $lastLogin, date: $date, idActiveAmount: $idActiveAmount, idActiveMinThreshold: $idActiveMinThreshold)';
   }
 
   @override
@@ -138,7 +144,9 @@ class UserModel {
         other.fcmToken == fcmToken &&
         other.status == status &&
         other.lastLogin == lastLogin &&
-        other.date == date;
+        other.date == date &&
+        other.idActiveAmount == idActiveAmount &&
+        other.idActiveMinThreshold == idActiveMinThreshold;
   }
 
   @override
@@ -156,6 +164,8 @@ class UserModel {
         fcmToken.hashCode ^
         status.hashCode ^
         lastLogin.hashCode ^
-        date.hashCode;
+        date.hashCode ^
+        idActiveAmount.hashCode ^
+        idActiveMinThreshold.hashCode;
   }
 }

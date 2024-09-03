@@ -9,9 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Recharge_Loading_UI extends ConsumerStatefulWidget {
   final String service;
-  final String providerId;
+  final int providerId;
   final String consumerNo;
-  final String amount;
+  final double amount;
   final String tpin;
   const Recharge_Loading_UI(
       {super.key,

@@ -34,7 +34,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
 
   String providerImage = "";
   String providerName = "";
-  String providerId = "";
+  int providerId = 0;
 
   @override
   void initState() {
@@ -192,7 +192,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
     return GestureDetector(
       onTap: () {
         _phone.text = data["consumerNo"];
-        providerId = "${data["providerId"]}";
+        providerId = data["providerId"];
         providerName = data["providerName"];
         providerImage = data["image"];
         setState(() {});

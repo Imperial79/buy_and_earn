@@ -92,7 +92,8 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            kLabel('Recharge, Booking & Bill Payments'),
+                            // Recharge, Booking & Bill Payments
+                            kLabel('Recharge'),
                             height20,
                             GridView(
                               gridDelegate:

@@ -44,10 +44,10 @@ final mobile_recharge_repository = Provider(
 
 class MobileRechargeRepository {
   Future<ResponseModel> rechargeMobile({
-    required String providerId,
+    required int providerId,
     required String consumerNo,
     required String tpin,
-    required String rechargeAmount,
+    required double rechargeAmount,
   }) async {
     final res = await apiCallBack(
       path: "/recharge-providers/prepaid/recharge",
@@ -63,19 +63,11 @@ class MobileRechargeRepository {
   }
 
   Future<ResponseModel> recharge({
-    required String providerId,
+    required int providerId,
     required String consumerNo,
     required String tpin,
-    required String rechargeAmount,
+    required double rechargeAmount,
   }) async {
-    print(
-      {
-        "providerId": providerId,
-        "consumerNo": consumerNo,
-        "tpin": tpin,
-        "rechargeAmount": rechargeAmount,
-      },
-    );
     final res = await apiCallBack(
       path: "/recharge-providers/dth/recharge",
       body: {

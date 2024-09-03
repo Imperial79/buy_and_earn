@@ -2,13 +2,13 @@ import 'dart:convert';
 
 class Mobile_Recharge_Model {
   String service = "";
-  String? providerId = "";
+  int? providerId = 0;
   String? providerName = "";
   String? providerImage = "";
   String? circle = "";
   String? customerName = "";
   String? customerPhone = "";
-  String? planAmount = "";
+  double? planAmount = 0.0;
   Mobile_Recharge_Model({
     required this.service,
     this.providerId,
@@ -22,13 +22,13 @@ class Mobile_Recharge_Model {
 
   Mobile_Recharge_Model copyWith({
     String? service,
-    String? providerId,
+    int? providerId,
     String? providerName,
     String? providerImage,
     String? circle,
     String? customerName,
     String? customerPhone,
-    String? planAmount,
+    double? planAmount,
   }) {
     return Mobile_Recharge_Model(
       service: service ?? this.service,
@@ -58,13 +58,13 @@ class Mobile_Recharge_Model {
   factory Mobile_Recharge_Model.fromMap(Map<String, dynamic> map) {
     return Mobile_Recharge_Model(
       service: map['service'] ?? '',
-      providerId: map['providerId'],
+      providerId: map['providerId']?.toInt(),
       providerName: map['providerName'],
       providerImage: map['providerImage'],
       circle: map['circle'],
       customerName: map['customerName'],
       customerPhone: map['customerPhone'],
-      planAmount: map['planAmount'],
+      planAmount: double.parse("${map['planAmount']}"),
     );
   }
 
@@ -75,7 +75,7 @@ class Mobile_Recharge_Model {
 
   @override
   String toString() {
-    return 'Mobile_Recharge_Modal(providerId: $providerId, providerName: $providerName, providerImage: $providerImage, circle: $circle, customerName: $customerName, customerPhone: $customerPhone, planAmount: $planAmount)';
+    return 'Mobile_Recharge_Model(service: $service, providerId: $providerId, providerName: $providerName, providerImage: $providerImage, circle: $circle, customerName: $customerName, customerPhone: $customerPhone, planAmount: $planAmount)';
   }
 
   @override
@@ -83,6 +83,7 @@ class Mobile_Recharge_Model {
     if (identical(this, other)) return true;
 
     return other is Mobile_Recharge_Model &&
+        other.service == service &&
         other.providerId == providerId &&
         other.providerName == providerName &&
         other.providerImage == providerImage &&
@@ -94,7 +95,8 @@ class Mobile_Recharge_Model {
 
   @override
   int get hashCode {
-    return providerId.hashCode ^
+    return service.hashCode ^
+        providerId.hashCode ^
         providerName.hashCode ^
         providerImage.hashCode ^
         circle.hashCode ^

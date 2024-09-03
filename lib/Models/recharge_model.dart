@@ -2,12 +2,12 @@ import 'dart:convert';
 
 class Recharge_Model {
   String service = "";
-  String? providerId = "";
+  int? providerId = 0;
   String? providerName = "";
   String? providerImage = "";
   String? circle = "";
   String? consumerNo = "";
-  String? planAmount = "";
+  double? planAmount = 0.0;
   Recharge_Model({
     required this.service,
     this.providerId,
@@ -20,12 +20,12 @@ class Recharge_Model {
 
   Recharge_Model copyWith({
     String? service,
-    String? providerId,
+    int? providerId,
     String? providerName,
     String? providerImage,
     String? circle,
     String? consumerNo,
-    String? planAmount,
+    double? planAmount,
   }) {
     return Recharge_Model(
       service: service ?? this.service,
@@ -53,12 +53,12 @@ class Recharge_Model {
   factory Recharge_Model.fromMap(Map<String, dynamic> map) {
     return Recharge_Model(
       service: map['service'] ?? '',
-      providerId: map['providerId'],
+      providerId: map['providerId']?.toInt(),
       providerName: map['providerName'],
       providerImage: map['providerImage'],
       circle: map['circle'],
       consumerNo: map['consumerNo'],
-      planAmount: map['planAmount'],
+      planAmount: double.parse("${map['planAmount']}"),
     );
   }
 

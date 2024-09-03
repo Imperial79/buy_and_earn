@@ -115,9 +115,11 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                             itemBuilder: (context, index) =>
                                 _historyTile(data[index]),
                           )
-                        : kNoData(
-                            title: "No recent recharges!",
-                            subtitle: "Initiate with your first recharge!"),
+                        : SingleChildScrollView(
+                            child: kNoData(
+                                title: "No recent recharges!",
+                                subtitle: "Initiate with your first recharge!"),
+                          ),
                     error: (error, stackTrace) => kNoData(
                       title: "Some error occurred!",
                     ),
@@ -139,7 +141,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
       onTap: () {
         _consumerNo.text = data["consumerNo"];
         localData = localData!.copyWith(
-          providerId: "${data["providerId"]}",
+          providerId: int.parse("${data["providerId"]}"),
           providerName: data["providerName"],
           providerImage: data["image"],
         );

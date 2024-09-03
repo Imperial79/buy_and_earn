@@ -41,7 +41,8 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
                           Mobile_Recharge_UI(
                             masterdata: Mobile_Recharge_Model(
                               service: widget.service,
-                              providerId: "${data[index]['providerId']}",
+                              providerId:
+                                  int.parse("${data[index]['providerId']}"),
                               providerName: data[index]['providerName'],
                               providerImage: data[index]['image'],
                             ),
