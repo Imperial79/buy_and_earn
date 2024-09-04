@@ -60,7 +60,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
       appBar: KAppBar(context,
           title: "${masterdata.service} Recharge", showBack: true),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: EdgeInsets.all(kPadding),
           child: Form(
             key: _formKey,
@@ -118,26 +118,22 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                 height20,
                 kLabel("Recent"),
                 height15,
-                Expanded(
-                  child: historyAsync.when(
-                    data: (data) => data.length > 0
-                        ? ListView.separated(
-                            separatorBuilder: (context, index) => height10,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) =>
-                                _historyTile(data[index]),
-                          )
-                        : SingleChildScrollView(
-                            child: kNoData(
-                                title: "No recent recharges!",
-                                subtitle: "Initiate with your first recharge!"),
-                          ),
-                    error: (error, stackTrace) => kNoData(
-                      title: "Some error occurred!",
-                    ),
-                    loading: () => Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                historyAsync.when(
+                  data: (data) => data.length > 0
+                      ? ListView.separated(
+                          separatorBuilder: (context, index) => height10,
+                          itemCount: data.length,
+                          itemBuilder: (context, index) =>
+                              _historyTile(data[index]),
+                        )
+                      : kNoData(
+                          title: "No recent recharges!",
+                          subtitle: "Initiate with your first recharge!"),
+                  error: (error, stackTrace) => kNoData(
+                    title: "Some error occurred!",
+                  ),
+                  loading: () => Center(
+                    child: CircularProgressIndicator(),
                   ),
                 ),
               ],
