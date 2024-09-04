@@ -19,14 +19,19 @@ class Recharge_UI extends ConsumerStatefulWidget {
   const Recharge_UI({super.key, required this.masterdata});
 
   @override
-  ConsumerState<Recharge_UI> createState() => _Recharge_UIState();
+  ConsumerState<Recharge_UI> createState() =>
+      _Recharge_UIState(masterdata: masterdata);
 }
 
 class _Recharge_UIState extends ConsumerState<Recharge_UI> {
+  final Recharge_Model masterdata;
+  _Recharge_UIState({required this.masterdata});
   final _consumerNo = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  Recharge_Model? localData;
+  String providerImage = "";
+  String providerName = "";
+  int providerId = 0;
 
   @override
   void initState() {
@@ -34,7 +39,9 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
 
     SchedulerBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        localData = widget.masterdata;
+        providerId = masterdata.providerId!;
+        providerImage = masterdata.providerImage!;
+        providerName = masterdata.providerName!;
         setState(() {});
       },
     );
@@ -48,10 +55,10 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
 
   @override
   Widget build(BuildContext context) {
-    final historyAsync = ref.watch(rechargeHistoryFuture(localData!.service));
+    final historyAsync = ref.watch(rechargeHistoryFuture(masterdata.service));
     return KScaffold(
       appBar: KAppBar(context,
-          title: "${localData!.service} Recharge", showBack: true),
+          title: "${masterdata.service} Recharge", showBack: true),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(kPadding),
@@ -60,13 +67,15 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                kPlanCard(
-                  context,
-                  providerImage: localData!.providerImage!,
-                  providerName: localData!.providerName!,
-                ),
+                providerImage.isNotEmpty
+                    ? kPlanCard(
+                        context,
+                        providerImage: providerImage,
+                        providerName: providerName,
+                      )
+                    : SizedBox(),
                 height20,
-                Text("Enter ${localData!.service} Consumer ID/Number"),
+                Text("Enter ${masterdata.service} Consumer ID/Number"),
                 height10,
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,8 +98,11 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                 KButton.full(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      final data = localData!.copyWith(
+                      final data = masterdata.copyWith(
                         consumerNo: _consumerNo.text.trim(),
+                        providerId: providerId,
+                        providerName: providerName,
+                        providerImage: providerImage,
                       );
 
                       navPush(
@@ -140,12 +152,9 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
     return GestureDetector(
       onTap: () {
         _consumerNo.text = data["consumerNo"];
-        localData = localData!.copyWith(
-          providerId: int.parse("${data["providerId"]}"),
-          providerName: data["providerName"],
-          providerImage: data["image"],
-        );
-
+        providerId = data["providerId"];
+        providerName = data["providerName"];
+        providerImage = data["image"];
         setState(() {});
       },
       child: Container(

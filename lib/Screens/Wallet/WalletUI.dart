@@ -1,19 +1,22 @@
+import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WalletUI extends StatefulWidget {
+class WalletUI extends ConsumerStatefulWidget {
   const WalletUI({super.key});
 
   @override
-  State<WalletUI> createState() => _WalletUIState();
+  ConsumerState<WalletUI> createState() => _WalletUIState();
 }
 
-class _WalletUIState extends State<WalletUI> {
+class _WalletUIState extends ConsumerState<WalletUI> {
   final amount = TextEditingController();
 
   @override
@@ -24,6 +27,7 @@ class _WalletUIState extends State<WalletUI> {
 
   @override
   Widget build(BuildContext context) {
+    final wallet = ref.watch(walletFuture);
     return KScaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -33,7 +37,7 @@ class _WalletUIState extends State<WalletUI> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               kCard(
-                cardColor: kColor(context).primary,
+                cardColor: kPrimaryColor,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -50,11 +54,16 @@ class _WalletUIState extends State<WalletUI> {
                           ),
                           height10,
                           Text(
-                            "₹ 1,000.20",
+                            wallet.when(
+                              data: (data) =>
+                                  kCurrencyFormat("${data!["balance"]}"),
+                              error: (error, stackTrace) => "-",
+                              loading: () => "...",
+                            ),
                             style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
                               fontWeight: FontWeight.w700,
+                              fontSize: 30,
+                              color: Colors.white,
                             ),
                           ),
                         ],

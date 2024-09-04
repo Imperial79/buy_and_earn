@@ -1,5 +1,7 @@
 import 'package:buy_and_earn/Models/transactions_model.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
+import 'package:buy_and_earn/Screens/Wallet/WalletUI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -98,12 +100,12 @@ Widget kWalletCard(context) {
                   ],
                 ),
               ),
-              // KButton.outlined(
-              //   onPressed: () {
-              //     navPush(context, WalletUI());
-              //   },
-              //   label: "Add Money",
-              // ),
+              KButton.outlined(
+                onPressed: () {
+                  navPush(context, WalletUI());
+                },
+                label: "Add Money",
+              ),
             ],
           ),
         ),
