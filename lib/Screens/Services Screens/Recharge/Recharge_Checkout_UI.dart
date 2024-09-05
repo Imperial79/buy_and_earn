@@ -189,18 +189,16 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
             onPressed: () async {
               Map? res = await navPush(context, TPin_UI());
 
-              if (res != null) {
-                navPushReplacement(
-                  context,
-                  Recharge_Loading_UI(
-                    service: service,
-                    providerId: providerId,
-                    consumerNo: consumerNo,
-                    amount: planAmount,
-                    tpin: res["tpin"],
-                  ),
-                );
-              }
+              navPushReplacement(
+                context,
+                Recharge_Loading_UI(
+                  service: service,
+                  providerId: providerId,
+                  consumerNo: consumerNo,
+                  amount: planAmount,
+                  tpin: res!["tpin"],
+                ),
+              );
             },
             backgroundColor: kPrimaryColor,
             label: "Pay",

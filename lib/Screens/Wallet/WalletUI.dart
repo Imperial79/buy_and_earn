@@ -8,6 +8,8 @@ import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
+import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
 class WalletUI extends ConsumerStatefulWidget {
   const WalletUI({super.key});
@@ -29,7 +31,10 @@ class _WalletUIState extends ConsumerState<WalletUI> {
   Widget build(BuildContext context) {
     final wallet = ref.watch(walletFuture);
     return KScaffold(
-      appBar: AppBar(),
+      appBar: KAppBar(context, title: "Wallet", actions: [
+        IconButton(onPressed: () {}, icon: Icon(Icons.history)),
+        width10,
+      ]),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(12),
@@ -46,9 +51,9 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Wallet",
+                            "Available balance",
                             style: TextStyle(
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w500,
                                 fontSize: 15,
                                 color: Colors.white),
                           ),
@@ -61,7 +66,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                               loading: () => "...",
                             ),
                             style: TextStyle(
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w600,
                               fontSize: 30,
                               color: Colors.white,
                             ),
@@ -132,21 +137,72 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                     onPressed: amount.text.isNotEmpty ? () {} : null,
                     label: "Proceed to recharge",
                   ),
-                  KButton.icon(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
-                    ),
-                    label: "History",
-                    backgroundColor: Colors.grey.shade300,
-                    padding: EdgeInsets.all(10),
-                    textColor: Colors.black,
+                  height20,
+                  kLabel("Today's Stats"),
+                  height15,
+                  StaggeredGridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    physics: NeverScrollableScrollPhysics(),
+                    staggeredTiles: [
+                      StaggeredTile.fit(1),
+                      StaggeredTile.fit(1),
+                      StaggeredTile.fit(1),
+                      StaggeredTile.fit(1),
+                    ],
+                    children: [
+                      _statCard("₹ 100", "Total earned"),
+                      _statCard(
+                        "100",
+                        "Total Distance Travelled (Kms)",
+                      ),
+                      _statCard(
+                        "⭐ 2",
+                        "Average Ratings",
+                      ),
+                      _statCard("1", "Total Trips"),
+                    ],
                   ),
                 ],
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _statCard(String label, String content) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: kRadius(10),
+      ),
+      color: kCardColor,
+      child: Padding(
+        padding: EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            height10,
+            Text(
+              content,
+              style: TextStyle(
+                fontSize: 13,
+                letterSpacing: 1,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );

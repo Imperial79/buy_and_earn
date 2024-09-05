@@ -127,11 +127,18 @@ kPill({void Function()? onTap, required String label}) {
   );
 }
 
-kWidgetPill(context, {void Function()? onTap, required Widget child}) {
+kWidgetPill(
+  context, {
+  void Function()? onTap,
+  required Widget child,
+  EdgeInsetsGeometry? padding,
+  Color? backgroundColor,
+}) {
   return Container(
+    padding: padding,
     decoration: BoxDecoration(
       borderRadius: kRadius(100),
-      color: kColor(context).tertiaryContainer,
+      color: backgroundColor ?? kColor(context).tertiaryContainer,
     ),
     child: child,
   );

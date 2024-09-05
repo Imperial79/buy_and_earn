@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Screens/Home/HomeUI.dart';
 import 'package:buy_and_earn/Screens/More/MoreUI.dart';
 import 'package:buy_and_earn/Screens/Refer/ReferUI.dart';
@@ -26,6 +27,28 @@ class _RootUIState extends ConsumerState<RootUI> {
     TransactionsUI(),
     MoreUI(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        _showMembershipDialog();
+      },
+    );
+  }
+
+  _showMembershipDialog() {
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      builder: (context) => SingleChildScrollView(
+        child: kClubModal(context),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

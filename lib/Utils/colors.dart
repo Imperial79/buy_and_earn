@@ -59,6 +59,12 @@ ColorScheme kColor(BuildContext context) => Theme.of(context).colorScheme;
 /// For setting SVG icon Color
 ColorFilter kSvgColor(Color color) => ColorFilter.mode(color, BlendMode.srcIn);
 
+List<Color> kPremiumColors = [
+  Color.fromARGB(255, 255, 220, 232),
+  Color.fromARGB(255, 220, 255, 240),
+  Color.fromARGB(255, 247, 255, 220),
+];
+
 Color kScaffoldColor = Color(0xfff9f9f9);
 Color kPrimaryColor = Color(0xff034f89);
 Color kPrimaryAccentColor = Color.fromARGB(255, 203, 221, 235);

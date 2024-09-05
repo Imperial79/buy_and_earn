@@ -32,26 +32,39 @@ Widget kHeading(String label) {
   );
 }
 
-Widget kCard(
-    {Widget? child,
-    double? width,
-    Color? cardColor,
-    EdgeInsetsGeometry? padding}) {
+Widget kCard({
+  Widget? child,
+  double? width,
+  Color? cardColor,
+  EdgeInsetsGeometry? padding,
+  bool isPremium = false,
+}) {
   return SizedBox(
     width: width,
-    child: Card(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: Colors.grey.shade300,
-        ),
-        borderRadius: kRadius(7),
-      ),
-      color: cardColor ?? kCardColor,
-      child: Padding(
-        padding: padding ?? EdgeInsets.all(12),
-        child: child,
-      ),
-    ),
+    child: isPremium
+        ? Container(
+            padding: EdgeInsets.all(kPadding),
+            decoration: BoxDecoration(
+              borderRadius: kRadius(5),
+              gradient: LinearGradient(
+                colors: kPremiumColors,
+              ),
+            ),
+            child: child,
+          )
+        : Card(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.grey.shade300,
+              ),
+              borderRadius: kRadius(7),
+            ),
+            color: cardColor ?? kCardColor,
+            child: Padding(
+              padding: padding ?? EdgeInsets.all(12),
+              child: child,
+            ),
+          ),
   );
 }
 
@@ -316,6 +329,87 @@ Widget kPlanCard(
             },
             child: Text("Change")),
       ],
+    ),
+  );
+}
+
+Container kClubModal(BuildContext context) {
+  return Container(
+    width: double.maxFinite,
+    decoration: BoxDecoration(
+      borderRadius: kRadius(30),
+      color: Colors.white,
+      gradient: LinearGradient(
+        colors: kPremiumColors,
+      ),
+    ),
+    padding: EdgeInsets.all(kPadding),
+    child: SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.close)),
+          ),
+          Text(
+            "Club Membership",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          height20,
+          Container(
+            padding: EdgeInsets.only(bottom: 2),
+            decoration: BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(color: kPrimaryColor, width: 2))),
+            child: Text(
+              "At just ₹100*",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w900,
+                color: kPrimaryColor,
+              ),
+            ),
+          ),
+          height20,
+          Text(
+            "Benefits",
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+          Text(
+            "- Guaranteed cashbacks.",
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          height20,
+          Text(
+            "*Terms and Coditions apply",
+            style: TextStyle(fontSize: 10),
+          ),
+          height5,
+          MaterialButton(
+            onPressed: () {},
+            elevation: 0,
+            highlightElevation: 0,
+            color: kPrimaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: kRadius(100),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            textColor: Colors.white,
+            child: Text(
+              "Buy Now",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

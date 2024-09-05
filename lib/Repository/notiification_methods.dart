@@ -6,7 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:googleapis_auth/auth_io.dart' as auth;
-import '../Services/SA-CREDS.dart';
+import '../Services/SA-Creds.dart';
 import '../Services/notification_config.dart';
 
 final notificationRepository = Provider((ref) => NotificationMethods());

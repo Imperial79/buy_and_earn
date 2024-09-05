@@ -123,6 +123,8 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                       ? ListView.separated(
                           separatorBuilder: (context, index) => height10,
                           itemCount: data.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
                           itemBuilder: (context, index) =>
                               _historyTile(data[index]),
                         )

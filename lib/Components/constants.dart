@@ -5,8 +5,8 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const kAppVersion = "1.2.5";
-const kAppBuild = "14";
+const kAppVersion = "1.2.6";
+const kAppBuild = "15";
 
 final String welcomeImages = "assets/images/welcome-images";
 

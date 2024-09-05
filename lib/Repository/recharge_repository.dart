@@ -1,6 +1,6 @@
 import 'package:buy_and_earn/Models/response_model.dart';
 import 'package:buy_and_earn/Utils/api_config.dart';
-// import 'package:contacts_service/contacts_service.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final hasContactPermission = StateProvider((ref) => false);
@@ -81,15 +81,15 @@ class MobileRechargeRepository {
     return res;
   }
 
-  // Future<List<Contact>> fetchContacts() async {
-  //   // List<Contact> contacts = await FlutterContacts.getContacts(
-  //   //     withProperties: true, withPhoto: true);
-  //   List<Contact> contacts =
-  //       await ContactsService.getContacts(withThumbnails: false);
+  Future<List<Contact>> fetchContacts() async {
+    // List<Contact> contacts = await FlutterContacts.getContacts(
+    //     withProperties: true, withPhoto: true);
+    List<Contact> contacts =
+        await ContactsService.getContacts(withThumbnails: false);
 
-  //   // return contacts.where((contact) {
-  //   //   return contact.phones.isNotEmpty;
-  //   // }).toList();
-  //   return contacts;
-  // }
+    // return contacts.where((contact) {
+    //   return contact.phones.isNotEmpty;
+    // }).toList();
+    return contacts;
+  }
 }

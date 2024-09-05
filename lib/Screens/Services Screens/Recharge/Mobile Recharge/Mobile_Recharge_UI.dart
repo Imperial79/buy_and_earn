@@ -3,7 +3,6 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/mobile_recharge_modal.dart';
 import 'package:buy_and_earn/Repository/recharge_repository.dart';
-import 'package:buy_and_earn/Screens/ContactsUI.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Recharge_Plan_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
@@ -15,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../ContactsUI.dart';
 
 class Mobile_Recharge_UI extends ConsumerStatefulWidget {
   final Mobile_Recharge_Model masterdata;
@@ -104,25 +104,25 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                         },
                       ),
                     ),
-                    // width10,
-                    // IconButton(
-                    //   onPressed: () async {
-                    //     Map? contact =
-                    //         await navPush(context, ContactsUI()) as Map?;
+                    width10,
+                    IconButton(
+                      onPressed: () async {
+                        Map? contact =
+                            await navPush(context, ContactsUI()) as Map?;
 
-                    //     if (contact != null) {
-                    //       String sanitized = sanitizeContact(contact["phone"]);
-                    //       setState(() {
-                    //         _customerName = contact["name"];
-                    //         _phone.text = sanitized;
-                    //       });
-                    //     }
-                    //   },
-                    //   icon: Icon(
-                    //     Icons.contacts_rounded,
-                    //     color: Colors.blue.shade700,
-                    //   ),
-                    // ),
+                        if (contact != null) {
+                          String sanitized = sanitizeContact(contact["phone"]);
+                          setState(() {
+                            _customerName = contact["name"];
+                            _phone.text = sanitized;
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.contacts_rounded,
+                        color: Colors.blue.shade700,
+                      ),
+                    ),
                   ],
                 ),
                 height10,
@@ -158,6 +158,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                           separatorBuilder: (context, index) => height10,
                           itemCount: data.length,
                           shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) =>
                               _historyTile(data[index]),
                         )
