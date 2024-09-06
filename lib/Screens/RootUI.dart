@@ -1,9 +1,14 @@
+import 'dart:developer';
+
 import 'package:animations/animations.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Repository/clubHouse_repository.dart';
+import 'package:buy_and_earn/Screens/Auth/TPin_UI.dart';
 import 'package:buy_and_earn/Screens/Home/HomeUI.dart';
 import 'package:buy_and_earn/Screens/More/MoreUI.dart';
 import 'package:buy_and_earn/Screens/Refer/ReferUI.dart';
 import 'package:buy_and_earn/Screens/Transactions/TransactionsUI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +26,7 @@ class RootUI extends ConsumerStatefulWidget {
 }
 
 class _RootUIState extends ConsumerState<RootUI> {
+  bool isLoading = false;
   final _screens = [
     HomeUI(),
     ReferUI(),
@@ -39,13 +45,40 @@ class _RootUIState extends ConsumerState<RootUI> {
     );
   }
 
+  Future<void> _buyMembership() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      Map? data = await navPush(context, TPin_UI()) as Map?;
+      if (data != null) {
+        final res =
+            await ref.read(clubHouseRepository).buyMembership(data["tpin"]);
+
+        log("$res");
+      }
+    } catch (e) {
+      KSnackbar(context, content: "Something went wrong!", isDanger: true);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   _showMembershipDialog() {
     return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       elevation: 0,
       builder: (context) => SingleChildScrollView(
-        child: kClubModal(context),
+        child: kClubModal(
+          context,
+          onPressed: () async {
+            Navigator.pop(context);
+            await _buyMembership();
+          },
+        ),
       ),
     );
   }
@@ -58,7 +91,7 @@ class _RootUIState extends ConsumerState<RootUI> {
       showIgnore: false,
       showLater: false,
       shouldPopScope: () => false,
-      child: Scaffold(
+      child: KScaffold(
         body: Stack(
           alignment: Alignment.bottomCenter,
           children: [

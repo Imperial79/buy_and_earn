@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
@@ -13,6 +15,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../Repository/clubHouse_repository.dart';
+import '../Auth/TPin_UI.dart';
+
 class MoreUI extends ConsumerStatefulWidget {
   const MoreUI({super.key});
 
@@ -21,10 +26,10 @@ class MoreUI extends ConsumerStatefulWidget {
 }
 
 class _MoreUIState extends ConsumerState<MoreUI> {
-  bool _isLoading = false;
+  bool isLoading = false;
 
   _logout() async {
-    setState(() => _isLoading = true);
+    setState(() => isLoading = true);
     final res = await ref.read(authRepository).logout({});
     if (!res.error) {
       navPopUntilPush(context, RegisterUI()).then(
@@ -34,7 +39,30 @@ class _MoreUIState extends ConsumerState<MoreUI> {
         },
       );
     }
-    if (mounted) setState(() => _isLoading = false);
+    if (mounted) setState(() => isLoading = false);
+  }
+
+  Future<void> _buyMembership() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      Map? data = await navPush(context, TPin_UI()) as Map?;
+      log("$data");
+      if (data != null) {
+        final res =
+            await ref.read(clubHouseRepository).buyMembership(data["tpin"]);
+        log("$res");
+        KSnackbar(context, content: res.message, isDanger: res.error);
+      }
+    } catch (e) {
+      log("$e");
+      KSnackbar(context, content: "Something went wrong!", isDanger: true);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -46,7 +74,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
         ref.read(navigationProvider.notifier).state = 0;
       },
       child: KScaffold(
-        isLoading: _isLoading,
+        isLoading: isLoading,
         body: user != null
             ? SafeArea(
                 child: SingleChildScrollView(
@@ -182,7 +210,13 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                   backgroundColor: Colors.transparent,
                                   elevation: 0,
                                   builder: (context) => SingleChildScrollView(
-                                    child: kClubModal(context),
+                                    child: kClubModal(
+                                      context,
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                        await _buyMembership();
+                                      },
+                                    ),
                                   ),
                                 );
                               },

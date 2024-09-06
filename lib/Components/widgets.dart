@@ -1,4 +1,5 @@
 import 'package:buy_and_earn/Models/transactions_model.dart';
+import 'package:buy_and_earn/Repository/clubHouse_repository.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/Wallet/WalletUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
@@ -333,83 +334,139 @@ Widget kPlanCard(
   );
 }
 
-Container kClubModal(BuildContext context) {
-  return Container(
-    width: double.maxFinite,
-    decoration: BoxDecoration(
-      borderRadius: kRadius(30),
-      color: Colors.white,
-      gradient: LinearGradient(
-        colors: kPremiumColors,
-      ),
-    ),
-    padding: EdgeInsets.all(kPadding),
-    child: SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.close)),
+Widget kClubModal(
+  BuildContext context, {
+  required void Function()? onPressed,
+}) {
+  return Consumer(
+    builder: (context, ref, _) {
+      final clubData = ref.watch(clubHouseFuture);
+      return Container(
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          borderRadius: kRadius(30),
+          color: Colors.white,
+          gradient: LinearGradient(
+            colors: kPremiumColors,
           ),
-          Text(
-            "Club Membership",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-            ),
+        ),
+        padding: EdgeInsets.all(kPadding),
+        child: SafeArea(
+          child: clubData.when(
+            data: (data) => data != null
+                ? Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.close)),
+                      ),
+                      !data["isMember"]
+                          ? Column(
+                              children: [
+                                Text(
+                                  "Club Member",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                height20,
+                                Text(
+                                  "This month spent",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: kPrimaryColor,
+                                  ),
+                                ),
+                                height10,
+                                Text(
+                                  "${kCurrencyFormat(data["mySpent"], decimalDigit: 0)} / ${kCurrencyFormat(data["clubHouseMonthlySpend"], decimalDigit: 0)}",
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w900,
+                                    color: kPrimaryColor,
+                                  ),
+                                )
+                              ],
+                            )
+                          : data['isHousefull']
+                              ? Text("Housefull")
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Club Membership",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    height20,
+                                    Container(
+                                      padding: EdgeInsets.only(bottom: 2),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: kPrimaryColor,
+                                                  width: 2))),
+                                      child: Text(
+                                        "At just ${kCurrencyFormat(data["clubHouseMembership"], decimalDigit: 0)}*",
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w900,
+                                          color: kPrimaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                    height20,
+                                    Text(
+                                      "Benefits",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Text(
+                                      "- Guaranteed cashbacks.",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    height20,
+                                    Text(
+                                      "*Terms and Coditions apply",
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                    height5,
+                                    MaterialButton(
+                                      onPressed: onPressed,
+                                      elevation: 0,
+                                      highlightElevation: 0,
+                                      color: kPrimaryColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: kRadius(100),
+                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 40),
+                                      textColor: Colors.white,
+                                      child: Text(
+                                        "Buy Now",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                    ],
+                  )
+                : kNoData(title: "Oops!", subtitle: "Try again later!"),
+            error: (error, stackTrace) =>
+                kNoData(title: "Oops!", subtitle: "Try again later!"),
+            loading: () => Center(child: CircularProgressIndicator()),
           ),
-          height20,
-          Container(
-            padding: EdgeInsets.only(bottom: 2),
-            decoration: BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: kPrimaryColor, width: 2))),
-            child: Text(
-              "At just ₹100*",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-                color: kPrimaryColor,
-              ),
-            ),
-          ),
-          height20,
-          Text(
-            "Benefits",
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          Text(
-            "- Guaranteed cashbacks.",
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
-          height20,
-          Text(
-            "*Terms and Coditions apply",
-            style: TextStyle(fontSize: 10),
-          ),
-          height5,
-          MaterialButton(
-            onPressed: () {},
-            elevation: 0,
-            highlightElevation: 0,
-            color: kPrimaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: kRadius(100),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            textColor: Colors.white,
-            child: Text(
-              "Buy Now",
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    ),
+        ),
+      );
+    },
   );
 }
