@@ -1,9 +1,7 @@
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
-import '../../Repository/internet_repository.dart';
 import '../colors.dart';
 
 class KScaffold extends ConsumerStatefulWidget {
@@ -31,33 +29,31 @@ class KScaffold extends ConsumerStatefulWidget {
 class _KScaffoldState extends ConsumerState<KScaffold> {
   @override
   Widget build(BuildContext context) {
-    final hasInternet = ref.watch(internetStream);
+    // final hasInternet = ref.watch(internetStream);
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          Scaffold(
-            appBar: widget.appBar,
-            body: widget.body,
-            floatingActionButton: widget.floatingActionButton,
-            floatingActionButtonLocation: widget.floatingActionButtonLocation,
-            bottomNavigationBar: widget.bottomNavigationBar,
-          ),
-          AnimatedSwitcher(
-            duration: Duration(milliseconds: 250),
-            child: widget.isLoading ?? false
-                ? kFullLoading(context, loadingText: widget.loadingText)
-                : SizedBox(),
-          ),
-          hasInternet.when(
-            data: (data) => data == InternetStatus.disconnected
-                ? _noInternetPill(context)
-                : Container(),
-            error: (error, stackTrace) => SizedBox(),
-            loading: () => SizedBox(),
-          ),
-        ],
-      ),
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: widget.appBar,
+          body: widget.body,
+          floatingActionButton: widget.floatingActionButton,
+          floatingActionButtonLocation: widget.floatingActionButtonLocation,
+          bottomNavigationBar: widget.bottomNavigationBar,
+        ),
+        AnimatedSwitcher(
+          duration: Duration(milliseconds: 250),
+          child: widget.isLoading ?? false
+              ? kFullLoading(context, loadingText: widget.loadingText)
+              : SizedBox(),
+        ),
+        // hasInternet.when(
+        //   data: (data) => data == InternetStatus.disconnected
+        //       ? _noInternetPill(context)
+        //       : Container(),
+        //   error: (error, stackTrace) => SizedBox(),
+        //   loading: () => SizedBox(),
+        // ),
+      ],
     );
   }
 

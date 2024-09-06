@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../ContactsUI.dart';
 
 class Mobile_Recharge_UI extends ConsumerStatefulWidget {
@@ -104,25 +105,24 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                         },
                       ),
                     ),
-                    // width10,
-                    // IconButton(
-                    //   onPressed: () async {
-                    //     Map? contact =
-                    //         await navPush(context, ContactsUI()) as Map?;
+                    width10,
+                    IconButton(
+                      onPressed: () async {
+                        Map? contact =
+                            await navPush(context, ContactsUI()) as Map?;
 
-                    //     if (contact != null) {
-                    //       String sanitized = sanitizeContact(contact["phone"]);
-                    //       setState(() {
-                    //         _customerName = contact["name"];
-                    //         _phone.text = sanitized;
-                    //       });
-                    //     }
-                    //   },
-                    //   icon: Icon(
-                    //     Icons.contacts_rounded,
-                    //     color: Colors.blue.shade700,
-                    //   ),
-                    // ),
+                        if (contact != null) {
+                          setState(() {
+                            _customerName = contact["name"];
+                            _phone.text = contact["phone"];
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.contacts_rounded,
+                        color: Colors.blue.shade700,
+                      ),
+                    ),
                   ],
                 ),
                 height10,

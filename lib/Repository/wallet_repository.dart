@@ -1,17 +1,18 @@
 import 'dart:convert';
 
 import 'package:buy_and_earn/Models/transactions_model.dart';
+import 'package:buy_and_earn/Models/wallet_model.dart';
 import 'package:buy_and_earn/Utils/api_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final transactionList = StateProvider<List<Transactions_Model>>((ref) => []);
 
-final walletFuture = FutureProvider.autoDispose<Map?>((ref) async {
+final walletFuture = FutureProvider.autoDispose<WalletModel?>((ref) async {
   final res = await apiCallBack(path: "/wallet/fetch", method: "GET");
   ref.keepAlive();
   if (!res.error) {
-    // return WalletModel.fromMap(res.response);
-    return res.response;
+    return WalletModel.fromMap(res.response);
+    // return res.response;
   }
   return null;
 });

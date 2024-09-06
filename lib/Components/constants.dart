@@ -129,8 +129,8 @@ bool kCompare(String searchKey, String text) {
   return text.trim().toLowerCase().contains(searchKey.trim().toLowerCase());
 }
 
-String kCurrencyFormat(String number, {int decimalDigit = 2}) {
+String kCurrencyFormat(dynamic number, {int decimalDigit = 2}) {
   var f = NumberFormat.currency(
       symbol: "₹", locale: 'en_US', decimalDigits: decimalDigit);
-  return f.format(double.parse(number));
+  return f.format(double.parse("$number"));
 }

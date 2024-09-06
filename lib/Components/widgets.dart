@@ -100,7 +100,7 @@ Widget kWalletCard(context) {
                     ),
                     Text(
                       wallet.when(
-                        data: (data) => kCurrencyFormat("${data!["balance"]}"),
+                        data: (data) => kCurrencyFormat("${data!.balance}"),
                         error: (error, stackTrace) => "-",
                         loading: () => "...",
                       ),

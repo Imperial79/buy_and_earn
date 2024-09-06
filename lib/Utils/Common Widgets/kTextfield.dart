@@ -76,7 +76,10 @@ class KTextfield {
               maxLength: maxLength,
               maxLines: maxLines,
               minLines: maxLines,
-              inputFormatters: inputFormatters,
+              inputFormatters: keyboardType == TextInputType.phone ||
+                      keyboardType == TextInputType.number
+                  ? [FilteringTextInputFormatter.digitsOnly]
+                  : inputFormatters,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(15),
                 filled: true,

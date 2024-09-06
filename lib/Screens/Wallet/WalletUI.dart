@@ -1,9 +1,8 @@
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
-import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
+import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
-import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +30,13 @@ class _WalletUIState extends ConsumerState<WalletUI> {
   Widget build(BuildContext context) {
     final wallet = ref.watch(walletFuture);
     return KScaffold(
-      appBar: KAppBar(context, title: "Wallet", actions: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.history)),
+      appBar: KAppBar(context, title: "Wallet", showBack: true, actions: [
+        IconButton(
+            onPressed: () {
+              ref.read(navigationProvider.notifier).state = 2;
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.history)),
         width10,
       ]),
       body: SafeArea(
@@ -60,8 +64,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                           height10,
                           Text(
                             wallet.when(
-                              data: (data) =>
-                                  kCurrencyFormat("${data!["balance"]}"),
+                              data: (data) => kCurrencyFormat(data!.balance),
                               error: (error, stackTrace) => "-",
                               loading: () => "...",
                             ),
@@ -78,97 +81,203 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                 ),
               ),
               height15,
-              TextFieldTapRegion(
-                onTapOutside: (event) {
-                  FocusScope.of(context).unfocus();
-                },
-                child: KTextfield.regular(
-                  context,
-                  controller: amount,
-                  textSize: 25,
-                  keyboardType: TextInputType.number,
-                  prefixText: "₹ ",
-                  hintText: "Enter amount",
-                  onChanged: (val) {
-                    setState(() {});
-                  },
-                ),
-              ),
-              height15,
+              // TextFieldTapRegion(
+              //   onTapOutside: (event) {
+              //     FocusScope.of(context).unfocus();
+              //   },
+              //   child: KTextfield.regular(
+              //     context,
+              //     controller: amount,
+              //     textSize: 25,
+              //     keyboardType: TextInputType.number,
+              //     prefixText: "₹ ",
+              //     hintText: "Enter amount",
+              //     onChanged: (val) {
+              //       setState(() {});
+              //     },
+              //   ),
+              // ),
+              // height15,
+              // Text(
+              //   "Recommended",
+              //   style: TextStyle(fontSize: 12),
+              // ),
+              // height10,
+              // Wrap(
+              //   spacing: 10,
+              //   runSpacing: 10,
+              //   children: [
+              //     kPill(
+              //         onTap: () {
+              //           setState(() {
+              //             amount.text = "100";
+              //           });
+              //         },
+              //         label: "₹100"),
+              //     kPill(
+              //         onTap: () {
+              //           setState(() {
+              //             amount.text = "500";
+              //           });
+              //         },
+              //         label: "₹500"),
+              //     kPill(
+              //         onTap: () {
+              //           setState(() {
+              //             amount.text = "1500";
+              //           });
+              //         },
+              //         label: "₹1,500"),
+              //     kPill(
+              //         onTap: () {
+              //           setState(() {
+              //             amount.text = "2000";
+              //           });
+              //         },
+              //         label: "₹2,000"),
+              //   ],
+              // ),
+              // height20,
+              // KButton.full(
+              //   onPressed: amount.text.isNotEmpty ? () {} : null,
+              //   label: "Proceed to recharge",
+              // ),
               Text(
-                "Recommended",
-                style: TextStyle(fontSize: 12),
+                "How to recharge wallet:",
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
               ),
-              height10,
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  kPill(
-                      onTap: () {
-                        setState(() {
-                          amount.text = "100";
-                        });
-                      },
-                      label: "₹100"),
-                  kPill(
-                      onTap: () {
-                        setState(() {
-                          amount.text = "500";
-                        });
-                      },
-                      label: "₹500"),
-                  kPill(
-                      onTap: () {
-                        setState(() {
-                          amount.text = "1500";
-                        });
-                      },
-                      label: "₹1,500"),
-                  kPill(
-                      onTap: () {
-                        setState(() {
-                          amount.text = "2000";
-                        });
-                      },
-                      label: "₹2,000"),
-                  height20,
-                  KButton.full(
-                    onPressed: amount.text.isNotEmpty ? () {} : null,
-                    label: "Proceed to recharge",
-                  ),
-                  height20,
-                  kLabel("Today's Stats"),
-                  height15,
-                  StaggeredGridView.count(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    physics: NeverScrollableScrollPhysics(),
-                    staggeredTiles: [
-                      StaggeredTile.fit(1),
-                      StaggeredTile.fit(1),
-                      StaggeredTile.fit(1),
-                      StaggeredTile.fit(1),
-                    ],
-                    children: [
-                      _statCard("₹ 100", "Total earned"),
-                      _statCard(
-                        "100",
-                        "Total Distance Travelled (Kms)",
+              Text("1. Transfer amount on the details given below."),
+              Text("2. Share payment details on WhatsApp/Telegram."),
+              height20,
+              _bankCard(),
+              kHeight(20),
+              kLabel("Yesterday's Earnings"),
+              height15,
+              wallet.when(
+                data: (data) => StaggeredGridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  physics: NeverScrollableScrollPhysics(),
+                  staggeredTiles: [
+                    StaggeredTile.fit(1),
+                    StaggeredTile.fit(1),
+                    StaggeredTile.fit(1),
+                    StaggeredTile.fit(1),
+                  ],
+                  children: [
+                    _statCard(
+                        kCurrencyFormat(
+                          data!.selfCashback,
+                          decimalDigit: 5,
+                        ),
+                        "Self Cashback"),
+                    _statCard(
+                      kCurrencyFormat(
+                        data.referralIncome,
+                        decimalDigit: 5,
                       ),
-                      _statCard(
-                        "⭐ 2",
-                        "Average Ratings",
+                      "Level Commission",
+                    ),
+                    _statCard(
+                      kCurrencyFormat(
+                        data.workingBonus,
+                        decimalDigit: 5,
                       ),
-                      _statCard("1", "Total Trips"),
-                    ],
-                  ),
-                ],
-              ),
+                      "Working Bonus",
+                    ),
+                    _statCard(
+                        kCurrencyFormat(
+                          data.reward,
+                          decimalDigit: 5,
+                        ),
+                        "Rewards"),
+                  ],
+                ),
+                error: (error, stackTrace) => SizedBox(),
+                loading: () => CircularProgressIndicator(),
+              )
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _bankCard() {
+    return Card(
+      color: Colors.black,
+      child: Padding(
+        padding: EdgeInsets.all(12),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: Icon(
+                Icons.security_rounded,
+                size: 70,
+                color: Colors.white.withOpacity(.2),
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.account_balance_outlined,
+                      color: Colors.white,
+                    ),
+                    width10,
+                    Flexible(
+                      child: Text(
+                        "BankName",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                kHeight(40),
+                Text(
+                  "Acc No",
+                  style: TextStyle(
+                    fontSize: 20,
+                    letterSpacing: 5,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  "IFSC",
+                  style: TextStyle(
+                    fontSize: 12,
+                    letterSpacing: 2,
+                    color: Colors.white,
+                  ),
+                ),
+                kHeight(30),
+                Text(
+                  "Holder Name",
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.white,
+                  ),
+                ),
+                height5,
+                Text(
+                  "Admin Name",
+                  style: TextStyle(
+                    fontSize: 16,
+                    letterSpacing: 2,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

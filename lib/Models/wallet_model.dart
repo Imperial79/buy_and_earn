@@ -62,14 +62,14 @@ class WalletModel {
 
   factory WalletModel.fromMap(Map<String, dynamic> map) {
     return WalletModel(
-      id: map['id'] ?? 0,
-      userId: map['userId'] ?? 0,
-      selfCashback: double.parse("${map['selfCashback']}"),
-      referralIncome: double.parse("${map['referralIncome']}"),
-      workingBonus: double.parse("${map['workingBonus']}"),
-      reward: double.parse("${map['reward']}"),
-      tds: double.parse("${map['tds']}"),
-      balance: double.parse("${map['balance']}"),
+      id: map['id']?.toInt() ?? 0,
+      userId: map['userId']?.toInt() ?? 0,
+      selfCashback: map['selfCashback']?.toDouble() ?? 0.0,
+      referralIncome: map['referralIncome']?.toDouble() ?? 0.0,
+      workingBonus: map['workingBonus']?.toDouble() ?? 0.0,
+      reward: map['reward']?.toDouble() ?? 0.0,
+      tds: map['tds']?.toDouble() ?? 0.0,
+      balance: map['balance']?.toDouble() ?? 0.0,
       monthYear: map['monthYear'] ?? '',
     );
   }

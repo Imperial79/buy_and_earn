@@ -91,7 +91,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 2),
                                         child: Text(
-                                          "Member",
+                                          "Member | Lvl. 0",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 10,
@@ -250,6 +250,9 @@ class _MoreUIState extends ConsumerState<MoreUI> {
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         decoration: BoxDecoration(
             borderRadius: kRadius(5),
+            border: Border.all(
+                color: isPremium ? Colors.black : Colors.transparent,
+                width: .5),
             gradient:
                 isPremium ? LinearGradient(colors: kPremiumColors) : null),
         child: Row(
