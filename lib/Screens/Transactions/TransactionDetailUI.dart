@@ -24,9 +24,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _statusCard(),
-              height20,
               kLabel("Mobile Recharge"),
-              height20,
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

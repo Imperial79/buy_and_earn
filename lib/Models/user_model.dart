@@ -17,6 +17,7 @@ class UserModel {
   String date = "";
   double idActiveAmount = 0;
   double idActiveMinThreshold = 0;
+  bool isMember = false;
   UserModel({
     required this.id,
     required this.name,
@@ -34,6 +35,7 @@ class UserModel {
     required this.date,
     required this.idActiveAmount,
     required this.idActiveMinThreshold,
+    required this.isMember,
   });
 
   UserModel copyWith({
@@ -53,6 +55,7 @@ class UserModel {
     String? date,
     double? idActiveAmount,
     double? idActiveMinThreshold,
+    bool? isMember,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -71,6 +74,7 @@ class UserModel {
       date: date ?? this.date,
       idActiveAmount: idActiveAmount ?? this.idActiveAmount,
       idActiveMinThreshold: idActiveMinThreshold ?? this.idActiveMinThreshold,
+      isMember: isMember ?? this.isMember,
     );
   }
 
@@ -92,6 +96,7 @@ class UserModel {
       'date': date,
       'idActiveAmount': idActiveAmount,
       'idActiveMinThreshold': idActiveMinThreshold,
+      'isMember': isMember,
     };
   }
 
@@ -111,8 +116,9 @@ class UserModel {
       status: map['status'] ?? '',
       lastLogin: map['lastLogin'] ?? '',
       date: map['date'] ?? '',
-      idActiveAmount: double.parse("${map['idActiveAmount']}"),
-      idActiveMinThreshold: double.parse("${map['idActiveMinThreshold']}"),
+      idActiveAmount: map['idActiveAmount']?.toDouble() ?? 0.0,
+      idActiveMinThreshold: map['idActiveMinThreshold']?.toDouble() ?? 0.0,
+      isMember: map['isMember'] == "true",
     );
   }
 

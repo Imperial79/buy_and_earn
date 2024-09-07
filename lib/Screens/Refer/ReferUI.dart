@@ -188,17 +188,13 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                     error: (error, stackTrace) => SizedBox(),
                     loading: () => SizedBox(),
                   ),
-                  height20,
                   kLabel("Distribution"),
-                  height15,
                   referSettings.when(
                     data: (data) => _distributionChart(data),
                     error: (error, stackTrace) => SizedBox(),
                     loading: () => SizedBox(),
                   ),
-                  height20,
                   kLabel("My Referals"),
-                  height15,
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(

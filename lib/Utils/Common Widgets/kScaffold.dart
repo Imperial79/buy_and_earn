@@ -102,18 +102,40 @@ AppBar KAppBar(
   BuildContext context, {
   required String title,
   bool isLoading = false,
-  bool? showBack,
+  bool showBack = true,
   List<Widget>? actions,
 }) {
   return AppBar(
-    title: Text(
-      title.toLowerCase(),
-      style: TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: 20,
-      ),
+    title: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (showBack)
+          Padding(
+            padding: EdgeInsets.only(right: 10.0),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: RotatedBox(
+                quarterTurns: 10,
+                child: Icon(
+                  Icons.arrow_right_alt_sharp,
+                  size: 30,
+                ),
+              ),
+              visualDensity: VisualDensity.compact,
+            ),
+          ),
+        Text(
+          title.toLowerCase(),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+          ),
+        ),
+      ],
     ),
-    automaticallyImplyLeading: showBack ?? false,
+    automaticallyImplyLeading: false,
     actions: actions,
     titleTextStyle: TextStyle(
       fontSize: 20,

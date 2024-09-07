@@ -87,23 +87,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                     ? "+91 " + consumerNo
                     : consumerNo,
               ),
-              // mobile_recharge_data != null
-              //     ? kPlanCard(
-              //         context,
-              //         customerName: mobile_recharge_data?.customerName,
-              //         providerImage: mobile_recharge_data!.providerImage!,
-              //         providerName: mobile_recharge_data!.providerName!,
-              //         phone: "+91 " + mobile_recharge_data!.customerPhone!,
-              //       )
-              //     : kPlanCard(
-              //         context,
-              //         providerImage: recharge_data!.providerImage!,
-              //         providerName: recharge_data!.providerName!,
-              //         phone: recharge_data!.consumerNo,
-              //       ),
-              height20,
               kLabel("Plan Details"),
-              height15,
               kCard(
                 width: double.maxFinite,
                 child: Column(
@@ -143,9 +127,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                   ],
                 ),
               ),
-              height20,
               kLabel("Total breakdown"),
-              height15,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -158,26 +140,70 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                 style: TextStyle(fontSize: 11, color: Colors.grey),
               ),
               height10,
-              user.status == "Pending" &&
-                      planAmount >= user.idActiveMinThreshold
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("ID Activation"),
-                        Text("+ ${kCurrencyFormat("${user.idActiveAmount}")}")
-                      ],
-                    )
-                  : SizedBox(),
+              if (user.status == "Pending" &&
+                  planAmount >= user.idActiveMinThreshold)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("ID Activation"),
+                    Text("+ ${kCurrencyFormat("${user.idActiveAmount}")}")
+                  ],
+                ),
               Divider(
-                color: Colors.black,
+                color: Colors.grey.shade400,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Net Payable"),
-                  Text(kCurrencyFormat("$netPayable"))
+                  Text(
+                    "Net Payable",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    kCurrencyFormat("$netPayable"),
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  )
                 ],
               ),
+              if (user.status == "Pending" &&
+                  planAmount < user.idActiveMinThreshold)
+                Card(
+                  margin: EdgeInsets.only(top: 20),
+                  color: Colors.amber.shade100,
+                  child: Padding(
+                    padding: EdgeInsets.all(kPadding),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.info),
+                        width10,
+                        Expanded(
+                          child: Text(
+                            "No cashback will be applicable on this recharge.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              if (user.status == "Pending")
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kLabel("ID activation"),
+                    kLabel("Terms", top: 10),
+                    _ol(1,
+                        "Min. one time purchase of ${kCurrencyFormat(user.idActiveMinThreshold, decimalDigit: 0)} or more."),
+                    _ol(2,
+                        "One time ${kCurrencyFormat(user.idActiveAmount, decimalDigit: 0)} will be deducted as part of activation."),
+                    kLabel("Benefits"),
+                    _ol(1,
+                        "All source of commission income will be activated which includes self cashback, level commission, working bonus and rewards."),
+                  ],
+                ),
             ],
           ),
         ),
@@ -206,6 +232,24 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
             fontSize: 16,
           ),
         ),
+      ),
+    );
+  }
+
+  _ol(int index, String text) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            // height: 10,
+            width: 15,
+            child: Text("$index."),
+          ),
+          width10,
+          Expanded(child: Text(text))
+        ],
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
@@ -48,15 +46,14 @@ class _MoreUIState extends ConsumerState<MoreUI> {
         isLoading = true;
       });
       Map? data = await navPush(context, TPin_UI()) as Map?;
-      log("$data");
+
       if (data != null) {
         final res =
             await ref.read(clubHouseRepository).buyMembership(data["tpin"]);
-        log("$res");
+
         KSnackbar(context, content: res.message, isDanger: res.error);
       }
     } catch (e) {
-      log("$e");
       KSnackbar(context, content: "Something went wrong!", isDanger: true);
     } finally {
       setState(() {
@@ -85,7 +82,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                       kWalletCard(context),
                       height15,
                       kCard(
-                        isPremium: true,
+                        isPremium: user.isMember,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -118,12 +115,18 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                             Colors.amberAccent.shade100,
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 2),
-                                        child: Text(
-                                          "Member | Lvl. 0",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 10,
-                                          ),
+                                        child: Row(
+                                          children: [
+                                            if (user.isMember)
+                                              Text("Member | "),
+                                            Text(
+                                              "Lvl. ${user.level}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       )
                                     ],
@@ -142,6 +145,27 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                 ],
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                      height5,
+                      kCard(
+                        cardColor: user.status == "Pending"
+                            ? Colors.amber.shade100
+                            : Colors.lightGreen.shade100,
+                        width: double.maxFinite,
+                        child: Row(
+                          children: [
+                            Icon(
+                              user.status == "Pending"
+                                  ? Icons.do_disturb_outlined
+                                  : Icons.done,
+                              size: 20,
+                            ),
+                            width10,
+                            Text(user.status == "Pending"
+                                ? "ID Pending"
+                                : "ID Activated"),
                           ],
                         ),
                       ),

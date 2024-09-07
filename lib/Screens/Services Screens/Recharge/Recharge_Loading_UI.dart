@@ -1,4 +1,8 @@
+// ignore_for_file: unused_result
+
+import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/recharge_repository.dart';
+import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
@@ -58,6 +62,11 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
         errorText = res.message;
       }
       isSuccess = !res.error;
+
+      if (ref.read(userProvider)!.status == "Pending") {
+        await ref.refresh(auth.future);
+      }
+      await ref.refresh(walletFuture.future);
     } catch (e) {
       errorText = "$e";
     } finally {

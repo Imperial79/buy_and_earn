@@ -150,9 +150,9 @@ class _WalletUIState extends ConsumerState<WalletUI> {
               Text("2. Share payment details on WhatsApp/Telegram."),
               height20,
               _bankCard(),
-              kHeight(20),
+
               kLabel("Yesterday's Earnings"),
-              height15,
+
               wallet.when(
                 data: (data) => StaggeredGridView.count(
                   crossAxisCount: 2,

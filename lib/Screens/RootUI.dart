@@ -40,7 +40,7 @@ class _RootUIState extends ConsumerState<RootUI> {
 
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        _showMembershipDialog();
+        // _showMembershipDialog();
       },
     );
   }
@@ -51,11 +51,12 @@ class _RootUIState extends ConsumerState<RootUI> {
         isLoading = true;
       });
       Map? data = await navPush(context, TPin_UI()) as Map?;
+
       if (data != null) {
         final res =
             await ref.read(clubHouseRepository).buyMembership(data["tpin"]);
 
-        log("$res");
+        KSnackbar(context, content: res.message, isDanger: res.error);
       }
     } catch (e) {
       KSnackbar(context, content: "Something went wrong!", isDanger: true);

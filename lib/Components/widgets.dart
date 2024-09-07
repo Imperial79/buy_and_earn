@@ -13,12 +13,15 @@ import '../Utils/colors.dart';
 import '../Utils/commons.dart';
 import 'constants.dart';
 
-Widget kLabel(String label) {
-  return Text(
-    label,
-    style: TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 15,
+Widget kLabel(String label, {double top = 20, double bottom = 15}) {
+  return Padding(
+    padding: EdgeInsets.only(bottom: bottom, top: top),
+    child: Text(
+      label,
+      style: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 15,
+      ),
     ),
   );
 }
@@ -391,7 +394,23 @@ Widget kClubModal(
                                     fontWeight: FontWeight.w900,
                                     color: kPrimaryColor,
                                   ),
-                                )
+                                ),
+                                height20,
+                                Text(
+                                  "${(data["mySpent"] / data["clubHouseMonthlySpend"]).floor()}% completed",
+                                  style: TextStyle(),
+                                ),
+                                height5,
+                                ClipRRect(
+                                  borderRadius: kRadius(10),
+                                  child: LinearProgressIndicator(
+                                    value: (data["mySpent"] /
+                                        data["clubHouseMonthlySpend"]),
+                                    minHeight: 20,
+                                    backgroundColor:
+                                        Colors.white.withOpacity(.5),
+                                  ),
+                                ),
                               ],
                             )
                           : data['isHousefull']

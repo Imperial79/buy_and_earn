@@ -115,9 +115,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                   },
                   label: "Proceed",
                 ),
-                height20,
                 kLabel("Recent"),
-                height15,
                 historyAsync.when(
                   data: (data) => data.length > 0
                       ? ListView.separated(

@@ -82,7 +82,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                   ],
                   isLooped: true,
                 ),
-                height15,
+                height20,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.0),
                   child: Column(
@@ -92,9 +92,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Recharge, Booking & Bill Payments
-                            kLabel('Recharge'),
-                            height20,
+                            kLabel('Recharge', top: 0),
                             GridView(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(

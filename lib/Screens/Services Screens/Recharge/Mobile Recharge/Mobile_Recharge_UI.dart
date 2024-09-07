@@ -11,7 +11,6 @@ import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,27 +28,10 @@ class Mobile_Recharge_UI extends ConsumerStatefulWidget {
 class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
   final Mobile_Recharge_Model masterdata;
   _Mobile_Recharge_UIState({required this.masterdata});
+
   String _customerName = "";
   final _phone = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  String providerImage = "";
-  String providerName = "";
-  int providerId = 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    SchedulerBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        providerId = widget.masterdata.providerId!;
-        providerImage = widget.masterdata.providerImage!;
-        providerName = widget.masterdata.providerName!;
-        setState(() {});
-      },
-    );
-  }
 
   @override
   void dispose() {
@@ -72,13 +54,11 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                providerImage.isNotEmpty
-                    ? kPlanCard(
-                        context,
-                        providerImage: providerImage,
-                        providerName: providerName,
-                      )
-                    : SizedBox(),
+                kPlanCard(
+                  context,
+                  providerImage: masterdata.providerImage!,
+                  providerName: masterdata.providerName!,
+                ),
                 height20,
                 Text("Enter or Select your phone number"),
                 height10,
@@ -132,9 +112,9 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                       final data = masterdata.copyWith(
                         customerName: _customerName,
                         customerPhone: _phone.text.trim(),
-                        providerId: providerId,
-                        providerName: providerName,
-                        providerImage: providerImage,
+                        providerId: masterdata.providerId,
+                        providerName: masterdata.providerName,
+                        providerImage: masterdata.providerImage,
                       );
 
                       navPush(
@@ -149,9 +129,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                   },
                   label: "Proceed",
                 ),
-                height20,
                 kLabel("Recent contacts"),
-                height15,
                 historyAsync.when(
                   data: (data) => data.length > 0
                       ? ListView.separated(
@@ -183,11 +161,22 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
   Widget _historyTile(Map data) {
     return GestureDetector(
       onTap: () {
-        _phone.text = data["consumerNo"];
-        providerId = data["providerId"];
-        providerName = data["providerName"];
-        providerImage = data["image"];
-        setState(() {});
+        final _finalData = masterdata.copyWith(
+          customerName: _customerName,
+          customerPhone: data["consumerNo"],
+          providerId: data["providerId"],
+          providerName: data["providerName"],
+          providerImage: data["image"],
+        );
+
+        navPush(
+            context,
+            Recharge_Plan_UI(
+              recharge_data: null,
+              mobile_recharge_data: _finalData,
+            )).then(
+          (value) => _customerName = "",
+        );
       },
       child: Container(
         color: kCardColor,
