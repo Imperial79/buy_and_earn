@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Repository/clubHouse_repository.dart';
@@ -28,6 +29,33 @@ class MoreUI extends ConsumerStatefulWidget {
 
 class _MoreUIState extends ConsumerState<MoreUI> {
   bool isLoading = false;
+  XFile? _image;
+
+  Future<XFile?> _pickImage({required ImageSource source}) async {
+    return await ImagePicker().pickImage(
+      source: source,
+      imageQuality: 50,
+    );
+  }
+
+  Future<void> _updateDp() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      final res = await ref.read(authRepository).updateDp(_image!);
+      if (!res.error) {
+        ref.refresh(auth.future);
+      }
+      KSnackbar(context, content: res.message, isDanger: res.error);
+    } catch (e) {
+      KSnackbar(context, content: "Something went wrong!", isDanger: true);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   _logout() async {
     setState(() => isLoading = true);
@@ -94,9 +122,107 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CircleAvatar(
-                              radius: 30,
-                              child: Text("${user.name[0]}"),
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  elevation: 0,
+                                  backgroundColor: Colors.white,
+                                  builder: (context) => SingleChildScrollView(
+                                    padding: EdgeInsets.all(20),
+                                    child: SizedBox(
+                                      width: double.maxFinite,
+                                      child: SafeArea(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Flexible(
+                                                  child: IconButton(
+                                                    onPressed: () async {
+                                                      _image = await _pickImage(
+                                                          source: ImageSource
+                                                              .camera);
+                                                      if (_image != null) {
+                                                        Navigator.pop(context);
+                                                      }
+                                                      setState(() {});
+                                                      _updateDp();
+                                                    },
+                                                    icon: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.camera_alt,
+                                                          color: kPrimaryColor,
+                                                        ),
+                                                        height20,
+                                                        Text(
+                                                          "Camera",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Flexible(
+                                                  child: IconButton(
+                                                    onPressed: () async {
+                                                      _image = await _pickImage(
+                                                          source: ImageSource
+                                                              .gallery);
+                                                      if (_image != null) {
+                                                        Navigator.pop(context);
+                                                        _updateDp();
+                                                      }
+                                                      setState(() {});
+                                                    },
+                                                    icon: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.photo_sharp,
+                                                          color: kPrimaryColor,
+                                                        ),
+                                                        height20,
+                                                        Text(
+                                                          "Gallery",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: user.dp != null
+                                  ? CircleAvatar(
+                                      radius: 30,
+                                      backgroundImage: NetworkImage(user.dp!),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 30,
+                                      child: Text("${user.name[0]}"),
+                                    ),
                             ),
                             width10,
                             Expanded(
@@ -126,7 +252,13 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                         child: Row(
                                           children: [
                                             if (user.isMember)
-                                              Text("Member | "),
+                                              Text(
+                                                "Member | ",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 10,
+                                                ),
+                                              ),
                                             Text(
                                               "Lvl. ${user.level}",
                                               style: TextStyle(
@@ -143,7 +275,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                   height5,
                                   Text("+91 ${user.phone}"),
                                   Text("${user.email}"),
-                                  height5,
+                                  // height5,
                                   // KButton.outlined(
                                   //   onPressed: () {},
                                   //   label: "Edit Details",
@@ -182,7 +314,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            kLabel("Refer Code"),
+                            kLabel("Refer Code", top: 0),
                             Row(
                               children: [
                                 Expanded(
@@ -217,6 +349,28 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                         ),
                       ),
                       height15,
+                      _settingButton(
+                        onTap: () {
+                          return showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            builder: (context) => SingleChildScrollView(
+                              child: kClubModal(
+                                context,
+                                onPressed: () async {
+                                  Navigator.pop(context);
+                                  await _buyMembership();
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                        isPremium: true,
+                        label: "Club Membership",
+                        iconPath: kIconMap["Club House"]!,
+                      ),
+                      height15,
                       kCard(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,31 +389,31 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                             // Divider(
                             //   color: Colors.grey.shade300,
                             // ),
-                            _settingButton(
-                              onTap: () {
-                                return showModalBottomSheet(
-                                  context: context,
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                  builder: (context) => SingleChildScrollView(
-                                    child: kClubModal(
-                                      context,
-                                      onPressed: () async {
-                                        Navigator.pop(context);
-                                        await _buyMembership();
-                                      },
-                                    ),
-                                  ),
-                                );
-                              },
-                              isPremium: true,
-                              label: "Club Membership",
-                              iconPath: kIconMap["Club House"]!,
-                            ),
+                            // _settingButton(
+                            //   onTap: () {
+                            //     return showModalBottomSheet(
+                            //       context: context,
+                            //       backgroundColor: Colors.transparent,
+                            //       elevation: 0,
+                            //       builder: (context) => SingleChildScrollView(
+                            //         child: kClubModal(
+                            //           context,
+                            //           onPressed: () async {
+                            //             Navigator.pop(context);
+                            //             await _buyMembership();
+                            //           },
+                            //         ),
+                            //       ),
+                            //     );
+                            //   },
+                            //   isPremium: true,
+                            //   label: "Club Membership",
+                            //   iconPath: kIconMap["Club House"]!,
+                            // ),
                             // Divider(
                             //   color: Colors.grey.shade300,
                             // ),
-                            height10,
+
                             _settingButton(
                                 onTap: () {
                                   navPush(context, HelpUI());
@@ -318,7 +472,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
             borderRadius: kRadius(5),
             border: Border.all(
                 color: isPremium ? Colors.black : Colors.transparent,
-                width: .5),
+                width: .2),
             gradient:
                 isPremium ? LinearGradient(colors: kPremiumColors) : null),
         child: Row(
@@ -330,20 +484,22 @@ class _MoreUIState extends ConsumerState<MoreUI> {
             ),
             width10,
             Expanded(
-                child: Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-                fontSize: 15,
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                  fontSize: 15,
+                ),
               ),
-            )),
-            width10,
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.grey,
-              size: 15,
             ),
+            width10,
+            if (!isPremium)
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.grey,
+                size: 15,
+              ),
           ],
         ),
       ),

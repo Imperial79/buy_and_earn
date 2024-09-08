@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class UserModel {
   int id = 0;
+  String? dp;
   String name = "";
   String phone = "";
   String? email;
@@ -20,6 +21,7 @@ class UserModel {
   bool isMember = false;
   UserModel({
     required this.id,
+    this.dp,
     required this.name,
     required this.phone,
     this.email,
@@ -40,6 +42,7 @@ class UserModel {
 
   UserModel copyWith({
     int? id,
+    String? dp,
     String? name,
     String? phone,
     String? email,
@@ -59,6 +62,7 @@ class UserModel {
   }) {
     return UserModel(
       id: id ?? this.id,
+      dp: dp ?? this.dp,
       name: name ?? this.name,
       phone: phone ?? this.phone,
       email: email ?? this.email,
@@ -81,6 +85,7 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'dp': dp,
       'name': name,
       'phone': phone,
       'email': email,
@@ -103,6 +108,7 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['id']?.toInt() ?? 0,
+      dp: map['dp'],
       name: map['name'] ?? '',
       phone: map['phone'] ?? '',
       email: map['email'],
@@ -116,8 +122,8 @@ class UserModel {
       status: map['status'] ?? '',
       lastLogin: map['lastLogin'] ?? '',
       date: map['date'] ?? '',
-      idActiveAmount: map['idActiveAmount']?.toDouble() ?? 0.0,
-      idActiveMinThreshold: map['idActiveMinThreshold']?.toDouble() ?? 0.0,
+      idActiveAmount: double.parse("${map['idActiveAmount']}"),
+      idActiveMinThreshold: double.parse("${map['idActiveMinThreshold']}"),
       isMember: map['isMember'] == "true",
     );
   }
