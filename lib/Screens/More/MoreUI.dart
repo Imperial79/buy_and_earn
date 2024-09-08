@@ -1,6 +1,9 @@
+// ignore_for_file: unused_result
+
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/RegisterUI.dart';
 import 'package:buy_and_earn/Screens/More/HelpUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
@@ -50,6 +53,11 @@ class _MoreUIState extends ConsumerState<MoreUI> {
       if (data != null) {
         final res =
             await ref.read(clubHouseRepository).buyMembership(data["tpin"]);
+
+        if (!res.error) {
+          ref.refresh(auth.future);
+          ref.refresh(walletFuture.future);
+        }
 
         KSnackbar(context, content: res.message, isDanger: res.error);
       }
@@ -164,7 +172,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                             ),
                             width10,
                             Text(user.status == "Pending"
-                                ? "ID Pending"
+                                ? "ID Not Activated"
                                 : "ID Activated"),
                           ],
                         ),

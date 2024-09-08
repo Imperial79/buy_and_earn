@@ -2,6 +2,10 @@ import 'package:buy_and_earn/Models/response_model.dart';
 import 'package:buy_and_earn/Utils/api_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final isModalShown = StateProvider(
+  (ref) => false,
+);
+
 final clubHouseRepository = Provider((ref) => ClubHouse());
 
 final clubHouseFuture = FutureProvider.autoDispose<Map?>(

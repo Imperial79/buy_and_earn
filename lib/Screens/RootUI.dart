@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animations/animations.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/clubHouse_repository.dart';
@@ -40,7 +38,12 @@ class _RootUIState extends ConsumerState<RootUI> {
 
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        // _showMembershipDialog();
+        if (!ref.read(isModalShown))
+          _showMembershipDialog().then(
+            (value) {
+              ref.read(isModalShown.notifier).state = true;
+            },
+          );
       },
     );
   }
@@ -67,8 +70,8 @@ class _RootUIState extends ConsumerState<RootUI> {
     }
   }
 
-  _showMembershipDialog() {
-    return showModalBottomSheet(
+  Future<void> _showMembershipDialog() async {
+    return await showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       elevation: 0,

@@ -367,7 +367,7 @@ Widget kClubModal(
                             },
                             icon: Icon(Icons.close)),
                       ),
-                      !data["isMember"]
+                      data["isMember"] == "true"
                           ? Column(
                               children: [
                                 Text(
@@ -413,7 +413,7 @@ Widget kClubModal(
                                 ),
                               ],
                             )
-                          : data['isHousefull']
+                          : data['isHousefull'] == "true"
                               ? Text("Housefull")
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
