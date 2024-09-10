@@ -62,4 +62,11 @@ class AuthRepository {
 
     return res;
   }
+
+  Future<ResponseModel> changePins(Map<String, dynamic> body) async {
+    final res = await apiCallBack(
+        path: "/users/change-pins", method: "POST", body: body);
+
+    return res;
+  }
 }

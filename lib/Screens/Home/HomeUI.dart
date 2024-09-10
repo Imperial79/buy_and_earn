@@ -270,7 +270,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
             child: Container(
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
-                color: kSecondaryColor.withOpacity(.3),
+                color: Colors.amberAccent.shade100,
                 borderRadius: kRadius(10),
               ),
               child: Row(

@@ -5,6 +5,7 @@ import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/RegisterUI.dart';
+import 'package:buy_and_earn/Screens/More/ChangePinsUI.dart';
 import 'package:buy_and_earn/Screens/More/HelpUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
@@ -413,25 +414,36 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                             // Divider(
                             //   color: Colors.grey.shade300,
                             // ),
-
                             _settingButton(
-                                onTap: () {
-                                  navPush(context, HelpUI());
-                                },
-                                label: "Help",
-                                iconPath: "$kIconPath/info.svg"),
+                              onTap: () {
+                                navPush(context, ChangePinsUI());
+                              },
+                              label: "Change PIN",
+                              icon: Icon(
+                                Icons.lock_outline,
+                                size: 23,
+                                color: kPrimaryColor,
+                              ),
+                            ),
                             Divider(),
                             _settingButton(
-                                onTap: () async {
-                                  await launchUrl(
-                                    Uri.parse("https://buynearn.shop/privacy"),
-                                  );
-                                },
-                                label: "Privacy",
-                                iconPath: "$kIconPath/privacy.svg"),
-                            Divider(
-                                // color: Colors.grey.shade300,
-                                ),
+                              onTap: () {
+                                navPush(context, HelpUI());
+                              },
+                              label: "Help",
+                              iconPath: "$kIconPath/info.svg",
+                            ),
+                            Divider(),
+                            _settingButton(
+                              onTap: () async {
+                                await launchUrl(
+                                  Uri.parse("https://buynearn.shop/privacy"),
+                                );
+                              },
+                              label: "Privacy",
+                              iconPath: "$kIconPath/privacy.svg",
+                            ),
+                            Divider(),
                             _settingButton(
                               onTap: () {
                                 _logout();
@@ -461,7 +473,8 @@ class _MoreUIState extends ConsumerState<MoreUI> {
   Widget _settingButton({
     required onTap,
     required String label,
-    required String iconPath,
+    String iconPath = "",
+    Widget? icon,
     bool isPremium = false,
   }) {
     return GestureDetector(
@@ -477,12 +490,14 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                 isPremium ? LinearGradient(colors: kPremiumColors) : null),
         child: Row(
           children: [
-            SvgPicture.asset(
-              iconPath,
-              height: 20,
-              colorFilter: kSvgColor(kPrimaryColor),
-            ),
-            width10,
+            icon == null
+                ? SvgPicture.asset(
+                    iconPath,
+                    height: 20,
+                    colorFilter: kSvgColor(kPrimaryColor),
+                  )
+                : icon,
+            width15,
             Expanded(
               child: Text(
                 label,
