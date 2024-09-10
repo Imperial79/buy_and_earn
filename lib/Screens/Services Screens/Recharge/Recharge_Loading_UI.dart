@@ -1,6 +1,7 @@
 // ignore_for_file: unused_result
 
 import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Repository/notiification_methods.dart';
 import 'package:buy_and_earn/Repository/recharge_repository.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
@@ -32,7 +33,7 @@ class Recharge_Loading_UI extends ConsumerStatefulWidget {
 
 class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
   bool isLoading = true;
-  bool? isSuccess;
+  bool isSuccess = false;
   String errorText = "";
 
   @override
@@ -57,10 +58,22 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
             tpin: widget.tpin,
             rechargeAmount: widget.amount,
           );
-      await Future.delayed(Duration(seconds: 5));
-      if (res.error) {
+
+      if (!res.error) {
+        await ref.read(sendNotificationRepository).localNotification(
+              title: "Recharge Successful!",
+              body:
+                  "Recharge successful of ₹${widget.amount} on +91 ${widget.consumerNo}.",
+            );
+      } else {
+        await ref.read(sendNotificationRepository).localNotification(
+              title: "Recharge Failed!",
+              body:
+                  "Recharge failed for ₹${widget.amount} on +91 ${widget.consumerNo}.",
+            );
         errorText = res.message;
       }
+
       isSuccess = !res.error;
 
       if (ref.read(userProvider)!.status == "Pending") {
@@ -84,8 +97,19 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
             tpin: widget.tpin,
             rechargeAmount: widget.amount,
           );
-      await Future.delayed(Duration(seconds: 5));
-      if (res.error) {
+
+      if (!res.error) {
+        await ref.read(sendNotificationRepository).localNotification(
+              title: "Recharge Successful!",
+              body:
+                  "Recharge successful of ₹${widget.amount} on +91 ${widget.consumerNo}.",
+            );
+      } else {
+        await ref.read(sendNotificationRepository).localNotification(
+              title: "Recharge Failed!",
+              body:
+                  "Recharge failed for ₹${widget.amount} on +91 ${widget.consumerNo}.",
+            );
         errorText = res.message;
       }
       isSuccess = !res.error;
@@ -119,11 +143,11 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                           ),
                         )
                       : CircleAvatar(
-                          backgroundColor: isSuccess!
+                          backgroundColor: isSuccess
                               ? Colors.green.shade700
                               : Colors.red.shade700,
                           radius: 50,
-                          child: isSuccess!
+                          child: isSuccess
                               ? Icon(
                                   Icons.done,
                                   size: 50,
@@ -140,7 +164,7 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                       ? Text(
                           isLoading
                               ? "Please Wait..."
-                              : isSuccess!
+                              : isSuccess
                                   ? "Recharge successful of ₹${widget.amount} on\n+91 ${widget.consumerNo}."
                                   : "Recharge failed of ₹${widget.amount} on\n+91 ${widget.consumerNo}.",
                           style: TextStyle(
@@ -152,9 +176,9 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                       : Text(
                           isLoading
                               ? "Please Wait..."
-                              : isSuccess!
+                              : isSuccess
                                   ? "Recharge successful of ₹${widget.amount} on\n${widget.consumerNo}."
-                                  : "Recharge failed of ₹${widget.amount} on\n${widget.consumerNo}.",
+                                  : "Recharge failed for ₹${widget.amount} on\n${widget.consumerNo}.",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,

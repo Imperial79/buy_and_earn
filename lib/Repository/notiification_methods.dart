@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import '../Services/SA-Creds.dart';
@@ -42,6 +43,25 @@ class NotificationMethods {
 }
 
 class SendNotification {
+  Future<void> localNotification({
+    required String title,
+    required String body,
+  }) async {
+    await FlutterLocalNotificationsPlugin().show(
+      88,
+      title,
+      body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          FirebaseNotification().androidChannel.id,
+          FirebaseNotification().androidChannel.name,
+          channelDescription: FirebaseNotification().androidChannel.description,
+          icon: '@drawable/ic_stat_bne',
+        ),
+      ),
+    );
+  }
+
   Future<void> toUser(
     WidgetRef ref, {
     required String userToken,

@@ -20,7 +20,7 @@ class NotificationConstants {
 class FirebaseNotification {
   final fcmMessaging = FirebaseMessaging.instance;
 
-  final _androidChannel = const AndroidNotificationChannel(
+  final androidChannel = const AndroidNotificationChannel(
     'high_importance_channel',
     'High Importance Notifications',
     description: "This channel is used for important notifications only",
@@ -44,7 +44,7 @@ class FirebaseNotification {
     final platform = _localNotifications.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
 
-    await platform?.createNotificationChannel(_androidChannel);
+    await platform?.createNotificationChannel(androidChannel);
   }
 
   Future initPushNotification() async {
@@ -75,9 +75,9 @@ class FirebaseNotification {
         notification.body,
         NotificationDetails(
           android: AndroidNotificationDetails(
-            _androidChannel.id,
-            _androidChannel.name,
-            channelDescription: _androidChannel.description,
+            androidChannel.id,
+            androidChannel.name,
+            channelDescription: androidChannel.description,
             icon: '@drawable/ic_stat_bne',
             styleInformation: _bigPicture.isNotEmpty
                 ? BigPictureStyleInformation(
