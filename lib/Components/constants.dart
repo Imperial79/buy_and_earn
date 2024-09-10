@@ -5,10 +5,11 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const kAppVersion = "1.2.8";
-const kAppBuild = "17";
+const kAppVersion = "1.2.9";
+const kAppBuild = "18";
 
-final String welcomeImages = "assets/images/welcome-images";
+final String kImagePath = "assets/images";
+final String welcomeImages = "$kImagePath/welcome-images";
 
 final kIconMap = {
   'Prepaid': "$kServiceIcon/mobile.svg",

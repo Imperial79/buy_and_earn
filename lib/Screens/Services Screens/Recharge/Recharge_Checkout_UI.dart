@@ -195,12 +195,12 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                   children: [
                     kLabel("ID activation"),
                     kLabel("Terms", top: 10),
-                    _ol(1,
+                    kPoint(1,
                         "Min. one time purchase of ${kCurrencyFormat(user.idActiveMinThreshold, decimalDigit: 0)} or more."),
-                    _ol(2,
+                    kPoint(2,
                         "One time ${kCurrencyFormat(user.idActiveAmount, decimalDigit: 0)} will be deducted as part of activation."),
                     kLabel("Benefits"),
-                    _ol(1,
+                    kPoint(1,
                         "All source of commission income will be activated which includes self cashback, level commission, working bonus and rewards."),
                   ],
                 ),
@@ -232,24 +232,6 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
             fontSize: 16,
           ),
         ),
-      ),
-    );
-  }
-
-  _ol(int index, String text) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 10.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            // height: 10,
-            width: 15,
-            child: Text("$index."),
-          ),
-          width10,
-          Expanded(child: Text(text))
-        ],
       ),
     );
   }

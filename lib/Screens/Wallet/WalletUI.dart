@@ -2,6 +2,8 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/kCarousel.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WalletUI extends ConsumerStatefulWidget {
   const WalletUI({super.key});
@@ -80,7 +83,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                   ],
                 ),
               ),
-              height15,
+              // height15,
               // TextFieldTapRegion(
               //   onTapOutside: (event) {
               //     FocusScope.of(context).unfocus();
@@ -142,16 +145,62 @@ class _WalletUIState extends ConsumerState<WalletUI> {
               //   onPressed: amount.text.isNotEmpty ? () {} : null,
               //   label: "Proceed to recharge",
               // ),
-              Text(
+              kLabel(
                 "How to recharge wallet:",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
               ),
-              Text("1. Transfer amount on the details given below."),
-              Text("2. Share payment details on WhatsApp/Telegram."),
-              height20,
-              _bankCard(),
+              kPoint(1, "Transfer amount on the details given below."),
+              kPoint(2, "Share payment details on WhatsApp/Telegram."),
 
-              kLabel("Yesterday's Earnings"),
+              // _bankCard(),
+              height20,
+              KCarousel(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("$kImagePath/admin-gpay.jpg"),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("$kImagePath/admin-wp.jpg"),
+                      ),
+                    ),
+                  ),
+                ],
+                isLooped: false,
+              ),
+              height20,
+              Row(
+                children: [
+                  Expanded(
+                    child: KButton.full(
+                        onPressed: () async {
+                          await launchUrl(Uri.parse("https://t.me/BSPL2"));
+                        },
+                        backgroundColor: Colors.blue.shade700,
+                        label: "Telegram",
+                        fontSize: 15),
+                  ),
+                  width10,
+                  Expanded(
+                    child: KButton.full(
+                      onPressed: () async {
+                        await launchUrl(Uri.parse("https://wa.me/7454038717"));
+                      },
+                      backgroundColor: Colors.green.shade700,
+                      label: "WhatsApp",
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+
+              kLabel("Today's Earnings"),
 
               wallet.when(
                 data: (data) => StaggeredGridView.count(
