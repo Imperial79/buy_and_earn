@@ -38,12 +38,7 @@ class _RootUIState extends ConsumerState<RootUI> {
 
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        if (!ref.read(isModalShown))
-          _showMembershipDialog().then(
-            (value) {
-              ref.read(isModalShown.notifier).state = true;
-            },
-          );
+        if (!ref.read(isModalShown)) _showMembershipDialog();
       },
     );
   }
@@ -84,6 +79,10 @@ class _RootUIState extends ConsumerState<RootUI> {
           },
         ),
       ),
+    ).then(
+      (value) {
+        ref.read(isModalShown.notifier).state = true;
+      },
     );
   }
 

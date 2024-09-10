@@ -396,21 +396,35 @@ Widget kClubModal(
                                   ),
                                 ),
                                 height20,
-                                Text(
-                                  "${(data["mySpent"] / data["clubHouseMonthlySpend"]).floor()}% completed",
-                                  style: TextStyle(),
-                                ),
-                                height5,
-                                ClipRRect(
-                                  borderRadius: kRadius(10),
-                                  child: LinearProgressIndicator(
-                                    value: (data["mySpent"] /
-                                        data["clubHouseMonthlySpend"]),
-                                    minHeight: 20,
-                                    backgroundColor:
-                                        Colors.white.withOpacity(.5),
+                                if (data["mySpent"] >
+                                    data["clubHouseMonthlySpend"])
+                                  Text(
+                                    "Target Achieved!",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20,
+                                        color: kPrimaryColor),
+                                  )
+                                else
+                                  Text(
+                                    "${(data["mySpent"] / data["clubHouseMonthlySpend"]).floor() * 100}% completed",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
+                                height5,
+                                if (data["mySpent"] <
+                                    data["clubHouseMonthlySpend"])
+                                  ClipRRect(
+                                    borderRadius: kRadius(10),
+                                    child: LinearProgressIndicator(
+                                      value: (data["mySpent"] /
+                                          data["clubHouseMonthlySpend"]),
+                                      minHeight: 20,
+                                      backgroundColor:
+                                          Colors.white.withOpacity(.5),
+                                    ),
+                                  ),
                               ],
                             )
                           : data['isHousefull'] == "true"
