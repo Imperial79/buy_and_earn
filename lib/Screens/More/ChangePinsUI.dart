@@ -1,4 +1,3 @@
-import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/LoginUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
@@ -33,8 +32,10 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
       });
 
       final res = await ref.read(authRepository).changePins({
-        "tpin": newTpin.text.trim(),
-        "mpin": newMpin.text.trim(),
+        "currTpin": oldTpin.text.trim(),
+        "newTpin": newTpin.text.trim(),
+        "currMpin": oldMpin.text.trim(),
+        "newMpin": newMpin.text.trim(),
       });
 
       if (!res.error && newMpin.text.isNotEmpty) {

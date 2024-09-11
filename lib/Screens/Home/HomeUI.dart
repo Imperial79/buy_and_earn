@@ -309,8 +309,8 @@ class _HomeUIState extends ConsumerState<HomeUI> {
         children: [
           CircleAvatar(
             radius: 25,
+            backgroundColor: kColor4,
             child: SvgPicture.asset(
-              // iconPath,
               kIconMap[label]!,
               colorFilter: kSvgColor(kPrimaryColor),
             ),

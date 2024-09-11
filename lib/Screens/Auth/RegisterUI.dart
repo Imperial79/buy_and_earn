@@ -178,7 +178,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     ),
                     TextButton(
                       onPressed: () {
-                        navPush(context, LoginUI());
+                        navPushReplacement(context, LoginUI());
                       },
                       child: Text(
                         "Login",

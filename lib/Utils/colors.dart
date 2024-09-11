@@ -66,9 +66,12 @@ List<Color> kPremiumColors = [
 ];
 
 Color kScaffoldColor = Color(0xfff9f9f9);
-Color kPrimaryColor = Color(0xff034f89);
+// Color kPrimaryColor = Color(0xff034f89);
+Color kPrimaryColor = Color(0xff16325B);
 Color kPrimaryAccentColor = Color.fromARGB(255, 203, 221, 235);
-Color kSecondaryColor = Color.fromARGB(255, 185, 114, 0);
+Color kSecondaryColor = Color(0xFF227B94);
+Color kColor3 = Color(0xff78B7D0);
+Color kColor4 = Color(0xffFFDC7F);
 Color kCardColor = Colors.white;
 Color kCardDarkColor = Color(0xff595c65);
 Color kTextbuttonColor = Colors.blue.shade800;
