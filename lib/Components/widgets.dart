@@ -388,7 +388,7 @@ Widget kClubModal(
                                 ),
                                 height10,
                                 Text(
-                                  "${kCurrencyFormat(data["mySpent"], decimalDigit: 0)} / ${kCurrencyFormat(data["clubHouseMonthlySpend"], decimalDigit: 0)}",
+                                  "${kCurrencyFormat(data["mySpent"], decimalDigit: 0)} / ${kCurrencyFormat(data["clubHouseYearlySpend"], decimalDigit: 0)}",
                                   style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.w900,
@@ -397,7 +397,7 @@ Widget kClubModal(
                                 ),
                                 height20,
                                 if (data["mySpent"] >
-                                    data["clubHouseMonthlySpend"])
+                                    data["clubHouseYearlySpend"])
                                   Text(
                                     "Target Achieved!",
                                     style: TextStyle(
@@ -407,19 +407,19 @@ Widget kClubModal(
                                   )
                                 else
                                   Text(
-                                    "${(data["mySpent"] / data["clubHouseMonthlySpend"]).floor() * 100}% completed",
+                                    "${(data["mySpent"] / data["clubHouseYearlySpend"]).floor() * 100}% completed",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 height5,
                                 if (data["mySpent"] <
-                                    data["clubHouseMonthlySpend"])
+                                    data["clubHouseYearlySpend"])
                                   ClipRRect(
                                     borderRadius: kRadius(10),
                                     child: LinearProgressIndicator(
                                       value: (data["mySpent"] /
-                                          data["clubHouseMonthlySpend"]),
+                                          data["clubHouseYearlySpend"]),
                                       minHeight: 20,
                                       backgroundColor:
                                           Colors.white.withOpacity(.5),

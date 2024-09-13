@@ -224,7 +224,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                         "Self Cashback"),
                     _statCard(
                       kCurrencyFormat(
-                        data.referralIncome,
+                        data.levelCommission,
                         decimalDigit: 5,
                       ),
                       "Level Commission",
@@ -346,7 +346,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
             Text(
               label,
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
             ),

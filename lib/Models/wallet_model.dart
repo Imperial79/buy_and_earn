@@ -4,7 +4,7 @@ class WalletModel {
   int id = 0;
   int userId = 0;
   double selfCashback = 0.0;
-  double referralIncome = 0.0;
+  double levelCommission = 0.0;
   double workingBonus = 0.0;
   double reward = 0.0;
   double tds = 0.0;
@@ -14,7 +14,7 @@ class WalletModel {
     required this.id,
     required this.userId,
     required this.selfCashback,
-    required this.referralIncome,
+    required this.levelCommission,
     required this.workingBonus,
     required this.reward,
     required this.tds,
@@ -26,7 +26,7 @@ class WalletModel {
     int? id,
     int? userId,
     double? selfCashback,
-    double? referralIncome,
+    double? levelCommission,
     double? workingBonus,
     double? reward,
     double? tds,
@@ -37,7 +37,7 @@ class WalletModel {
       id: id ?? this.id,
       userId: userId ?? this.userId,
       selfCashback: selfCashback ?? this.selfCashback,
-      referralIncome: referralIncome ?? this.referralIncome,
+      levelCommission: levelCommission ?? this.levelCommission,
       workingBonus: workingBonus ?? this.workingBonus,
       reward: reward ?? this.reward,
       tds: tds ?? this.tds,
@@ -51,7 +51,7 @@ class WalletModel {
       'id': id,
       'userId': userId,
       'selfCashback': selfCashback,
-      'referralIncome': referralIncome,
+      'levelCommission': levelCommission,
       'workingBonus': workingBonus,
       'reward': reward,
       'tds': tds,
@@ -65,7 +65,7 @@ class WalletModel {
       id: map['id']?.toInt() ?? 0,
       userId: map['userId']?.toInt() ?? 0,
       selfCashback: map['selfCashback']?.toDouble() ?? 0.0,
-      referralIncome: map['referralIncome']?.toDouble() ?? 0.0,
+      levelCommission: map['levelCommission']?.toDouble() ?? 0.0,
       workingBonus: map['workingBonus']?.toDouble() ?? 0.0,
       reward: map['reward']?.toDouble() ?? 0.0,
       tds: map['tds']?.toDouble() ?? 0.0,
@@ -81,7 +81,7 @@ class WalletModel {
 
   @override
   String toString() {
-    return 'WalletModel(id: $id, userId: $userId, selfCashback: $selfCashback, referralIncome: $referralIncome, workingBonus: $workingBonus, reward: $reward, tds: $tds, balance: $balance, monthYear: $monthYear)';
+    return 'WalletModel(id: $id, userId: $userId, selfCashback: $selfCashback, levelCommission: $levelCommission, workingBonus: $workingBonus, reward: $reward, tds: $tds, balance: $balance, monthYear: $monthYear)';
   }
 
   @override
@@ -92,7 +92,7 @@ class WalletModel {
         other.id == id &&
         other.userId == userId &&
         other.selfCashback == selfCashback &&
-        other.referralIncome == referralIncome &&
+        other.levelCommission == levelCommission &&
         other.workingBonus == workingBonus &&
         other.reward == reward &&
         other.tds == tds &&
@@ -105,7 +105,7 @@ class WalletModel {
     return id.hashCode ^
         userId.hashCode ^
         selfCashback.hashCode ^
-        referralIncome.hashCode ^
+        levelCommission.hashCode ^
         workingBonus.hashCode ^
         reward.hashCode ^
         tds.hashCode ^
