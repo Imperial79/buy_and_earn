@@ -28,6 +28,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
   final phone = TextEditingController();
   final email = TextEditingController();
   final city = TextEditingController();
+  final pincode = TextEditingController();
   final referCode = TextEditingController();
   Map<String, dynamic> referrerData = {};
   String _selectedState = "";
@@ -42,6 +43,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
     phone.dispose();
     email.dispose();
     city.dispose();
+    pincode.dispose();
     referCode.dispose();
     if (_timer != null) _timer!.cancel();
 
@@ -127,6 +129,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
         "email": email.text,
         "state": _selectedState,
         "city": city.text,
+        "pincode": pincode.text,
         "referrerCode": referCode.text,
         "fcmToken": fcmToken,
         "otp": otp
@@ -211,7 +214,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   keyboardType: TextInputType.phone,
                   maxLength: 10,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  hintText: "Eg. 909*****85",
+                  hintText: "Eg. 909XXXXX85",
                   validator: (val) {
                     if (val!.isEmpty)
                       return "Required!";
@@ -246,17 +249,35 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   },
                 ),
                 height10,
-                KTextfield.regular(
-                  context,
-                  controller: city,
-                  label: "City",
-                  keyboardType: TextInputType.text,
-                  hintText: "Eg. Durgapur",
-                  validator: (val) {
-                    if (val!.isEmpty) return "Required!";
-                    return null;
-                  },
-                ),
+                Row(children: [
+                  Flexible(
+                    child: KTextfield.regular(
+                      context,
+                      controller: city,
+                      label: "City",
+                      keyboardType: TextInputType.text,
+                      hintText: "Eg. Durgapur",
+                      validator: (val) {
+                        if (val!.isEmpty) return "Required!";
+                        return null;
+                      },
+                    ),
+                  ),
+                  width10,
+                  Flexible(
+                    child: KTextfield.regular(
+                      context,
+                      controller: city,
+                      label: "Pincode",
+                      keyboardType: TextInputType.text,
+                      hintText: "Eg. 7XXXX3",
+                      validator: (val) {
+                        if (val!.isEmpty || val.length != 6) return "Required!";
+                        return null;
+                      },
+                    ),
+                  ),
+                ]),
                 height10,
                 KTextfield.regular(
                   context,

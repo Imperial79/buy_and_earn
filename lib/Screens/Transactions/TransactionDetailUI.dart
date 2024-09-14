@@ -1,18 +1,25 @@
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Models/transactions_model.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class TransactionDetailUI extends StatefulWidget {
-  const TransactionDetailUI({super.key});
+  final Transactions_Model txnDetails;
+  const TransactionDetailUI({super.key, required this.txnDetails});
 
   @override
-  State<TransactionDetailUI> createState() => _TransactionDetailUIState();
+  State<TransactionDetailUI> createState() =>
+      _TransactionDetailUIState(txnDetails: txnDetails);
 }
 
 class _TransactionDetailUIState extends State<TransactionDetailUI> {
+  final Transactions_Model txnDetails;
+  _TransactionDetailUIState({required this.txnDetails});
+
   @override
   Widget build(BuildContext context) {
     return KScaffold(
@@ -24,14 +31,14 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _statusCard(),
-              kLabel("Mobile Recharge"),
+              kLabel("${txnDetails.source}"),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CircleAvatar(
                     radius: 20,
                     child: SvgPicture.asset(
-                      kIconMap["mobile"]!,
+                      kIconMap["Prepaid"]!,
                     ),
                   ),
                   width10,
@@ -40,41 +47,38 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Jio Prepaid",
+                          "${txnDetails.title.split('for').first.trim()}",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 17),
                         ),
-                        Text("+91 9093086276"),
+                        Text("${txnDetails.title.split('for').last.trim()}"),
                       ],
                     ),
                   ),
                   Text(
-                    "₹181",
+                    "${kCurrencyFormat(txnDetails.amount)}",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                   ),
                 ],
               ),
               height20,
               Text(
-                "Transaction Details",
+                "Payment Breakdown",
                 style: TextStyle(fontWeight: FontWeight.w500),
               ),
               Divider(
                 height: 30,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Recharge Amount"),
-                  Text("₹179"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("GST"),
-                  Text("₹2"),
-                ],
+              Column(
+                children: txnDetails.paymentBreakdown.entries.map((entry) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(entry.key),
+                      Text("${kCurrencyFormat(entry.value)}"),
+                    ],
+                  );
+                }).toList(),
               ),
               Divider(
                 height: 30,
@@ -84,7 +88,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               Text(
-                "HSAGDSGDSD6S7D87AS6D",
+                "BNETXN${txnDetails.id}",
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
               ),
             ],
@@ -99,13 +103,15 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
       width: double.maxFinite,
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        color: Colors.green.shade600,
+        color: kColorMap[txnDetails.status],
         borderRadius: kRadius(10),
       ),
       child: Row(
         children: [
           Icon(
-            Icons.check_circle_outlined,
+            txnDetails.status == "Success"
+                ? Icons.check_circle_outlined
+                : Icons.info_outline,
             color: Colors.white,
           ),
           width10,
@@ -114,14 +120,15 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Transaction Successful",
+                  "Transaction ${txnDetails.status}",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
-                  "12 Jan 2024, 10:30 AM",
+                  DateFormat('dd MMM yyyy • h:mm a')
+                      .format(DateTime.parse(txnDetails.date)),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,

@@ -5,19 +5,21 @@ class Transactions_Model {
   int customerId = 0;
   String title = "";
   double amount = 0.0;
-  String type = "";
-  String date = "";
   Map<String, dynamic> paymentBreakdown = {};
+  String type = "";
   String source = "";
+  String status = "";
+  String date = "";
   Transactions_Model({
     required this.id,
     required this.customerId,
     required this.title,
     required this.amount,
-    required this.type,
-    required this.date,
     required this.paymentBreakdown,
+    required this.type,
     required this.source,
+    required this.status,
+    required this.date,
   });
 
   Transactions_Model copyWith({
@@ -26,19 +28,20 @@ class Transactions_Model {
     String? title,
     double? amount,
     String? type,
-    String? date,
-    Map<String, dynamic>? paymentBreakdown,
     String? source,
+    String? status,
+    String? date,
   }) {
     return Transactions_Model(
       id: id ?? this.id,
       customerId: customerId ?? this.customerId,
       title: title ?? this.title,
       amount: amount ?? this.amount,
-      type: type ?? this.type,
-      date: date ?? this.date,
       paymentBreakdown: paymentBreakdown ?? this.paymentBreakdown,
+      type: type ?? this.type,
       source: source ?? this.source,
+      status: status ?? this.status,
+      date: date ?? this.date,
     );
   }
 
@@ -49,22 +52,23 @@ class Transactions_Model {
       'title': title,
       'amount': amount,
       'type': type,
-      'date': date,
-      'paymentBreakdown': paymentBreakdown,
       'source': source,
+      'status': status,
+      'date': date,
     };
   }
 
   factory Transactions_Model.fromMap(Map<String, dynamic> map) {
     return Transactions_Model(
-      id: map['id'] ?? 0,
-      customerId: map['customerId'] ?? 0,
+      id: map['id']?.toInt() ?? 0,
+      customerId: map['customerId']?.toInt() ?? 0,
       title: map['title'] ?? '',
-      amount: double.parse("${map['amount']}"),
+      amount: map['amount']?.toDouble() ?? 0.0,
+      paymentBreakdown: jsonDecode(map['paymentBreakdown'] ?? '{}'),
       type: map['type'] ?? '',
-      date: map['date'] ?? '',
-      paymentBreakdown: jsonDecode(map['paymentBreakdown']),
       source: map['source'] ?? '',
+      status: map['status'] ?? '',
+      date: map['date'] ?? '',
     );
   }
 
@@ -75,7 +79,7 @@ class Transactions_Model {
 
   @override
   String toString() {
-    return 'Transactions_Model(id: $id, customerId: $customerId, title: $title, amount: $amount, type: $type, date: $date, source: $source)';
+    return 'Transactions_Model(id: $id, customerId: $customerId, title: $title, amount: $amount, type: $type, source: $source, status: $status, date: $date)';
   }
 
   @override
@@ -88,8 +92,9 @@ class Transactions_Model {
         other.title == title &&
         other.amount == amount &&
         other.type == type &&
-        other.date == date &&
-        other.source == source;
+        other.source == source &&
+        other.status == status &&
+        other.date == date;
   }
 
   @override
@@ -99,7 +104,8 @@ class Transactions_Model {
         title.hashCode ^
         amount.hashCode ^
         type.hashCode ^
-        date.hashCode ^
-        source.hashCode;
+        source.hashCode ^
+        status.hashCode ^
+        date.hashCode;
   }
 }

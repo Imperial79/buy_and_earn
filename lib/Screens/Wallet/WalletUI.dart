@@ -153,26 +153,16 @@ class _WalletUIState extends ConsumerState<WalletUI> {
 
               // _bankCard(),
               height20,
-              KCarousel(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("$kImagePath/admin-gpay.jpg"),
-                      ),
+              Center(
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("$kImagePath/admin-gpay.jpg"),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("$kImagePath/admin-wp.jpg"),
-                      ),
-                    ),
-                  ),
-                ],
-                isLooped: false,
+                ),
               ),
               height20,
               Row(

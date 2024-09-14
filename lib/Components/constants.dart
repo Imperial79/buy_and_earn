@@ -1,6 +1,7 @@
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
@@ -30,6 +31,12 @@ final kIconMap = {
   'Courier': "$kServiceIcon/courier.svg",
   'Local': "$kServiceIcon/local.svg",
   'Club House': "$kServiceIcon/club.svg",
+};
+
+final kColorMap = {
+  'Failed': Colors.red.shade600,
+  'Pending': Colors.amber.shade600,
+  'Success': Colors.green.shade600,
 };
 
 List<String> statesList = [

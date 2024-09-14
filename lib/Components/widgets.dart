@@ -134,7 +134,7 @@ Widget kWalletCard(context) {
 Widget kRecentHistoryCard(context, Transactions_Model data) {
   return InkWell(
     onTap: () {
-      navPush(context, TransactionDetailUI());
+      navPush(context, TransactionDetailUI(txnDetails: data));
     },
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -61,40 +61,18 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                 children: [
                   kWalletCard(context),
                   height15,
-                  Row(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              customer?.name.toLowerCase() ?? "",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 20),
-                            ),
-                            Text(
-                              "Level ${customer!.level}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15),
-                            ),
-                          ],
-                        ),
+                      Text(
+                        customer?.name.toLowerCase() ?? "",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 20),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Earnings",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 20),
-                          ),
-                          Text(
-                            kCurrencyFormat("0.0"),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 15),
-                          ),
-                        ],
+                      Text(
+                        "Level ${customer!.level}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 15),
                       ),
                     ],
                   ),
@@ -127,7 +105,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                         child: Padding(
                                           padding: EdgeInsets.all(8.0),
                                           child: Text(
-                                            "Note: Valid for only complete registrations during offer period",
+                                            "Note: Valid for only complete registrations and id activation during offer period",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12),
@@ -218,11 +196,18 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CircleAvatar(
-                                      child: Text(
-                                        data[index]['name'][0].toUpperCase(),
-                                      ),
-                                    ),
+                                    data[index]['dp'] == null
+                                        ? CircleAvatar(
+                                            child: Text(
+                                              data[index]['name'][0]
+                                                  .toUpperCase(),
+                                            ),
+                                          )
+                                        : CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                              data[index]['dp'],
+                                            ),
+                                          ),
                                     width10,
                                     Expanded(
                                       child: Column(
