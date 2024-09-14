@@ -37,7 +37,7 @@ class Transactions_Model {
       customerId: customerId ?? this.customerId,
       title: title ?? this.title,
       amount: amount ?? this.amount,
-      paymentBreakdown: paymentBreakdown ?? this.paymentBreakdown,
+      paymentBreakdown: paymentBreakdown,
       type: type ?? this.type,
       source: source ?? this.source,
       status: status ?? this.status,

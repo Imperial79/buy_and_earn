@@ -1,7 +1,4 @@
 import 'package:animations/animations.dart';
-import 'package:buy_and_earn/Components/widgets.dart';
-import 'package:buy_and_earn/Repository/clubHouse_repository.dart';
-import 'package:buy_and_earn/Screens/Auth/TPin_UI.dart';
 import 'package:buy_and_earn/Screens/Home/HomeUI.dart';
 import 'package:buy_and_earn/Screens/More/MoreUI.dart';
 import 'package:buy_and_earn/Screens/Refer/ReferUI.dart';
