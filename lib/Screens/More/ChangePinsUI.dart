@@ -40,7 +40,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
 
       if (!res.error && newMpin.text.isNotEmpty) {
         navPopUntilPush(context, LoginUI())
-            .then((value) => ref.read(userProvider.notifier).state = null);
+            .then((value) => ref.read(customerProvider.notifier).state = null);
       }
 
       KSnackbar(context, content: res.message, isDanger: res.error);

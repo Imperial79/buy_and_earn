@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class UserModel {
+class CustomerModel {
   int id = 0;
   String? dp;
   String name = "";
@@ -19,7 +19,7 @@ class UserModel {
   double idActiveAmount = 0;
   double idActiveMinThreshold = 0;
   bool isMember = false;
-  UserModel({
+  CustomerModel({
     required this.id,
     this.dp,
     required this.name,
@@ -40,7 +40,7 @@ class UserModel {
     required this.isMember,
   });
 
-  UserModel copyWith({
+  CustomerModel copyWith({
     int? id,
     String? dp,
     String? name,
@@ -60,7 +60,7 @@ class UserModel {
     double? idActiveMinThreshold,
     bool? isMember,
   }) {
-    return UserModel(
+    return CustomerModel(
       id: id ?? this.id,
       dp: dp ?? this.dp,
       name: name ?? this.name,
@@ -105,8 +105,8 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+  factory CustomerModel.fromMap(Map<String, dynamic> map) {
+    return CustomerModel(
       id: map['id']?.toInt() ?? 0,
       dp: map['dp'],
       name: map['name'] ?? '',
@@ -130,19 +130,19 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source));
+  factory CustomerModel.fromJson(String source) =>
+      CustomerModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, phone: $phone, email: $email, state: $state, city: $city, referCode: $referCode, level: $level, firstService: $firstService, referrerCode: $referrerCode, fcmToken: $fcmToken, status: $status, lastLogin: $lastLogin, date: $date, idActiveAmount: $idActiveAmount, idActiveMinThreshold: $idActiveMinThreshold)';
+    return 'CustomerModel(id: $id, name: $name, phone: $phone, email: $email, state: $state, city: $city, referCode: $referCode, level: $level, firstService: $firstService, referrerCode: $referrerCode, fcmToken: $fcmToken, status: $status, lastLogin: $lastLogin, date: $date, idActiveAmount: $idActiveAmount, idActiveMinThreshold: $idActiveMinThreshold)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is UserModel &&
+    return other is CustomerModel &&
         other.id == id &&
         other.name == name &&
         other.phone == phone &&

@@ -64,7 +64,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
     if (!res.error) {
       navPopUntilPush(context, RegisterUI()).then(
         (value) {
-          ref.read(userProvider.notifier).state = null;
+          ref.read(customerProvider.notifier).state = null;
           ref.read(navigationProvider.notifier).state = 0;
         },
       );
@@ -101,7 +101,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider);
+    final customer = ref.watch(customerProvider);
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -109,7 +109,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
       },
       child: KScaffold(
         isLoading: isLoading,
-        body: user != null
+        body: customer != null
             ? SafeArea(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.all(12),
@@ -119,7 +119,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                       kWalletCard(context),
                       height15,
                       kCard(
-                        isPremium: user.isMember,
+                        isPremium: customer.isMember,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -215,14 +215,15 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                   ),
                                 );
                               },
-                              child: user.dp != null
+                              child: customer.dp != null
                                   ? CircleAvatar(
                                       radius: 30,
-                                      backgroundImage: NetworkImage(user.dp!),
+                                      backgroundImage:
+                                          NetworkImage(customer.dp!),
                                     )
                                   : CircleAvatar(
                                       radius: 30,
-                                      child: Text("${user.name[0]}"),
+                                      child: Text("${customer.name[0]}"),
                                     ),
                             ),
                             width10,
@@ -236,7 +237,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                     children: [
                                       Flexible(
                                         child: Text(
-                                          "${user.name}",
+                                          "${customer.name}",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18,
@@ -252,7 +253,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                             horizontal: 10, vertical: 2),
                                         child: Row(
                                           children: [
-                                            if (user.isMember)
+                                            if (customer.isMember)
                                               Text(
                                                 "Member | ",
                                                 style: TextStyle(
@@ -261,7 +262,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                                 ),
                                               ),
                                             Text(
-                                              "Lvl. ${user.level}",
+                                              "Lvl. ${customer.level}",
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 10,
@@ -274,8 +275,8 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                   ),
 
                                   height5,
-                                  Text("+91 ${user.phone}"),
-                                  Text("${user.email}"),
+                                  Text("+91 ${customer.phone}"),
+                                  Text("${customer.email}"),
                                   // height5,
                                   // KButton.outlined(
                                   //   onPressed: () {},
@@ -291,20 +292,20 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                       ),
                       height5,
                       kCard(
-                        cardColor: user.status == "Pending"
+                        cardColor: customer.status == "Pending"
                             ? Colors.amber.shade100
                             : Colors.lightGreen.shade100,
                         width: double.maxFinite,
                         child: Row(
                           children: [
                             Icon(
-                              user.status == "Pending"
+                              customer.status == "Pending"
                                   ? Icons.do_disturb_outlined
                                   : Icons.done,
                               size: 20,
                             ),
                             width10,
-                            Text(user.status == "Pending"
+                            Text(customer.status == "Pending"
                                 ? "ID Not Activated"
                                 : "ID Activated"),
                           ],
@@ -320,7 +321,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "${user.referCode}",
+                                    "${customer.referCode}",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16,
@@ -333,7 +334,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                 IconButton.filledTonal(
                                   onPressed: () {
                                     Clipboard.setData(ClipboardData(
-                                        text: "${user.referCode}"));
+                                        text: "${customer.referCode}"));
                                     KSnackbar(context,
                                         content:
                                             "Refer Code copied to clipboard",

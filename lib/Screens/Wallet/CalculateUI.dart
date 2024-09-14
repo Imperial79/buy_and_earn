@@ -16,14 +16,14 @@ class CalculateUI extends StatefulWidget {
 class _CalculateUIState extends State<CalculateUI> {
   final mrp = TextEditingController();
   final profitMargin = TextEditingController();
-  final eligibleWBUsers = TextEditingController();
+  final eligibleWBCustomers = TextEditingController();
   String resp = "";
 
   @override
   void dispose() {
     mrp.dispose();
     profitMargin.dispose();
-    eligibleWBUsers.dispose();
+    eligibleWBCustomers.dispose();
     super.dispose();
   }
 
@@ -33,7 +33,7 @@ class _CalculateUIState extends State<CalculateUI> {
     final formData = FormData.fromMap({
       "mrp": mrp.text,
       "profitMargin": profitMargin.text,
-      "eligibleWBUsers": eligibleWBUsers.text
+      "eligibleWBCustomers": eligibleWBCustomers.text
     });
 
     final response = await dio.post(
@@ -76,9 +76,9 @@ class _CalculateUIState extends State<CalculateUI> {
                   height10,
                   KTextfield.regular(
                     context,
-                    controller: eligibleWBUsers,
+                    controller: eligibleWBCustomers,
                     hintText: "Ex: 1 or 4",
-                    label: "Working Bonus Eligible Users",
+                    label: "Working Bonus Eligible Customers",
                     keyboardType: TextInputType.number,
                   ),
                   height10,

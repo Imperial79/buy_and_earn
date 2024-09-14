@@ -8,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'Repository/notiification_methods.dart';
+import 'Repository/notification_methods.dart';
 import 'Screens/Auth/SplashUI.dart';
 import 'Services/notification_config.dart';
 
@@ -55,7 +55,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     kSystemColors();
 
-    final user = ref.watch(userProvider);
+    final customer = ref.watch(customerProvider);
     return MaterialApp(
       scaffoldMessengerKey: scaffoldMessengerKey,
       debugShowCheckedModeBanner: false,
@@ -63,7 +63,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: "Buy & Earn",
       home: ref.watch(auth).isLoading
           ? SplashUI()
-          : user != null
+          : customer != null
               ? RootUI()
               : WelcomeUI(),
     );

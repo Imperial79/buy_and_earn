@@ -1,7 +1,7 @@
 // ignore_for_file: unused_result
 
 import 'package:buy_and_earn/Repository/auth_repository.dart';
-import 'package:buy_and_earn/Repository/notiification_methods.dart';
+import 'package:buy_and_earn/Repository/notification_methods.dart';
 import 'package:buy_and_earn/Repository/recharge_repository.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
@@ -76,7 +76,7 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
 
       isSuccess = !res.error;
 
-      if (ref.read(userProvider)!.status == "Pending") {
+      if (ref.read(customerProvider)!.status == "Pending") {
         await ref.refresh(auth.future);
       }
       await ref.refresh(walletFuture.future);

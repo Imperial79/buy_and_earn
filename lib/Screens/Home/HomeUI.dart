@@ -247,7 +247,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
 
   Widget _header() {
     return Consumer(builder: (context, ref, _) {
-      final user = ref.watch(userProvider);
+      final customer = ref.watch(customerProvider);
       return Row(
         children: [
           Expanded(
@@ -256,7 +256,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                 children: [
                   TextSpan(text: "hi ", style: TextStyle(fontSize: 20)),
                   TextSpan(
-                    text: "${user!.name.split(' ').first}!",
+                    text: "${customer!.name.split(' ').first}!",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                 ],
@@ -277,7 +277,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "+91 ${user.phone}",
+                    "+91 ${customer.phone}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,

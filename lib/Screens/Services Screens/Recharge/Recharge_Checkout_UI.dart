@@ -62,12 +62,13 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
         ? mobile_recharge_data!.customerPhone
         : recharge_data!.consumerNo)!;
 
-    final user = ref.watch(userProvider);
+    final customer = ref.watch(customerProvider);
 
     netPayable = planAmount;
 
-    if (user!.status == "Pending" && planAmount >= user.idActiveMinThreshold) {
-      netPayable += user.idActiveAmount;
+    if (customer!.status == "Pending" &&
+        planAmount >= customer.idActiveMinThreshold) {
+      netPayable += customer.idActiveAmount;
     }
 
     return KScaffold(
@@ -140,13 +141,13 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                 style: TextStyle(fontSize: 11, color: Colors.grey),
               ),
               height10,
-              if (user.status == "Pending" &&
-                  planAmount >= user.idActiveMinThreshold)
+              if (customer.status == "Pending" &&
+                  planAmount >= customer.idActiveMinThreshold)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("ID Activation"),
-                    Text("+ ${kCurrencyFormat("${user.idActiveAmount}")}")
+                    Text("+ ${kCurrencyFormat("${customer.idActiveAmount}")}")
                   ],
                 ),
               Divider(
@@ -165,8 +166,8 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                   )
                 ],
               ),
-              if (user.status == "Pending" &&
-                  planAmount < user.idActiveMinThreshold)
+              if (customer.status == "Pending" &&
+                  planAmount < customer.idActiveMinThreshold)
                 Card(
                   margin: EdgeInsets.only(top: 20),
                   color: Colors.amber.shade100,
@@ -189,16 +190,16 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                     ),
                   ),
                 ),
-              if (user.status == "Pending")
+              if (customer.status == "Pending")
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     kLabel("ID activation"),
                     kLabel("Terms", top: 10),
                     kPoint(1,
-                        "Min. one time purchase of ${kCurrencyFormat(user.idActiveMinThreshold, decimalDigit: 0)} or more."),
+                        "Min. one time purchase of ${kCurrencyFormat(customer.idActiveMinThreshold, decimalDigit: 0)} or more."),
                     kPoint(2,
-                        "One time ${kCurrencyFormat(user.idActiveAmount, decimalDigit: 0)} will be deducted as part of activation."),
+                        "One time ${kCurrencyFormat(customer.idActiveAmount, decimalDigit: 0)} will be deducted as part of activation."),
                     kLabel("Benefits"),
                     kPoint(1,
                         "All source of commission income will be activated which includes self cashback, level commission, working bonus and rewards."),

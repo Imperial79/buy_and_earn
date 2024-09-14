@@ -1,7 +1,7 @@
 import 'package:buy_and_earn/Components/constants.dart';
-import 'package:buy_and_earn/Models/user_model.dart';
+import 'package:buy_and_earn/Models/customer_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
-import 'package:buy_and_earn/Repository/notiification_methods.dart';
+import 'package:buy_and_earn/Repository/notification_methods.dart';
 import 'package:buy_and_earn/Screens/Auth/RegisterUI.dart';
 import 'package:buy_and_earn/Screens/More/HelpUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
@@ -52,8 +52,8 @@ class _LoginUIState extends ConsumerState<LoginUI> {
           "fcmToken": fcmToken,
         });
         if (!res.error) {
-          ref.read(userProvider.notifier).state =
-              UserModel.fromMap(res.response);
+          ref.read(customerProvider.notifier).state =
+              CustomerModel.fromMap(res.response);
           navPopUntilPush(context, RootUI());
         }
         KSnackbar(context, content: res.message, isDanger: res.error);

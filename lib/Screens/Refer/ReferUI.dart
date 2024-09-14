@@ -36,7 +36,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider);
+    final customer = ref.watch(customerProvider);
     final referListData = ref.watch(myReferFuture(jsonEncode({
       "pageNo": pageNo,
       "tier": _selectedTier,
@@ -69,12 +69,12 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              user?.name.toLowerCase() ?? "",
+                              customer?.name.toLowerCase() ?? "",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700, fontSize: 20),
                             ),
                             Text(
-                              "Level ${user!.level}",
+                              "Level ${customer!.level}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 15),
                             ),
@@ -146,7 +146,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Text(
-                                                    "${user.referCode}",
+                                                    "${customer.referCode}",
                                                     style: TextStyle(
                                                       color: kColor(context)
                                                           .tertiary,
@@ -162,7 +162,8 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                           IconButton.filledTonal(
                                             onPressed: () {
                                               Clipboard.setData(ClipboardData(
-                                                  text: "${user.referCode}"));
+                                                  text:
+                                                      "${customer.referCode}"));
 
                                               KSnackbar(context,
                                                   content:

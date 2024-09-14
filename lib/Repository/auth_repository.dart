@@ -1,18 +1,19 @@
 import 'package:buy_and_earn/Models/response_model.dart';
-import 'package:buy_and_earn/Models/user_model.dart';
+import 'package:buy_and_earn/Models/customer_model.dart';
 import 'package:buy_and_earn/Utils/api_config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-final userProvider = StateProvider<UserModel?>((ref) => null);
+final customerProvider = StateProvider<CustomerModel?>((ref) => null);
 final auth = FutureProvider((ref) async {
   final res = await apiCallBack(path: "/users/auth", method: "GET");
 
   if (!res.error) {
-    ref.read(userProvider.notifier).state = UserModel.fromMap(res.response);
+    ref.read(customerProvider.notifier).state =
+        CustomerModel.fromMap(res.response);
   } else {
-    ref.read(userProvider.notifier).state = null;
+    ref.read(customerProvider.notifier).state = null;
   }
 });
 

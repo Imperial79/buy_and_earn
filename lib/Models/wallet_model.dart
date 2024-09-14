@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class WalletModel {
   int id = 0;
-  int userId = 0;
+  int customerId = 0;
   double selfCashback = 0.0;
   double levelCommission = 0.0;
   double workingBonus = 0.0;
@@ -12,7 +12,7 @@ class WalletModel {
   String monthYear = "";
   WalletModel({
     required this.id,
-    required this.userId,
+    required this.customerId,
     required this.selfCashback,
     required this.levelCommission,
     required this.workingBonus,
@@ -24,7 +24,7 @@ class WalletModel {
 
   WalletModel copyWith({
     int? id,
-    int? userId,
+    int? customerId,
     double? selfCashback,
     double? levelCommission,
     double? workingBonus,
@@ -35,7 +35,7 @@ class WalletModel {
   }) {
     return WalletModel(
       id: id ?? this.id,
-      userId: userId ?? this.userId,
+      customerId: customerId ?? this.customerId,
       selfCashback: selfCashback ?? this.selfCashback,
       levelCommission: levelCommission ?? this.levelCommission,
       workingBonus: workingBonus ?? this.workingBonus,
@@ -49,7 +49,7 @@ class WalletModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'userId': userId,
+      'customerId': customerId,
       'selfCashback': selfCashback,
       'levelCommission': levelCommission,
       'workingBonus': workingBonus,
@@ -63,7 +63,7 @@ class WalletModel {
   factory WalletModel.fromMap(Map<String, dynamic> map) {
     return WalletModel(
       id: map['id']?.toInt() ?? 0,
-      userId: map['userId']?.toInt() ?? 0,
+      customerId: map['customerId']?.toInt() ?? 0,
       selfCashback: map['selfCashback']?.toDouble() ?? 0.0,
       levelCommission: map['levelCommission']?.toDouble() ?? 0.0,
       workingBonus: map['workingBonus']?.toDouble() ?? 0.0,
@@ -81,7 +81,7 @@ class WalletModel {
 
   @override
   String toString() {
-    return 'WalletModel(id: $id, userId: $userId, selfCashback: $selfCashback, levelCommission: $levelCommission, workingBonus: $workingBonus, reward: $reward, tds: $tds, balance: $balance, monthYear: $monthYear)';
+    return 'WalletModel(id: $id, customerId: $customerId, selfCashback: $selfCashback, levelCommission: $levelCommission, workingBonus: $workingBonus, reward: $reward, tds: $tds, balance: $balance, monthYear: $monthYear)';
   }
 
   @override
@@ -90,7 +90,7 @@ class WalletModel {
 
     return other is WalletModel &&
         other.id == id &&
-        other.userId == userId &&
+        other.customerId == customerId &&
         other.selfCashback == selfCashback &&
         other.levelCommission == levelCommission &&
         other.workingBonus == workingBonus &&
@@ -103,7 +103,7 @@ class WalletModel {
   @override
   int get hashCode {
     return id.hashCode ^
-        userId.hashCode ^
+        customerId.hashCode ^
         selfCashback.hashCode ^
         levelCommission.hashCode ^
         workingBonus.hashCode ^

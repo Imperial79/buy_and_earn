@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class Transactions_Model {
   int id = 0;
-  int userId = 0;
+  int customerId = 0;
   String title = "";
   double amount = 0.0;
   String type = "";
@@ -11,7 +11,7 @@ class Transactions_Model {
   String source = "";
   Transactions_Model({
     required this.id,
-    required this.userId,
+    required this.customerId,
     required this.title,
     required this.amount,
     required this.type,
@@ -22,7 +22,7 @@ class Transactions_Model {
 
   Transactions_Model copyWith({
     int? id,
-    int? userId,
+    int? customerId,
     String? title,
     double? amount,
     String? type,
@@ -32,7 +32,7 @@ class Transactions_Model {
   }) {
     return Transactions_Model(
       id: id ?? this.id,
-      userId: userId ?? this.userId,
+      customerId: customerId ?? this.customerId,
       title: title ?? this.title,
       amount: amount ?? this.amount,
       type: type ?? this.type,
@@ -45,7 +45,7 @@ class Transactions_Model {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'userId': userId,
+      'customerId': customerId,
       'title': title,
       'amount': amount,
       'type': type,
@@ -58,7 +58,7 @@ class Transactions_Model {
   factory Transactions_Model.fromMap(Map<String, dynamic> map) {
     return Transactions_Model(
       id: map['id'] ?? 0,
-      userId: map['userId'] ?? 0,
+      customerId: map['customerId'] ?? 0,
       title: map['title'] ?? '',
       amount: double.parse("${map['amount']}"),
       type: map['type'] ?? '',
@@ -75,7 +75,7 @@ class Transactions_Model {
 
   @override
   String toString() {
-    return 'Transactions_Model(id: $id, userId: $userId, title: $title, amount: $amount, type: $type, date: $date, source: $source)';
+    return 'Transactions_Model(id: $id, customerId: $customerId, title: $title, amount: $amount, type: $type, date: $date, source: $source)';
   }
 
   @override
@@ -84,7 +84,7 @@ class Transactions_Model {
 
     return other is Transactions_Model &&
         other.id == id &&
-        other.userId == userId &&
+        other.customerId == customerId &&
         other.title == title &&
         other.amount == amount &&
         other.type == type &&
@@ -95,7 +95,7 @@ class Transactions_Model {
   @override
   int get hashCode {
     return id.hashCode ^
-        userId.hashCode ^
+        customerId.hashCode ^
         title.hashCode ^
         amount.hashCode ^
         type.hashCode ^

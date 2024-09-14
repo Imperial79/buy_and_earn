@@ -106,8 +106,8 @@ class FirebaseNotification {
 
     fcmMessaging.subscribeToTopic("All").then((_) => log("Subscribed to All"));
     fcmMessaging
-        .subscribeToTopic("Users")
-        .then((_) => log("Subscribed to Users"));
+        .subscribeToTopic("Customers")
+        .then((_) => log("Subscribed to Customers"));
 
     initPushNotification();
     initLocalNotifications();

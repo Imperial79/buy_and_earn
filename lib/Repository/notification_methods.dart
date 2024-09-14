@@ -62,7 +62,7 @@ class SendNotification {
     );
   }
 
-  Future<void> toUser(
+  Future<void> toCustomer(
     WidgetRef ref, {
     required String userToken,
     required String title,
