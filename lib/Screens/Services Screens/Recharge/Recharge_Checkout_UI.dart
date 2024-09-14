@@ -191,19 +191,33 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                   ),
                 ),
               if (customer.status == "Pending")
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    kLabel("ID activation"),
-                    kLabel("Terms", top: 10),
-                    kPoint(1,
-                        "Min. one time purchase of ${kCurrencyFormat(customer.idActiveMinThreshold, decimalDigit: 0)} or more."),
-                    kPoint(2,
-                        "One time ${kCurrencyFormat(customer.idActiveAmount, decimalDigit: 0)} will be deducted as part of activation."),
-                    kLabel("Benefits"),
-                    kPoint(1,
-                        "All source of commission income will be activated which includes self cashback, level commission, working bonus and rewards."),
-                  ],
+                Container(
+                  margin: EdgeInsets.only(top: 30),
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 227, 245, 228),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "ID activation",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      kLabel("Terms", top: 10),
+                      kPoint(1,
+                          "Min. one time purchase of ${kCurrencyFormat(customer.idActiveMinThreshold, decimalDigit: 0)} or more."),
+                      kPoint(2,
+                          "One time ${kCurrencyFormat(customer.idActiveAmount, decimalDigit: 0)} will be deducted as part of activation."),
+                      kLabel("Benefits"),
+                      kPoint(1,
+                          "All source of commission income will be activated which includes self cashback, level commission, working bonus and rewards."),
+                    ],
+                  ),
                 ),
             ],
           ),

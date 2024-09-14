@@ -267,9 +267,10 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   Flexible(
                     child: KTextfield.regular(
                       context,
-                      controller: city,
+                      controller: pincode,
                       label: "Pincode",
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       hintText: "Eg. 7XXXX3",
                       validator: (val) {
                         if (val!.isEmpty || val.length != 6) return "Required!";
@@ -303,9 +304,14 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     : kCard(
                         child: Row(
                           children: [
-                            CircleAvatar(
-                              child: Text("${referrerData['name'][0]}"),
-                            ),
+                            referrerData['dp'] == null
+                                ? CircleAvatar(
+                                    child: Text("${referrerData['name'][0]}"),
+                                  )
+                                : CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(referrerData['dp']),
+                                  ),
                             width10,
                             Expanded(
                                 child: Column(

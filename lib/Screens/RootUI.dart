@@ -36,55 +36,55 @@ class _RootUIState extends ConsumerState<RootUI> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        if (!ref.read(isModalShown)) _showMembershipDialog();
-      },
-    );
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //   (timeStamp) {
+    //     if (!ref.read(isModalShown)) _showMembershipDialog();
+    //   },
+    // );
   }
 
-  Future<void> _buyMembership() async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      Map? data = await navPush(context, TPin_UI()) as Map?;
+  // Future<void> _buyMembership() async {
+  //   try {
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+  //     Map? data = await navPush(context, TPin_UI()) as Map?;
 
-      if (data != null) {
-        final res =
-            await ref.read(clubHouseRepository).buyMembership(data["tpin"]);
+  //     if (data != null) {
+  //       final res =
+  //           await ref.read(clubHouseRepository).buyMembership(data["tpin"]);
 
-        KSnackbar(context, content: res.message, isDanger: res.error);
-      }
-    } catch (e) {
-      KSnackbar(context, content: "Something went wrong!", isDanger: true);
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
+  //       KSnackbar(context, content: res.message, isDanger: res.error);
+  //     }
+  //   } catch (e) {
+  //     KSnackbar(context, content: "Something went wrong!", isDanger: true);
+  //   } finally {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+  // }
 
-  Future<void> _showMembershipDialog() async {
-    return await showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      builder: (context) => SingleChildScrollView(
-        child: kClubModal(
-          context,
-          onPressed: () async {
-            Navigator.pop(context);
-            await _buyMembership();
-          },
-        ),
-      ),
-    ).then(
-      (value) {
-        ref.read(isModalShown.notifier).state = true;
-      },
-    );
-  }
+  // Future<void> _showMembershipDialog() async {
+  //   return await showModalBottomSheet(
+  //     context: context,
+  //     backgroundColor: Colors.transparent,
+  //     elevation: 0,
+  //     builder: (context) => SingleChildScrollView(
+  //       child: kClubModal(
+  //         context,
+  //         onPressed: () async {
+  //           Navigator.pop(context);
+  //           await _buyMembership();
+  //         },
+  //       ),
+  //     ),
+  //   ).then(
+  //     (value) {
+  //       ref.read(isModalShown.notifier).state = true;
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

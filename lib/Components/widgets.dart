@@ -371,7 +371,7 @@ Widget kClubModal(
                           ? Column(
                               children: [
                                 Text(
-                                  "Club Member",
+                                  "Club House Stats",
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
@@ -379,7 +379,7 @@ Widget kClubModal(
                                 ),
                                 height20,
                                 Text(
-                                  "This month spent",
+                                  "FY ${data['targetFy']} spend",
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
@@ -428,31 +428,52 @@ Widget kClubModal(
                               ],
                             )
                           : data['isHousefull'] == "true"
-                              ? Text("Housefull")
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                              ? Column(
                                   children: [
                                     Text(
-                                      "Club Membership",
+                                      "Club Housefull",
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                     height20,
-                                    Container(
-                                      padding: EdgeInsets.only(bottom: 2),
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: kPrimaryColor,
-                                                  width: 2))),
+                                    Text(
+                                      "Check back later!",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
                                       child: Text(
-                                        "At just ${kCurrencyFormat(data["clubHouseMembership"], decimalDigit: 0)}*",
+                                        "Club Membership",
                                         style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w900,
-                                          color: kPrimaryColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    height20,
+                                    Center(
+                                      child: Container(
+                                        padding: EdgeInsets.only(bottom: 2),
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: kPrimaryColor,
+                                                    width: 2))),
+                                        child: Text(
+                                          "At just ${kCurrencyFormat(data["clubHouseMembership"], decimalDigit: 0)}*",
+                                          style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w900,
+                                            color: kPrimaryColor,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -460,33 +481,63 @@ Widget kClubModal(
                                     Text(
                                       "Benefits",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.w800),
                                     ),
                                     Text(
-                                      "- Guaranteed cashbacks.",
+                                      "- Member of Financial Year ${data['targetFy']}.",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "- Receive 10% of company's profit in the end of financial year.",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
                                     height20,
                                     Text(
-                                      "*Terms and Coditions apply",
-                                      style: TextStyle(fontSize: 10),
+                                      "Terms",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                    Text(
+                                      "- Yearly target of ${kCurrencyFormat(data['clubHouseYearlySpend'])} must be completed individually.",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "- Spends will be accumulated from 1st April - 31st March of the Financial Year.",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "- Non-Refundable.",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    height20,
+                                    Center(
+                                      child: Text(
+                                        "*Terms and Conditions apply",
+                                        style: TextStyle(fontSize: 10),
+                                      ),
                                     ),
                                     height5,
-                                    MaterialButton(
-                                      onPressed: onPressed,
-                                      elevation: 0,
-                                      highlightElevation: 0,
-                                      color: kPrimaryColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: kRadius(100),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 40),
-                                      textColor: Colors.white,
-                                      child: Text(
-                                        "Buy Now",
-                                        textAlign: TextAlign.center,
+                                    Center(
+                                      child: MaterialButton(
+                                        onPressed: onPressed,
+                                        elevation: 0,
+                                        highlightElevation: 0,
+                                        color: kPrimaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: kRadius(100),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 40),
+                                        textColor: Colors.white,
+                                        child: Text(
+                                          "Buy Now",
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
                                     ),
                                   ],
