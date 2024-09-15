@@ -1,6 +1,8 @@
 import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Repository/carousel_repository.dart';
+import 'package:buy_and_earn/Repository/kyc_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Providers_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kCarousel.dart';
@@ -10,6 +12,8 @@ import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../More/KycUI.dart';
 
 class HomeUI extends ConsumerStatefulWidget {
   const HomeUI({super.key});
@@ -44,6 +48,8 @@ class _HomeUIState extends ConsumerState<HomeUI> {
 
   @override
   Widget build(BuildContext context) {
+    final carouselData = ref.watch(carouselFuture);
+    final customer = ref.watch(customerProvider);
     return PopScope(
       canPop: canPop,
       onPopInvokedWithResult: (didPop, result) {
@@ -64,23 +70,87 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                       _header(),
                       height20,
                       kWalletCard(context),
-                      height15,
                     ],
                   ),
                 ),
-                KCarousel(
-                  height: 120,
-                  children: [
-                    KCarousel.Item(
+                height15,
+                Visibility(
+                  visible: ref.watch(showKycBanner) && !customer!.isKycDone,
+                  child: GestureDetector(
+                    onTap: () {
+                      navPush(context, KycUI());
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: kColor(context).secondary,
+                          width: .5,
+                        ),
+                        borderRadius: kRadius(10),
+                      ),
+                      color: kColor(context).secondaryContainer,
+                      margin: EdgeInsets.only(
+                        left: kPadding,
+                        right: kPadding,
+                        bottom: kPadding,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(kPadding),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.warning,
+                              color: kColor(context).secondary,
+                            ),
+                            width20,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "KYC Pending",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Upload necessary documents to complete your KYC.",
+                                    style: TextStyle(fontSize: 13),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                ref.read(showKycBanner.notifier).state = false;
+                              },
+                              visualDensity: VisualDensity.compact,
+                              icon: Icon(
+                                Icons.close,
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                carouselData.when(
+                  data: (data) => KCarousel(
+                    height: 200,
+                    children: List.generate(
+                      data.length,
+                      (index) => KCarousel.Item(
                         radius: 10,
-                        url:
-                            "https://img.freepik.com/free-vector/mega-sale-offers-banner-template_1017-31299.jpg"),
-                    KCarousel.Item(
-                        radius: 10,
-                        url:
-                            "https://img.freepik.com/free-vector/mega-sale-offers-banner-template_1017-31299.jpg"),
-                  ],
-                  isLooped: true,
+                        url: data[index]["image"],
+                      ),
+                    ),
+                    isLooped: data.length == 1 ? false : true,
+                  ),
+                  error: (error, stackTrace) => SizedBox(),
+                  loading: () => Text("Loading..."),
                 ),
                 height20,
                 Padding(

@@ -11,6 +11,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upgrader/upgrader.dart';
 
+import '../Repository/auth_repository.dart';
+import '../Repository/notification_methods.dart';
+
 final navigationProvider = StateProvider<int>((ref) => 0);
 
 class RootUI extends ConsumerStatefulWidget {
@@ -29,15 +32,31 @@ class _RootUIState extends ConsumerState<RootUI> {
     MoreUI(),
   ];
 
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   // WidgetsBinding.instance.addPostFrameCallback(
+  //   //   (timeStamp) {
+  //   //     if (!ref.read(isModalShown)) _showMembershipDialog();
+  //   //   },
+  //   // );
+  // }
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) => _init(),
+    );
+  }
 
-    // WidgetsBinding.instance.addPostFrameCallback(
-    //   (timeStamp) {
-    //     if (!ref.read(isModalShown)) _showMembershipDialog();
-    //   },
-    // );
+  _init() {
+    if (!ref.read(customerProvider)!.isKycDone) {
+      ref.read(sendNotificationRepository).localNotification(
+            title: "KYC Pending",
+            body: "Upload documents to complete your KYC.",
+          );
+    }
   }
 
   // Future<void> _buyMembership() async {

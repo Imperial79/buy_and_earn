@@ -19,6 +19,7 @@ class CustomerModel {
   double idActiveAmount = 0;
   double idActiveMinThreshold = 0;
   bool isMember = false;
+  bool isKycDone = false;
   CustomerModel({
     required this.id,
     this.dp,
@@ -38,6 +39,7 @@ class CustomerModel {
     required this.idActiveAmount,
     required this.idActiveMinThreshold,
     required this.isMember,
+    required this.isKycDone,
   });
 
   CustomerModel copyWith({
@@ -59,6 +61,7 @@ class CustomerModel {
     double? idActiveAmount,
     double? idActiveMinThreshold,
     bool? isMember,
+    bool? isKycDone,
   }) {
     return CustomerModel(
       id: id ?? this.id,
@@ -79,6 +82,7 @@ class CustomerModel {
       idActiveAmount: idActiveAmount ?? this.idActiveAmount,
       idActiveMinThreshold: idActiveMinThreshold ?? this.idActiveMinThreshold,
       isMember: isMember ?? this.isMember,
+      isKycDone: isKycDone ?? this.isKycDone,
     );
   }
 
@@ -102,6 +106,7 @@ class CustomerModel {
       'idActiveAmount': idActiveAmount,
       'idActiveMinThreshold': idActiveMinThreshold,
       'isMember': isMember,
+      'isKycDone': isKycDone,
     };
   }
 
@@ -122,9 +127,10 @@ class CustomerModel {
       status: map['status'] ?? '',
       lastLogin: map['lastLogin'] ?? '',
       date: map['date'] ?? '',
-      idActiveAmount: double.parse("${map['idActiveAmount']}"),
-      idActiveMinThreshold: double.parse("${map['idActiveMinThreshold']}"),
+      idActiveAmount: map['idActiveAmount']?.toDouble() ?? 0.0,
+      idActiveMinThreshold: map['idActiveMinThreshold']?.toDouble() ?? 0.0,
       isMember: map['isMember'] == "true",
+      isKycDone: map['isKycDone'] == "true",
     );
   }
 

@@ -247,7 +247,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                         : kNoData(
                             title: "No Data!", subtitle: "Refer more people!"),
                     error: (error, stackTrace) => SizedBox(),
-                    loading: () => CircularProgressIndicator(),
+                    loading: () => Center(child: CircularProgressIndicator()),
                   ),
                   kHeight(100),
                 ],

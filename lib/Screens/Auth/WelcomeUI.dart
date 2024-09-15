@@ -24,6 +24,7 @@ class _WelcomeUIState extends State<WelcomeUI> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             KCarousel(
+              indicatorSpacing: 20,
               viewportFraction: 1,
               children: [
                 SvgPicture.asset("$welcomeImages/1.svg"),
@@ -60,15 +61,13 @@ class _WelcomeUIState extends State<WelcomeUI> {
         ),
       ),
       floatingActionButton: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(0.0),
-          child: KButton.thickPill(
-            onPressed: () {
-              navPush(context, RegisterUI());
-            },
-            label: "Proceed",
-            backgroundColor: kPrimaryColor,
-          ),
+        child: KButton.thickPill(
+          onPressed: () {
+            navPush(context, RegisterUI());
+          },
+          label: "Proceed",
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+          backgroundColor: kSecondaryColor,
         ),
       ),
     );

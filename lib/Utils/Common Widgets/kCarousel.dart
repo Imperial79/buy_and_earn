@@ -11,6 +11,7 @@ class KCarousel extends StatefulWidget {
   final bool isLooped;
   final bool showIndicator;
   final double viewportFraction;
+  final double indicatorSpacing;
   final void Function(int)? onPageChange;
   KCarousel({
     super.key,
@@ -20,6 +21,7 @@ class KCarousel extends StatefulWidget {
     this.showIndicator = true,
     this.onPageChange,
     this.viewportFraction = .9,
+    this.indicatorSpacing = 10,
   });
 
   static Widget Item({
@@ -75,43 +77,52 @@ class _KCarouselState extends State<KCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          height: widget.height ?? MediaQuery.of(context).size.height * 0.3,
-          child: PageView.builder(
-            itemCount: widget.isLooped ? null : widget.children.length,
-            controller: _controller,
-            padEnds: true,
-            itemBuilder: (context, index) {
-              int adjustedIndex =
-                  index % widget.children.length; // Handle looping
+    return widget.children.length > 0
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height:
+                    widget.height ?? MediaQuery.of(context).size.height * 0.3,
+                child: PageView.builder(
+                  itemCount: widget.isLooped ? null : widget.children.length,
+                  controller: _controller,
+                  padEnds: true,
+                  itemBuilder: (context, index) {
+                    int adjustedIndex =
+                        index % widget.children.length; // Handle looping
 
-              return widget.children[adjustedIndex];
-            },
-            onPageChanged: (value) {
-              if (widget.onPageChange != null) widget.onPageChange!(value);
-              setState(() {
-                _activePage = value;
-              });
-            },
-          ),
-        ),
-        widget.showIndicator
-            ? Center(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: _indicator(
-                    context,
-                    activeImage: _activePage % widget.children.length,
-                    length: widget.children.length,
-                  ),
+                    return widget.children[adjustedIndex];
+                  },
+                  onPageChanged: (value) {
+                    if (widget.onPageChange != null)
+                      widget.onPageChange!(value);
+                    setState(() {
+                      _activePage = value;
+                    });
+                  },
                 ),
-              )
-            : SizedBox(),
-      ],
-    );
+              ),
+              widget.showIndicator
+                  ? Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: widget.indicatorSpacing),
+                        child: _indicator(
+                          context,
+                          activeImage: _activePage % widget.children.length,
+                          length: widget.children.length,
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+            ],
+          )
+        : Center(
+            child: Text(
+              "No Image",
+              textAlign: TextAlign.center,
+            ),
+          );
   }
 
   Widget _indicator(
@@ -122,20 +133,19 @@ class _KCarouselState extends State<KCarousel> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
-      children: List.generate(
-        length,
-        (index) => AnimatedContainer(
+      children: List.generate(length, (index) {
+        bool isActive = activeImage == index;
+        return AnimatedContainer(
           margin: EdgeInsets.symmetric(horizontal: 2),
-          height: 5,
-          width: activeImage != index ? 5 : 20,
+          height: 10,
+          width: isActive ? 20 : 10,
           duration: Duration(milliseconds: 300),
           decoration: BoxDecoration(
             borderRadius: kRadius(100),
-            color:
-                activeImage != index ? Colors.grey.shade300 : kSecondaryColor,
+            color: isActive ? kSecondaryColor : Colors.grey.shade300,
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

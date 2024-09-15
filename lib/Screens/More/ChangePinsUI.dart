@@ -20,22 +20,23 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
   final _mpin_formKey = GlobalKey<FormState>();
   final _tpin_formKey = GlobalKey<FormState>();
 
-  final oldMpin = TextEditingController();
-  final newMpin = TextEditingController();
-  final oldTpin = TextEditingController();
-  final newTpin = TextEditingController();
+  final currMpin = new TextEditingController();
+  final newMpin = new TextEditingController();
+  final currTpin = new TextEditingController();
+  final newTpin = new TextEditingController();
 
-  _changePin() async {
+  _changePin(String pinType) async {
     try {
       setState(() {
         isLoading = true;
       });
 
       final res = await ref.read(authRepository).changePins({
-        "currTpin": oldTpin.text.trim(),
+        "currTpin": currTpin.text.trim(),
         "newTpin": newTpin.text.trim(),
-        "currMpin": oldMpin.text.trim(),
+        "currMpin": currMpin.text.trim(),
         "newMpin": newMpin.text.trim(),
+        "pinType": pinType,
       });
 
       if (!res.error && newMpin.text.isNotEmpty) {
@@ -47,6 +48,10 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
     } catch (e) {
       KSnackbar(context, content: "Something went wrong!", isDanger: true);
     } finally {
+      currMpin.clear();
+      newMpin.clear();
+      currTpin.clear();
+      newTpin.clear();
       setState(() {
         isLoading = false;
       });
@@ -55,9 +60,9 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
 
   @override
   void dispose() {
-    oldMpin.dispose();
+    currMpin.dispose();
     newMpin.dispose();
-    oldTpin.dispose();
+    currTpin.dispose();
     newTpin.dispose();
     super.dispose();
   }
@@ -98,15 +103,16 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
           height20,
           KTextfield.regular(
             context,
-            controller: oldMpin,
+            controller: currMpin,
             label: "Current MPIN",
             obscureText: true,
-            maxLength: 8,
+            textCapitalization: TextCapitalization.none,
             hintText: "Enter current MPIN",
             validator: (val) {
               if (val!.isEmpty)
                 return "Required!";
-              else if (val.length != 8) return "Length must be 8";
+              else if (val.length < 4)
+                return "Length must be greater than 3 chars!";
               return null;
             },
           ),
@@ -115,13 +121,15 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             context,
             controller: newMpin,
             label: "New MPIN",
+            textCapitalization: TextCapitalization.none,
             obscureText: true,
             maxLength: 8,
             hintText: "Enter new MPIN",
             validator: (val) {
               if (val!.isEmpty)
                 return "Required!";
-              else if (val.length != 8) return "Length must be 8";
+              else if (val.length < 4)
+                return "Length must be greater than 3 chars!";
               return null;
             },
           ),
@@ -131,7 +139,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
           height15,
           KButton.icon(
             onPressed: () {
-              if (_mpin_formKey.currentState!.validate()) _changePin();
+              if (_mpin_formKey.currentState!.validate()) _changePin("Mpin");
             },
             icon: Icon(Icons.sync),
             backgroundColor: kSecondaryColor,
@@ -158,28 +166,32 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
           height20,
           KTextfield.regular(
             context,
+            controller: currTpin,
             label: "Current TPIN",
             obscureText: true,
             maxLength: 6,
+            keyboardType: TextInputType.number,
             hintText: "Enter current TPIN",
             validator: (val) {
               if (val!.isEmpty)
                 return "Required!";
-              else if (val.length != 6) return "Length must be 8";
+              else if (val.length != 6) return "Length must be 6";
               return null;
             },
           ),
           height20,
           KTextfield.regular(
             context,
+            controller: newTpin,
             label: "New TPIN",
             obscureText: true,
             maxLength: 6,
+            keyboardType: TextInputType.number,
             hintText: "Enter new TPIN",
             validator: (val) {
               if (val!.isEmpty)
                 return "Required!";
-              else if (val.length != 6) return "Length must be 8";
+              else if (val.length != 6) return "Length must be 6";
               return null;
             },
           ),
@@ -189,7 +201,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
           height15,
           KButton.icon(
             onPressed: () {
-              if (_tpin_formKey.currentState!.validate()) _changePin();
+              if (_tpin_formKey.currentState!.validate()) _changePin("Tpin");
             },
             icon: Icon(Icons.sync),
             backgroundColor: kSecondaryColor,

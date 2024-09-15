@@ -8,6 +8,7 @@ class KButton {
     required void Function()? onPressed,
     String? label,
     Color? backgroundColor,
+    Color? textColor,
     double? fontSize,
   }) =>
       ElevatedButton(
@@ -22,13 +23,14 @@ class KButton {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: backgroundColor ?? kSecondaryColor,
-          foregroundColor: Colors.white,
+          foregroundColor: textColor ?? Colors.white,
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           shape: RoundedRectangleBorder(
             borderRadius: kRadius(5),
           ),
           alignment: Alignment.center,
           textStyle: TextStyle(
+            color: textColor,
             fontWeight: FontWeight.w600,
             fontFamily: 'Jakarta',
             fontSize: fontSize,
@@ -153,12 +155,12 @@ class KButton {
     );
   }
 
-  static Widget thickPill({
-    required void Function()? onPressed,
-    required String label,
-    Color? backgroundColor,
-    double? fontSize = 15,
-  }) {
+  static Widget thickPill(
+      {required void Function()? onPressed,
+      required String label,
+      Color? backgroundColor,
+      double? fontSize = 15,
+      EdgeInsetsGeometry? padding}) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -167,7 +169,7 @@ class KButton {
         ),
         backgroundColor: backgroundColor ?? kSecondaryColor,
         foregroundColor: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 17),
+        padding: padding ?? EdgeInsets.symmetric(horizontal: 20, vertical: 17),
       ),
       child: Text(
         label,

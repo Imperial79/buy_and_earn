@@ -12,6 +12,9 @@ Future<ResponseModel> apiCallBack({
   required String path,
   Map<String, dynamic> body = const {},
 }) async {
+  if (body.isEmpty) {
+    method = "GET";
+  }
   final dio = Dio();
   Response response;
   final Directory appDocDir = await getApplicationDocumentsDirectory();

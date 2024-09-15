@@ -130,6 +130,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                   context,
                   controller: mpin,
                   label: "Mpin",
+                  textCapitalization: TextCapitalization.none,
                   obscureText: true,
                   hintText: "Enter your MPIN",
                   validator: (val) {

@@ -1,4 +1,5 @@
-import 'package:buy_and_earn/main.dart';
+import 'package:delightful_toast/delight_toast.dart';
+import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -67,48 +68,68 @@ kSystemColors() {
 void KSnackbar(
   BuildContext context, {
   required String content,
-  bool? isDanger = false,
+  bool isDanger = false,
   bool showIcon = true,
   SnackBarAction? action,
 }) {
-  scaffoldMessengerKey.currentState?.clearSnackBars();
-  scaffoldMessengerKey.currentState?.showSnackBar(
-    SnackBar(
-      backgroundColor:
-          isDanger! ? kColor(context).error : kColor(context).primary,
-      dismissDirection: DismissDirection.horizontal,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: kRadius(10),
+  // scaffoldMessengerKey.currentState?.clearSnackBars();
+  // scaffoldMessengerKey.currentState?.showSnackBar(
+  //   SnackBar(
+  //     backgroundColor:
+  //         isDanger! ? kColor(context).error : kColor(context).primary,
+  //     dismissDirection: DismissDirection.horizontal,
+  //     elevation: 0,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: kRadius(10),
+  //     ),
+  //     padding: EdgeInsets.all(kPadding),
+  //     behavior: SnackBarBehavior.floating,
+  //     action: action,
+  //     content: Row(
+  //       children: [
+  //         showIcon
+  //             ? Padding(
+  //                 padding: EdgeInsets.only(right: 10.0),
+  //                 child: Icon(
+  //                   isDanger ? Icons.dangerous : Icons.download_done_outlined,
+  //                   color: Colors.white,
+  //                 ),
+  //               )
+  //             : SizedBox(),
+  //         Expanded(
+  //           child: Text(
+  //             content,
+  //             style: TextStyle(
+  //               fontWeight: FontWeight.w500,
+  //               color: Colors.white,
+  //               fontFamily: 'Jakarta',
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   ),
+  // );
+  DelightToastBar.removeAll();
+  DelightToastBar(
+    autoDismiss: true,
+    snackbarDuration: Duration(seconds: 3),
+    builder: (context) => ToastCard(
+      leading: Icon(
+        isDanger ? Icons.dangerous : Icons.verified,
+        size: 28,
+        color: isDanger ? Colors.red.shade600 : null,
       ),
-      padding: EdgeInsets.all(kPadding),
-      behavior: SnackBarBehavior.floating,
-      action: action,
-      content: Row(
-        children: [
-          showIcon
-              ? Padding(
-                  padding: EdgeInsets.only(right: 10.0),
-                  child: Icon(
-                    isDanger ? Icons.dangerous : Icons.download_done_outlined,
-                    color: Colors.white,
-                  ),
-                )
-              : SizedBox(),
-          Expanded(
-            child: Text(
-              content,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontFamily: 'Jakarta',
-              ),
-            ),
-          ),
-        ],
+      title: Text(
+        content,
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 14,
+          color: isDanger ? Colors.red.shade600 : null,
+        ),
       ),
     ),
-  );
+  ).show(context);
 }
 
 kPill({void Function()? onTap, required String label}) {

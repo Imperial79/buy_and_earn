@@ -7,6 +7,7 @@ import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/RegisterUI.dart';
 import 'package:buy_and_earn/Screens/More/ChangePinsUI.dart';
 import 'package:buy_and_earn/Screens/More/HelpUI.dart';
+import 'package:buy_and_earn/Screens/More/KycUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
@@ -49,8 +50,6 @@ class _MoreUIState extends ConsumerState<MoreUI> {
         ref.refresh(auth.future);
       }
       KSnackbar(context, content: res.message, isDanger: res.error);
-    } catch (e) {
-      KSnackbar(context, content: "Something went wrong!", isDanger: true);
     } finally {
       setState(() {
         isLoading = false;
@@ -138,6 +137,13 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            Text(
+                                              "Update Profile Image",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            height20,
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceAround,
@@ -415,6 +421,18 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                             // Divider(
                             //   color: Colors.grey.shade300,
                             // ),
+                            _settingButton(
+                              onTap: () {
+                                navPush(context, KycUI());
+                              },
+                              label: "KYC",
+                              icon: Icon(
+                                Icons.keyboard_command_key_sharp,
+                                size: 23,
+                                color: kPrimaryColor,
+                              ),
+                            ),
+                            Divider(),
                             _settingButton(
                               onTap: () {
                                 navPush(context, ChangePinsUI());
