@@ -65,6 +65,10 @@ kSystemColors() {
   );
 }
 
+void kErrorSnack(context) {
+  KSnackbar(context, content: "Something went wrong!", isDanger: true);
+}
+
 void KSnackbar(
   BuildContext context, {
   required String content,

@@ -1,31 +1,57 @@
-import 'dart:io';
+// ignore_for_file: unused_result
 
+import 'dart:io';
 import 'package:buy_and_earn/Components/widgets.dart';
+import 'package:buy_and_earn/Repository/auth_repository.dart';
+import 'package:buy_and_earn/Repository/kyc_repository.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-class KycUI extends StatefulWidget {
+class KycUI extends ConsumerStatefulWidget {
   const KycUI({super.key});
 
   @override
-  State<KycUI> createState() => _KycUIState();
+  ConsumerState<KycUI> createState() => _KycUIState();
 }
 
-class _KycUIState extends State<KycUI> {
-  XFile? _aadharFront;
-  XFile? _aadharBack;
-  XFile? _pan;
-  XFile? _passbook;
-  final _nomName = new TextEditingController();
-  final _nomPhone = new TextEditingController();
-  String _nomRelation = "";
-  XFile? _nomId;
+class _KycUIState extends ConsumerState<KycUI> {
+  bool isLoading = false;
+  XFile? _adhaarFront;
+  XFile? _adhaarBack;
+  XFile? _panFront;
+  final _pan = new TextEditingController();
+  XFile? _bankFront;
+  final _nomineeName = new TextEditingController();
+  final _nomineePhone = new TextEditingController();
+  final _relation = new TextEditingController();
+  // String _relation = "";
+  XFile? _nomineeId;
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  _init() {
+    ref.read(kycFuture).whenData(
+      (value) {
+        _pan.text = value["pan"];
+        _nomineeName.text = value["nomineeName"];
+        _nomineePhone.text = value["nomineePhone"];
+        _relation.text = value["relation"];
+      },
+    );
+    setState(() {});
+  }
 
   Future<XFile?> _pickImage({required ImageSource source}) async {
     return await ImagePicker().pickImage(
@@ -34,193 +60,297 @@ class _KycUIState extends State<KycUI> {
     );
   }
 
+  Future<void> _uploadData() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      final res = await ref.read(kyc_repository).uploadKycData(
+        body: {
+          "adhaarFront": _adhaarFront != null
+              ? await MultipartFile.fromFile(_adhaarFront!.path)
+              : "",
+          "adhaarBack": _adhaarBack != null
+              ? await MultipartFile.fromFile(_adhaarBack!.path)
+              : "",
+          "panFront": _panFront != null
+              ? await MultipartFile.fromFile(_panFront!.path)
+              : "",
+          "pan": _pan.text.trim(),
+          "nomineeName": _nomineeName.text.trim(),
+          "nomineePhone": _nomineePhone.text.trim(),
+          "relation": _relation.text.trim(),
+          "bankFront": _bankFront != null
+              ? await MultipartFile.fromFile(_bankFront!.path)
+              : "",
+          "nomineeId": _nomineeId != null
+              ? await MultipartFile.fromFile(_nomineeId!.path)
+              : "",
+        },
+      );
+      if (!res.error) {
+        ref.refresh(kycFuture.future);
+        ref.refresh(auth.future);
+      }
+      KSnackbar(context, content: res.message, isDanger: res.error);
+    } catch (e) {
+      kErrorSnack(context);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   void dispose() {
-    _nomName.dispose();
-    _nomPhone.dispose();
+    _nomineeName.dispose();
+    _nomineePhone.dispose();
+    _pan.dispose();
+    _relation.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return KScaffold(
-      appBar: KAppBar(context, title: "kyc"),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(kPadding),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kCard(
-                  width: double.maxFinite,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Upload Aadhaar card",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Photos must be clear and should be taken in a well lit room.",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      kLabel("Front Side"),
-                      _imageCard(
-                        onTap: () async {
-                          _aadharFront =
-                              await _pickImage(source: ImageSource.gallery);
-                          setState(() {});
-                        },
-                        image: _aadharFront,
-                      ),
-                      kLabel("Back Side"),
-                      _imageCard(
-                        onTap: () async {
-                          _aadharBack =
-                              await _pickImage(source: ImageSource.gallery);
-                          setState(() {});
-                        },
-                        image: _aadharBack,
-                      ),
-                    ],
-                  ),
-                ),
-                height20,
-                kCard(
-                  width: double.maxFinite,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Upload PAN card",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Photos must be clear and should be taken in a well lit room.",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      kLabel("Front Side"),
-                      _imageCard(
-                        onTap: () async {
-                          _pan = await _pickImage(source: ImageSource.gallery);
-                          setState(() {});
-                        },
-                        image: _pan,
-                      ),
-                    ],
-                  ),
-                ),
-                height20,
-                kCard(
-                  width: double.maxFinite,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Upload Bank Passbook / Cancelled Cheque",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Photos must be clear and should be taken in a well lit room.",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      kLabel("Front Side"),
-                      _imageCard(
-                        onTap: () async {
-                          _passbook =
-                              await _pickImage(source: ImageSource.gallery);
-                          setState(() {});
-                        },
-                        image: _passbook,
-                      ),
-                    ],
-                  ),
-                ),
-                height20,
-                kCard(
-                  width: double.maxFinite,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Nominee Details",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Photos must be clear and should be taken in a well lit room.",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      height20,
-                      KTextfield.regular(
-                        context,
-                        hintText: "Eg. John Doe",
-                        label: "Nominee Name",
-                      ),
-                      height20,
-                      KTextfield.regular(
-                        context,
-                        hintText: "Eg. 909XXXXXXX",
-                        label: "Nominee Phone",
-                      ),
-                      height20,
-                      KTextfield.dropdown(
-                        hintText: "Eg. Father, Son",
-                        label: "Relation",
-                        items: [
-                          DropdownMenuEntry(value: "Father", label: "Father"),
+    final kycData = ref.watch(kycFuture);
+    return RefreshIndicator(
+      onRefresh: () => ref.refresh(kycFuture.future),
+      child: KScaffold(
+        isLoading: isLoading,
+        loadingText: "Uploading data...",
+        appBar: KAppBar(context, title: "kyc"),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(kPadding),
+            child: Form(
+              key: _formKey,
+              child: kycData.when(
+                data: (serverData) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kCard(
+                      width: double.maxFinite,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Upload Aadhaar card",
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "Photos must be clear and should be taken in a well lit room.",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kLabel("Front Side"),
+                          _imageCard(
+                            onTap: () async {
+                              _adhaarFront =
+                                  await _pickImage(source: ImageSource.gallery);
+                              setState(() {});
+                            },
+                            image: _adhaarFront,
+                            imageLink: serverData["adhaarFront"],
+                          ),
+                          kLabel("Back Side"),
+                          _imageCard(
+                            onTap: () async {
+                              _adhaarBack =
+                                  await _pickImage(source: ImageSource.gallery);
+                              setState(() {});
+                            },
+                            image: _adhaarBack,
+                            imageLink: serverData["adhaarBack"],
+                          ),
                         ],
-                        onSelect: (val) {
-                          setState(() {
-                            _nomRelation = "$val";
-                          });
-                        },
                       ),
-                      kLabel("Nominee ID Proof (PAN / Aadhaar / Voter)"),
-                      _imageCard(
-                        onTap: () async {
-                          _nomId =
-                              await _pickImage(source: ImageSource.gallery);
-                          setState(() {});
-                        },
-                        image: _nomId,
+                    ),
+                    height20,
+                    kCard(
+                      width: double.maxFinite,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Upload PAN card",
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "Photos must be clear and should be taken in a well lit room.",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kLabel("Front Side"),
+                          _imageCard(
+                            onTap: () async {
+                              _panFront =
+                                  await _pickImage(source: ImageSource.gallery);
+                              setState(() {});
+                            },
+                            image: _panFront,
+                            imageLink: serverData["panFront"],
+                          ),
+                          height15,
+                          KTextfield.regular(
+                            context,
+                            controller: _pan,
+                            textCapitalization: TextCapitalization.characters,
+                            hintText: "Eg. CHDPXXXXXA",
+                            label: "PAN Number",
+                            validator: (val) {
+                              if (val!.isEmpty) return "Required!";
+                              return null;
+                            },
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    height20,
+                    kCard(
+                      width: double.maxFinite,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Upload Bank Passbook / Cancelled Cheque",
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "Photos must be clear and should be taken in a well lit room.",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kLabel("Front Side"),
+                          _imageCard(
+                            onTap: () async {
+                              _bankFront =
+                                  await _pickImage(source: ImageSource.gallery);
+                              setState(() {});
+                            },
+                            image: _bankFront,
+                            imageLink: serverData["bankFront"],
+                          ),
+                        ],
+                      ),
+                    ),
+                    height20,
+                    kCard(
+                      width: double.maxFinite,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Nominee Details",
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "Photos must be clear and should be taken in a well lit room.",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          height20,
+                          KTextfield.regular(
+                            context,
+                            controller: _nomineeName,
+                            hintText: "Eg. John Doe",
+                            label: "Nominee Name",
+                            validator: (val) {
+                              if (val!.isEmpty) return "Required!";
+                              return null;
+                            },
+                          ),
+                          height20,
+                          KTextfield.regular(
+                            context,
+                            controller: _nomineePhone,
+                            keyboardType: TextInputType.phone,
+                            prefixText: "+91",
+                            hintText: "Eg. 909XXXXXXX",
+                            label: "Nominee Phone",
+                            maxLength: 10,
+                            validator: (val) {
+                              if (val!.isEmpty)
+                                return "Required!";
+                              else if (val.length != 10)
+                                return "Length must be 10!";
+                              return null;
+                            },
+                          ),
+                          height20,
+                          KTextfield.dropdown(
+                            controller: _relation,
+                            hintText: "Eg. Father, Son",
+                            label: "Relation",
+                            items: [
+                              DropdownMenuEntry(
+                                  value: "Father", label: "Father"),
+                            ],
+                            onSelect: (val) {
+                              setState(() {
+                                _relation.text = "$val";
+                              });
+                            },
+                          ),
+                          kLabel("Nominee ID Proof (PAN / Aadhaar / Voter)"),
+                          _imageCard(
+                            onTap: () async {
+                              _nomineeId =
+                                  await _pickImage(source: ImageSource.gallery);
+                              setState(() {});
+                            },
+                            image: _nomineeId,
+                            imageLink: serverData["nomineeId"],
+                          ),
+                        ],
+                      ),
+                    ),
+                    height20,
+                    KButton.full(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (_relation.text.isNotEmpty) {
+                            _uploadData();
+                          } else {
+                            KSnackbar(context,
+                                content: "Select relation!", isDanger: true);
+                          }
+                        }
+                      },
+                      backgroundColor: kColor4,
+                      label: "Update KYC Details",
+                      textColor: Colors.black,
+                    ),
+                  ],
                 ),
-                height20,
-                KButton.full(
-                  onPressed: () {},
-                  backgroundColor: kColor4,
-                  label: "Send for verification",
-                  textColor: Colors.black,
+                error: (error, stackTrace) => Center(
+                  child: Text("Unable to load!"),
                 ),
-              ],
+                loading: () => Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
             ),
           ),
         ),
@@ -231,6 +361,7 @@ class _KycUIState extends State<KycUI> {
   Widget _imageCard({
     void Function()? onTap,
     XFile? image,
+    String? imageLink,
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -242,9 +373,11 @@ class _KycUIState extends State<KycUI> {
           color: Colors.grey.shade300,
           image: image != null
               ? DecorationImage(image: FileImage(File(image.path)))
-              : null,
+              : imageLink != null
+                  ? DecorationImage(image: NetworkImage(imageLink))
+                  : null,
         ),
-        child: image == null
+        child: image == null && imageLink == null
             ? Center(
                 child: Text(
                   "Choose Image",

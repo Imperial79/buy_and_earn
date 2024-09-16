@@ -293,6 +293,7 @@ class KTextfield {
       );
 
   static Widget dropdown({
+    TextEditingController? controller,
     String label = "label",
     String? hintText,
     required List<DropdownMenuEntry<dynamic>>? items,
@@ -310,7 +311,13 @@ class KTextfield {
         ),
         height10,
         DropdownMenu(
+          controller: controller,
           hintText: hintText,
+          textStyle: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 1,
+          ),
           expandedInsets: EdgeInsets.zero,
           inputDecorationTheme: InputDecorationTheme(
             border: OutlineInputBorder(
