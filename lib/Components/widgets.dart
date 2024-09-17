@@ -489,9 +489,9 @@ Widget kClubModal(
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      "- Receive 10% of company's profit in the end of financial year.",
+                                      "- Receive 10% of company's profit in the end of the fiscal year, distributed equally among all Clubhouse Achievers.",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w500), 
                                     ),
                                     height20,
                                     Text(
