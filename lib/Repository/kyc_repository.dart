@@ -10,7 +10,7 @@ final showKycBanner = StateProvider(
   (ref) => true,
 );
 
-final kycFuture = FutureProvider(
+final kycFuture = FutureProvider<Map?>(
   (ref) async {
     final res = await apiCallBack(path: "/kyc/fetch");
     if (!res.error) {

@@ -7,9 +7,13 @@ class WalletModel {
   double levelCommission = 0.0;
   double workingBonus = 0.0;
   double reward = 0.0;
+  double clubhouseCommission = 0.0;
+  double royalAchieversCommission = 0.0;
   double tds = 0.0;
   double balance = 0.0;
+  double lastMonthEarning = 0.0;
   String monthYear = "";
+
   WalletModel({
     required this.id,
     required this.customerId,
@@ -17,8 +21,11 @@ class WalletModel {
     required this.levelCommission,
     required this.workingBonus,
     required this.reward,
+    required this.clubhouseCommission,
+    required this.royalAchieversCommission,
     required this.tds,
     required this.balance,
+    required this.lastMonthEarning,
     required this.monthYear,
   });
 
@@ -29,8 +36,11 @@ class WalletModel {
     double? levelCommission,
     double? workingBonus,
     double? reward,
+    double? clubhouseCommission,
+    double? royalAchieversCommission,
     double? tds,
     double? balance,
+    double? lastMonthEarning,
     String? monthYear,
   }) {
     return WalletModel(
@@ -40,8 +50,12 @@ class WalletModel {
       levelCommission: levelCommission ?? this.levelCommission,
       workingBonus: workingBonus ?? this.workingBonus,
       reward: reward ?? this.reward,
+      clubhouseCommission: clubhouseCommission ?? this.clubhouseCommission,
+      royalAchieversCommission:
+          royalAchieversCommission ?? this.royalAchieversCommission,
       tds: tds ?? this.tds,
       balance: balance ?? this.balance,
+      lastMonthEarning: lastMonthEarning ?? this.lastMonthEarning,
       monthYear: monthYear ?? this.monthYear,
     );
   }
@@ -54,8 +68,11 @@ class WalletModel {
       'levelCommission': levelCommission,
       'workingBonus': workingBonus,
       'reward': reward,
+      'clubhouseCommission': clubhouseCommission,
+      'royalAchieversCommission': royalAchieversCommission,
       'tds': tds,
       'balance': balance,
+      'lastMonthEarning': lastMonthEarning,
       'monthYear': monthYear,
     };
   }
@@ -68,8 +85,12 @@ class WalletModel {
       levelCommission: map['levelCommission']?.toDouble() ?? 0.0,
       workingBonus: map['workingBonus']?.toDouble() ?? 0.0,
       reward: map['reward']?.toDouble() ?? 0.0,
+      clubhouseCommission: map['clubhouseCommission']?.toDouble() ?? 0.0,
+      royalAchieversCommission:
+          map['royalAchieversCommission']?.toDouble() ?? 0.0,
       tds: map['tds']?.toDouble() ?? 0.0,
       balance: map['balance']?.toDouble() ?? 0.0,
+      lastMonthEarning: map['lastMonthEarning']?.toDouble() ?? 0.0,
       monthYear: map['monthYear'] ?? '',
     );
   }

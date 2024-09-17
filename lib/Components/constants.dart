@@ -6,8 +6,8 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const kAppVersion = "1.3.1";
-const kAppBuild = "21";
+const kAppVersion = "1.3.2";
+const kAppBuild = "22";
 
 final String kImagePath = "assets/images";
 final String welcomeImages = "$kImagePath/welcome-images";
@@ -139,6 +139,6 @@ bool kCompare(String searchKey, String text) {
 
 String kCurrencyFormat(dynamic number, {int decimalDigit = 2}) {
   var f = NumberFormat.currency(
-      symbol: "₹", locale: 'en_US', decimalDigits: decimalDigit);
+      symbol: "₹ ", locale: 'en_US', decimalDigits: decimalDigit);
   return f.format(double.parse("$number"));
 }

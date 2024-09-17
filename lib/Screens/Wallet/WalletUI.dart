@@ -8,6 +8,7 @@ import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -192,50 +193,78 @@ class _WalletUIState extends ConsumerState<WalletUI> {
               kLabel("Today's Earnings"),
 
               wallet.when(
-                data: (data) => StaggeredGridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  physics: NeverScrollableScrollPhysics(),
-                  staggeredTiles: [
-                    StaggeredTile.fit(1),
-                    StaggeredTile.fit(1),
-                    StaggeredTile.fit(1),
-                    StaggeredTile.fit(1),
-                  ],
+                data: (data) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _statCard(
-                        kCurrencyFormat(
-                          data!.selfCashback,
-                          decimalDigit: 5,
+                    StaggeredGridView.count(
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      padding: EdgeInsets.zero,
+                      physics: NeverScrollableScrollPhysics(),
+                      staggeredTiles: List.generate(
+                        6,
+                        (index) => StaggeredTile.fit(1),
+                      ),
+                      children: [
+                        _statCard(
+                            kCurrencyFormat(
+                              data!.selfCashback,
+                              decimalDigit: 5,
+                            ),
+                            "Self Cashback"),
+                        _statCard(
+                          kCurrencyFormat(
+                            data.levelCommission,
+                            decimalDigit: 5,
+                          ),
+                          "Level Commission",
                         ),
-                        "Self Cashback"),
+                        _statCard(
+                          kCurrencyFormat(
+                            data.workingBonus,
+                            decimalDigit: 5,
+                          ),
+                          "Working Bonus",
+                        ),
+                        _statCard(
+                            kCurrencyFormat(
+                              data.reward,
+                              decimalDigit: 5,
+                            ),
+                            "Rewards"),
+                        _statCard(
+                          kCurrencyFormat(
+                            data.clubhouseCommission,
+                            decimalDigit: 5,
+                          ),
+                          "Club House Commission",
+                        ),
+                        _statCard(
+                          kCurrencyFormat(
+                            data.royalAchieversCommission,
+                            decimalDigit: 5,
+                          ),
+                          "Royal Achievers Commission",
+                        ),
+                      ],
+                    ),
+                    kLabel("Last month earning", top: 10),
                     _statCard(
                       kCurrencyFormat(
-                        data.levelCommission,
+                        data.lastMonthEarning,
                         decimalDigit: 5,
                       ),
-                      "Level Commission",
+                      "TDS Deducted",
+                      title:
+                          "${DateFormat("MMMM").format(DateTime(DateTime.now().year, DateTime.now().month - 1))}",
                     ),
-                    _statCard(
-                      kCurrencyFormat(
-                        data.workingBonus,
-                        decimalDigit: 5,
-                      ),
-                      "Working Bonus",
-                    ),
-                    _statCard(
-                        kCurrencyFormat(
-                          data.reward,
-                          decimalDigit: 5,
-                        ),
-                        "Rewards"),
                   ],
                 ),
                 error: (error, stackTrace) => SizedBox(),
                 loading: () => CircularProgressIndicator(),
-              )
+              ),
             ],
           ),
         ),
@@ -321,35 +350,54 @@ class _WalletUIState extends ConsumerState<WalletUI> {
     );
   }
 
-  Widget _statCard(String label, String content) {
+  Widget _statCard(
+    String label,
+    String content, {
+    String? title,
+  }) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: kRadius(10),
       ),
       color: kCardColor,
-      child: Padding(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
+      child: SizedBox(
+        width: double.maxFinite,
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (title != null)
+                Padding(
+                  padding: EdgeInsets.only(bottom: 5.0),
+                  child: Text(
+                    title.toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 16,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            height10,
-            Text(
-              content,
-              style: TextStyle(
-                fontSize: 13,
-                letterSpacing: 1,
+              height10,
+              Text(
+                content,
+                style: TextStyle(
+                  fontSize: 13,
+                  letterSpacing: .5,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

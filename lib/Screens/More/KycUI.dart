@@ -44,13 +44,15 @@ class _KycUIState extends ConsumerState<KycUI> {
   _init() {
     ref.read(kycFuture).whenData(
       (value) {
-        _pan.text = value["pan"];
-        _nomineeName.text = value["nomineeName"];
-        _nomineePhone.text = value["nomineePhone"];
-        _relation.text = value["relation"];
+        if (value != null) {
+          _pan.text = value["pan"];
+          _nomineeName.text = value["nomineeName"];
+          _nomineePhone.text = value["nomineePhone"];
+          _relation.text = value["relation"];
+          setState(() {});
+        }
       },
     );
-    setState(() {});
   }
 
   Future<XFile?> _pickImage({required ImageSource source}) async {
@@ -157,7 +159,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                               setState(() {});
                             },
                             image: _adhaarFront,
-                            imageLink: serverData["adhaarFront"],
+                            imageLink: serverData?["adhaarFront"],
                           ),
                           kLabel("Back Side"),
                           _imageCard(
@@ -167,7 +169,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                               setState(() {});
                             },
                             image: _adhaarBack,
-                            imageLink: serverData["adhaarBack"],
+                            imageLink: serverData?["adhaarBack"],
                           ),
                         ],
                       ),
@@ -200,7 +202,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                               setState(() {});
                             },
                             image: _panFront,
-                            imageLink: serverData["panFront"],
+                            imageLink: serverData?["panFront"],
                           ),
                           height15,
                           KTextfield.regular(
@@ -245,7 +247,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                               setState(() {});
                             },
                             image: _bankFront,
-                            imageLink: serverData["bankFront"],
+                            imageLink: serverData?["bankFront"],
                           ),
                         ],
                       ),
@@ -321,7 +323,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                               setState(() {});
                             },
                             image: _nomineeId,
-                            imageLink: serverData["nomineeId"],
+                            imageLink: serverData?["nomineeId"],
                           ),
                         ],
                       ),
