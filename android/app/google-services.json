@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "18786037372",
+    "firebase_url": "https://buy-n-earn-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "buy-n-earn",
     "storage_bucket": "buy-n-earn.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:18786037372:android:ece20d15acdea7c2df23f9",
+        "mobilesdk_app_id": "1:18786037372:android:4a11d16216c68fdbdf23f9",
         "android_client_info": {
-          "package_name": "com.imvy.buynearn"
+          "package_name": "com.buynearn.shop.customer"
         }
       },
       "oauth_client": [],

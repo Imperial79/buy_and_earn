@@ -51,18 +51,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyC_JAOiXghKQG48UubfBIlSyWX272BnQuI',
-    appId: '1:18786037372:web:c4c0645ad26db0e6df23f9',
+    appId: '1:18786037372:web:c925bd3a2f846128df23f9',
     messagingSenderId: '18786037372',
     projectId: 'buy-n-earn',
     authDomain: 'buy-n-earn.firebaseapp.com',
+    databaseURL: 'https://buy-n-earn-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'buy-n-earn.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAZBSZpRL_g4BEZhPWj60W65GO9R543Kxo',
-    appId: '1:18786037372:android:ece20d15acdea7c2df23f9',
+    appId: '1:18786037372:android:4a11d16216c68fdbdf23f9',
     messagingSenderId: '18786037372',
     projectId: 'buy-n-earn',
+    databaseURL: 'https://buy-n-earn-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'buy-n-earn.appspot.com',
   );
+
 }
