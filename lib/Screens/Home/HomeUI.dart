@@ -12,6 +12,8 @@ import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../More/KycUI.dart';
 
@@ -143,6 +145,14 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                     children: List.generate(
                       data.length,
                       (index) => KCarousel.Item(
+                        onTap: () async {
+                          if (data[index]["action"] == "External Link") {
+                            await launchUrlString(
+                              data[index]["remarks"],
+                              mode: LaunchMode.externalApplication,
+                            );
+                          }
+                        },
                         radius: 10,
                         url: data[index]["image"],
                       ),

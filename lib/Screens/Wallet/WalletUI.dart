@@ -253,10 +253,11 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                     kLabel("Last month earning", top: 10),
                     _statCard(
                       kCurrencyFormat(
-                        data.lastMonthEarning,
+                        data.lastMonthCommissionEarned,
                         decimalDigit: 5,
                       ),
-                      "TDS Deducted",
+                      "TDS Deducted ${kCurrencyFormat(data.lastMonthTdsDeducted)}",
+                      contentColor: Colors.red.shade700,
                       title:
                           "${DateFormat("MMMM").format(DateTime(DateTime.now().year, DateTime.now().month - 1))}",
                     ),
@@ -353,6 +354,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
   Widget _statCard(
     String label,
     String content, {
+    Color? contentColor,
     String? title,
   }) {
     return Card(
@@ -370,13 +372,18 @@ class _WalletUIState extends ConsumerState<WalletUI> {
               if (title != null)
                 Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Text(
-                    title.toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 16,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text("Commission Earned")),
+                      Text(
+                        title.toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 16,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               Text(
@@ -391,6 +398,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                 content,
                 style: TextStyle(
                   fontSize: 13,
+                  color: contentColor,
                   letterSpacing: .5,
                 ),
                 maxLines: 1,

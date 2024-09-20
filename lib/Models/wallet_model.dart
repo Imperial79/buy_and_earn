@@ -9,10 +9,9 @@ class WalletModel {
   double reward = 0.0;
   double clubhouseCommission = 0.0;
   double royalAchieversCommission = 0.0;
-  double tds = 0.0;
+  double lastMonthTdsDeducted = 0.0;
   double balance = 0.0;
-  double lastMonthEarning = 0.0;
-  String monthYear = "";
+  double lastMonthCommissionEarned = 0.0;
 
   WalletModel({
     required this.id,
@@ -23,10 +22,9 @@ class WalletModel {
     required this.reward,
     required this.clubhouseCommission,
     required this.royalAchieversCommission,
-    required this.tds,
+    required this.lastMonthTdsDeducted,
     required this.balance,
-    required this.lastMonthEarning,
-    required this.monthYear,
+    required this.lastMonthCommissionEarned,
   });
 
   WalletModel copyWith({
@@ -38,10 +36,9 @@ class WalletModel {
     double? reward,
     double? clubhouseCommission,
     double? royalAchieversCommission,
-    double? tds,
+    double? lastMonthTdsDeducted,
     double? balance,
-    double? lastMonthEarning,
-    String? monthYear,
+    double? lastMonthCommissionEarned,
   }) {
     return WalletModel(
       id: id ?? this.id,
@@ -53,10 +50,10 @@ class WalletModel {
       clubhouseCommission: clubhouseCommission ?? this.clubhouseCommission,
       royalAchieversCommission:
           royalAchieversCommission ?? this.royalAchieversCommission,
-      tds: tds ?? this.tds,
+      lastMonthTdsDeducted: lastMonthTdsDeducted ?? this.lastMonthTdsDeducted,
       balance: balance ?? this.balance,
-      lastMonthEarning: lastMonthEarning ?? this.lastMonthEarning,
-      monthYear: monthYear ?? this.monthYear,
+      lastMonthCommissionEarned:
+          lastMonthCommissionEarned ?? this.lastMonthCommissionEarned,
     );
   }
 
@@ -70,10 +67,9 @@ class WalletModel {
       'reward': reward,
       'clubhouseCommission': clubhouseCommission,
       'royalAchieversCommission': royalAchieversCommission,
-      'tds': tds,
+      'lastMonthTdsDeducted': lastMonthTdsDeducted,
       'balance': balance,
-      'lastMonthEarning': lastMonthEarning,
-      'monthYear': monthYear,
+      'lastMonthCommissionEarned': lastMonthCommissionEarned,
     };
   }
 
@@ -88,10 +84,10 @@ class WalletModel {
       clubhouseCommission: map['clubhouseCommission']?.toDouble() ?? 0.0,
       royalAchieversCommission:
           map['royalAchieversCommission']?.toDouble() ?? 0.0,
-      tds: map['tds']?.toDouble() ?? 0.0,
+      lastMonthTdsDeducted: map['lastMonthTdsDeducted']?.toDouble() ?? 0.0,
       balance: map['balance']?.toDouble() ?? 0.0,
-      lastMonthEarning: map['lastMonthEarning']?.toDouble() ?? 0.0,
-      monthYear: map['monthYear'] ?? '',
+      lastMonthCommissionEarned:
+          map['lastMonthCommissionEarned']?.toDouble() ?? 0.0,
     );
   }
 
@@ -99,38 +95,4 @@ class WalletModel {
 
   factory WalletModel.fromJson(String source) =>
       WalletModel.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'WalletModel(id: $id, customerId: $customerId, selfCashback: $selfCashback, levelCommission: $levelCommission, workingBonus: $workingBonus, reward: $reward, tds: $tds, balance: $balance, monthYear: $monthYear)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is WalletModel &&
-        other.id == id &&
-        other.customerId == customerId &&
-        other.selfCashback == selfCashback &&
-        other.levelCommission == levelCommission &&
-        other.workingBonus == workingBonus &&
-        other.reward == reward &&
-        other.tds == tds &&
-        other.balance == balance &&
-        other.monthYear == monthYear;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        customerId.hashCode ^
-        selfCashback.hashCode ^
-        levelCommission.hashCode ^
-        workingBonus.hashCode ^
-        reward.hashCode ^
-        tds.hashCode ^
-        balance.hashCode ^
-        monthYear.hashCode;
-  }
 }

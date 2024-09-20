@@ -28,13 +28,17 @@ class KCarousel extends StatefulWidget {
     EdgeInsetsGeometry? padding,
     required String url,
     double? radius,
+    void Function()? onTap,
   }) {
-    return Padding(
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 5.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: kRadius(radius ?? 15),
-          image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: padding ?? EdgeInsets.symmetric(horizontal: 5.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: kRadius(radius ?? 15),
+            image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
+          ),
         ),
       ),
     );
