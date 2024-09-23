@@ -164,7 +164,7 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
                     ),
                   ),
                   Text(
-                    "${data.type == "Credit" ? "+" : "-"} ${kCurrencyFormat("${data.amount}")}",
+                    "${data.type == "Credit" ? "+" : "-"} ${kCurrencyFormat("${data.amount}", decimalDigit: 2)}",
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ],
@@ -484,14 +484,14 @@ Widget kClubModal(
                                           fontWeight: FontWeight.w800),
                                     ),
                                     Text(
-                                      "- Member of Financial Year ${data['targetFy']}.",
+                                      "- Member of Fiscal Year ${data['targetFy']}.",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
                                       "- Receive 10% of company's profit in the end of the fiscal year, distributed equally among all Clubhouse Achievers.",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w500), 
+                                          fontWeight: FontWeight.w500),
                                     ),
                                     height20,
                                     Text(
@@ -505,7 +505,7 @@ Widget kClubModal(
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      "- Spends will be accumulated from 1st April - 31st March of the Financial Year.",
+                                      "- Spends will be accumulated from 1st April - 31st March of the Fiscal Year.",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),

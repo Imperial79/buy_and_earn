@@ -75,7 +75,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(entry.key),
-                      Text("${kCurrencyFormat(entry.value)}"),
+                      Text("${kCurrencyFormat(entry.value, decimalDigit: 6)}"),
                     ],
                   );
                 }).toList(),
