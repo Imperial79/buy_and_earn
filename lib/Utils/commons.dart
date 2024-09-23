@@ -1,5 +1,6 @@
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
+import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -76,60 +77,25 @@ void KSnackbar(
   bool showIcon = true,
   SnackBarAction? action,
 }) {
-  // scaffoldMessengerKey.currentState?.clearSnackBars();
-  // scaffoldMessengerKey.currentState?.showSnackBar(
-  //   SnackBar(
-  //     backgroundColor:
-  //         isDanger! ? kColor(context).error : kColor(context).primary,
-  //     dismissDirection: DismissDirection.horizontal,
-  //     elevation: 0,
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: kRadius(10),
-  //     ),
-  //     padding: EdgeInsets.all(kPadding),
-  //     behavior: SnackBarBehavior.floating,
-  //     action: action,
-  //     content: Row(
-  //       children: [
-  //         showIcon
-  //             ? Padding(
-  //                 padding: EdgeInsets.only(right: 10.0),
-  //                 child: Icon(
-  //                   isDanger ? Icons.dangerous : Icons.download_done_outlined,
-  //                   color: Colors.white,
-  //                 ),
-  //               )
-  //             : SizedBox(),
-  //         Expanded(
-  //           child: Text(
-  //             content,
-  //             style: TextStyle(
-  //               fontWeight: FontWeight.w500,
-  //               color: Colors.white,
-  //               fontFamily: 'Jakarta',
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   ),
-  // );
   DelightToastBar.removeAll();
   DelightToastBar(
+    position: DelightSnackbarPosition.top,
     autoDismiss: true,
     snackbarDuration: Duration(seconds: 3),
     builder: (context) => ToastCard(
+      shadowColor: Colors.transparent,
+      color: isDanger ? Colors.red.shade700 : kSecondaryColor,
       leading: Icon(
         isDanger ? Icons.dangerous : Icons.verified,
         size: 28,
-        color: isDanger ? Colors.red.shade600 : null,
+        color: Colors.white,
       ),
       title: Text(
         content,
         style: TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 14,
-          color: isDanger ? Colors.red.shade600 : null,
+          color: Colors.white,
         ),
       ),
     ),

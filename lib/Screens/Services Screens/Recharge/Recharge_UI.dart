@@ -77,22 +77,20 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                 height20,
                 Text("Enter ${masterdata.service} Consumer ID/Number"),
                 height10,
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      child: KTextfield.regular(
-                        context,
-                        controller: _consumerNo,
-                        textCapitalization: TextCapitalization.characters,
-                        hintText: "Consumer ID/No",
-                        validator: (val) {
-                          if (val!.isEmpty) return "Required!";
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
+                KTextfield.regular(
+                  context,
+                  controller: _consumerNo,
+                  textCapitalization: TextCapitalization.characters,
+                  hintText: "Consumer ID/No",
+                  validator: (val) {
+                    if (val!.isEmpty) return "Required!";
+                    return null;
+                  },
+                ),
+                height5,
+                Text(
+                  "Note - Please do search for the correct plan amount and provider before trying to recharge.",
+                  style: TextStyle(fontSize: 13),
                 ),
                 height10,
                 KButton.full(

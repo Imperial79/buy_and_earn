@@ -104,7 +104,10 @@ AppBar KAppBar(
   bool isLoading = false,
   bool showBack = true,
   List<Widget>? actions,
+  bool showOriginal = false,
 }) {
+  String _title = title;
+  if (!showOriginal) _title = title.toLowerCase();
   return AppBar(
     title: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,7 +130,7 @@ AppBar KAppBar(
             ),
           ),
         Text(
-          title.toLowerCase(),
+          _title,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 20,

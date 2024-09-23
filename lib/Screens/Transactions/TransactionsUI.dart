@@ -53,6 +53,7 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
         child: KScaffold(
           appBar: KAppBar(
             context,
+            showBack: false,
             title: "Transactions",
             actions: [
               // MaterialButton(
@@ -88,9 +89,8 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
               // ),
               width10,
             ],
-            isLoading: pageNo > 0 && asyncData.isLoading,
+            isLoading: asyncData.isLoading,
           ),
-          isLoading: asyncData.isLoading && pageNo == 0,
           body: SafeArea(
             child: SingleChildScrollView(
               padding:

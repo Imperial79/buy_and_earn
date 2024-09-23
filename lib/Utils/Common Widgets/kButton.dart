@@ -38,34 +38,79 @@ class KButton {
         ),
       );
 
-  static Widget outlined({
+  static Widget outlinedFull({
     required void Function()? onPressed,
-    String? label,
-    Color? borderColor,
-    Color? textColor,
+    String label = "Label",
+    Color? color,
+    Widget? icon,
+    double fontSize = 17,
   }) =>
-      MaterialButton(
+      ElevatedButton(
         onPressed: onPressed,
-        color: Colors.transparent,
-        elevation: 0,
-        highlightElevation: 0,
-        disabledElevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: kRadius(5),
+        style: ElevatedButton.styleFrom(
           side: BorderSide(
-            color: borderColor ?? Colors.white,
+            color: color ?? kPrimaryColor,
+          ),
+          foregroundColor: color ?? kPrimaryColor,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          shadowColor: Colors.transparent,
+        ),
+        child: SizedBox(
+          width: double.maxFinite,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != null)
+                Padding(
+                  padding: EdgeInsets.only(right: 10.0),
+                  child: icon,
+                ),
+              Text(
+                label,
+                style:
+                    TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ),
-        visualDensity: VisualDensity.compact,
-        child: Text(
-          label ?? "label",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: textColor ?? Colors.white,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'Jakarta',
-            fontSize: 12,
+      );
+  static Widget outlinedRegular({
+    required void Function()? onPressed,
+    String label = "Label",
+    Color? color,
+    Widget? icon,
+    double fontSize = 17,
+  }) =>
+      ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          side: BorderSide(
+            color: color ?? kPrimaryColor,
           ),
+          foregroundColor: color ?? kPrimaryColor,
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          elevation: 0,
+          padding: EdgeInsets.symmetric(
+            horizontal: 15,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null)
+              Padding(
+                padding: EdgeInsets.only(right: 10.0),
+                child: icon,
+              ),
+            Text(
+              label,
+              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       );
 

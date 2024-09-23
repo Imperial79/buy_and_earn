@@ -31,6 +31,9 @@ final kIconMap = {
   'Courier': "$kServiceIcon/courier.svg",
   'Local': "$kServiceIcon/local.svg",
   'Club House': "$kServiceIcon/club.svg",
+  'Commission': "$kServiceIcon/commission.svg",
+  'Refund': "$kServiceIcon/refund.svg",
+  'Wallet': "$kServiceIcon/wallet.svg",
 };
 
 final kColorMap = {
@@ -139,6 +142,9 @@ bool kCompare(String searchKey, String text) {
 
 String kCurrencyFormat(dynamic number, {int decimalDigit = 2}) {
   var f = NumberFormat.currency(
-      symbol: "₹ ", locale: 'en_US', decimalDigits: decimalDigit);
+    symbol: "₹ ",
+    locale: 'en_US',
+    decimalDigits: decimalDigit,
+  );
   return f.format(double.parse("$number"));
 }

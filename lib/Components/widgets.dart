@@ -117,12 +117,13 @@ Widget kWalletCard(context) {
                   ],
                 ),
               ),
-              KButton.outlined(
-                onPressed: () {
-                  navPush(context, WalletUI());
-                },
-                label: "Add Money",
-              ),
+              KButton.outlinedRegular(
+                  onPressed: () {
+                    navPush(context, WalletUI());
+                  },
+                  label: "Add Money",
+                  color: Colors.white,
+                  fontSize: 12),
             ],
           ),
         ),
@@ -132,6 +133,7 @@ Widget kWalletCard(context) {
 }
 
 Widget kRecentHistoryCard(context, Transactions_Model data) {
+  bool isCredit = data.type == "Credit";
   return InkWell(
     onTap: () {
       navPush(context, TransactionDetailUI(txnDetails: data));
@@ -140,7 +142,9 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CircleAvatar(
-          radius: 20,
+          radius: 22,
+          backgroundColor:
+              isCredit ? Colors.greenAccent.shade100 : const Color(0xFFFFDAD7),
           child: SvgPicture.asset(
             kIconMap[data.source] ?? "$kServiceIcon/mobile.svg",
             height: 20,
@@ -164,7 +168,7 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
                     ),
                   ),
                   Text(
-                    "${data.type == "Credit" ? "+" : "-"} ${kCurrencyFormat("${data.amount}", decimalDigit: 2)}",
+                    "${isCredit ? "+" : "-"} ${kCurrencyFormat("${data.amount}", decimalDigit: 2)}",
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ],

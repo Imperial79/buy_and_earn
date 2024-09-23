@@ -105,6 +105,11 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                     ),
                   ],
                 ),
+                height5,
+                Text(
+                  "Note - Please do search for the correct plan amount and provider before trying to recharge.",
+                  style: TextStyle(fontSize: 13),
+                ),
                 height10,
                 KButton.full(
                   onPressed: () {

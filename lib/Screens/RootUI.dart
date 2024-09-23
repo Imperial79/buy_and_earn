@@ -17,7 +17,11 @@ import '../Repository/notification_methods.dart';
 final navigationProvider = StateProvider<int>((ref) => 0);
 
 class RootUI extends ConsumerStatefulWidget {
-  const RootUI({super.key});
+  // final bool isExit;
+  const RootUI({
+    super.key,
+    // this.isExit = false,
+  });
 
   @override
   ConsumerState<RootUI> createState() => _RootUIState();
@@ -102,6 +106,29 @@ class _RootUIState extends ConsumerState<RootUI> {
   //   );
   // }
 
+  bool canPop = false;
+  _popScope() {
+    setState(() {
+      canPop = true;
+    });
+
+    KSnackbar(
+      context,
+      content: "Click back again to exit...",
+      isDanger: false,
+      showIcon: false,
+    );
+
+    Future.delayed(
+      Duration(seconds: 3),
+      () {
+        setState(() {
+          canPop = false;
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final activeIndex = ref.watch(navigationProvider);
@@ -141,13 +168,14 @@ class _RootUIState extends ConsumerState<RootUI> {
         decoration: BoxDecoration(
           color: kCardColor,
           borderRadius: kRadius(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.03),
-              blurRadius: 20,
-              spreadRadius: 10,
-            ),
-          ],
+          border: Border.all(color: Colors.grey.shade300, width: 1),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.black.withOpacity(.03),
+          //     blurRadius: 20,
+          //     spreadRadius: 10,
+          //   ),
+          // ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
