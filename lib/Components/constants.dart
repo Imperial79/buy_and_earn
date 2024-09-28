@@ -43,6 +43,7 @@ final kIconMap = {
   'Commission': "$kServiceIcon/commission.svg",
   'Refund': "$kServiceIcon/refund.svg",
   'Wallet': "$kServiceIcon/wallet.svg",
+  'Gift': "$kServiceIcon/gift.svg",
 };
 
 final kColorMap = {
