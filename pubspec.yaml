@@ -2,7 +2,7 @@ name: buy_and_earn
 description: "Buy n Earn: Prepaid & Cashback"
 publish_to: "none"
 
-version: 1.0.3+3
+version: 1.0.4+4
 
 environment:
   sdk: ">=3.4.1 <4.0.0"
