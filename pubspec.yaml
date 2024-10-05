@@ -1,8 +1,8 @@
 name: buy_and_earn
-description: "A new Flutter project."
+description: "Buy n Earn: Prepaid & Cashback"
 publish_to: "none"
 
-version: 1.0.1+1
+version: 1.0.4+4
 
 environment:
   sdk: ">=3.4.1 <4.0.0"

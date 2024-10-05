@@ -1,6 +1,7 @@
 // ignore_for_file: unused_result
 
 import 'dart:io';
+import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/kyc_repository.dart';
@@ -303,12 +304,13 @@ class _KycUIState extends ConsumerState<KycUI> {
                           height20,
                           KTextfield.dropdown(
                             controller: _relation,
-                            hintText: "Eg. Father, Son",
+                            hintText: "Eg. Mother or Son",
                             label: "Relation",
-                            items: [
-                              DropdownMenuEntry(
-                                  value: "Father", label: "Father"),
-                            ],
+                            items: List.generate(
+                                kRelationList.length,
+                                (index) => DropdownMenuEntry(
+                                    value: kRelationList[index],
+                                    label: kRelationList[index])),
                             onSelect: (val) {
                               setState(() {
                                 _relation.text = "$val";

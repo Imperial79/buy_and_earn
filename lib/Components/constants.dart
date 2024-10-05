@@ -6,11 +6,20 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const kAppVersion = "1.0.1";
-const kAppBuild = "1";
+const kAppVersion = "1.0.4";
+const kAppBuild = "4";
 
 final String kImagePath = "assets/images";
 final String welcomeImages = "$kImagePath/welcome-images";
+
+final kRelationList = [
+  "Mother",
+  "Father",
+  "Son",
+  "Daughter",
+  "Spouse",
+  'Legal Guardian'
+];
 
 final kIconMap = {
   'Prepaid': "$kServiceIcon/mobile.svg",
@@ -34,6 +43,7 @@ final kIconMap = {
   'Commission': "$kServiceIcon/commission.svg",
   'Refund': "$kServiceIcon/refund.svg",
   'Wallet': "$kServiceIcon/wallet.svg",
+  'Gift': "$kServiceIcon/gift.svg",
 };
 
 final kColorMap = {
