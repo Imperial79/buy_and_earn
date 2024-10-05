@@ -205,8 +205,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                             imageLink: serverData?["panFront"],
                           ),
                           height15,
-                          KTextfield.regular(
-                            context,
+                          KTextfield(
                             controller: _pan,
                             textCapitalization: TextCapitalization.characters,
                             hintText: "Eg. CHDPXXXXXA",
@@ -215,7 +214,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                               if (val!.isEmpty) return "Required!";
                               return null;
                             },
-                          ),
+                          ).regular,
                         ],
                       ),
                     ),
@@ -273,8 +272,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                             ),
                           ),
                           height20,
-                          KTextfield.regular(
-                            context,
+                          KTextfield(
                             controller: _nomineeName,
                             hintText: "Eg. John Doe",
                             label: "Nominee Name",
@@ -282,10 +280,9 @@ class _KycUIState extends ConsumerState<KycUI> {
                               if (val!.isEmpty) return "Required!";
                               return null;
                             },
-                          ),
+                          ).regular,
                           height20,
-                          KTextfield.regular(
-                            context,
+                          KTextfield(
                             controller: _nomineePhone,
                             keyboardType: TextInputType.phone,
                             prefixText: "+91",
@@ -299,7 +296,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                                 return "Length must be 10!";
                               return null;
                             },
-                          ),
+                          ).regular,
                           height20,
                           // KTextfield.dropdown(
                           //   controller: _relation,

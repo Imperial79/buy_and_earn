@@ -8,6 +8,7 @@ class CustomerModel {
   String? email;
   String state = "";
   String city = "";
+  String pinCode = "";
   String referCode = "";
   int level = 0;
   String firstService = "N";
@@ -28,6 +29,7 @@ class CustomerModel {
     this.email,
     required this.state,
     required this.city,
+    required this.pinCode,
     required this.referCode,
     required this.level,
     required this.firstService,
@@ -50,6 +52,7 @@ class CustomerModel {
     String? email,
     String? state,
     String? city,
+    String? pinCode,
     String? referCode,
     int? level,
     String? firstService,
@@ -71,6 +74,7 @@ class CustomerModel {
       email: email ?? this.email,
       state: state ?? this.state,
       city: city ?? this.city,
+      pinCode: pinCode ?? this.pinCode,
       referCode: referCode ?? this.referCode,
       level: level ?? this.level,
       firstService: firstService ?? this.firstService,
@@ -95,6 +99,7 @@ class CustomerModel {
       'email': email,
       'state': state,
       'city': city,
+      'pinCode': pinCode,
       'referCode': referCode,
       'level': level,
       'firstService': firstService,
@@ -119,6 +124,7 @@ class CustomerModel {
       email: map['email'],
       state: map['state'] ?? '',
       city: map['city'] ?? '',
+      pinCode: map['pinCode'] ?? '',
       referCode: map['referCode'] ?? '',
       level: map['level']?.toInt() ?? 0,
       firstService: map['firstService'] ?? '',
@@ -150,11 +156,13 @@ class CustomerModel {
 
     return other is CustomerModel &&
         other.id == id &&
+        other.dp == dp &&
         other.name == name &&
         other.phone == phone &&
         other.email == email &&
         other.state == state &&
         other.city == city &&
+        other.pinCode == pinCode &&
         other.referCode == referCode &&
         other.level == level &&
         other.firstService == firstService &&
@@ -164,7 +172,9 @@ class CustomerModel {
         other.lastLogin == lastLogin &&
         other.date == date &&
         other.idActiveAmount == idActiveAmount &&
-        other.idActiveMinThreshold == idActiveMinThreshold;
+        other.idActiveMinThreshold == idActiveMinThreshold &&
+        other.isMember == isMember &&
+        other.isKycDone == isKycDone;
   }
 
   @override

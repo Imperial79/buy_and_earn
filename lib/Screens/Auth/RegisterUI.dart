@@ -24,14 +24,14 @@ class RegisterUI extends ConsumerStatefulWidget {
 
 class _RegisterUIState extends ConsumerState<RegisterUI> {
   final _formKey = GlobalKey<FormState>();
-  final name = TextEditingController();
-  final phone = TextEditingController();
-  final email = TextEditingController();
-  final city = TextEditingController();
-  final pincode = TextEditingController();
-  final referCode = TextEditingController();
+  final name = new TextEditingController();
+  final phone = new TextEditingController();
+  final email = new TextEditingController();
+  final city = new TextEditingController();
+  final state = new TextEditingController();
+  final pincode = new TextEditingController();
+  final referCode = new TextEditingController();
   Map<String, dynamic> referrerData = {};
-  String _selectedState = "";
   bool _isLoading = false;
   bool _otpLoading = false;
   Timer? _timer;
@@ -43,6 +43,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
     phone.dispose();
     email.dispose();
     city.dispose();
+    state.dispose();
     pincode.dispose();
     referCode.dispose();
     if (_timer != null) _timer!.cancel();
@@ -127,7 +128,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
         "name": name.text,
         "phone": phone.text,
         "email": email.text,
-        "state": _selectedState,
+        "state": state.text,
         "city": city.text,
         "pincode": pincode.text,
         "referrerCode": referCode.text,
@@ -195,8 +196,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   ],
                 ),
                 height15,
-                KTextfield.regular(
-                  context,
+                KTextfield(
                   controller: name,
                   label: "Name",
                   keyboardType: TextInputType.name,
@@ -205,10 +205,9 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     if (val!.isEmpty) return "Required!";
                     return null;
                   },
-                ),
+                ).regular,
                 height10,
-                KTextfield.regular(
-                  context,
+                KTextfield(
                   controller: phone,
                   label: "Phone",
                   keyboardType: TextInputType.phone,
@@ -221,33 +220,34 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     else if (val.length != 10) return "Length must be 10!";
                     return null;
                   },
-                ),
+                ).regular,
                 height10,
-                KTextfield.regular(
-                  context,
+                KTextfield(
                   controller: email,
                   label: "Email (Optional)",
                   textCapitalization: TextCapitalization.none,
                   keyboardType: TextInputType.emailAddress,
                   hintText: "Eg. johndoe@mail.com",
-                ),
+                  validator: (val) => KValidation.email(val),
+                ).regular,
                 height10,
-                KTextfield.dropdown(
+                KTextfield(
+                  controller: state,
                   label: "State",
                   hintText: "Select State",
-                  items: List.generate(
-                    statesList.length,
+                ).dropdown(
+                  dropdownMenuEntries: List.generate(
+                    kStatesList.length,
                     (index) => DropdownMenuEntry(
-                      label: "${statesList[index]}",
-                      value: statesList[index],
+                      label: "${kStatesList[index]}",
+                      value: kStatesList[index],
                     ),
                   ),
                 ),
                 height10,
                 Row(children: [
                   Flexible(
-                    child: KTextfield.regular(
-                      context,
+                    child: KTextfield(
                       controller: city,
                       label: "City",
                       keyboardType: TextInputType.text,
@@ -256,12 +256,11 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                         if (val!.isEmpty) return "Required!";
                         return null;
                       },
-                    ),
+                    ).regular,
                   ),
                   width10,
                   Flexible(
-                    child: KTextfield.regular(
-                      context,
+                    child: KTextfield(
                       controller: pincode,
                       label: "Pincode",
                       keyboardType: TextInputType.number,
@@ -271,12 +270,11 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                         if (val!.isEmpty || val.length != 6) return "Required!";
                         return null;
                       },
-                    ),
+                    ).regular,
                   ),
                 ]),
                 height10,
-                KTextfield.regular(
-                  context,
+                KTextfield(
                   controller: referCode,
                   maxLength: 8,
                   textCapitalization: TextCapitalization.characters,
@@ -292,7 +290,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     if (val!.isEmpty) return "Required!";
                     return null;
                   },
-                ),
+                ).regular,
                 height5,
                 referrerData.isEmpty
                     ? SizedBox.shrink()

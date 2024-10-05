@@ -9,7 +9,6 @@ import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -110,8 +109,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                   ],
                 ),
                 height15,
-                KTextfield.regular(
-                  context,
+                KTextfield(
                   controller: phone,
                   label: "Phone",
                   keyboardType: TextInputType.phone,
@@ -124,10 +122,9 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                     else if (val.length != 10) return "Length must be 10!";
                     return null;
                   },
-                ),
+                ).regular,
                 height10,
-                KTextfield.regular(
-                  context,
+                KTextfield(
                   controller: mpin,
                   label: "Mpin",
                   textCapitalization: TextCapitalization.none,
@@ -137,7 +134,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                     if (val!.isEmpty) return "Required!";
                     return null;
                   },
-                ),
+                ).regular,
                 height15,
                 Row(
                   children: [

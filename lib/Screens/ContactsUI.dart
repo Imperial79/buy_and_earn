@@ -77,8 +77,7 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
               height10,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: kPadding),
-                child: KTextfield.regular(
-                  context,
+                child: KTextfield(
                   controller: searchKey,
                   hintText: "Search name or phone",
                   prefix: Icon(
@@ -88,7 +87,7 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
                   onChanged: (val) {
                     setState(() {});
                   },
-                ),
+                ).regular,
               ),
               // height10,
               Expanded(

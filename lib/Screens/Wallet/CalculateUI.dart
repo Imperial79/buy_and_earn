@@ -58,29 +58,26 @@ class _CalculateUIState extends State<CalculateUI> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  KTextfield.regular(
-                    context,
+                  KTextfield(
                     controller: mrp,
                     hintText: "Ex: 233",
                     label: "MRP",
                     keyboardType: TextInputType.number,
-                  ),
+                  ).regular,
                   height10,
-                  KTextfield.regular(
-                    context,
+                  KTextfield(
                     controller: profitMargin,
                     hintText: "Ex: 3 or 6",
                     label: "Profit Margin (%)",
                     keyboardType: TextInputType.number,
-                  ),
+                  ).regular,
                   height10,
-                  KTextfield.regular(
-                    context,
+                  KTextfield(
                     controller: eligibleWBCustomers,
                     hintText: "Ex: 1 or 4",
                     label: "Working Bonus Eligible Customers",
                     keyboardType: TextInputType.number,
-                  ),
+                  ).regular,
                   height10,
                   KButton(
                     onPressed: () {

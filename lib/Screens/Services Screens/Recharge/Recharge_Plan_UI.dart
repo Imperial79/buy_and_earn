@@ -72,8 +72,7 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                               phone: widget.recharge_data!.consumerNo,
                             ),
                       height20,
-                      KTextfield.regular(
-                        context,
+                      KTextfield(
                         controller: _amount,
                         label: "Enter recharge amount",
                         hintText: "Amount",
@@ -90,7 +89,7 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                             return "Enter valid amount!";
                           return null;
                         },
-                      ),
+                      ).regular,
                       height10,
                       KButton(
                         onPressed: () {

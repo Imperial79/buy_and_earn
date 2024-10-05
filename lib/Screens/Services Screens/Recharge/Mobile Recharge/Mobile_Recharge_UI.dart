@@ -66,8 +66,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
-                      child: KTextfield.regular(
-                        context,
+                      child: KTextfield(
                         controller: _phone,
                         prefixText: "+91",
                         keyboardType: TextInputType.phone,
@@ -83,7 +82,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                             return "Length must be 10!";
                           return null;
                         },
-                      ),
+                      ).regular,
                     ),
                     width10,
                     IconButton(

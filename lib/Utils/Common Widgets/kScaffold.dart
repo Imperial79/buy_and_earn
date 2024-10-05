@@ -100,7 +100,7 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
 
 AppBar KAppBar(
   BuildContext context, {
-  required String title,
+  String title = "",
   bool isLoading = false,
   bool showBack = true,
   List<Widget>? actions,

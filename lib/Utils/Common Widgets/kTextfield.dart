@@ -1,14 +1,77 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../colors.dart';
 import '../commons.dart';
 
+class KValidation {
+  static String? email(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Required!';
+    }
+    // Basic email pattern validation
+    String pattern = r'^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+}
+
 class KTextfield {
   static const double kFontSize = 17;
   static const double kTextHeight = 1.5;
+
+  final bool showRequiredStar;
+  final bool autoFocus;
+  final void Function()? onTap;
+  final bool? readOnly;
+  final TextEditingController? controller;
+  final String? hintText;
+  final TextInputType? keyboardType;
+  final String? prefixText;
+  final Widget? prefix;
+  final Widget? suffix;
+  final Color? fieldColor;
+  final Color? borderColor;
+  final bool? obscureText;
+  final int? maxLength;
+  final int? maxLines;
+  final FocusNode? focusNode;
+  final String? label;
+  final double? fontSize;
+  final Widget? labelIcon;
+  final TextCapitalization textCapitalization;
+  final List<TextInputFormatter>? inputFormatters;
+  final void Function(String)? onChanged;
+  final String? Function(String?)? validator;
+
+  KTextfield({
+    this.showRequiredStar = true,
+    this.autoFocus = false,
+    this.onTap,
+    this.readOnly,
+    this.controller,
+    this.hintText,
+    this.keyboardType,
+    this.prefixText,
+    this.prefix,
+    this.suffix,
+    this.fieldColor,
+    this.borderColor,
+    this.obscureText,
+    this.maxLength,
+    this.maxLines = 1,
+    this.focusNode,
+    this.label,
+    this.fontSize = kFontSize,
+    this.labelIcon,
+    this.textCapitalization = TextCapitalization.words,
+    this.inputFormatters,
+    this.onChanged,
+    this.validator,
+  });
 
   static TextStyle kFieldTextstyle = TextStyle(
     fontWeight: FontWeight.w500,
@@ -23,33 +86,8 @@ class KTextfield {
     height: kTextHeight,
     color: Colors.grey.shade600,
   );
-  static Widget regular(
-    BuildContext context, {
-    bool showRequiredStar = true,
-    bool autoFocus = false,
-    void Function()? onTap,
-    bool? readOnly,
-    TextEditingController? controller,
-    String? hintText,
-    TextInputType? keyboardType,
-    String? prefixText,
-    Widget? prefix,
-    Widget? suffix,
-    Color? fieldColor,
-    Color? borderColor,
-    bool? obscureText,
-    int? maxLength,
-    int? maxLines = 1,
-    FocusNode? focusNode,
-    String? label,
-    double? fontSize = kFontSize,
-    Widget? labelIcon,
-    TextCapitalization textCapitalization = TextCapitalization.words,
-    List<TextInputFormatter>? inputFormatters,
-    void Function(String)? onChanged,
-    String? Function(String?)? validator,
-  }) =>
-      Column(
+
+  Widget get regular => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -65,7 +103,7 @@ class KTextfield {
                             )
                           : SizedBox.shrink(),
                       Text(
-                        label,
+                        label!,
                         style: TextStyle(fontSize: 15),
                       ),
                       validator != null && showRequiredStar
@@ -76,7 +114,7 @@ class KTextfield {
                                 style: TextStyle(color: Colors.red),
                               ),
                             )
-                          : SizedBox()
+                          : SizedBox(),
                     ],
                   ),
                 )
@@ -113,7 +151,7 @@ class KTextfield {
                         ? Container(
                             padding: EdgeInsets.only(left: 12, right: 5),
                             child: Text(
-                              prefixText,
+                              prefixText!,
                               style: kFieldTextstyle.copyWith(
                                 fontSize: fontSize,
                               ),
@@ -123,19 +161,15 @@ class KTextfield {
                         : prefix != null
                             ? Padding(
                                 padding: EdgeInsets.only(left: 12, right: 5),
-                                child: prefix,
+                                child: prefix!,
                               )
-                            : SizedBox(
-                                width: 12,
-                              ),
+                            : SizedBox(width: 12),
                     suffixIcon: suffix != null
                         ? Padding(
                             padding: EdgeInsets.only(left: 12, right: 5),
-                            child: suffix,
+                            child: suffix!,
                           )
-                        : SizedBox(
-                            width: 12,
-                          ),
+                        : SizedBox(width: 12),
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: kRadius(10),
@@ -154,9 +188,7 @@ class KTextfield {
                       borderSide: BorderSide(color: Colors.grey.shade300),
                     ),
                     hintText: hintText,
-                    hintStyle: kHintTextstyle.copyWith(
-                      fontSize: fontSize,
-                    ),
+                    hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
                   ),
                   onChanged: onChanged,
                   validator: validator,
@@ -167,30 +199,7 @@ class KTextfield {
         ],
       );
 
-  static Widget otp(
-    BuildContext context, {
-    void Function()? onTap,
-    bool dismissKeyboardOnTapOutside = false,
-    bool? readOnly,
-    TextEditingController? controller,
-    String? hintText,
-    TextInputType? keyboardType,
-    String? prefixText,
-    Widget? prefix,
-    Color? fieldColor,
-    Color? borderColor,
-    bool? obscureText,
-    int? maxLength,
-    int? maxLines = 1,
-    double fontSize = kFontSize,
-    String? label,
-    Widget? labelIcon,
-    TextCapitalization textCapitalization = TextCapitalization.none,
-    List<TextInputFormatter>? inputFormatters,
-    void Function(String)? onChanged,
-    String? Function(String?)? validator,
-  }) =>
-      Column(
+  Widget get otp => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -206,7 +215,7 @@ class KTextfield {
                             )
                           : SizedBox.shrink(),
                       Text(
-                        label,
+                        label!,
                         style: TextStyle(
                           color: Colors.grey.shade800,
                           fontWeight: FontWeight.w500,
@@ -229,7 +238,7 @@ class KTextfield {
                         borderRadius: kRadius(10),
                       ),
                       child: Text(
-                        prefixText,
+                        prefixText!,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 11,
@@ -246,149 +255,129 @@ class KTextfield {
                             color: kSecondaryColor,
                             borderRadius: kRadius(10),
                           ),
-                          child: prefix,
+                          child: prefix!,
                         )
                       : SizedBox(),
               Flexible(
-                child: TextFieldTapRegion(
-                  onTapOutside: (event) {
-                    if (dismissKeyboardOnTapOutside)
-                      FocusScope.of(context).unfocus();
-                  },
-                  child: TextFormField(
-                    controller: controller,
-                    textCapitalization: textCapitalization,
-                    style: kFieldTextstyle.copyWith(
-                      fontSize: fontSize,
-                    ),
-                    textAlign: TextAlign.center,
-                    readOnly: readOnly ?? false,
-                    obscureText: obscureText ?? false,
-                    keyboardType: keyboardType,
-                    maxLength: maxLength,
-                    maxLines: maxLines,
-                    minLines: maxLines,
-                    inputFormatters: inputFormatters,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: kCardColor,
-                      counterText: '',
-                      isDense: true,
-                      border: OutlineInputBorder(
-                        borderRadius: kRadius(10),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: kRadius(10),
-                        borderSide: BorderSide(color: Colors.red.shade300),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: kRadius(10),
-                        borderSide: BorderSide(color: Colors.grey.shade500),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: kRadius(10),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                      hintText: hintText,
-                      hintStyle: kHintTextstyle.copyWith(
-                        fontSize: fontSize,
-                      ),
-                    ),
-                    onChanged: onChanged,
-                    validator: validator,
+                child: TextFormField(
+                  controller: controller,
+                  textCapitalization: textCapitalization,
+                  style: kFieldTextstyle.copyWith(
+                    fontSize: fontSize,
                   ),
+                  textAlign: TextAlign.center,
+                  readOnly: readOnly ?? false,
+                  obscureText: obscureText ?? false,
+                  keyboardType: keyboardType,
+                  maxLength: maxLength,
+                  maxLines: maxLines,
+                  minLines: maxLines,
+                  inputFormatters: inputFormatters,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: kCardColor,
+                    counterText: '',
+                    isDense: true,
+                    border: OutlineInputBorder(
+                      borderRadius: kRadius(10),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: kRadius(10),
+                      borderSide: BorderSide(color: Colors.red.shade300),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: kRadius(10),
+                      borderSide: BorderSide(color: Colors.grey.shade500),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: kRadius(10),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    hintText: hintText,
+                    hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
+                  ),
+                  onChanged: onChanged,
+                  validator: validator,
                 ),
               ),
-              width10,
+              SizedBox(width: 10),
               KButton(onPressed: onTap, label: 'Send OTP').regular,
             ],
           ),
         ],
       );
 
-  static Widget dropdown({
-    TextEditingController? controller,
-    String? label,
-    String? hintText,
-    Widget? labelIcon,
-    double fontSize = 16,
-    bool showRequiredStar = false,
-    required List<DropdownMenuEntry<dynamic>>? items,
+  Widget dropdown({
+    required List<DropdownMenuEntry<dynamic>> dropdownMenuEntries,
     void Function(dynamic)? onSelected,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        label != null
-            ? Padding(
-                padding: EdgeInsets.only(bottom: 10.0),
-                child: Row(
-                  children: [
-                    labelIcon != null
-                        ? Padding(
-                            padding: EdgeInsets.only(right: 7.0),
-                            child: labelIcon,
-                          )
-                        : SizedBox.shrink(),
-                    Text(
-                      label,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    showRequiredStar
-                        ? Padding(
-                            padding: EdgeInsets.only(left: 3.0),
-                            child: Text(
-                              "*",
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          )
-                        : SizedBox()
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        DropdownMenu(
-          controller: controller,
-          hintText: hintText,
-          textStyle: kFieldTextstyle.copyWith(
-            fontSize: fontSize,
-          ),
-          onSelected: onSelected,
-          expandedInsets: EdgeInsets.zero,
-          inputDecorationTheme: InputDecorationTheme(
-            activeIndicatorBorder: BorderSide(color: Colors.grey.shade500),
-            border: OutlineInputBorder(
-              borderRadius: kRadius(10),
-              borderSide: BorderSide(color: Colors.grey.shade300),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: kRadius(10),
-              borderSide: BorderSide(color: Colors.red.shade300),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: kRadius(10),
-              borderSide: BorderSide(color: Colors.grey.shade500),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: kRadius(10),
-              borderSide: BorderSide(color: Colors.grey.shade300),
-            ),
-            filled: true,
-            fillColor: kCardColor,
-            hintStyle: kHintTextstyle.copyWith(
+  }) =>
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          label != null
+              ? Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Row(
+                    children: [
+                      labelIcon != null
+                          ? Padding(
+                              padding: EdgeInsets.only(right: 7.0),
+                              child: labelIcon,
+                            )
+                          : SizedBox.shrink(),
+                      Text(
+                        label!,
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      showRequiredStar
+                          ? Padding(
+                              padding: EdgeInsets.only(left: 3.0),
+                              child: Text(
+                                "*",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            )
+                          : SizedBox()
+                    ],
+                  ),
+                )
+              : SizedBox.shrink(),
+          DropdownMenu(
+            controller: controller,
+            hintText: hintText,
+            textStyle: kFieldTextstyle.copyWith(
               fontSize: fontSize,
             ),
+            onSelected: onSelected,
+            expandedInsets: EdgeInsets.zero,
+            inputDecorationTheme: InputDecorationTheme(
+              activeIndicatorBorder: BorderSide(color: Colors.grey.shade500),
+              border: OutlineInputBorder(
+                borderRadius: kRadius(10),
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: kRadius(10),
+                borderSide: BorderSide(color: Colors.red.shade300),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: kRadius(10),
+                borderSide: BorderSide(color: Colors.grey.shade500),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: kRadius(10),
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              filled: true,
+              fillColor: kCardColor,
+              hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
+            ),
+            selectedTrailingIcon: Icon(Icons.keyboard_arrow_up_rounded),
+            trailingIcon: Icon(Icons.keyboard_arrow_down_rounded),
+            dropdownMenuEntries: dropdownMenuEntries,
+            menuHeight: 300,
           ),
-          selectedTrailingIcon: Icon(Icons.keyboard_arrow_up_rounded),
-          trailingIcon: Icon(Icons.keyboard_arrow_down_rounded),
-          menuStyle: MenuStyle(
-            backgroundColor: WidgetStatePropertyAll(Colors.white),
-          ),
-          dropdownMenuEntries: items!,
-          menuHeight: 300,
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }

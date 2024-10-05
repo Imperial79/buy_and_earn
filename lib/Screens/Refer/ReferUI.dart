@@ -14,6 +14,7 @@ import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class ReferUI extends ConsumerStatefulWidget {
   const ReferUI({super.key});
@@ -151,6 +152,25 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                                 VisualDensity.compact,
                                             icon: Icon(
                                               Icons.copy,
+                                              color: kColor(context).tertiary,
+                                              size: 15,
+                                            ),
+                                          ),
+                                          width10,
+                                          IconButton.filledTonal(
+                                            onPressed: () async {
+                                              await FlutterShare.share(
+                                                title: "Download now!",
+                                                text:
+                                                    "Use my refer code for signing up in Buy N Earn. Let's earn together",
+                                                linkUrl:
+                                                    "https://play.google.com/store/apps/details?id=com.buynearn.shop.customer&hl=en",
+                                              );
+                                            },
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            icon: Icon(
+                                              Icons.share,
                                               color: kColor(context).tertiary,
                                               size: 15,
                                             ),

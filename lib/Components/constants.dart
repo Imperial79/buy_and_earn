@@ -6,8 +6,8 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const kAppVersion = "1.0.4";
-const kAppBuild = "4";
+const kAppVersion = "1.0.5";
+const kAppBuild = "5";
 
 final String kImagePath = "assets/images";
 final String welcomeImages = "$kImagePath/welcome-images";
@@ -52,7 +52,7 @@ final kColorMap = {
   'Success': Colors.green.shade600,
 };
 
-List<String> statesList = [
+List<String> kStatesList = [
   'Andhra Pradesh',
   'Arunachal Pradesh',
   'Assam',

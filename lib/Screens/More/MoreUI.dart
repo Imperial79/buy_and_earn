@@ -7,6 +7,7 @@ import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/RegisterUI.dart';
 import 'package:buy_and_earn/Screens/More/ChangePinsUI.dart';
 import 'package:buy_and_earn/Screens/More/HelpUI.dart';
+import 'package:buy_and_earn/Screens/More/KProfileCard.dart';
 import 'package:buy_and_earn/Screens/More/KycUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
@@ -16,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Repository/clubHouse_repository.dart';
@@ -31,31 +31,6 @@ class MoreUI extends ConsumerStatefulWidget {
 
 class _MoreUIState extends ConsumerState<MoreUI> {
   bool isLoading = false;
-  XFile? _image;
-
-  Future<XFile?> _pickImage({required ImageSource source}) async {
-    return await ImagePicker().pickImage(
-      source: source,
-      imageQuality: 50,
-    );
-  }
-
-  Future<void> _updateDp() async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      final res = await ref.read(authRepository).updateDp(_image!);
-      if (!res.error) {
-        ref.refresh(auth.future);
-      }
-      KSnackbar(context, content: res.message, isDanger: res.error);
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
 
   _logout() async {
     setState(() => isLoading = true);
@@ -117,184 +92,12 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                     children: [
                       kWalletCard(context),
                       height15,
-                      kCard(
-                        isPremium: customer.isMember,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  elevation: 0,
-                                  backgroundColor: Colors.white,
-                                  builder: (context) => SingleChildScrollView(
-                                    padding: EdgeInsets.all(20),
-                                    child: SizedBox(
-                                      width: double.maxFinite,
-                                      child: SafeArea(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Update Profile Image",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            height20,
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Flexible(
-                                                  child: IconButton(
-                                                    onPressed: () async {
-                                                      _image = await _pickImage(
-                                                          source: ImageSource
-                                                              .camera);
-                                                      if (_image != null) {
-                                                        Navigator.pop(context);
-                                                      }
-                                                      setState(() {});
-                                                      _updateDp();
-                                                    },
-                                                    icon: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.camera_alt,
-                                                          color: kPrimaryColor,
-                                                        ),
-                                                        height20,
-                                                        Text(
-                                                          "Camera",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Flexible(
-                                                  child: IconButton(
-                                                    onPressed: () async {
-                                                      _image = await _pickImage(
-                                                          source: ImageSource
-                                                              .gallery);
-                                                      if (_image != null) {
-                                                        Navigator.pop(context);
-                                                        _updateDp();
-                                                      }
-                                                      setState(() {});
-                                                    },
-                                                    icon: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.photo_sharp,
-                                                          color: kPrimaryColor,
-                                                        ),
-                                                        height20,
-                                                        Text(
-                                                          "Gallery",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: customer.dp != null
-                                  ? CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage:
-                                          NetworkImage(customer.dp!),
-                                    )
-                                  : CircleAvatar(
-                                      radius: 30,
-                                      child: Text("${customer.name[0]}"),
-                                    ),
-                            ),
-                            width10,
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          "${customer.name}",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ),
-                                      width10,
-                                      kWidgetPill(
-                                        context,
-                                        backgroundColor:
-                                            Colors.amberAccent.shade100,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 2),
-                                        child: Row(
-                                          children: [
-                                            if (customer.isMember)
-                                              Text(
-                                                "Member | ",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 10,
-                                                ),
-                                              ),
-                                            Text(
-                                              "Lvl. ${customer.level}",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-
-                                  height5,
-                                  Text("+91 ${customer.phone}"),
-                                  Text("${customer.email}"),
-                                  // height5,
-                                  // KButton.outlined(
-                                  //   onPressed: () {},
-                                  //   label: "Edit Details",
-                                  //   textColor: kPrimaryColor,
-                                  //   borderColor: kPrimaryColor,
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      KProfileCard(
+                        isLoading: (loading) {
+                          setState(() {
+                            isLoading = loading;
+                          });
+                        },
                       ),
                       height5,
                       kCard(

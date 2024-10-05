@@ -77,8 +77,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                 height20,
                 Text("Enter ${masterdata.service} Consumer ID/Number"),
                 height10,
-                KTextfield.regular(
-                  context,
+                KTextfield(
                   controller: _consumerNo,
                   textCapitalization: TextCapitalization.characters,
                   hintText: "Consumer ID/No",
@@ -86,7 +85,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                     if (val!.isEmpty) return "Required!";
                     return null;
                   },
-                ),
+                ).regular,
                 height5,
                 Text(
                   "Note - Please do search for the correct plan amount and provider before trying to recharge.",

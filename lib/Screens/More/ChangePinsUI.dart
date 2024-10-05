@@ -101,8 +101,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             ),
           ),
           height20,
-          KTextfield.regular(
-            context,
+          KTextfield(
             controller: currMpin,
             label: "Current MPIN",
             obscureText: true,
@@ -115,10 +114,9 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
                 return "Length must be greater than 3 chars!";
               return null;
             },
-          ),
+          ).regular,
           height20,
-          KTextfield.regular(
-            context,
+          KTextfield(
             controller: newMpin,
             label: "New MPIN",
             textCapitalization: TextCapitalization.none,
@@ -132,7 +130,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
                 return "Length must be greater than 3 chars!";
               return null;
             },
-          ),
+          ).regular,
           height20,
           Text(
               "Changing MPIN will log you out. You will need to login with your new credentials for verification."),
@@ -164,8 +162,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             ),
           ),
           height20,
-          KTextfield.regular(
-            context,
+          KTextfield(
             controller: currTpin,
             label: "Current TPIN",
             obscureText: true,
@@ -178,10 +175,9 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
               else if (val.length != 6) return "Length must be 6";
               return null;
             },
-          ),
+          ).regular,
           height20,
-          KTextfield.regular(
-            context,
+          KTextfield(
             controller: newTpin,
             label: "New TPIN",
             obscureText: true,
@@ -194,7 +190,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
               else if (val.length != 6) return "Length must be 6";
               return null;
             },
-          ),
+          ).regular,
           height20,
           Text(
               "Changing TPIN will log you out. You will need to login with your new credentials for verification."),
