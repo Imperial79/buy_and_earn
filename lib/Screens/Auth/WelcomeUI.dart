@@ -61,14 +61,14 @@ class _WelcomeUIState extends State<WelcomeUI> {
         ),
       ),
       floatingActionButton: SafeArea(
-        child: KButton.thickPill(
+        child: KButton(
           onPressed: () {
             navPush(context, RegisterUI());
           },
           label: "Proceed",
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           backgroundColor: kSecondaryColor,
-        ),
+        ).thickPill,
       ),
     );
   }

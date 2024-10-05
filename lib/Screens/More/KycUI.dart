@@ -1,7 +1,6 @@
 // ignore_for_file: unused_result
 
 import 'dart:io';
-import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/kyc_repository.dart';
@@ -302,21 +301,18 @@ class _KycUIState extends ConsumerState<KycUI> {
                             },
                           ),
                           height20,
-                          KTextfield.dropdown(
-                            controller: _relation,
-                            hintText: "Eg. Mother or Son",
-                            label: "Relation",
-                            items: List.generate(
-                                kRelationList.length,
-                                (index) => DropdownMenuEntry(
-                                    value: kRelationList[index],
-                                    label: kRelationList[index])),
-                            onSelect: (val) {
-                              setState(() {
-                                _relation.text = "$val";
-                              });
-                            },
-                          ),
+                          // KTextfield.dropdown(
+                          //   controller: _relation,
+                          //   hintText: "Eg. Mother or Son",
+                          //   label: "Relation",
+                          //   items: List.generate(
+                          //     kRelationList.length,
+                          //     (index) => DropdownMenuEntry(
+                          //       value: kRelationList[index],
+                          //       label: kRelationList[index],
+                          //     ),
+                          //   ),
+                          // ),
                           kLabel("Nominee ID Proof (PAN / Aadhaar / Voter)"),
                           _imageCard(
                             onTap: () async {
@@ -331,7 +327,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                       ),
                     ),
                     height20,
-                    KButton.full(
+                    KButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           if (_relation.text.isNotEmpty) {
@@ -344,8 +340,8 @@ class _KycUIState extends ConsumerState<KycUI> {
                       },
                       backgroundColor: kColor4,
                       label: "Update KYC Details",
-                      textColor: Colors.black,
-                    ),
+                      foregroundColor: Colors.black,
+                    ).full,
                   ],
                 ),
                 error: (error, stackTrace) => Center(

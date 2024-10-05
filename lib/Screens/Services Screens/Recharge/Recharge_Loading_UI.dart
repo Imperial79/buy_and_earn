@@ -236,13 +236,13 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
             visible: !isLoading,
             child: Padding(
               padding: EdgeInsets.all(20.0),
-              child: KButton.full(
+              child: KButton(
                 backgroundColor: kSecondaryColor,
                 onPressed: () {
                   navPopUntilPush(context, RootUI());
                 },
                 label: "Go Home",
-              ),
+              ).full,
             ),
           ),
         ),

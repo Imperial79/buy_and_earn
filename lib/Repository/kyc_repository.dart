@@ -6,7 +6,10 @@ final kyc_repository = Provider(
   (ref) => KycRepository(),
 );
 
-final showKycBanner = StateProvider(
+final showKycReminder = StateProvider(
+  (ref) => true,
+);
+final showProfileReminder = StateProvider(
   (ref) => true,
 );
 

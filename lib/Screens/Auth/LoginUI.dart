@@ -167,12 +167,12 @@ class _LoginUIState extends ConsumerState<LoginUI> {
       floatingActionButton: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(12),
-          child: KButton.full(
+          child: KButton(
             onPressed: () {
               _login();
             },
             label: "Log In",
-          ),
+          ).full,
         ),
       ),
     );

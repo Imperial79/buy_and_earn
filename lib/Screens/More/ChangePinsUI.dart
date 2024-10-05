@@ -137,14 +137,14 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
           Text(
               "Changing MPIN will log you out. You will need to login with your new credentials for verification."),
           height15,
-          KButton.icon(
+          KButton(
             onPressed: () {
               if (_mpin_formKey.currentState!.validate()) _changePin("Mpin");
             },
             icon: Icon(Icons.sync),
             backgroundColor: kSecondaryColor,
             label: "Update MPIN",
-          ),
+          ).withIcon,
         ],
       ),
     );
@@ -199,14 +199,14 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
           Text(
               "Changing TPIN will log you out. You will need to login with your new credentials for verification."),
           height15,
-          KButton.icon(
+          KButton(
             onPressed: () {
               if (_tpin_formKey.currentState!.validate()) _changePin("Tpin");
             },
             icon: Icon(Icons.sync),
             backgroundColor: kSecondaryColor,
             label: "Update TPIN",
-          ),
+          ).withIcon,
         ],
       ),
     );

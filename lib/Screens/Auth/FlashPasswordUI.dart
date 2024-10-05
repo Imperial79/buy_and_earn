@@ -138,12 +138,12 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(12),
-          child: KButton.full(
+          child: KButton(
             onPressed: () {
               navPopUntilPush(context, RootUI());
             },
             label: "Go to Home",
-          ),
+          ).full,
         ),
       ),
     );

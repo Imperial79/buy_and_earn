@@ -78,7 +78,7 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                         label: "Enter recharge amount",
                         hintText: "Amount",
                         prefixText: "₹",
-                        textSize: 25,
+                        fontSize: 25,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -92,7 +92,7 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                         },
                       ),
                       height10,
-                      KButton.full(
+                      KButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             if (widget.mobile_recharge_data != null) {
@@ -119,7 +119,7 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                           }
                         },
                         label: "Recharge",
-                      ),
+                      ).full,
                     ],
                   ),
                 ),

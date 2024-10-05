@@ -7,10 +7,26 @@ import '../colors.dart';
 import '../commons.dart';
 
 class KTextfield {
+  static const double kFontSize = 17;
+  static const double kTextHeight = 1.5;
+
+  static TextStyle kFieldTextstyle = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: kFontSize,
+    letterSpacing: .5,
+    height: kTextHeight,
+  );
+
+  static TextStyle kHintTextstyle = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: kFontSize,
+    height: kTextHeight,
+    color: Colors.grey.shade600,
+  );
   static Widget regular(
     BuildContext context, {
-    bool dismissKeyboardOnTapOutside = false,
-    double? textSize,
+    bool showRequiredStar = true,
+    bool autoFocus = false,
     void Function()? onTap,
     bool? readOnly,
     TextEditingController? controller,
@@ -21,10 +37,12 @@ class KTextfield {
     Widget? suffix,
     Color? fieldColor,
     Color? borderColor,
-    bool obscureText = false,
+    bool? obscureText,
     int? maxLength,
     int? maxLines = 1,
+    FocusNode? focusNode,
     String? label,
+    double? fontSize = kFontSize,
     Widget? labelIcon,
     TextCapitalization textCapitalization = TextCapitalization.words,
     List<TextInputFormatter>? inputFormatters,
@@ -37,7 +55,7 @@ class KTextfield {
         children: [
           label != null
               ? Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
+                  padding: EdgeInsets.only(bottom: 7.0),
                   child: Row(
                     children: [
                       labelIcon != null
@@ -48,102 +66,103 @@ class KTextfield {
                           : SizedBox.shrink(),
                       Text(
                         label,
-                        style: TextStyle(
-                          color: Colors.grey.shade800,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyle(fontSize: 15),
                       ),
+                      validator != null && showRequiredStar
+                          ? Padding(
+                              padding: EdgeInsets.only(left: 3.0),
+                              child: Text(
+                                "*",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            )
+                          : SizedBox()
                     ],
                   ),
                 )
               : SizedBox.shrink(),
-          TextFieldTapRegion(
-            onTapOutside: (event) {
-              if (dismissKeyboardOnTapOutside) FocusScope.of(context).unfocus();
-            },
-            child: TextFormField(
-              onTap: onTap,
-              controller: controller,
-              textCapitalization: textCapitalization,
-              style: TextStyle(
-                fontSize: textSize ?? 17,
-                fontWeight: FontWeight.w500,
-                letterSpacing: obscureText ? 5 : 1,
-              ),
-              readOnly: readOnly ?? false,
-              obscureText: obscureText,
-              keyboardType: keyboardType,
-              maxLength: maxLength,
-              maxLines: maxLines,
-              minLines: maxLines,
-              inputFormatters: keyboardType == TextInputType.phone ||
-                      keyboardType == TextInputType.number
-                  ? [FilteringTextInputFormatter.digitsOnly]
-                  : inputFormatters,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(15),
-                filled: true,
-                fillColor: fieldColor ?? kCardColor,
-                counterText: '',
-                isDense: true,
-                suffix: suffix != null
-                    ? Padding(
-                        padding: EdgeInsets.only(left: 12, right: 5),
-                        child: suffix)
-                    : SizedBox(),
-                suffixIconConstraints: BoxConstraints(
-                    minHeight: 0, minWidth: prefixText == null ? 12 : 0),
-                prefixIcon: prefixText != null
-                    ? Padding(
-                        padding: EdgeInsets.only(left: 12, right: 5),
-                        child: Text(
-                          prefixText,
-                          style: TextStyle(
-                            fontSize: textSize ?? 17,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: .5,
-                          ),
-                        ),
-                      )
-                    : prefix != null
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Flexible(
+                child: TextFormField(
+                  autofocus: autoFocus,
+                  onTap: onTap,
+                  focusNode: focusNode,
+                  controller: controller,
+                  textCapitalization: textCapitalization,
+                  style: kFieldTextstyle.copyWith(
+                    fontSize: fontSize,
+                  ),
+                  readOnly: readOnly ?? false,
+                  obscureText: obscureText ?? false,
+                  keyboardType: keyboardType,
+                  maxLength: maxLength,
+                  maxLines: maxLines,
+                  minLines: maxLines,
+                  inputFormatters: inputFormatters,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: fieldColor ?? kCardColor,
+                    counterText: '',
+                    prefixIconConstraints:
+                        BoxConstraints(minHeight: 0, minWidth: 0),
+                    suffixIconConstraints:
+                        BoxConstraints(minHeight: 0, minWidth: 0),
+                    prefixIcon: prefixText != null
+                        ? Container(
+                            padding: EdgeInsets.only(left: 12, right: 5),
+                            child: Text(
+                              prefixText,
+                              style: kFieldTextstyle.copyWith(
+                                fontSize: fontSize,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        : prefix != null
+                            ? Padding(
+                                padding: EdgeInsets.only(left: 12, right: 5),
+                                child: prefix,
+                              )
+                            : SizedBox(
+                                width: 12,
+                              ),
+                    suffixIcon: suffix != null
                         ? Padding(
                             padding: EdgeInsets.only(left: 12, right: 5),
-                            child: prefix)
-                        : SizedBox(),
-                prefixIconConstraints: BoxConstraints(
-                    minHeight: 0, minWidth: prefixText == null ? 12 : 0),
-                prefixStyle: TextStyle(
-                  fontSize: textSize ?? 17,
-                  fontWeight: FontWeight.w600,
-                  color: kPrimaryColor,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: kRadius(7),
-                  borderSide: BorderSide(color: Colors.grey.shade300),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: kRadius(7),
-                  borderSide: BorderSide(color: Colors.red.shade300),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: kRadius(7),
-                  borderSide: BorderSide(color: Colors.grey.shade500),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: kRadius(7),
-                  borderSide: BorderSide(color: Colors.grey.shade300),
-                ),
-                hintText: hintText,
-                hintStyle: TextStyle(
-                  fontSize: textSize ?? 17,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey,
-                  letterSpacing: .7,
+                            child: suffix,
+                          )
+                        : SizedBox(
+                            width: 12,
+                          ),
+                    isDense: true,
+                    border: OutlineInputBorder(
+                      borderRadius: kRadius(10),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: kRadius(10),
+                      borderSide: BorderSide(color: Colors.red.shade300),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: kRadius(10),
+                      borderSide: BorderSide(color: Colors.grey.shade500),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: kRadius(10),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    hintText: hintText,
+                    hintStyle: kHintTextstyle.copyWith(
+                      fontSize: fontSize,
+                    ),
+                  ),
+                  onChanged: onChanged,
+                  validator: validator,
                 ),
               ),
-              onChanged: onChanged,
-              validator: validator,
-            ),
+            ],
           ),
         ],
       );
@@ -163,6 +182,7 @@ class KTextfield {
     bool? obscureText,
     int? maxLength,
     int? maxLines = 1,
+    double fontSize = kFontSize,
     String? label,
     Widget? labelIcon,
     TextCapitalization textCapitalization = TextCapitalization.none,
@@ -238,10 +258,8 @@ class KTextfield {
                   child: TextFormField(
                     controller: controller,
                     textCapitalization: textCapitalization,
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 10,
+                    style: kFieldTextstyle.copyWith(
+                      fontSize: fontSize,
                     ),
                     textAlign: TextAlign.center,
                     readOnly: readOnly ?? false,
@@ -273,11 +291,8 @@ class KTextfield {
                         borderSide: BorderSide(color: Colors.grey.shade300),
                       ),
                       hintText: hintText,
-                      hintStyle: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
-                        letterSpacing: 1,
+                      hintStyle: kHintTextstyle.copyWith(
+                        fontSize: fontSize,
                       ),
                     ),
                     onChanged: onChanged,
@@ -286,7 +301,7 @@ class KTextfield {
                 ),
               ),
               width10,
-              KButton.regular(onPressed: onTap, label: 'Send OTP')
+              KButton(onPressed: onTap, label: 'Send OTP').regular,
             ],
           ),
         ],
@@ -294,32 +309,55 @@ class KTextfield {
 
   static Widget dropdown({
     TextEditingController? controller,
-    String label = "label",
+    String? label,
     String? hintText,
+    Widget? labelIcon,
+    double fontSize = 16,
+    bool showRequiredStar = false,
     required List<DropdownMenuEntry<dynamic>>? items,
-    required void Function(dynamic)? onSelect,
+    void Function(dynamic)? onSelected,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey.shade800,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        height10,
+        label != null
+            ? Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: Row(
+                  children: [
+                    labelIcon != null
+                        ? Padding(
+                            padding: EdgeInsets.only(right: 7.0),
+                            child: labelIcon,
+                          )
+                        : SizedBox.shrink(),
+                    Text(
+                      label,
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    showRequiredStar
+                        ? Padding(
+                            padding: EdgeInsets.only(left: 3.0),
+                            child: Text(
+                              "*",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          )
+                        : SizedBox()
+                  ],
+                ),
+              )
+            : SizedBox.shrink(),
         DropdownMenu(
           controller: controller,
           hintText: hintText,
-          textStyle: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 1,
+          textStyle: kFieldTextstyle.copyWith(
+            fontSize: fontSize,
           ),
+          onSelected: onSelected,
           expandedInsets: EdgeInsets.zero,
           inputDecorationTheme: InputDecorationTheme(
+            activeIndicatorBorder: BorderSide(color: Colors.grey.shade500),
             border: OutlineInputBorder(
               borderRadius: kRadius(10),
               borderSide: BorderSide(color: Colors.grey.shade300),
@@ -338,12 +376,16 @@ class KTextfield {
             ),
             filled: true,
             fillColor: kCardColor,
+            hintStyle: kHintTextstyle.copyWith(
+              fontSize: fontSize,
+            ),
           ),
+          selectedTrailingIcon: Icon(Icons.keyboard_arrow_up_rounded),
           trailingIcon: Icon(Icons.keyboard_arrow_down_rounded),
-          menuStyle:
-              MenuStyle(backgroundColor: WidgetStatePropertyAll(Colors.white)),
+          menuStyle: MenuStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.white),
+          ),
           dropdownMenuEntries: items!,
-          onSelected: onSelect,
           menuHeight: 300,
         ),
       ],

@@ -226,7 +226,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(15.0),
-          child: KButton.icon(
+          child: KButton(
             onPressed: () async {
               Map? res = await navPush(context, TPin_UI());
 
@@ -245,7 +245,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
             label: "Pay",
             icon: Text(kCurrencyFormat("$netPayable")),
             fontSize: 16,
-          ),
+          ).withIcon,
         ),
       ),
     );

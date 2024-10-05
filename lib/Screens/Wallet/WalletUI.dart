@@ -168,24 +168,25 @@ class _WalletUIState extends ConsumerState<WalletUI> {
               Row(
                 children: [
                   Expanded(
-                    child: KButton.full(
-                        onPressed: () async {
-                          await launchUrl(Uri.parse("https://t.me/BSPL2"));
-                        },
-                        backgroundColor: Colors.blue.shade700,
-                        label: "Telegram",
-                        fontSize: 15),
+                    child: KButton(
+                            onPressed: () async {
+                              await launchUrl(Uri.parse("https://t.me/BSPL2"));
+                            },
+                            backgroundColor: Colors.blue.shade700,
+                            label: "Telegram",
+                            fontSize: 15)
+                        .full,
                   ),
                   width10,
                   Expanded(
-                    child: KButton.full(
+                    child: KButton(
                       onPressed: () async {
                         await launchUrl(Uri.parse("https://wa.me/7454038717"));
                       },
                       backgroundColor: Colors.green.shade700,
                       label: "WhatsApp",
                       fontSize: 15,
-                    ),
+                    ).full,
                   ),
                 ],
               ),

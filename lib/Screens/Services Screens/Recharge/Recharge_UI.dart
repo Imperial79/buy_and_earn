@@ -93,7 +93,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                   style: TextStyle(fontSize: 13),
                 ),
                 height10,
-                KButton.full(
+                KButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       final data = masterdata.copyWith(
@@ -112,7 +112,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                     }
                   },
                   label: "Proceed",
-                ),
+                ).full,
                 kLabel("Recent"),
                 historyAsync.when(
                   data: (data) => data.length > 0

@@ -123,7 +123,7 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
                         title: "Permission Required!",
                         subtitle:
                             "Please provider contacts permission to view your contacts.",
-                        action: KButton.pill(
+                        action: KButton(
                           onPressed: () async {
                             final res = await Permission.contacts.request();
                             ref.read(hasContactPermission.notifier).state =
@@ -148,7 +148,7 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
                             }
                           },
                           label: "Allow",
-                        ),
+                        ).pill,
                       ),
               ),
             ],

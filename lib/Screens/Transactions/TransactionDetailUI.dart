@@ -124,7 +124,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                 ],
               ),
               height20,
-              KButton.outlinedFull(
+              KButton(
                 onPressed: () {
                   navPush(context, HelpUI());
                 },
@@ -134,7 +134,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                   Icons.help,
                   size: 20,
                 ),
-              ),
+              ).outlinedFull,
             ],
           ),
         ),

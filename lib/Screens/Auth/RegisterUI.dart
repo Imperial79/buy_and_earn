@@ -242,11 +242,6 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                       value: statesList[index],
                     ),
                   ),
-                  onSelect: (value) {
-                    setState(() {
-                      _selectedState = value!;
-                    });
-                  },
                 ),
                 height10,
                 Row(children: [
@@ -342,13 +337,13 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(12),
-          child: KButton.full(
+          child: KButton(
             onPressed: () {
               // _sendOtp();
               _register("123456");
             },
             label: "Proceed",
-          ),
+          ).full,
         ),
       ),
     );

@@ -47,68 +47,48 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                 ),
               ),
               height15,
-              Visibility(
-                visible: ref.watch(showKycBanner) && !customer!.isKycDone,
-                child: GestureDetector(
-                  onTap: () {
-                    navPush(context, KycUI());
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: kColor(context).secondary,
-                        width: .5,
-                      ),
-                      borderRadius: kRadius(10),
+              kReminderCard(
+                context,
+                visible: ref.watch(showKycReminder) && !customer!.isKycDone,
+                onTap: () {
+                  navPush(context, KycUI());
+                },
+                title: "KYC Pending",
+                subTitle: "Upload necessary documents to complete your KYC.",
+                onClose: () {
+                  ref.read(showKycReminder.notifier).state = false;
+                },
+              ),
+              kReminderCard(
+                context,
+                icon: Icons.info,
+                visible: ref.watch(showProfileReminder) &&
+                    customer!.status == "Pending",
+                cardColor: Colors.amber.shade100,
+                iconColor: Colors.amber.shade900,
+                title: "Profile Pending",
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    height5,
+                    Text(
+                      "Reasons -",
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                     ),
-                    color: kColor(context).secondaryContainer,
-                    margin: EdgeInsets.only(
-                      left: kPadding,
-                      right: kPadding,
-                      bottom: kPadding,
+                    Text(
+                      "• No purchase since 3 months, OR",
+                      style: TextStyle(fontSize: 12),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.all(kPadding),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.warning,
-                            color: kColor(context).secondary,
-                          ),
-                          width20,
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "KYC Pending",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Text(
-                                  "Upload necessary documents to complete your KYC.",
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                              ],
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              ref.read(showKycBanner.notifier).state = false;
-                            },
-                            visualDensity: VisualDensity.compact,
-                            icon: Icon(
-                              Icons.close,
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      ),
+                    Text(
+                      "• Newly created account.",
+                      style: TextStyle(fontSize: 12),
                     ),
-                  ),
+                  ],
                 ),
+                onClose: () {
+                  ref.read(showProfileReminder.notifier).state = false;
+                },
               ),
               carouselData.when(
                 data: (data) => KCarousel(
@@ -295,57 +275,144 @@ class _HomeUIState extends ConsumerState<HomeUI> {
     );
   }
 
+  Widget kReminderCard(
+    BuildContext context, {
+    bool visible = true,
+    void Function()? onTap,
+    String title = "Title",
+    String subTitle = "Subtitle",
+    Widget? content,
+    void Function()? onClose,
+    Color? cardColor,
+    Color? iconColor,
+    IconData? icon,
+  }) {
+    return Visibility(
+      visible: visible,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: iconColor ?? kColor(context).secondary,
+              width: .5,
+            ),
+            borderRadius: kRadius(10),
+          ),
+          color: cardColor ?? kColor(context).secondaryContainer,
+          margin: EdgeInsets.only(
+            left: kPadding,
+            right: kPadding,
+            bottom: kPadding,
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(kPadding),
+            child: Row(
+              children: [
+                Icon(
+                  icon ?? Icons.warning,
+                  color: iconColor ?? kColor(context).secondary,
+                ),
+                width20,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      if (content == null)
+                        Text(
+                          subTitle,
+                          style: TextStyle(fontSize: 13),
+                        )
+                      else
+                        content,
+                    ],
+                  ),
+                ),
+                IconButton(
+                  onPressed: onClose,
+                  visualDensity: VisualDensity.compact,
+                  icon: Icon(
+                    Icons.close,
+                    color: iconColor ?? kColor(context).secondary,
+                    size: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _header() {
-    return Consumer(builder: (context, ref, _) {
-      final customer = ref.watch(customerProvider);
-      return Row(
-        children: [
-          Expanded(
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(text: "hi ", style: TextStyle(fontSize: 20)),
-                  TextSpan(
-                    text: "${customer!.name.split(' ').first}!",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              ref.read(navigationProvider.notifier).state = 3;
-            },
-            child: Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: Colors.amberAccent.shade100,
-                borderRadius: kRadius(10),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "+91 ${customer.phone}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
+    return Consumer(
+      builder: (context, ref, _) {
+        final customer = ref.watch(customerProvider);
+        return Row(
+          children: [
+            Expanded(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: "hi ", style: TextStyle(fontSize: 20)),
+                    TextSpan(
+                      text: "${customer!.name.split(' ').first}!",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                     ),
-                  ),
-                  width5,
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 12,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      );
-    });
+            GestureDetector(
+              onTap: () {
+                ref.read(navigationProvider.notifier).state = 3;
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: kColor(context).primaryContainer,
+                  borderRadius: kRadius(10),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "+91 ${customer.phone}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    width10,
+                    CircleAvatar(
+                      radius: 7,
+                      backgroundColor: kColor(context).primary,
+                      child: FittedBox(
+                        child: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 10,
+                          color: kColor(context).onPrimary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _serviceButton({

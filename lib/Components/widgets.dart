@@ -117,13 +117,14 @@ Widget kWalletCard(context) {
                   ],
                 ),
               ),
-              KButton.outlinedRegular(
-                  onPressed: () {
-                    navPush(context, WalletUI());
-                  },
-                  label: "Add Money",
-                  color: Colors.white,
-                  fontSize: 12),
+              KButton(
+                onPressed: () {
+                  navPush(context, WalletUI());
+                },
+                backgroundColor: kColor4,
+                foregroundColor: Colors.black,
+                label: "Recharge",
+              ).pill,
             ],
           ),
         ),

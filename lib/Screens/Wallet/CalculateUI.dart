@@ -82,12 +82,12 @@ class _CalculateUIState extends State<CalculateUI> {
                     keyboardType: TextInputType.number,
                   ),
                   height10,
-                  KButton.full(
+                  KButton(
                     onPressed: () {
                       calculateAPI();
                     },
                     label: "Calculate Bonus",
-                  ),
+                  ).full,
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Divider(),
