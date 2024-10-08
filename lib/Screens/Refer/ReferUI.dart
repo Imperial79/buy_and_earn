@@ -156,7 +156,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                               size: 15,
                                             ),
                                           ),
-                                          width10,
+                                          Spacer(),
                                           IconButton.filledTonal(
                                             onPressed: () async {
                                               await FlutterShare.share(
@@ -169,10 +169,22 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                             },
                                             visualDensity:
                                                 VisualDensity.compact,
-                                            icon: Icon(
-                                              Icons.share,
-                                              color: kColor(context).tertiary,
-                                              size: 15,
+                                            icon: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.share,
+                                                  color:
+                                                      kColor(context).tertiary,
+                                                  size: 15,
+                                                ),
+                                                width5,
+                                                Text(
+                                                  "Invite",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -203,69 +215,91 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                   ),
                   height15,
                   referListData.when(
-                    data: (data) => data.length > 0
-                        ? ListView.separated(
-                            separatorBuilder: (context, index) => height10,
-                            itemCount: data.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) => Card(
-                              color: kCardColor,
-                              child: Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    data[index]['dp'] == null
-                                        ? CircleAvatar(
-                                            child: Text(
-                                              data[index]['name'][0]
-                                                  .toUpperCase(),
-                                            ),
-                                          )
-                                        : CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                              data[index]['dp'],
-                                            ),
+                    data: (data) => Column(
+                      children: [
+                        data.length > 0
+                            ? ListView.separated(
+                                separatorBuilder: (context, index) => height10,
+                                itemCount: data.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) => Card(
+                                  color: kCardColor,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        data[index]['dp'] == null
+                                            ? CircleAvatar(
+                                                child: Text(
+                                                  data[index]['name'][0]
+                                                      .toUpperCase(),
+                                                ),
+                                              )
+                                            : CircleAvatar(
+                                                backgroundImage: NetworkImage(
+                                                  data[index]['dp'],
+                                                ),
+                                              ),
+                                        width10,
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data[index]['name'],
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Text(
+                                                "+91 ${data[index]['phone']}",
+                                                style: TextStyle(fontSize: 12),
+                                              ),
+                                              Text(
+                                                "Joined On: ${kFormatDate(data[index]["date"])}",
+                                                style: TextStyle(fontSize: 12),
+                                              ),
+                                            ],
                                           ),
-                                    width10,
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            data[index]['name'],
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          Text(
-                                            "+91 ${data[index]['phone']}",
-                                            style: TextStyle(fontSize: 12),
-                                          ),
-                                          Text(
-                                            "Joined On: ${kFormatDate(data[index]["date"])}",
-                                            style: TextStyle(fontSize: 12),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                        width10,
+                                        Text(
+                                          kCurrencyFormat(
+                                              "${data[index]["firstPurchase"]}"),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
                                     ),
-                                    width10,
-                                    Text(
-                                      kCurrencyFormat(
-                                          "${data[index]["firstPurchase"]}"),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          )
-                        : kNoData(
-                            title: "No Data!", subtitle: "Refer more people!"),
+                              )
+                            : kNoData(
+                                title: "No Data!",
+                                subtitle: "Refer more people!"),
+                        height20,
+                        kPagination(
+                          pageNo: pageNo,
+                          onDecrement: () {
+                            if (pageNo > 1) {
+                              setState(() {
+                                pageNo -= 1;
+                              });
+                            }
+                          },
+                          onIncrement: () {
+                            setState(() {
+                              pageNo += 1;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                     error: (error, stackTrace) => SizedBox(),
                     loading: () => Center(child: CircularProgressIndicator()),
                   ),
@@ -335,6 +369,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
     return MaterialButton(
       onPressed: () {
         setState(() {
+          pageNo = 0;
           _selectedTier = index;
         });
       },

@@ -576,3 +576,32 @@ Widget kPoint(int index, String text) {
     ),
   );
 }
+
+Widget kPagination({
+  required void Function()? onDecrement,
+  required void Function()? onIncrement,
+  required int pageNo,
+}) {
+  return Row(
+    children: [
+      CircleAvatar(
+        child: IconButton(
+          onPressed: onDecrement,
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
+      width20,
+      Text(
+        "Page ${pageNo + 1}",
+        style: TextStyle(fontWeight: FontWeight.w600),
+      ),
+      width20,
+      CircleAvatar(
+        child: IconButton(
+          onPressed: onIncrement,
+          icon: Icon(Icons.arrow_forward),
+        ),
+      ),
+    ],
+  );
+}
