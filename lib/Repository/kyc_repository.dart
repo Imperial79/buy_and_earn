@@ -13,17 +13,26 @@ final showProfileReminder = StateProvider(
   (ref) => true,
 );
 
-final kycFuture = FutureProvider<Map?>(
-  (ref) async {
-    final res = await apiCallBack(path: "/kyc/fetch");
-    if (!res.error) {
-      return res.response;
-    }
-    return null;
-  },
-);
+// final kycFuture = FutureProvider<Map?>(
+//   (ref) async {
+//     final res = await apiCallBack(path: "/kyc/fetch");
+//     if (!res.error) {
+//       return res.response;
+//     }
+//     return null;
+//   },
+// );
 
 class KycRepository {
+  Future<ResponseModel> fetchKycData({
+    Map<String, dynamic> body = const {},
+  }) async {
+    final res = await apiCallBack(
+      path: "/kyc/fetch",
+    );
+    return res;
+  }
+
   Future<ResponseModel> uploadKycData({
     Map<String, dynamic> body = const {},
   }) async {
