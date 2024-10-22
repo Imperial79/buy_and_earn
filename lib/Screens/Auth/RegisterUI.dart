@@ -24,18 +24,18 @@ class RegisterUI extends ConsumerStatefulWidget {
 
 class _RegisterUIState extends ConsumerState<RegisterUI> {
   final _formKey = GlobalKey<FormState>();
-  final name = new TextEditingController();
-  final phone = new TextEditingController();
-  final email = new TextEditingController();
-  final city = new TextEditingController();
-  final state = new TextEditingController();
-  final pincode = new TextEditingController();
-  final referCode = new TextEditingController();
+  final name = TextEditingController();
+  final phone = TextEditingController();
+  final email = TextEditingController();
+  final city = TextEditingController();
+  final state = TextEditingController();
+  final pincode = TextEditingController();
+  final referCode = TextEditingController();
   Map<String, dynamic> referrerData = {};
   bool _isLoading = false;
   bool _otpLoading = false;
   Timer? _timer;
-  final seconds = StateProvider((ref) => 60);
+  final secondsProvider = StateProvider((ref) => 60);
 
   @override
   void dispose() {
@@ -105,11 +105,11 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
   }
 
   void _startTimer() {
-    ref.read(seconds.notifier).state = 59;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (ref.read(seconds) > 0) {
+    ref.read(secondsProvider.notifier).state = 59;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (ref.read(secondsProvider) > 0) {
         setState(() {
-          ref.read(seconds.notifier).update(
+          ref.read(secondsProvider.notifier).update(
                 (state) => state -= 1,
               );
         });
@@ -157,14 +157,14 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
       isLoading: _isLoading,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 height15,
-                Text(
+                const Text(
                   "Create Account",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
@@ -174,7 +174,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                 height15,
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Already have an account?",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -183,7 +183,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                     ),
                     TextButton(
                       onPressed: () {
-                        navPushReplacement(context, LoginUI());
+                        navPushReplacement(context, const LoginUI());
                       },
                       child: Text(
                         "Login",
@@ -215,9 +215,11 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   hintText: "Eg. 909XXXXX85",
                   validator: (val) {
-                    if (val!.isEmpty)
+                    if (val!.isEmpty) {
                       return "Required!";
-                    else if (val.length != 10) return "Length must be 10!";
+                    } else if (val.length != 10) {
+                      return "Length must be 10!";
+                    }
                     return null;
                   },
                 ).regular,
@@ -239,7 +241,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                   dropdownMenuEntries: List.generate(
                     kStatesList.length,
                     (index) => DropdownMenuEntry(
-                      label: "${kStatesList[index]}",
+                      label: kStatesList[index],
                       value: kStatesList[index],
                     ),
                   ),
@@ -293,7 +295,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                 ).regular,
                 height5,
                 referrerData.isEmpty
-                    ? SizedBox.shrink()
+                    ? const SizedBox.shrink()
                     : kCard(
                         child: Row(
                           children: [
@@ -312,13 +314,13 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                               children: [
                                 Text(
                                   "${referrerData['name']}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 Text(
                                   "+91 ${referrerData['phone']}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500),
                                 ),
@@ -334,7 +336,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: KButton(
             onPressed: () {
               // _sendOtp();
@@ -349,7 +351,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
 
   Widget confirmationOTPModal() {
     return Consumer(builder: (context, ref, child) {
-      final _seconds = ref.watch(seconds);
+      final seconds = ref.watch(secondsProvider);
       return Container(
         margin:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -357,12 +359,12 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
           color: Colors.white,
           borderRadius: kRadius(15),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         child: SingleChildScrollView(
           child: Column(
             children: [
               height20,
-              Text(
+              const Text(
                 "Verification",
                 style: TextStyle(
                   fontSize: 20,
@@ -373,7 +375,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
               height10,
               Text(
                 "Enter the OTP received on +91 ${phone.text}",
-                style: TextStyle(fontSize: 15),
+                style: const TextStyle(fontSize: 15),
               ),
               kHeight(30),
               Center(
@@ -390,7 +392,7 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                 child: _otpLoading
                     ? Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(
@@ -398,16 +400,16 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                             ),
                           ),
                           width10,
-                          Text("Sending OTP")
+                          const Text("Sending OTP")
                         ],
                       )
-                    : _seconds != 0
-                        ? Text("Resend after ${_seconds} s")
+                    : seconds != 0
+                        ? Text("Resend after $seconds s")
                         : TextButton(
                             onPressed: () {
                               _resendOtp();
                             },
-                            child: Text("Resend OTP"),
+                            child: const Text("Resend OTP"),
                           ),
               ),
               height20,

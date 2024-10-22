@@ -47,7 +47,7 @@ class _HelpUIState extends State<HelpUI> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Support",
           style: TextStyle(
             color: kPrimaryColor,
@@ -57,9 +57,9 @@ class _HelpUIState extends State<HelpUI> {
           ),
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
+          preferredSize: const Size.fromHeight(1),
           child: _progress == 0 || _progress == 1
-              ? SizedBox()
+              ? const SizedBox()
               : LinearProgressIndicator(
                   color: kPrimaryColor,
                   value: _progress,

@@ -11,16 +11,16 @@ const String kServiceIcon = "assets/icons/Service Icons";
 
 double get kPadding => 12;
 
-SizedBox get height5 => SizedBox(height: 5);
-SizedBox get height10 => SizedBox(height: 10);
-SizedBox get height15 => SizedBox(height: 15);
-SizedBox get height20 => SizedBox(height: 20);
-SizedBox get height50 => SizedBox(height: 50);
+SizedBox get height5 => const SizedBox(height: 5);
+SizedBox get height10 => const SizedBox(height: 10);
+SizedBox get height15 => const SizedBox(height: 15);
+SizedBox get height20 => const SizedBox(height: 20);
+SizedBox get height50 => const SizedBox(height: 50);
 
-SizedBox get width5 => SizedBox(width: 5);
-SizedBox get width10 => SizedBox(width: 10);
-SizedBox get width15 => SizedBox(width: 15);
-SizedBox get width20 => SizedBox(width: 20);
+SizedBox get width5 => const SizedBox(width: 5);
+SizedBox get width10 => const SizedBox(width: 10);
+SizedBox get width15 => const SizedBox(width: 15);
+SizedBox get width20 => const SizedBox(width: 20);
 
 SizedBox kHeight(double height) => SizedBox(
       height: height,
@@ -81,7 +81,7 @@ void KSnackbar(
   DelightToastBar(
     position: DelightSnackbarPosition.top,
     autoDismiss: true,
-    snackbarDuration: Duration(seconds: 3),
+    snackbarDuration: const Duration(seconds: 3),
     builder: (context) => ToastCard(
       shadowColor: Colors.transparent,
       color: isDanger ? Colors.red.shade700 : kSecondaryColor,
@@ -92,7 +92,7 @@ void KSnackbar(
       ),
       title: Text(
         content,
-        style: TextStyle(
+        style: const TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 14,
           color: Colors.white,

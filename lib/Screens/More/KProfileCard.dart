@@ -66,14 +66,14 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                       elevation: 0,
                       backgroundColor: Colors.white,
                       builder: (context) => SingleChildScrollView(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child: SizedBox(
                           width: double.maxFinite,
                           child: SafeArea(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   "Update Profile Image",
                                   style: TextStyle(
                                       fontSize: 20,
@@ -98,12 +98,12 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                                         icon: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.camera_alt,
                                               color: kPrimaryColor,
                                             ),
                                             height20,
-                                            Text(
+                                            const Text(
                                               "Camera",
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -127,12 +127,12 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                                         icon: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.photo_sharp,
                                               color: kPrimaryColor,
                                             ),
                                             height20,
-                                            Text(
+                                            const Text(
                                               "Gallery",
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -158,7 +158,7 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                         )
                       : CircleAvatar(
                           radius: 30,
-                          child: Text("${customer.name[0]}"),
+                          child: Text(customer.name[0]),
                         ),
                 ),
                 width10,
@@ -171,8 +171,8 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                         children: [
                           Flexible(
                             child: Text(
-                              "${customer.name}",
-                              style: TextStyle(
+                              customer.name,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
                               ),
@@ -182,12 +182,12 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                           kWidgetPill(
                             context,
                             backgroundColor: Colors.amberAccent.shade100,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 2),
                             child: Row(
                               children: [
                                 if (customer.isMember)
-                                  Text(
+                                  const Text(
                                     "Member | ",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
@@ -196,7 +196,7 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                                   ),
                                 Text(
                                   "Lvl. ${customer.level}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 10,
                                   ),
@@ -211,10 +211,10 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                       Text("${customer.email}"),
                       if (widget.showEdit)
                         Padding(
-                          padding: EdgeInsets.only(top: 5.0),
+                          padding: const EdgeInsets.only(top: 5.0),
                           child: KButton(
                             onPressed: () {
-                              navPush(context, EditProfileUI());
+                              navPush(context, const EditProfileUI());
                             },
                             label: "Edit",
                             backgroundColor: kColor4,
@@ -227,6 +227,6 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
               ],
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 }

@@ -41,10 +41,10 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
           bottomNavigationBar: widget.bottomNavigationBar,
         ),
         AnimatedSwitcher(
-          duration: Duration(milliseconds: 250),
+          duration: const Duration(milliseconds: 250),
           child: widget.isLoading ?? false
               ? kFullLoading(context, loadingText: widget.loadingText)
-              : SizedBox(),
+              : const SizedBox(),
         ),
         // hasInternet.when(
         //   data: (data) => data == InternetStatus.disconnected
@@ -62,8 +62,8 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
       alignment: Alignment.topCenter,
       child: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(top: 20),
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          margin: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           decoration: BoxDecoration(
             color: kColor(context).errorContainer,
             borderRadius: kRadius(100),
@@ -106,20 +106,20 @@ AppBar KAppBar(
   List<Widget>? actions,
   bool showOriginal = false,
 }) {
-  String _title = title;
-  if (!showOriginal) _title = title.toLowerCase();
+  String title0 = title;
+  if (!showOriginal) title0 = title.toLowerCase();
   return AppBar(
     title: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         if (showBack)
           Padding(
-            padding: EdgeInsets.only(right: 10.0),
+            padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: RotatedBox(
+              icon: const RotatedBox(
                 quarterTurns: 10,
                 child: Icon(
                   Icons.arrow_right_alt_sharp,
@@ -130,8 +130,8 @@ AppBar KAppBar(
             ),
           ),
         Text(
-          _title,
-          style: TextStyle(
+          title0,
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 20,
           ),
@@ -140,7 +140,7 @@ AppBar KAppBar(
     ),
     automaticallyImplyLeading: false,
     actions: actions,
-    titleTextStyle: TextStyle(
+    titleTextStyle: const TextStyle(
       fontSize: 20,
       color: Colors.black,
       fontWeight: FontWeight.w500,
@@ -148,14 +148,14 @@ AppBar KAppBar(
       letterSpacing: .1,
     ),
     bottom: PreferredSize(
-      preferredSize: Size.fromHeight(1),
+      preferredSize: const Size.fromHeight(1),
       child: isLoading
-          ? LinearProgressIndicator(
+          ? const LinearProgressIndicator(
               minHeight: 2,
               color: kPrimaryColor,
               backgroundColor: Colors.white,
             )
-          : SizedBox(
+          : const SizedBox(
               height: 2,
             ),
     ),

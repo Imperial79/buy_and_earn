@@ -37,11 +37,11 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
       },
       child: RefreshIndicator(
         onRefresh: () async {
-          if (pageNo != 0)
+          if (pageNo != 0) {
             setState(() {
               pageNo = 0;
             });
-          else {
+          } else {
             await ref.refresh(transactionFuture(jsonEncode({
               "pageNo": pageNo,
               "fromDate": "",
@@ -93,10 +93,10 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
           ),
           body: SafeArea(
             child: SingleChildScrollView(
-              padding:
-                  EdgeInsets.only(bottom: 120, left: 12, right: 12, top: 12),
+              padding: const EdgeInsets.only(
+                  bottom: 120, left: 12, right: 12, top: 12),
               child: !asyncData.hasError
-                  ? transactionData.length > 0
+                  ? transactionData.isNotEmpty
                       ? Column(
                           children: [
                             ListView.separated(
@@ -104,7 +104,7 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
                                 height: 30,
                                 color: Colors.grey.shade300,
                               ),
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: transactionData.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) =>
@@ -120,7 +120,7 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
                                     pageNo += 1;
                                   });
                                 },
-                                child: Text("View More"))
+                                child: const Text("View More"))
                           ],
                         )
                       : kNoData(
@@ -140,20 +140,20 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(15.0),
               child: Row(
                 children: [
                   IconButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                   ),
                   kHeading("filters"),
-                  Spacer(),
+                  const Spacer(),
                   TextButton(
                     onPressed: () {},
-                    child: Text("Clear All"),
+                    child: const Text("Clear All"),
                   ),
                 ],
               ),
@@ -164,7 +164,7 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
                 children: [
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -185,7 +185,7 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
                             20,
                             (index) => MaterialButton(
                               onPressed: () {},
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 3),
                               child: Row(
                                 children: [
@@ -193,7 +193,7 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
                                     value: false,
                                     onChanged: (value) {},
                                   ),
-                                  Text("data")
+                                  const Text("data")
                                 ],
                               ),
                             ),

@@ -18,7 +18,7 @@ Widget kLabel(String label, {double top = 20, double bottom = 15}) {
     padding: EdgeInsets.only(bottom: bottom, top: top),
     child: Text(
       label,
-      style: TextStyle(
+      style: const TextStyle(
         fontWeight: FontWeight.w500,
         fontSize: 15,
       ),
@@ -29,7 +29,7 @@ Widget kLabel(String label, {double top = 20, double bottom = 15}) {
 Widget kHeading(String label) {
   return Text(
     label.toLowerCase(),
-    style: TextStyle(
+    style: const TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: 20,
     ),
@@ -65,7 +65,7 @@ Widget kCard({
             ),
             color: cardColor ?? kCardColor,
             child: Padding(
-              padding: padding ?? EdgeInsets.all(12),
+              padding: padding ?? const EdgeInsets.all(12),
               child: child,
             ),
           ),
@@ -79,12 +79,12 @@ Widget kWalletCard(context) {
 
       return Card(
         child: Padding(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Row(
             children: [
               CircleAvatar(
                 backgroundColor: Colors.white.withOpacity(.2),
-                child: Icon(
+                child: const Icon(
                   Icons.wallet,
                   color: Colors.white,
                 ),
@@ -94,7 +94,7 @@ Widget kWalletCard(context) {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Wallet Balance",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -108,7 +108,7 @@ Widget kWalletCard(context) {
                         error: (error, stackTrace) => "-",
                         loading: () => "...",
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 20,
                         color: Colors.white,
@@ -119,7 +119,7 @@ Widget kWalletCard(context) {
               ),
               KButton(
                 onPressed: () {
-                  navPush(context, WalletUI());
+                  navPush(context, const WalletUI());
                 },
                 backgroundColor: kColor4,
                 foregroundColor: Colors.black,
@@ -162,7 +162,7 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
                   Expanded(
                     child: Text(
                       data.title.split('for').first.trim(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         // fontSize: 17,
                         fontWeight: FontWeight.w600,
                       ),
@@ -170,7 +170,7 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
                   ),
                   Text(
                     "${isCredit ? "+" : "-"} ${kCurrencyFormat("${data.amount}", decimalDigit: 2)}",
-                    style: TextStyle(fontWeight: FontWeight.w700),
+                    style: const TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ],
               ),
@@ -189,7 +189,7 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
                     child: Text(
                       DateFormat('dd MMM yyyy • h:mm a')
                           .format(DateTime.parse(data.date)),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 13,
                         color: Colors.grey,
                         fontWeight: FontWeight.w600,
@@ -239,7 +239,7 @@ Widget kNoData({
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-          padding: EdgeInsets.only(bottom: 30.0),
+          padding: const EdgeInsets.only(bottom: 30.0),
           child: image.contains(".svg")
               ? SvgPicture.asset(
                   image,
@@ -249,22 +249,23 @@ Widget kNoData({
         ),
         Text(
           title,
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
           textAlign: TextAlign.center,
         ),
         subtitle != null
             ? Padding(
-                padding: EdgeInsets.only(top: 10.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Text(
                   subtitle,
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, fontSize: 15),
                   textAlign: TextAlign.center,
                 ),
               )
-            : SizedBox(),
+            : const SizedBox(),
         action != null
-            ? Padding(padding: EdgeInsets.only(top: 12.0), child: action)
-            : SizedBox(),
+            ? Padding(padding: const EdgeInsets.only(top: 12.0), child: action)
+            : const SizedBox(),
       ],
     ),
   );
@@ -304,26 +305,26 @@ Widget kPlanCard(
             children: [
               Text(
                 customerName ?? phone ?? providerName,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               phone != null && customerName != null
                   ? Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
+                      padding: const EdgeInsets.only(bottom: 10.0),
                       child: Text(
                         phone,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                         ),
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               Text(
                 "$providerName - $region",
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
                 ),
@@ -336,7 +337,7 @@ Widget kPlanCard(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("Change")),
+            child: const Text("Change")),
       ],
     ),
   );
@@ -370,12 +371,12 @@ Widget kClubModal(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            icon: Icon(Icons.close)),
+                            icon: const Icon(Icons.close)),
                       ),
                       data["isMember"] == "true"
                           ? Column(
                               children: [
-                                Text(
+                                const Text(
                                   "Club House Stats",
                                   style: TextStyle(
                                     fontSize: 20,
@@ -385,7 +386,7 @@ Widget kClubModal(
                                 height20,
                                 Text(
                                   "FY ${data['targetFy']} spend",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     color: kPrimaryColor,
@@ -394,7 +395,7 @@ Widget kClubModal(
                                 height10,
                                 Text(
                                   "${kCurrencyFormat(data["mySpent"], decimalDigit: 0)} / ${kCurrencyFormat(data["clubHouseYearlySpend"], decimalDigit: 0)}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.w900,
                                     color: kPrimaryColor,
@@ -403,7 +404,7 @@ Widget kClubModal(
                                 height20,
                                 if (data["mySpent"] >
                                     data["clubHouseYearlySpend"])
-                                  Text(
+                                  const Text(
                                     "Target Achieved!",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
@@ -413,7 +414,7 @@ Widget kClubModal(
                                 else
                                   Text(
                                     "${(data["mySpent"] / data["clubHouseYearlySpend"]).floor() * 100}% completed",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -435,7 +436,7 @@ Widget kClubModal(
                           : data['isHousefull'] == "true"
                               ? Column(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Club Housefull",
                                       style: TextStyle(
                                         fontSize: 20,
@@ -443,7 +444,7 @@ Widget kClubModal(
                                       ),
                                     ),
                                     height20,
-                                    Text(
+                                    const Text(
                                       "Check back later!",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
@@ -454,7 +455,7 @@ Widget kClubModal(
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Center(
+                                    const Center(
                                       child: Text(
                                         "Club Membership",
                                         style: TextStyle(
@@ -466,15 +467,16 @@ Widget kClubModal(
                                     height20,
                                     Center(
                                       child: Container(
-                                        padding: EdgeInsets.only(bottom: 2),
-                                        decoration: BoxDecoration(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2),
+                                        decoration: const BoxDecoration(
                                             border: Border(
                                                 bottom: BorderSide(
                                                     color: kPrimaryColor,
                                                     width: 2))),
                                         child: Text(
                                           "At just ${kCurrencyFormat(data["clubHouseMembership"], decimalDigit: 0)}*",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 25,
                                             fontWeight: FontWeight.w900,
                                             color: kPrimaryColor,
@@ -483,44 +485,44 @@ Widget kClubModal(
                                       ),
                                     ),
                                     height20,
-                                    Text(
+                                    const Text(
                                       "Benefits",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800),
                                     ),
                                     Text(
                                       "- Member of Fiscal Year ${data['targetFy']}.",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    Text(
+                                    const Text(
                                       "- Receive 10% of company's profit in the end of the fiscal year, distributed equally among all Clubhouse Achievers.",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
                                     height20,
-                                    Text(
+                                    const Text(
                                       "Terms",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800),
                                     ),
                                     Text(
                                       "- Yearly target of ${kCurrencyFormat(data['clubHouseYearlySpend'])} must be completed individually.",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    Text(
+                                    const Text(
                                       "- Spends will be accumulated from 1st April - 31st March of the Fiscal Year.",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    Text(
+                                    const Text(
                                       "- Non-Refundable.",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
                                     height20,
-                                    Center(
+                                    const Center(
                                       child: Text(
                                         "*Terms and Conditions apply",
                                         style: TextStyle(fontSize: 10),
@@ -536,10 +538,10 @@ Widget kClubModal(
                                         shape: RoundedRectangleBorder(
                                           borderRadius: kRadius(100),
                                         ),
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 40),
                                         textColor: Colors.white,
-                                        child: Text(
+                                        child: const Text(
                                           "Buy Now",
                                           textAlign: TextAlign.center,
                                         ),
@@ -552,7 +554,7 @@ Widget kClubModal(
                 : kNoData(title: "Oops!", subtitle: "Try again later!"),
             error: (error, stackTrace) =>
                 kNoData(title: "Oops!", subtitle: "Try again later!"),
-            loading: () => Center(child: CircularProgressIndicator()),
+            loading: () => const Center(child: CircularProgressIndicator()),
           ),
         ),
       );
@@ -562,7 +564,7 @@ Widget kClubModal(
 
 Widget kPoint(int index, String text) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 10.0),
+    padding: const EdgeInsets.only(bottom: 10.0),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -587,19 +589,19 @@ Widget kPagination({
       CircleAvatar(
         child: IconButton(
           onPressed: onDecrement,
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       width20,
       Text(
         "Page ${pageNo + 1}",
-        style: TextStyle(fontWeight: FontWeight.w600),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       width20,
       CircleAvatar(
         child: IconButton(
           onPressed: onIncrement,
-          icon: Icon(Icons.arrow_forward),
+          icon: const Icon(Icons.arrow_forward),
         ),
       ),
     ],

@@ -130,12 +130,12 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
         body: SafeArea(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   isLoading
-                      ? SizedBox(
+                      ? const SizedBox(
                           height: 200,
                           width: 200,
                           child: CircularProgressIndicator(
@@ -148,12 +148,12 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                               : Colors.red.shade700,
                           radius: 50,
                           child: isSuccess
-                              ? Icon(
+                              ? const Icon(
                                   Icons.done,
                                   size: 50,
                                   color: Colors.white,
                                 )
-                              : Icon(
+                              : const Icon(
                                   Icons.error,
                                   size: 50,
                                   color: Colors.white,
@@ -167,7 +167,7 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                               : isSuccess
                                   ? "Recharge successful of ₹${widget.amount} on\n+91 ${widget.consumerNo}."
                                   : "Recharge failed of ₹${widget.amount} on\n+91 ${widget.consumerNo}.",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                           ),
@@ -179,7 +179,7 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                               : isSuccess
                                   ? "Recharge successful of ₹${widget.amount} on\n${widget.consumerNo}."
                                   : "Recharge failed for ₹${widget.amount} on\n${widget.consumerNo}.",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                           ),
@@ -188,7 +188,7 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                   height50,
                   Visibility(
                     visible: isLoading,
-                    child: Text(
+                    child: const Text(
                       "Do not leave the page or exit the app",
                       style: TextStyle(
                         fontSize: 15,
@@ -199,10 +199,10 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
                   Visibility(
                     visible: errorText.isNotEmpty,
                     child: Card(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       color: const Color(0xFFFFDEE1),
                       child: Padding(
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -235,11 +235,11 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
           child: Visibility(
             visible: !isLoading,
             child: Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: KButton(
                 backgroundColor: kSecondaryColor,
                 onPressed: () {
-                  navPopUntilPush(context, RootUI());
+                  navPopUntilPush(context, const RootUI());
                 },
                 label: "Go Home",
               ).full,

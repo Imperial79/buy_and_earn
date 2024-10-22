@@ -80,7 +80,7 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
                 child: KTextfield(
                   controller: searchKey,
                   hintText: "Search name or phone",
-                  prefix: Icon(
+                  prefix: const Icon(
                     Icons.search,
                     size: 25,
                   ),
@@ -92,7 +92,7 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
               // height10,
               Expanded(
                 child: hasPermission
-                    ? _contacts.length > 0
+                    ? _contacts.isNotEmpty
                         ? ListView.builder(
                             itemCount: _contacts.length,
                             shrinkWrap: true,
@@ -108,7 +108,7 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
                                             .normalizedNumber)) {
                                   return _contactTile(_contacts[index]);
                                 }
-                                return SizedBox();
+                                return const SizedBox();
                               }
                               return null;
                             },
@@ -167,8 +167,8 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
         });
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        margin: EdgeInsets.only(bottom: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.only(bottom: 15),
         child: Row(
           children: [
             CircleAvatar(
@@ -181,13 +181,13 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
                 children: [
                   Text(
                     data.displayName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   height5,
-                  Text("+91 " + phone),
+                  Text("+91 $phone"),
                 ],
               ),
             ),

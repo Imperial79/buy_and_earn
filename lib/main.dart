@@ -1,4 +1,3 @@
-
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/WelcomeUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
@@ -24,7 +23,7 @@ void main() async {
   );
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
   await FirebaseNotification().init();
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -43,7 +42,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   _auth() async {
-    await ref.read(auth);
+    ref.read(auth);
   }
 
   _generateFCM() async {
@@ -65,10 +64,10 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: "Buy & Earn",
       home: UpgradeAlert(
         child: ref.watch(auth).isLoading
-            ? SplashUI()
+            ? const SplashUI()
             : customer != null
-                ? RootUI()
-                : WelcomeUI(),
+                ? const RootUI()
+                : const WelcomeUI(),
       ),
     );
   }

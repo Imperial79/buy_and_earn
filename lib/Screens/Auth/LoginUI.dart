@@ -53,7 +53,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
         if (!res.error) {
           ref.read(customerProvider.notifier).state =
               CustomerModel.fromMap(res.response);
-          navPopUntilPush(context, RootUI());
+          navPopUntilPush(context, const RootUI());
         }
         KSnackbar(context, content: res.message, isDanger: res.error);
       }
@@ -73,14 +73,14 @@ class _LoginUIState extends ConsumerState<LoginUI> {
       loadingText: "Login in...",
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 height15,
-                Text(
+                const Text(
                   "Login",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
@@ -90,7 +90,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                 height15,
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Don't have an account?",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -100,9 +100,9 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                     width5,
                     TextButton(
                       onPressed: () {
-                        navPushReplacement(context, RegisterUI());
+                        navPushReplacement(context, const RegisterUI());
                       },
-                      child: Text(
+                      child: const Text(
                         "Register",
                       ),
                     ),
@@ -117,9 +117,9 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                   prefixText: "+91",
                   hintText: "909XXXXX85",
                   validator: (val) {
-                    if (val!.isEmpty)
+                    if (val!.isEmpty) {
                       return "Required!";
-                    else if (val.length != 10) return "Length must be 10!";
+                    } else if (val.length != 10) return "Length must be 10!";
                     return null;
                   },
                 ).regular,
@@ -138,7 +138,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                 height15,
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Forgot Mpin ?",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -147,9 +147,9 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                     ),
                     TextButton(
                       onPressed: () {
-                        navPush(context, HelpUI());
+                        navPush(context, const HelpUI());
                       },
-                      child: Text(
+                      child: const Text(
                         "Help",
                       ),
                     ),
@@ -163,7 +163,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: KButton(
             onPressed: () {
               _login();

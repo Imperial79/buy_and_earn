@@ -39,7 +39,7 @@ class KButton {
         side: side,
         padding: padding ??
             this.padding ??
-            EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         shape: RoundedRectangleBorder(
           borderRadius: kRadius(borderRadius),
         ),
@@ -84,7 +84,7 @@ class KButton {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (icon != null)
-                Padding(padding: EdgeInsets.only(right: 10), child: icon),
+                Padding(padding: const EdgeInsets.only(right: 10), child: icon),
               Text(
                 label,
                 style:
@@ -103,13 +103,13 @@ class KButton {
               side: BorderSide(color: backgroundColor ?? kPrimaryColor),
               backgroundColor: Colors.transparent,
               foregroundColor: backgroundColor ?? kPrimaryColor,
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
             ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (icon != null)
-              Padding(padding: EdgeInsets.only(right: 10), child: icon),
+              Padding(padding: const EdgeInsets.only(right: 10), child: icon),
             Text(
               label,
               style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),
@@ -147,7 +147,7 @@ class KButton {
               label,
               textAlign: TextAlign.center,
             ),
-            icon ?? SizedBox.shrink(),
+            icon ?? const SizedBox.shrink(),
           ],
         ),
       );
@@ -161,7 +161,7 @@ class KButton {
           ),
           backgroundColor: backgroundColor ?? kPrimaryColor,
           foregroundColor: foregroundColor ?? Colors.white,
-          padding: padding ?? EdgeInsets.symmetric(horizontal: 15),
+          padding: padding ?? const EdgeInsets.symmetric(horizontal: 15),
         ),
         child: Text(label),
       );
@@ -173,8 +173,8 @@ class KButton {
             _buttonStyle(
               backgroundColor: backgroundColor ?? kSecondaryColor,
               foregroundColor: foregroundColor ?? Colors.white,
-              padding:
-                  padding ?? EdgeInsets.symmetric(horizontal: 20, vertical: 17),
+              padding: padding ??
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 17),
               borderRadius: 100,
             ),
         child: Text(

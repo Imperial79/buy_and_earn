@@ -9,8 +9,8 @@ import 'package:intl/intl.dart';
 const kAppVersion = "1.0.5";
 const kAppBuild = "5";
 
-final String kImagePath = "assets/images";
-final String welcomeImages = "$kImagePath/welcome-images";
+const String kImagePath = "assets/images";
+const String welcomeImages = "$kImagePath/welcome-images";
 
 final kRelationList = [
   "Mother",
@@ -106,9 +106,9 @@ String sanitizeContact(String phoneNumber) {
 }
 
 String encryptDecryptText(String action, String string) {
-  final encryptMethod = encrypt.AESMode.cbc;
-  final secretKey = 'buy-and-earn-2024';
-  final secretIv = 'buy-and-earn-2024';
+  const encryptMethod = encrypt.AESMode.cbc;
+  const secretKey = 'buy-and-earn-2024';
+  const secretIv = 'buy-and-earn-2024';
 
   final key =
       sha256.convert(utf8.encode(secretKey)).toString().substring(0, 32);

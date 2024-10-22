@@ -73,7 +73,7 @@ class KTextfield {
     this.validator,
   });
 
-  static TextStyle kFieldTextstyle = TextStyle(
+  static TextStyle kFieldTextstyle = const TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: kFontSize,
     letterSpacing: .5,
@@ -93,32 +93,32 @@ class KTextfield {
         children: [
           label != null
               ? Padding(
-                  padding: EdgeInsets.only(bottom: 7.0),
+                  padding: const EdgeInsets.only(bottom: 7.0),
                   child: Row(
                     children: [
                       labelIcon != null
                           ? Padding(
-                              padding: EdgeInsets.only(right: 10.0),
+                              padding: const EdgeInsets.only(right: 10.0),
                               child: labelIcon,
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       Text(
                         label!,
-                        style: TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 15),
                       ),
                       validator != null && showRequiredStar
-                          ? Padding(
+                          ? const Padding(
                               padding: EdgeInsets.only(left: 3.0),
                               child: Text(
                                 "*",
                                 style: TextStyle(color: Colors.red),
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                     ],
                   ),
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -144,12 +144,12 @@ class KTextfield {
                     fillColor: fieldColor ?? kCardColor,
                     counterText: '',
                     prefixIconConstraints:
-                        BoxConstraints(minHeight: 0, minWidth: 0),
+                        const BoxConstraints(minHeight: 0, minWidth: 0),
                     suffixIconConstraints:
-                        BoxConstraints(minHeight: 0, minWidth: 0),
+                        const BoxConstraints(minHeight: 0, minWidth: 0),
                     prefixIcon: prefixText != null
                         ? Container(
-                            padding: EdgeInsets.only(left: 12, right: 5),
+                            padding: const EdgeInsets.only(left: 12, right: 5),
                             child: Text(
                               prefixText!,
                               style: kFieldTextstyle.copyWith(
@@ -160,16 +160,17 @@ class KTextfield {
                           )
                         : prefix != null
                             ? Padding(
-                                padding: EdgeInsets.only(left: 12, right: 5),
+                                padding:
+                                    const EdgeInsets.only(left: 12, right: 5),
                                 child: prefix!,
                               )
-                            : SizedBox(width: 12),
+                            : const SizedBox(width: 12),
                     suffixIcon: suffix != null
                         ? Padding(
-                            padding: EdgeInsets.only(left: 12, right: 5),
+                            padding: const EdgeInsets.only(left: 12, right: 5),
                             child: suffix!,
                           )
-                        : SizedBox(width: 12),
+                        : const SizedBox(width: 12),
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: kRadius(10),
@@ -205,15 +206,15 @@ class KTextfield {
         children: [
           label != null
               ? Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
+                  padding: const EdgeInsets.only(bottom: 10.0),
                   child: Row(
                     children: [
                       labelIcon != null
                           ? Padding(
-                              padding: EdgeInsets.only(right: 10.0),
+                              padding: const EdgeInsets.only(right: 10.0),
                               child: labelIcon,
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       Text(
                         label!,
                         style: TextStyle(
@@ -224,14 +225,14 @@ class KTextfield {
                     ],
                   ),
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               prefixText != null && prefix == null
                   ? Container(
-                      padding: EdgeInsets.all(12),
-                      margin: EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(right: 10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: kSecondaryColor,
@@ -239,7 +240,7 @@ class KTextfield {
                       ),
                       child: Text(
                         prefixText!,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 11,
                             color: Colors.white),
@@ -248,8 +249,8 @@ class KTextfield {
                     )
                   : prefixText == null && prefix != null
                       ? Container(
-                          margin: EdgeInsets.only(right: 10),
-                          padding: EdgeInsets.all(12),
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.all(12),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: kSecondaryColor,
@@ -257,7 +258,7 @@ class KTextfield {
                           ),
                           child: prefix!,
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
               Flexible(
                 child: TextFormField(
                   controller: controller,
@@ -301,7 +302,7 @@ class KTextfield {
                   validator: validator,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               KButton(onPressed: onTap, label: 'Send OTP').regular,
             ],
           ),
@@ -317,32 +318,32 @@ class KTextfield {
         children: [
           label != null
               ? Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
+                  padding: const EdgeInsets.only(bottom: 10.0),
                   child: Row(
                     children: [
                       labelIcon != null
                           ? Padding(
-                              padding: EdgeInsets.only(right: 7.0),
+                              padding: const EdgeInsets.only(right: 7.0),
                               child: labelIcon,
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       Text(
                         label!,
-                        style: TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 15),
                       ),
                       showRequiredStar
-                          ? Padding(
+                          ? const Padding(
                               padding: EdgeInsets.only(left: 3.0),
                               child: Text(
                                 "*",
                                 style: TextStyle(color: Colors.red),
                               ),
                             )
-                          : SizedBox()
+                          : const SizedBox()
                     ],
                   ),
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
           DropdownMenu(
             controller: controller,
             hintText: hintText,
@@ -373,8 +374,8 @@ class KTextfield {
               fillColor: kCardColor,
               hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
             ),
-            selectedTrailingIcon: Icon(Icons.keyboard_arrow_up_rounded),
-            trailingIcon: Icon(Icons.keyboard_arrow_down_rounded),
+            selectedTrailingIcon: const Icon(Icons.keyboard_arrow_up_rounded),
+            trailingIcon: const Icon(Icons.keyboard_arrow_down_rounded),
             dropdownMenuEntries: dropdownMenuEntries,
             menuHeight: 300,
           ),

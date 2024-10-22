@@ -14,12 +14,12 @@ ThemeData kTheme(BuildContext context) => ThemeData(
           splashFactory: InkSplash.splashFactory,
           backgroundColor: kPrimaryColor,
           foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           shape: RoundedRectangleBorder(
             borderRadius: kRadius(5),
           ),
           alignment: Alignment.center,
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontWeight: FontWeight.w600,
             fontFamily: 'Jakarta',
             fontSize: 12,
@@ -43,8 +43,8 @@ ThemeData kTheme(BuildContext context) => ThemeData(
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: kTextbuttonColor,
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          visualDensity: VisualDensity(horizontal: -2, vertical: -2),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          visualDensity: const VisualDensity(horizontal: -2, vertical: -2),
           textStyle: TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.blue.shade800,
@@ -60,18 +60,18 @@ ColorScheme kColor(BuildContext context) => Theme.of(context).colorScheme;
 ColorFilter kSvgColor(Color color) => ColorFilter.mode(color, BlendMode.srcIn);
 
 List<Color> kPremiumColors = [
-  Color.fromARGB(255, 255, 220, 232),
-  Color.fromARGB(255, 220, 255, 240),
-  Color.fromARGB(255, 247, 255, 220),
+  const Color.fromARGB(255, 255, 220, 232),
+  const Color.fromARGB(255, 220, 255, 240),
+  const Color.fromARGB(255, 247, 255, 220),
 ];
 
-Color kScaffoldColor = Color(0xfff9f9f9);
+Color kScaffoldColor = const Color(0xfff9f9f9);
 // Color kPrimaryColor = Color(0xff034f89);
 const Color kPrimaryColor = Color(0xff16325B);
-Color kPrimaryAccentColor = Color.fromARGB(255, 203, 221, 235);
-Color kSecondaryColor = Color(0xFF227B94);
-Color kColor3 = Color(0xff78B7D0);
-Color kColor4 = Color(0xffFFDC7F);
+Color kPrimaryAccentColor = const Color.fromARGB(255, 203, 221, 235);
+Color kSecondaryColor = const Color(0xFF227B94);
+Color kColor3 = const Color(0xff78B7D0);
+Color kColor4 = const Color(0xffFFDC7F);
 Color kCardColor = Colors.white;
-Color kCardDarkColor = Color(0xff595c65);
+Color kCardDarkColor = const Color(0xff595c65);
 Color kTextbuttonColor = Colors.blue.shade800;

@@ -60,7 +60,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                   providerName: masterdata.providerName!,
                 ),
                 height20,
-                Text("Enter or Select your phone number"),
+                const Text("Enter or Select your phone number"),
                 height10,
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,9 +76,9 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                         hintText: "Enter phone number here",
                         maxLength: 10,
                         validator: (val) {
-                          if (val!.isEmpty)
+                          if (val!.isEmpty) {
                             return "Required!";
-                          else if (val.length != 10)
+                          } else if (val.length != 10)
                             return "Length must be 10!";
                           return null;
                         },
@@ -88,7 +88,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                     IconButton(
                       onPressed: () async {
                         Map? contact =
-                            await navPush(context, ContactsUI()) as Map?;
+                            await navPush(context, const ContactsUI()) as Map?;
 
                         if (contact != null) {
                           setState(() {
@@ -105,7 +105,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                   ],
                 ),
                 height5,
-                Text(
+                const Text(
                   "Note - Please do search for the correct plan amount and provider before trying to recharge.",
                   style: TextStyle(fontSize: 13),
                 ),
@@ -135,12 +135,12 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                 ).full,
                 kLabel("Recent contacts"),
                 historyAsync.when(
-                  data: (data) => data.length > 0
+                  data: (data) => data.isNotEmpty
                       ? ListView.separated(
                           separatorBuilder: (context, index) => height10,
                           itemCount: data.length,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) =>
                               _historyTile(data[index]),
                         )
@@ -150,7 +150,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                   error: (error, stackTrace) => kNoData(
                     title: "Some error occurred!",
                   ),
-                  loading: () => Center(
+                  loading: () => const Center(
                     child: CircularProgressIndicator(),
                   ),
                 ),
@@ -165,7 +165,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
   Widget _historyTile(Map data) {
     return GestureDetector(
       onTap: () {
-        final _finalData = masterdata.copyWith(
+        final finalData = masterdata.copyWith(
           customerName: _customerName,
           customerPhone: data["consumerNo"],
           providerId: data["providerId"],
@@ -177,14 +177,14 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
             context,
             Recharge_Plan_UI(
               recharge_data: null,
-              mobile_recharge_data: _finalData,
+              mobile_recharge_data: finalData,
             )).then(
           (value) => _customerName = "",
         );
       },
       child: Container(
         color: kCardColor,
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Row(
           children: [
             SizedBox(
@@ -202,13 +202,13 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                 children: [
                   Text(
                     "${data["providerName"]}",
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                   Text("${data["consumerNo"]}"),
                   height5,
                   Text(
                     "Last recharged ₹${data["amount"]} on ${kFormatDateInWords(data["date"])}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                     ),
                   ),

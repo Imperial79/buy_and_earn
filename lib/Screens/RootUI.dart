@@ -29,10 +29,10 @@ class RootUI extends ConsumerStatefulWidget {
 class _RootUIState extends ConsumerState<RootUI> {
   bool isLoading = false;
   final _screens = [
-    HomeUI(),
-    ReferUI(),
-    TransactionsUI(),
-    MoreUI(),
+    const HomeUI(),
+    const ReferUI(),
+    const TransactionsUI(),
+    const MoreUI(),
   ];
 
   // @override
@@ -119,7 +119,7 @@ class _RootUIState extends ConsumerState<RootUI> {
     );
 
     Future.delayed(
-      Duration(seconds: 3),
+      const Duration(seconds: 3),
       () {
         setState(() {
           canPop = false;
@@ -157,8 +157,8 @@ class _RootUIState extends ConsumerState<RootUI> {
     return SafeArea(
       top: false,
       child: Container(
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: kCardColor,
           borderRadius: kRadius(12),
@@ -218,7 +218,7 @@ class _RootUIState extends ConsumerState<RootUI> {
         onPressed: () {
           ref.read(navigationProvider.notifier).state = index;
         },
-        visualDensity: VisualDensity(horizontal: 2, vertical: 2),
+        visualDensity: const VisualDensity(horizontal: 2, vertical: 2),
         icon: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -230,11 +230,11 @@ class _RootUIState extends ConsumerState<RootUI> {
             ),
             Flexible(
               child: AnimatedSize(
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
                 alignment: Alignment.centerLeft,
                 child: isActive
                     ? Container(
-                        margin: EdgeInsets.only(left: 5),
+                        margin: const EdgeInsets.only(left: 5),
                         decoration: BoxDecoration(
                           border: Border(
                             bottom:
@@ -252,7 +252,7 @@ class _RootUIState extends ConsumerState<RootUI> {
                         ),
                       )
                     : Container(
-                        child: Text(""),
+                        child: const Text(""),
                       ),
               ),
             ),

@@ -39,8 +39,8 @@ class ResponseModel {
     return ResponseModel(
       error: map['error'] ?? false,
       message: map['message'] ?? '',
-      response: map['response'] ?? null,
-      action: map['action'] ?? null,
+      response: map['response'],
+      action: map['action'],
     );
   }
 

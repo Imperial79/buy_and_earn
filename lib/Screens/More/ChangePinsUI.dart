@@ -20,10 +20,10 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
   final _mpin_formKey = GlobalKey<FormState>();
   final _tpin_formKey = GlobalKey<FormState>();
 
-  final currMpin = new TextEditingController();
-  final newMpin = new TextEditingController();
-  final currTpin = new TextEditingController();
-  final newTpin = new TextEditingController();
+  final currMpin = TextEditingController();
+  final newMpin = TextEditingController();
+  final currTpin = TextEditingController();
+  final newTpin = TextEditingController();
 
   _changePin(String pinType) async {
     try {
@@ -40,7 +40,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
       });
 
       if (!res.error && newMpin.text.isNotEmpty) {
-        navPopUntilPush(context, LoginUI())
+        navPopUntilPush(context, const LoginUI())
             .then((value) => ref.read(customerProvider.notifier).state = null);
       }
 
@@ -93,7 +93,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Change MPIN",
             style: TextStyle(
               fontSize: 17,
@@ -108,9 +108,9 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             textCapitalization: TextCapitalization.none,
             hintText: "Enter current MPIN",
             validator: (val) {
-              if (val!.isEmpty)
+              if (val!.isEmpty) {
                 return "Required!";
-              else if (val.length < 4)
+              } else if (val.length < 4)
                 return "Length must be greater than 3 chars!";
               return null;
             },
@@ -124,22 +124,22 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             maxLength: 8,
             hintText: "Enter new MPIN",
             validator: (val) {
-              if (val!.isEmpty)
+              if (val!.isEmpty) {
                 return "Required!";
-              else if (val.length < 4)
+              } else if (val.length < 4)
                 return "Length must be greater than 3 chars!";
               return null;
             },
           ).regular,
           height20,
-          Text(
+          const Text(
               "Changing MPIN will log you out. You will need to login with your new credentials for verification."),
           height15,
           KButton(
             onPressed: () {
               if (_mpin_formKey.currentState!.validate()) _changePin("Mpin");
             },
-            icon: Icon(Icons.sync),
+            icon: const Icon(Icons.sync),
             backgroundColor: kSecondaryColor,
             label: "Update MPIN",
           ).withIcon,
@@ -154,7 +154,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Change TPIN",
             style: TextStyle(
               fontSize: 17,
@@ -170,9 +170,9 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             keyboardType: TextInputType.number,
             hintText: "Enter current TPIN",
             validator: (val) {
-              if (val!.isEmpty)
+              if (val!.isEmpty) {
                 return "Required!";
-              else if (val.length != 6) return "Length must be 6";
+              } else if (val.length != 6) return "Length must be 6";
               return null;
             },
           ).regular,
@@ -185,21 +185,21 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             keyboardType: TextInputType.number,
             hintText: "Enter new TPIN",
             validator: (val) {
-              if (val!.isEmpty)
+              if (val!.isEmpty) {
                 return "Required!";
-              else if (val.length != 6) return "Length must be 6";
+              } else if (val.length != 6) return "Length must be 6";
               return null;
             },
           ).regular,
           height20,
-          Text(
+          const Text(
               "Changing TPIN will log you out. You will need to login with your new credentials for verification."),
           height15,
           KButton(
             onPressed: () {
               if (_tpin_formKey.currentState!.validate()) _changePin("Tpin");
             },
-            icon: Icon(Icons.sync),
+            icon: const Icon(Icons.sync),
             backgroundColor: kSecondaryColor,
             label: "Update TPIN",
           ).withIcon,

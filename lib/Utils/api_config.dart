@@ -5,7 +5,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import '../Models/response_model.dart';
 
-final String baseUrl = "https://customersapi.buynearn.shop";
+const String baseUrl = "https://customersapi.buynearn.shop";
 
 Future<ResponseModel> apiCallBack({
   String method = 'POST',

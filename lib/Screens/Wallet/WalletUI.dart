@@ -39,12 +39,12 @@ class _WalletUIState extends ConsumerState<WalletUI> {
               ref.read(navigationProvider.notifier).state = 2;
               Navigator.pop(context);
             },
-            icon: Icon(Icons.history)),
+            icon: const Icon(Icons.history)),
         width10,
       ]),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,7 +57,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Available balance",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -71,7 +71,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                               error: (error, stackTrace) => "-",
                               loading: () => "...",
                             ),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 30,
                               color: Colors.white,
@@ -157,7 +157,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                 child: Container(
                   height: 300,
                   width: 300,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("$kImagePath/admin-gpay.jpg"),
                     ),
@@ -203,10 +203,10 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                       padding: EdgeInsets.zero,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       staggeredTiles: List.generate(
                         6,
-                        (index) => StaggeredTile.fit(1),
+                        (index) => const StaggeredTile.fit(1),
                       ),
                       children: [
                         _statCard(
@@ -259,13 +259,13 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                       ),
                       "TDS Deducted ${kCurrencyFormat(data.lastMonthTdsDeducted)}",
                       contentColor: Colors.red.shade700,
-                      title:
-                          "${DateFormat("MMMM").format(DateTime(DateTime.now().year, DateTime.now().month - 1))}",
+                      title: DateFormat("MMMM").format(DateTime(
+                          DateTime.now().year, DateTime.now().month - 1)),
                     ),
                   ],
                 ),
-                error: (error, stackTrace) => SizedBox(),
-                loading: () => CircularProgressIndicator(),
+                error: (error, stackTrace) => const SizedBox(),
+                loading: () => const CircularProgressIndicator(),
               ),
             ],
           ),
@@ -278,7 +278,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
     return Card(
       color: Colors.black,
       child: Padding(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Stack(
           children: [
             Align(
@@ -294,12 +294,12 @@ class _WalletUIState extends ConsumerState<WalletUI> {
               children: [
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.account_balance_outlined,
                       color: Colors.white,
                     ),
                     width10,
-                    Flexible(
+                    const Flexible(
                       child: Text(
                         "BankName",
                         style: TextStyle(
@@ -311,7 +311,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                   ],
                 ),
                 kHeight(40),
-                Text(
+                const Text(
                   "Acc No",
                   style: TextStyle(
                     fontSize: 20,
@@ -319,7 +319,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                     color: Colors.white,
                   ),
                 ),
-                Text(
+                const Text(
                   "IFSC",
                   style: TextStyle(
                     fontSize: 12,
@@ -328,7 +328,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                   ),
                 ),
                 kHeight(30),
-                Text(
+                const Text(
                   "Holder Name",
                   style: TextStyle(
                     fontSize: 11,
@@ -336,7 +336,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                   ),
                 ),
                 height5,
-                Text(
+                const Text(
                   "Admin Name",
                   style: TextStyle(
                     fontSize: 16,
@@ -366,19 +366,19 @@ class _WalletUIState extends ConsumerState<WalletUI> {
       child: SizedBox(
         width: double.maxFinite,
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (title != null)
                 Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
+                  padding: const EdgeInsets.only(bottom: 5.0),
                   child: Row(
                     children: [
-                      Expanded(child: Text("Commission Earned")),
+                      const Expanded(child: Text("Commission Earned")),
                       Text(
                         title.toUpperCase(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           letterSpacing: 2,
                           fontWeight: FontWeight.w700,
@@ -389,7 +389,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                 ),
               Text(
                 label,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),

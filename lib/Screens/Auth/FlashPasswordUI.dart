@@ -38,19 +38,19 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
     return KScaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               height15,
-              Text(
+              const Text(
                 "Credentials",
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 25,
                 ),
               ),
-              Text(
+              const Text(
                 "Save these credentials for future use",
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
@@ -65,15 +65,15 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "MPIN",
                             style: TextStyle(
                               fontSize: 20,
                             ),
                           ),
                           Text(
-                            "${decryptedMpin}",
-                            style: TextStyle(
+                            decryptedMpin,
+                            style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -86,7 +86,7 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
                             ClipboardData(text: "MPIN: $decryptedMpin"));
                         KSnackbar(context, content: "MPIN Copied");
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.copy,
                         size: 15,
                       ),
@@ -102,15 +102,15 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "TPIN",
                             style: TextStyle(
                               fontSize: 20,
                             ),
                           ),
                           Text(
-                            "${decryptedTpin}",
-                            style: TextStyle(
+                            decryptedTpin,
+                            style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -123,7 +123,7 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
                             ClipboardData(text: "TPIN: $decryptedTpin"));
                         KSnackbar(context, content: "TPIN Copied");
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.copy,
                         size: 15,
                       ),
@@ -137,10 +137,10 @@ class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: KButton(
             onPressed: () {
-              navPopUntilPush(context, RootUI());
+              navPopUntilPush(context, const RootUI());
             },
             label: "Go to Home",
           ).full,

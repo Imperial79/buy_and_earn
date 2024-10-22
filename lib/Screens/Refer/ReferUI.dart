@@ -55,8 +55,8 @@ class _ReferUIState extends ConsumerState<ReferUI> {
         child: KScaffold(
           body: SafeArea(
             child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.all(12),
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -67,12 +67,12 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                     children: [
                       Text(
                         customer?.name.toLowerCase() ?? "",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 20),
                       ),
                       Text(
                         "Level ${customer!.level}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 15),
                       ),
                     ],
@@ -80,20 +80,20 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                   referSettings.when(
                     data: (data) => data.response['referralAmount'] > 0
                         ? Padding(
-                            padding: EdgeInsets.only(top: 20.0),
+                            padding: const EdgeInsets.only(top: 20.0),
                             child: Card(
                               color: kColor(context).tertiary,
                               child: SizedBox(
                                 width: double.maxFinite,
                                 child: Padding(
-                                  padding: EdgeInsets.all(12),
+                                  padding: const EdgeInsets.all(12),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Get ${kCurrencyFormat("${data.response['referralAmount']}", decimalDigit: 0)} bonus on referal*",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w700,
                                           fontSize: 20,
@@ -103,7 +103,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                       Card(
                                         color: kColor(context)
                                             .onTertiaryFixedVariant,
-                                        child: Padding(
+                                        child: const Padding(
                                           padding: EdgeInsets.all(8.0),
                                           child: Text(
                                             "Note: Valid for only complete registrations and id activation during offer period",
@@ -119,13 +119,15 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                           kWidgetPill(
                                             context,
                                             child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 15, vertical: 5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 5),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Text(
-                                                    "${customer.referCode}",
+                                                    customer.referCode,
                                                     style: TextStyle(
                                                       color: kColor(context)
                                                           .tertiary,
@@ -141,8 +143,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                           IconButton.filledTonal(
                                             onPressed: () {
                                               Clipboard.setData(ClipboardData(
-                                                  text:
-                                                      "${customer.referCode}"));
+                                                  text: customer.referCode));
 
                                               KSnackbar(context,
                                                   content:
@@ -156,7 +157,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                               size: 15,
                                             ),
                                           ),
-                                          Spacer(),
+                                          const Spacer(),
                                           IconButton.filledTonal(
                                             onPressed: () async {
                                               await FlutterShare.share(
@@ -178,7 +179,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                                   size: 15,
                                                 ),
                                                 width5,
-                                                Text(
+                                                const Text(
                                                   "Invite",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
@@ -195,15 +196,15 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                               ),
                             ),
                           )
-                        : SizedBox(),
-                    error: (error, stackTrace) => SizedBox(),
-                    loading: () => SizedBox(),
+                        : const SizedBox(),
+                    error: (error, stackTrace) => const SizedBox(),
+                    loading: () => const SizedBox(),
                   ),
                   kLabel("Distribution"),
                   referSettings.when(
                     data: (data) => _distributionChart(data),
-                    error: (error, stackTrace) => SizedBox(),
-                    loading: () => SizedBox(),
+                    error: (error, stackTrace) => const SizedBox(),
+                    loading: () => const SizedBox(),
                   ),
                   kLabel("My Referals"),
                   SingleChildScrollView(
@@ -217,16 +218,16 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                   referListData.when(
                     data: (data) => Column(
                       children: [
-                        data.length > 0
+                        data.isNotEmpty
                             ? ListView.separated(
                                 separatorBuilder: (context, index) => height10,
                                 itemCount: data.length,
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) => Card(
                                   color: kCardColor,
                                   child: Padding(
-                                    padding: EdgeInsets.all(10.0),
+                                    padding: const EdgeInsets.all(10.0),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -251,18 +252,20 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                             children: [
                                               Text(
                                                 data[index]['name'],
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 15,
                                                 ),
                                               ),
                                               Text(
                                                 "+91 ${data[index]['phone']}",
-                                                style: TextStyle(fontSize: 12),
+                                                style: const TextStyle(
+                                                    fontSize: 12),
                                               ),
                                               Text(
                                                 "Joined On: ${kFormatDate(data[index]["date"])}",
-                                                style: TextStyle(fontSize: 12),
+                                                style: const TextStyle(
+                                                    fontSize: 12),
                                               ),
                                             ],
                                           ),
@@ -271,7 +274,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                         Text(
                                           kCurrencyFormat(
                                               "${data[index]["firstPurchase"]}"),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.w600),
                                         ),
                                       ],
@@ -300,8 +303,9 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                         ),
                       ],
                     ),
-                    error: (error, stackTrace) => SizedBox(),
-                    loading: () => Center(child: CircularProgressIndicator()),
+                    error: (error, stackTrace) => const SizedBox(),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
                   ),
                   kHeight(100),
                 ],
@@ -321,7 +325,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
           color: kCardColor,
           borderRadius: kRadius(10),
         ),
-        columns: [
+        columns: const [
           DataColumn(
             label: Text("Level/Tier"),
           ),

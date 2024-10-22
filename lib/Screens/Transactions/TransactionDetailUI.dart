@@ -33,12 +33,12 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _statusCard(),
-              kLabel("${txnDetails.source}"),
+              kLabel(txnDetails.source),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -54,26 +54,27 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${txnDetails.title.split('for').first.trim()}",
-                          style: TextStyle(
+                          txnDetails.title.split('for').first.trim(),
+                          style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 15),
                         ),
                         Text(
-                          "${txnDetails.title.split('for').last.trim()}",
-                          style: TextStyle(
+                          txnDetails.title.split('for').last.trim(),
+                          style: const TextStyle(
                               fontWeight: FontWeight.w400, fontSize: 12),
                         ),
                       ],
                     ),
                   ),
                   Text(
-                    "${kCurrencyFormat(txnDetails.amount)}",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                    kCurrencyFormat(txnDetails.amount),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w700, fontSize: 15),
                   ),
                 ],
               ),
               height10,
-              Text(
+              const Text(
                 "Note - The amount shown is rounded to 2 decimal places, but the actual amount Credited/Debited may be smaller and cannot be fully displayed here.",
                 style: TextStyle(fontSize: 13),
               ),
@@ -86,8 +87,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(entry.key),
-                        Text(
-                            "${kCurrencyFormat(entry.value, decimalDigit: 6)}"),
+                        Text(kCurrencyFormat(entry.value, decimalDigit: 6)),
                       ],
                     );
                   }).toList(),
@@ -99,8 +99,8 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                   Expanded(
                     child: Text(
                       "BNETXN${txnDetails.id}",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 15),
                     ),
                   ),
                   width10,
@@ -116,7 +116,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                       );
                     },
                     visualDensity: VisualDensity.compact,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.copy,
                       size: 15,
                     ),
@@ -126,11 +126,11 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
               height20,
               KButton(
                 onPressed: () {
-                  navPush(context, HelpUI());
+                  navPush(context, const HelpUI());
                 },
                 label: "Need Help?",
                 fontSize: 15,
-                icon: Icon(
+                icon: const Icon(
                   Icons.help,
                   size: 20,
                 ),
@@ -145,7 +145,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
   Widget _statusCard() {
     return Container(
       width: double.maxFinite,
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: kColorMap[txnDetails.status],
         borderRadius: kRadius(10),
@@ -165,7 +165,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
               children: [
                 Text(
                   "Transaction ${txnDetails.status}",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
@@ -173,7 +173,7 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
                 Text(
                   DateFormat('dd MMM yyyy • h:mm a')
                       .format(DateTime.parse(txnDetails.date)),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

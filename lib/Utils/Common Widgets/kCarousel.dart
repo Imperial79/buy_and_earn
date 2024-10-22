@@ -13,7 +13,7 @@ class KCarousel extends StatefulWidget {
   final double viewportFraction;
   final double indicatorSpacing;
   final void Function(int)? onPageChange;
-  KCarousel({
+  const KCarousel({
     super.key,
     required this.children,
     this.height,
@@ -33,7 +33,7 @@ class KCarousel extends StatefulWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: padding ?? EdgeInsets.symmetric(horizontal: 5.0),
+        padding: padding ?? const EdgeInsets.symmetric(horizontal: 5.0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: kRadius(radius ?? 15),
@@ -63,9 +63,9 @@ class _KCarouselState extends State<KCarousel> {
         keepPage: true);
 
     if (widget.isLooped) {
-      _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
         _controller.nextPage(
-            duration: Duration(milliseconds: 500), curve: Curves.ease);
+            duration: const Duration(milliseconds: 500), curve: Curves.ease);
       });
     }
   }
@@ -81,7 +81,7 @@ class _KCarouselState extends State<KCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.children.length > 0
+    return widget.children.isNotEmpty
         ? Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -99,8 +99,9 @@ class _KCarouselState extends State<KCarousel> {
                     return widget.children[adjustedIndex];
                   },
                   onPageChanged: (value) {
-                    if (widget.onPageChange != null)
+                    if (widget.onPageChange != null) {
                       widget.onPageChange!(value);
+                    }
                     setState(() {
                       _activePage = value;
                     });
@@ -118,10 +119,10 @@ class _KCarouselState extends State<KCarousel> {
                         ),
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           )
-        : Center(
+        : const Center(
             child: Text(
               "No Image",
               textAlign: TextAlign.center,
@@ -140,10 +141,10 @@ class _KCarouselState extends State<KCarousel> {
       children: List.generate(length, (index) {
         bool isActive = activeImage == index;
         return AnimatedContainer(
-          margin: EdgeInsets.symmetric(horizontal: 2),
+          margin: const EdgeInsets.symmetric(horizontal: 2),
           height: 10,
           width: isActive ? 20 : 10,
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
             borderRadius: kRadius(100),
             color: isActive ? kSecondaryColor : Colors.grey.shade300,

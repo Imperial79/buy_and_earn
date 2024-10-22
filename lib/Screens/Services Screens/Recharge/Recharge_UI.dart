@@ -73,7 +73,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                         providerImage: providerImage,
                         providerName: providerName,
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 height20,
                 Text("Enter ${masterdata.service} Consumer ID/Number"),
                 height10,
@@ -87,7 +87,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                   },
                 ).regular,
                 height5,
-                Text(
+                const Text(
                   "Note - Please do search for the correct plan amount and provider before trying to recharge.",
                   style: TextStyle(fontSize: 13),
                 ),
@@ -114,11 +114,11 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                 ).full,
                 kLabel("Recent"),
                 historyAsync.when(
-                  data: (data) => data.length > 0
+                  data: (data) => data.isNotEmpty
                       ? ListView.separated(
                           separatorBuilder: (context, index) => height10,
                           itemCount: data.length,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (context, index) =>
                               _historyTile(data[index]),
@@ -129,7 +129,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                   error: (error, stackTrace) => kNoData(
                     title: "Some error occurred!",
                   ),
-                  loading: () => Center(
+                  loading: () => const Center(
                     child: CircularProgressIndicator(),
                   ),
                 ),
@@ -152,7 +152,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
       },
       child: Container(
         color: kCardColor,
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Row(
           children: [
             SizedBox(
@@ -170,13 +170,13 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                 children: [
                   Text(
                     "${data["providerName"]}",
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                   Text("${data["consumerNo"]}"),
                   height5,
                   Text(
                     "Last recharged ₹${data["amount"]} on ${kFormatDateInWords(data["date"])}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                     ),
                   ),

@@ -26,7 +26,7 @@ class _TPin_UIState extends State<TPin_UI> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Verification",
                       style: TextStyle(
                         fontSize: 30,
@@ -35,7 +35,7 @@ class _TPin_UIState extends State<TPin_UI> {
                       ),
                     ),
                     height20,
-                    Text(
+                    const Text(
                       "Enter your 6-digits TPIN",
                       style: TextStyle(
                         fontSize: 20,
@@ -57,7 +57,7 @@ class _TPin_UIState extends State<TPin_UI> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: _onScreenKeyboard(),
             ),
           ],
@@ -106,7 +106,7 @@ class _TPin_UIState extends State<TPin_UI> {
     bool isDone = label == "OK";
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.all(3.0),
+        padding: const EdgeInsets.all(3.0),
         child: InkWell(
           borderRadius: kRadius(5),
           splashColor: kPrimaryColor,
@@ -155,18 +155,18 @@ class _TPin_UIState extends State<TPin_UI> {
                       : kColor(context).secondaryContainer,
             ),
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: FittedBox(
                 child: isDone
-                    ? Icon(Icons.done)
+                    ? const Icon(Icons.done)
                     : label == "back"
-                        ? Icon(
+                        ? const Icon(
                             Icons.backspace,
                             color: Colors.white,
                           )
                         : Text(
                             label,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w500,
                               color: Colors.black,

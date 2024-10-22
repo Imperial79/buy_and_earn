@@ -61,8 +61,8 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                                   widget.mobile_recharge_data!.providerImage!,
                               providerName:
                                   widget.mobile_recharge_data!.providerName!,
-                              phone: "+91 " +
-                                  widget.mobile_recharge_data!.customerPhone!,
+                              phone:
+                                  "+91 ${widget.mobile_recharge_data!.customerPhone!}",
                             )
                           : kPlanCard(
                               context,
@@ -83,9 +83,9 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                           FilteringTextInputFormatter.digitsOnly,
                         ],
                         validator: (val) {
-                          if (val!.isEmpty)
+                          if (val!.isEmpty) {
                             return "Required!";
-                          else if (int.parse(val) < 1)
+                          } else if (int.parse(val) < 1)
                             return "Enter valid amount!";
                           return null;
                         },
@@ -100,8 +100,7 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                                   Recharge_Checkout_UI(
                                     mobile_recharge_data:
                                         widget.mobile_recharge_data!.copyWith(
-                                      planAmount:
-                                          double.parse("${_amount.text}"),
+                                      planAmount: double.parse(_amount.text),
                                     ),
                                   ));
                             } else {
@@ -110,8 +109,7 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                                   Recharge_Checkout_UI(
                                     recharge_data:
                                         widget.recharge_data!.copyWith(
-                                      planAmount:
-                                          double.parse("${_amount.text}"),
+                                      planAmount: double.parse(_amount.text),
                                     ),
                                   ));
                             }

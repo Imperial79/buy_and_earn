@@ -37,12 +37,12 @@ class _CalculateUIState extends State<CalculateUI> {
     });
 
     final response = await dio.post(
-      baseUrl + "/cal/in",
+      "$baseUrl/cal/in",
       data: formData,
     );
 
     setState(() {
-      resp = JsonEncoder.withIndent('  ').convert(response.data);
+      resp = const JsonEncoder.withIndent('  ').convert(response.data);
     });
   }
 
@@ -50,7 +50,7 @@ class _CalculateUIState extends State<CalculateUI> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Calculation"),
+          title: const Text("Calculation"),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -85,13 +85,13 @@ class _CalculateUIState extends State<CalculateUI> {
                     },
                     label: "Calculate Bonus",
                   ).full,
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Divider(),
                   ),
                   Text(
-                    "${resp}",
-                    style: TextStyle(
+                    resp,
+                    style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),

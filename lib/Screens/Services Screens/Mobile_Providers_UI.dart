@@ -29,7 +29,7 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(kPadding),
           child: providersListData.when(
-            data: (data) => data.length > 0
+            data: (data) => data.isNotEmpty
                 ? ListView.separated(
                     separatorBuilder: (context, index) => height10,
                     itemCount: data.length,
@@ -49,7 +49,7 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
                           ),
                         );
                       },
-                      contentPadding: EdgeInsets.all(10),
+                      contentPadding: const EdgeInsets.all(10),
                       tileColor: Colors.white,
                       leading: Container(
                         height: 50,
@@ -65,7 +65,7 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
                       ),
                       title: Text(
                         data[index]["providerName"],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 17,
                         ),
@@ -74,8 +74,9 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
                   )
                 : kNoData(
                     title: "No Providers!", subtitle: "Check back later!"),
-            error: (error, stackTrace) => Text("Unable to load providers!"),
-            loading: () => LinearProgressIndicator(),
+            error: (error, stackTrace) =>
+                const Text("Unable to load providers!"),
+            loading: () => const LinearProgressIndicator(),
           ),
         ),
       ),

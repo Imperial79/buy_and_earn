@@ -23,13 +23,13 @@ class EditProfileUI extends ConsumerStatefulWidget {
 
 class _EditProfileUIState extends ConsumerState<EditProfileUI> {
   bool isLoading = false;
-  final name = new TextEditingController();
-  final email = new TextEditingController();
-  final state = new TextEditingController();
-  final city = new TextEditingController();
-  final pincode = new TextEditingController();
+  final name = TextEditingController();
+  final email = TextEditingController();
+  final state = TextEditingController();
+  final city = TextEditingController();
+  final pincode = TextEditingController();
 
-  final _formKey = new GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -103,7 +103,7 @@ class _EditProfileUIState extends ConsumerState<EditProfileUI> {
         appBar: KAppBar(context),
         body: SafeArea(
           child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.all(kPadding),
             child: Form(
               key: _formKey,
@@ -142,7 +142,7 @@ class _EditProfileUIState extends ConsumerState<EditProfileUI> {
                     dropdownMenuEntries: List.generate(
                       kStatesList.length,
                       (index) => DropdownMenuEntry(
-                        label: "${kStatesList[index]}",
+                        label: kStatesList[index],
                         value: kStatesList[index],
                       ),
                     ),
@@ -173,8 +173,9 @@ class _EditProfileUIState extends ConsumerState<EditProfileUI> {
                           ],
                           hintText: "Eg. 7XXXX3",
                           validator: (val) {
-                            if (val!.isEmpty || val.length != 6)
+                            if (val!.isEmpty || val.length != 6) {
                               return "Required!";
+                            }
                             return null;
                           },
                         ).regular,
@@ -187,7 +188,7 @@ class _EditProfileUIState extends ConsumerState<EditProfileUI> {
                       _update();
                     },
                     label: "Update",
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.update,
                       color: Colors.black,
                     ),

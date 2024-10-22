@@ -1,0 +1,11 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.buynearn.shop.customer",
+        "sha256_cert_fingerprints":
+          ["37:CE:F9:66:11:12:C6:C5:2C:BC:B5:1D:3F:CC:ED:73:09:93:16:60:4F:8A:1F:E6:7A:F6:2F:A7:1B:AF:48:2A"]
+      }
+    }
+  ]

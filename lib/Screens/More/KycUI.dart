@@ -27,11 +27,11 @@ class _KycUIState extends ConsumerState<KycUI> {
   XFile? _adhaarFront;
   XFile? _adhaarBack;
   XFile? _panFront;
-  final _pan = new TextEditingController();
+  final _pan = TextEditingController();
   XFile? _bankFront;
-  final _nomineeName = new TextEditingController();
-  final _nomineePhone = new TextEditingController();
-  final _relation = new TextEditingController();
+  final _nomineeName = TextEditingController();
+  final _nomineePhone = TextEditingController();
+  final _relation = TextEditingController();
   XFile? _nomineeId;
   final _formKey = GlobalKey<FormState>();
   Map? serverData;
@@ -138,14 +138,14 @@ class _KycUIState extends ConsumerState<KycUI> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Upload Aadhaar card",
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Photos must be clear and should be taken in a well lit room.",
                         style: TextStyle(
                           fontSize: 14,
@@ -181,14 +181,14 @@ class _KycUIState extends ConsumerState<KycUI> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Upload PAN card",
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Photos must be clear and should be taken in a well lit room.",
                         style: TextStyle(
                           fontSize: 14,
@@ -226,14 +226,14 @@ class _KycUIState extends ConsumerState<KycUI> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Upload Bank Passbook / Cancelled Cheque",
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Photos must be clear and should be taken in a well lit room.",
                         style: TextStyle(
                           fontSize: 14,
@@ -259,14 +259,14 @@ class _KycUIState extends ConsumerState<KycUI> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Nominee Details",
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Photos must be clear and should be taken in a well lit room.",
                         style: TextStyle(
                           fontSize: 14,
@@ -292,9 +292,9 @@ class _KycUIState extends ConsumerState<KycUI> {
                         label: "Nominee Phone",
                         maxLength: 10,
                         validator: (val) {
-                          if (val!.isEmpty)
+                          if (val!.isEmpty) {
                             return "Required!";
-                          else if (val.length != 10)
+                          } else if (val.length != 10)
                             return "Length must be 10!";
                           return null;
                         },
@@ -370,7 +370,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                   : null,
         ),
         child: image == null && imageLink == null
-            ? Center(
+            ? const Center(
                 child: Text(
                   "Choose Image",
                   textAlign: TextAlign.center,

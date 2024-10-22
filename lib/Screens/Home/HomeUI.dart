@@ -51,7 +51,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                 context,
                 visible: ref.watch(showKycReminder) && !customer!.isKycDone,
                 onTap: () {
-                  navPush(context, KycUI());
+                  navPush(context, const KycUI());
                 },
                 title: "KYC Pending",
                 subTitle: "Upload necessary documents to complete your KYC.",
@@ -71,16 +71,16 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     height5,
-                    Text(
+                    const Text(
                       "Reasons -",
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                     ),
-                    Text(
+                    const Text(
                       "• No purchase since 3 months, OR",
                       style: TextStyle(fontSize: 12),
                     ),
-                    Text(
+                    const Text(
                       "• Newly created account.",
                       style: TextStyle(fontSize: 12),
                     ),
@@ -93,6 +93,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
               carouselData.when(
                 data: (data) => KCarousel(
                   height: 200,
+                  isLooped: data.length == 1 ? false : true,
                   children: List.generate(
                     data.length,
                     (index) => KCarousel.Item(
@@ -108,14 +109,13 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                       url: data[index]["image"],
                     ),
                   ),
-                  isLooped: data.length == 1 ? false : true,
                 ),
-                error: (error, stackTrace) => SizedBox(),
-                loading: () => Text("Loading..."),
+                error: (error, stackTrace) => const SizedBox(),
+                loading: () => const Text("Loading..."),
               ),
               height20,
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -126,17 +126,17 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                           kLabel('Recharge', top: 0),
                           GridView(
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4,
                             ),
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             children: [
                               _serviceButton(
                                   onPressed: () {
                                     navPush(
                                       context,
-                                      Providers_UI(
+                                      const Providers_UI(
                                         service: "Prepaid",
                                       ),
                                     );
@@ -149,7 +149,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                                 onPressed: () {
                                   navPush(
                                     context,
-                                    Providers_UI(
+                                    const Providers_UI(
                                       service: "DTH",
                                     ),
                                   );
@@ -320,7 +320,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
@@ -328,7 +328,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                       if (content == null)
                         Text(
                           subTitle,
-                          style: TextStyle(fontSize: 13),
+                          style: const TextStyle(fontSize: 13),
                         )
                       else
                         content,
@@ -362,11 +362,11 @@ class _HomeUIState extends ConsumerState<HomeUI> {
               child: Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(text: "hi ", style: TextStyle(fontSize: 20)),
+                    const TextSpan(text: "hi ", style: TextStyle(fontSize: 20)),
                     TextSpan(
                       text: "${customer!.name.split(' ').first}!",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 20),
                     ),
                   ],
                 ),
@@ -377,7 +377,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                 ref.read(navigationProvider.notifier).state = 3;
               },
               child: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: kColor(context).primaryContainer,
                   borderRadius: kRadius(10),
@@ -387,7 +387,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                   children: [
                     Text(
                       "+91 ${customer.phone}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -435,7 +435,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
           height5,
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),

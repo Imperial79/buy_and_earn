@@ -36,7 +36,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
     setState(() => isLoading = true);
     final res = await ref.read(authRepository).logout({});
     if (!res.error) {
-      navPopUntilPush(context, RegisterUI()).then(
+      navPopUntilPush(context, const RegisterUI()).then(
         (value) {
           ref.read(customerProvider.notifier).state = null;
           ref.read(navigationProvider.notifier).state = 0;
@@ -51,7 +51,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
       setState(() {
         isLoading = true;
       });
-      Map? data = await navPush(context, TPin_UI()) as Map?;
+      Map? data = await navPush(context, const TPin_UI()) as Map?;
 
       if (data != null) {
         final res =
@@ -86,7 +86,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
         body: customer != null
             ? SafeArea(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -130,7 +130,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "${customer.referCode}",
+                                    customer.referCode,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16,
@@ -143,13 +143,13 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                 IconButton.filledTonal(
                                   onPressed: () {
                                     Clipboard.setData(ClipboardData(
-                                        text: "${customer.referCode}"));
+                                        text: customer.referCode));
                                     KSnackbar(context,
                                         content:
                                             "Refer Code copied to clipboard",
                                         isDanger: false);
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.copy,
                                     size: 15,
                                   ),
@@ -226,36 +226,36 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                             // ),
                             _settingButton(
                               onTap: () {
-                                navPush(context, KycUI());
+                                navPush(context, const KycUI());
                               },
                               label: "KYC",
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.keyboard_command_key_sharp,
                                 size: 23,
                                 color: kPrimaryColor,
                               ),
                             ),
-                            Divider(),
+                            const Divider(),
                             _settingButton(
                               onTap: () {
-                                navPush(context, ChangePinsUI());
+                                navPush(context, const ChangePinsUI());
                               },
                               label: "Change PIN",
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.lock_outline,
                                 size: 23,
                                 color: kPrimaryColor,
                               ),
                             ),
-                            Divider(),
+                            const Divider(),
                             _settingButton(
                               onTap: () {
-                                navPush(context, HelpUI());
+                                navPush(context, const HelpUI());
                               },
                               label: "Help",
                               iconPath: "$kIconPath/info.svg",
                             ),
-                            Divider(),
+                            const Divider(),
                             _settingButton(
                               onTap: () async {
                                 await launchUrl(
@@ -265,7 +265,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                               label: "Privacy",
                               iconPath: "$kIconPath/privacy.svg",
                             ),
-                            Divider(),
+                            const Divider(),
                             _settingButton(
                               onTap: () {
                                 _logout();
@@ -277,8 +277,8 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                         ),
                       ),
                       height15,
-                      Text("Version $kAppVersion"),
-                      Text(
+                      const Text("Version $kAppVersion"),
+                      const Text(
                         "ImVy Developers©",
                         style: TextStyle(color: Colors.grey),
                       ),
@@ -287,7 +287,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                   ),
                 ),
               )
-            : SizedBox(),
+            : const SizedBox(),
       ),
     );
   }
@@ -302,7 +302,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         decoration: BoxDecoration(
             borderRadius: kRadius(5),
             border: Border.all(
@@ -312,18 +312,17 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                 isPremium ? LinearGradient(colors: kPremiumColors) : null),
         child: Row(
           children: [
-            icon == null
-                ? SvgPicture.asset(
-                    iconPath,
-                    height: 20,
-                    colorFilter: kSvgColor(kPrimaryColor),
-                  )
-                : icon,
+            icon ??
+                SvgPicture.asset(
+                  iconPath,
+                  height: 20,
+                  colorFilter: kSvgColor(kPrimaryColor),
+                ),
             width15,
             Expanded(
               child: Text(
                 label,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                   fontSize: 15,
@@ -332,7 +331,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
             ),
             width10,
             if (!isPremium)
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.grey,
                 size: 15,

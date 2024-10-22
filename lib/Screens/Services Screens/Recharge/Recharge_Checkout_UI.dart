@@ -85,7 +85,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                 providerImage: providerImage,
                 providerName: providerName,
                 phone: mobile_recharge_data != null
-                    ? "+91 " + consumerNo
+                    ? "+91 $consumerNo"
                     : consumerNo,
               ),
               kLabel("Plan Details"),
@@ -96,28 +96,28 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                   children: [
                     Text(
                       kCurrencyFormat("$planAmount"),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     Row(
                       children: [
-                        Text(
+                        const Text(
                           "Valididty: NA",
                           style: TextStyle(
                             fontSize: 12,
                           ),
                         ),
                         width10,
-                        Text(
+                        const Text(
                           "Data: NA",
                           style: TextStyle(
                             fontSize: 12,
                           ),
                         ),
                         width10,
-                        Text(
+                        const Text(
                           "Talktime: NA",
                           style: TextStyle(
                             fontSize: 12,
@@ -132,11 +132,11 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Plan price"),
+                  const Text("Plan price"),
                   Text(kCurrencyFormat("$planAmount"))
                 ],
               ),
-              Text(
+              const Text(
                 "*Includes all taxes in the net payable amount below.",
                 style: TextStyle(fontSize: 11, color: Colors.grey),
               ),
@@ -146,7 +146,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("ID Activation"),
+                    const Text("ID Activation"),
                     Text("+ ${kCurrencyFormat("${customer.idActiveAmount}")}")
                   ],
                 ),
@@ -156,29 +156,29 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Net Payable",
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   Text(
                     kCurrencyFormat("$netPayable"),
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   )
                 ],
               ),
               if (customer.status == "Pending" &&
                   planAmount < customer.idActiveMinThreshold)
                 Card(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: 20),
                   color: Colors.amber.shade100,
                   child: Padding(
                     padding: EdgeInsets.all(kPadding),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.info),
+                        const Icon(Icons.info),
                         width10,
-                        Expanded(
+                        const Expanded(
                           child: Text(
                             "No cashback will be applicable on this recharge.",
                             style: TextStyle(
@@ -192,8 +192,8 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                 ),
               if (customer.status == "Pending")
                 Container(
-                  margin: EdgeInsets.only(top: 30),
-                  padding: EdgeInsets.all(5),
+                  margin: const EdgeInsets.only(top: 30),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 227, 245, 228),
                     borderRadius: BorderRadius.circular(5),
@@ -201,7 +201,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "ID activation",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -225,10 +225,10 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           child: KButton(
             onPressed: () async {
-              Map? res = await navPush(context, TPin_UI());
+              Map? res = await navPush(context, const TPin_UI());
 
               navPushReplacement(
                 context,

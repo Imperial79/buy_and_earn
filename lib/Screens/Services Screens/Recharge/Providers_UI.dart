@@ -50,12 +50,12 @@ class _Mobile_Providers_UIState extends ConsumerState<Providers_UI> {
           child: Padding(
             padding: EdgeInsets.all(kPadding),
             child: providersListData.when(
-              data: (data) => data.length > 0
+              data: (data) => data.isNotEmpty
                   ? ListView.separated(
                       separatorBuilder: (context, index) => height10,
                       itemCount: data.length,
                       shrinkWrap: true,
-                      physics: AlwaysScrollableScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           if (["Prepaid", "Postpaid"]
@@ -88,7 +88,7 @@ class _Mobile_Providers_UIState extends ConsumerState<Providers_UI> {
                           }
                         },
                         child: Container(
-                          padding: EdgeInsets.all(12),
+                          padding: const EdgeInsets.all(12),
                           color: kCardColor,
                           child: Row(
                             children: [
@@ -104,7 +104,7 @@ class _Mobile_Providers_UIState extends ConsumerState<Providers_UI> {
                               Expanded(
                                 child: Text(
                                   data[index]["providerName"],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 17,
                                   ),
@@ -118,8 +118,9 @@ class _Mobile_Providers_UIState extends ConsumerState<Providers_UI> {
                   : kNoData(
                       title: "No providers right now!",
                       subtitle: "Please come back later!"),
-              error: (error, stackTrace) => Text("Unable to load providers!"),
-              loading: () => SizedBox(),
+              error: (error, stackTrace) =>
+                  const Text("Unable to load providers!"),
+              loading: () => const SizedBox(),
             ),
           ),
         ),

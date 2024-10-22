@@ -26,6 +26,7 @@ class _WelcomeUIState extends State<WelcomeUI> {
             KCarousel(
               indicatorSpacing: 20,
               viewportFraction: 1,
+              isLooped: true,
               children: [
                 SvgPicture.asset("$welcomeImages/1.svg"),
                 SvgPicture.asset("$welcomeImages/2.svg"),
@@ -33,12 +34,11 @@ class _WelcomeUIState extends State<WelcomeUI> {
                 SvgPicture.asset("$welcomeImages/4.svg"),
                 SvgPicture.asset("$welcomeImages/5.svg"),
               ],
-              isLooped: true,
             ),
             kHeight(40),
             Padding(
               padding: EdgeInsets.all(kPadding),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -63,10 +63,10 @@ class _WelcomeUIState extends State<WelcomeUI> {
       floatingActionButton: SafeArea(
         child: KButton(
           onPressed: () {
-            navPush(context, RegisterUI());
+            navPush(context, const RegisterUI());
           },
           label: "Proceed",
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           backgroundColor: kSecondaryColor,
         ).thickPill,
       ),

@@ -61,13 +61,13 @@ class FirebaseNotification {
     FirebaseMessaging.onMessage.listen((message) async {
       final notification = message.notification;
       if (notification == null) return;
-      String _image = notification.android!.imageUrl == null
+      String image = notification.android!.imageUrl == null
           ? ""
           : notification.android!.imageUrl.toString();
-      String _bigPicture = "";
+      String bigPicture = "";
 
-      if (_image.isNotEmpty) {
-        _bigPicture = await urlToAndroidBitmap(_image, 'bigPicture');
+      if (image.isNotEmpty) {
+        bigPicture = await urlToAndroidBitmap(image, 'bigPicture');
       }
       _localNotifications.show(
         notification.hashCode,
@@ -79,9 +79,9 @@ class FirebaseNotification {
             androidChannel.name,
             channelDescription: androidChannel.description,
             icon: '@drawable/ic_stat_bne',
-            styleInformation: _bigPicture.isNotEmpty
+            styleInformation: bigPicture.isNotEmpty
                 ? BigPictureStyleInformation(
-                    FilePathAndroidBitmap(_bigPicture),
+                    FilePathAndroidBitmap(bigPicture),
                   )
                 : null,
           ),
