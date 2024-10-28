@@ -184,7 +184,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
         );
       },
       child: Container(
-        color: kCardColor,
+        color: Light.card,
         padding: const EdgeInsets.all(12),
         child: Row(
           children: [

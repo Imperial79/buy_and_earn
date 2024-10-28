@@ -1,4 +1,3 @@
-import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -57,45 +56,45 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
     );
   }
 
-  Align _noInternetPill(BuildContext context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.only(top: 20),
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          decoration: BoxDecoration(
-            color: kColor(context).errorContainer,
-            borderRadius: kRadius(100),
-            boxShadow: [
-              BoxShadow(
-                color: kColor(context).errorContainer.withOpacity(.5),
-                blurRadius: 30,
-                spreadRadius: 5,
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.signal_wifi_connected_no_internet_4_rounded,
-                color: kColor(context).onErrorContainer,
-              ),
-              width10,
-              Text(
-                "No Internet",
-                style: TextStyle(
-                  color: kColor(context).onErrorContainer,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Align _noInternetPill(BuildContext context) {
+  //   return Align(
+  //     alignment: Alignment.topCenter,
+  //     child: SafeArea(
+  //       child: Container(
+  //         margin: const EdgeInsets.only(top: 20),
+  //         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+  //         decoration: BoxDecoration(
+  //           color: kColor(context).errorContainer,
+  //           borderRadius: kRadius(100),
+  //           boxShadow: [
+  //             BoxShadow(
+  //               color: kColor(context).errorContainer.withOpacity(.5),
+  //               blurRadius: 30,
+  //               spreadRadius: 5,
+  //             ),
+  //           ],
+  //         ),
+  //         child: Row(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             Icon(
+  //               Icons.signal_wifi_connected_no_internet_4_rounded,
+  //               color: kColor(context).onErrorContainer,
+  //             ),
+  //             width10,
+  //             Text(
+  //               "No Internet",
+  //               style: TextStyle(
+  //                 color: kColor(context).onErrorContainer,
+  //                 fontWeight: FontWeight.w700,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
 AppBar KAppBar(
@@ -152,7 +151,7 @@ AppBar KAppBar(
       child: isLoading
           ? const LinearProgressIndicator(
               minHeight: 2,
-              color: kPrimaryColor,
+              color: Light.primary,
               backgroundColor: Colors.white,
             )
           : const SizedBox(
@@ -185,8 +184,8 @@ Container kFullLoading(BuildContext context, {String? loadingText}) {
         SizedBox(
           width: 60,
           child: LinearProgressIndicator(
-            backgroundColor: kSecondaryColor,
-            color: kPrimaryColor,
+            backgroundColor: Light.secondary,
+            color: Light.primary,
             minHeight: 6,
           ),
         ),

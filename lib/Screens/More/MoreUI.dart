@@ -232,7 +232,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                               icon: const Icon(
                                 Icons.keyboard_command_key_sharp,
                                 size: 23,
-                                color: kPrimaryColor,
+                                color: Light.primary,
                               ),
                             ),
                             const Divider(),
@@ -244,7 +244,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                               icon: const Icon(
                                 Icons.lock_outline,
                                 size: 23,
-                                color: kPrimaryColor,
+                                color: Light.primary,
                               ),
                             ),
                             const Divider(),
@@ -316,7 +316,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                 SvgPicture.asset(
                   iconPath,
                   height: 20,
-                  colorFilter: kSvgColor(kPrimaryColor),
+                  colorFilter: kSvgColor(Light.primary),
                 ),
             width15,
             Expanded(

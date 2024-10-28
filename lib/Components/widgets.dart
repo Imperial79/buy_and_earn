@@ -63,7 +63,7 @@ Widget kCard({
               ),
               borderRadius: kRadius(7),
             ),
-            color: cardColor ?? kCardColor,
+            color: cardColor ?? Light.card,
             child: Padding(
               padding: padding ?? const EdgeInsets.all(12),
               child: child,
@@ -121,7 +121,7 @@ Widget kWalletCard(context) {
                 onPressed: () {
                   navPush(context, const WalletUI());
                 },
-                backgroundColor: kColor4,
+                backgroundColor: Light.quarternary,
                 foregroundColor: Colors.black,
                 label: "Recharge",
               ).pill,
@@ -149,7 +149,7 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
           child: SvgPicture.asset(
             kIconMap[data.source] ?? "$kServiceIcon/mobile.svg",
             height: 20,
-            colorFilter: kSvgColor(kPrimaryColor),
+            colorFilter: kSvgColor(Light.primary),
           ),
         ),
         width10,
@@ -389,7 +389,7 @@ Widget kClubModal(
                                   style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
-                                    color: kPrimaryColor,
+                                    color: Light.primary,
                                   ),
                                 ),
                                 height10,
@@ -398,7 +398,7 @@ Widget kClubModal(
                                   style: const TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.w900,
-                                    color: kPrimaryColor,
+                                    color: Light.primary,
                                   ),
                                 ),
                                 height20,
@@ -409,7 +409,7 @@ Widget kClubModal(
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 20,
-                                        color: kPrimaryColor),
+                                        color: Light.primary),
                                   )
                                 else
                                   Text(
@@ -472,14 +472,14 @@ Widget kClubModal(
                                         decoration: const BoxDecoration(
                                             border: Border(
                                                 bottom: BorderSide(
-                                                    color: kPrimaryColor,
+                                                    color: Light.primary,
                                                     width: 2))),
                                         child: Text(
                                           "At just ${kCurrencyFormat(data["clubHouseMembership"], decimalDigit: 0)}*",
                                           style: const TextStyle(
                                             fontSize: 25,
                                             fontWeight: FontWeight.w900,
-                                            color: kPrimaryColor,
+                                            color: Light.primary,
                                           ),
                                         ),
                                       ),
@@ -534,7 +534,7 @@ Widget kClubModal(
                                         onPressed: onPressed,
                                         elevation: 0,
                                         highlightElevation: 0,
-                                        color: kPrimaryColor,
+                                        color: Light.primary,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: kRadius(100),
                                         ),

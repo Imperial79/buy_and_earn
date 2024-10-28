@@ -10,6 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
+import '../../Utils/colors.dart';
+
 class TransactionDetailUI extends StatefulWidget {
   final Transactions_Model txnDetails;
   const TransactionDetailUI({super.key, required this.txnDetails});

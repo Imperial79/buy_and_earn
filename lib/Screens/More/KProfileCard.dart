@@ -100,7 +100,7 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                                           children: [
                                             const Icon(
                                               Icons.camera_alt,
-                                              color: kPrimaryColor,
+                                              color: Light.primary,
                                             ),
                                             height20,
                                             const Text(
@@ -129,7 +129,7 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                                           children: [
                                             const Icon(
                                               Icons.photo_sharp,
-                                              color: kPrimaryColor,
+                                              color: Light.primary,
                                             ),
                                             height20,
                                             const Text(
@@ -217,7 +217,7 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                               navPush(context, const EditProfileUI());
                             },
                             label: "Edit",
-                            backgroundColor: kColor4,
+                            backgroundColor: Light.quarternary,
                             foregroundColor: Colors.black,
                           ).pill,
                         ),

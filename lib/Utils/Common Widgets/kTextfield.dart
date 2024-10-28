@@ -1,27 +1,54 @@
-import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../colors.dart';
 import '../commons.dart';
+import 'kButton.dart';
 
 class KValidation {
-  static String? email(String? value) {
-    if (value == null || value.isEmpty) {
+  static String? required(String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Required!';
+    }
+    return null;
+  }
+
+  static String? phone(String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Required!';
+    } else if (val.length != 10) {
+      return "Phone must be of length 10!";
+    }
+    return null;
+  }
+
+  static String? email(String? val) {
+    if (val == null || val.isEmpty) {
       return 'Required!';
     }
     // Basic email pattern validation
     String pattern = r'^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
     RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value)) {
+    if (!regex.hasMatch(val)) {
       return 'Enter a valid email address';
+    }
+    return null;
+  }
+
+  static String? pan(String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Required!';
+    }
+    // Basic email pattern validation
+    else if (val.length != 10) {
+      return 'Length must be 10!';
     }
     return null;
   }
 }
 
 class KTextfield {
-  static const double kFontSize = 17;
-  static const double kTextHeight = 1.5;
+  static double kFontSize = 16;
+  static const double kTextHeight = 1;
 
   final bool showRequiredStar;
   final bool autoFocus;
@@ -37,6 +64,7 @@ class KTextfield {
   final Color? borderColor;
   final bool? obscureText;
   final int? maxLength;
+  final int? minLines;
   final int? maxLines;
   final FocusNode? focusNode;
   final String? label;
@@ -46,6 +74,7 @@ class KTextfield {
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final void Function(String)? onFieldSubmitted;
 
   KTextfield({
     this.showRequiredStar = true,
@@ -62,18 +91,22 @@ class KTextfield {
     this.borderColor,
     this.obscureText,
     this.maxLength,
+    this.minLines = 1,
     this.maxLines = 1,
     this.focusNode,
     this.label,
-    this.fontSize = kFontSize,
+    this.fontSize,
     this.labelIcon,
     this.textCapitalization = TextCapitalization.words,
     this.inputFormatters,
     this.onChanged,
     this.validator,
-  });
+    this.onFieldSubmitted,
+  }) {
+    kFontSize = fontSize ?? 0;
+  }
 
-  static TextStyle kFieldTextstyle = const TextStyle(
+  static TextStyle kFieldTextstyle = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: kFontSize,
     letterSpacing: .5,
@@ -84,8 +117,14 @@ class KTextfield {
     fontWeight: FontWeight.w400,
     fontSize: kFontSize,
     height: kTextHeight,
-    color: Colors.grey.shade600,
+    color: Colors.grey.shade700,
   );
+
+  InputBorder borderStyle(Color? customBorder) => OutlineInputBorder(
+        borderRadius: kRadius(10),
+        borderSide:
+            BorderSide(color: borderColor ?? customBorder ?? Light.border),
+      );
 
   Widget get regular => Column(
         mainAxisSize: MainAxisSize.min,
@@ -137,11 +176,11 @@ class KTextfield {
                   keyboardType: keyboardType,
                   maxLength: maxLength,
                   maxLines: maxLines,
-                  minLines: maxLines,
+                  minLines: minLines,
                   inputFormatters: inputFormatters,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: fieldColor ?? kCardColor,
+                    fillColor: fieldColor ?? Colors.white,
                     counterText: '',
                     prefixIconConstraints:
                         const BoxConstraints(minHeight: 0, minWidth: 0),
@@ -172,27 +211,16 @@ class KTextfield {
                           )
                         : const SizedBox(width: 12),
                     isDense: true,
-                    border: OutlineInputBorder(
-                      borderRadius: kRadius(10),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: kRadius(10),
-                      borderSide: BorderSide(color: Colors.red.shade300),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: kRadius(10),
-                      borderSide: BorderSide(color: Colors.grey.shade500),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: kRadius(10),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
-                    ),
+                    border: borderStyle(null),
+                    errorBorder: borderStyle(Colors.red.shade300),
+                    focusedBorder: borderStyle(Colors.grey.shade500),
+                    enabledBorder: borderStyle(null),
                     hintText: hintText,
                     hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
                   ),
                   onChanged: onChanged,
                   validator: validator,
+                  onFieldSubmitted: onFieldSubmitted,
                 ),
               ),
             ],
@@ -235,7 +263,7 @@ class KTextfield {
                       margin: const EdgeInsets.only(right: 10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: kSecondaryColor,
+                        color: Light.secondary,
                         borderRadius: kRadius(10),
                       ),
                       child: Text(
@@ -253,7 +281,7 @@ class KTextfield {
                           padding: const EdgeInsets.all(12),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: kSecondaryColor,
+                            color: Light.secondary,
                             borderRadius: kRadius(10),
                           ),
                           child: prefix!,
@@ -276,12 +304,12 @@ class KTextfield {
                   inputFormatters: inputFormatters,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: kCardColor,
+                    fillColor: Light.card,
                     counterText: '',
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: kRadius(10),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
+                      borderSide: const BorderSide(color: Light.border),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: kRadius(10),
@@ -293,7 +321,7 @@ class KTextfield {
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: kRadius(10),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
+                      borderSide: const BorderSide(color: Light.border),
                     ),
                     hintText: hintText,
                     hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
@@ -356,7 +384,7 @@ class KTextfield {
               activeIndicatorBorder: BorderSide(color: Colors.grey.shade500),
               border: OutlineInputBorder(
                 borderRadius: kRadius(10),
-                borderSide: BorderSide(color: Colors.grey.shade300),
+                borderSide: const BorderSide(color: Light.border),
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: kRadius(10),
@@ -368,10 +396,10 @@ class KTextfield {
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: kRadius(10),
-                borderSide: BorderSide(color: Colors.grey.shade300),
+                borderSide: const BorderSide(color: Light.border),
               ),
               filled: true,
-              fillColor: kCardColor,
+              fillColor: Light.card,
               hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
             ),
             selectedTrailingIcon: const Icon(Icons.keyboard_arrow_up_rounded),

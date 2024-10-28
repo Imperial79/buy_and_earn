@@ -133,8 +133,31 @@ class _KycUIState extends ConsumerState<KycUI> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${serverData?["status"]}"),
-                Text("${serverData?["remarks"]}"),
+                if (serverData?["status"] != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            kStatusIconMap[serverData?["status"]],
+                            color: kColorMapText[serverData?["status"]],
+                            size: 20,
+                          ),
+                          width5,
+                          Text(
+                            "${serverData?["status"]}",
+                            style: TextStyle(
+                              color: kColorMapText[serverData?["status"]],
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text("${serverData?["remarks"]}"),
+                    ],
+                  ),
                 height10,
                 kCard(
                   width: double.maxFinite,
@@ -342,7 +365,7 @@ class _KycUIState extends ConsumerState<KycUI> {
                       }
                     }
                   },
-                  backgroundColor: kColor4,
+                  backgroundColor: Light.quarternary,
                   label: "Update KYC Details",
                   foregroundColor: Colors.black,
                 ).full,

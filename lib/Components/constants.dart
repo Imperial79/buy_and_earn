@@ -1,13 +1,12 @@
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:crypto/crypto.dart';
-import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const kAppVersion = "1.0.5";
-const kAppBuild = "5";
+const kAppVersion = "1.0.7";
+const kAppBuild = "7";
 
 const String kImagePath = "assets/images";
 const String welcomeImages = "$kImagePath/welcome-images";
@@ -46,11 +45,11 @@ final kIconMap = {
   'Gift': "$kServiceIcon/gift.svg",
 };
 
-final kColorMap = {
-  'Failed': Colors.red.shade600,
-  'Pending': Colors.amber.shade600,
-  'Success': Colors.green.shade600,
-};
+// final kColorMap = {
+//   'Failed': Colors.red.shade600,
+//   'Pending': Colors.amber.shade600,
+//   'Success': Colors.green.shade600,
+// };
 
 List<String> kStatesList = [
   'Andhra Pradesh',

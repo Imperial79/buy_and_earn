@@ -30,7 +30,7 @@ class _KOtpFieldState extends State<KOtpField> {
           fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
         border: Border.all(
-          color: kSecondaryColor.withOpacity(.5),
+          color: Light.secondary.withOpacity(.5),
           width: 1,
         ),
         borderRadius: BorderRadius.circular(10),
@@ -45,7 +45,7 @@ class _KOtpFieldState extends State<KOtpField> {
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration!.copyWith(
         border: Border.all(
-          color: kPrimaryColor,
+          color: Light.primary,
           width: 1,
         ),
         color: kColor(context).primaryContainer.withOpacity(.5),

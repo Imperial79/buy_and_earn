@@ -142,7 +142,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
               if (_mpin_formKey.currentState!.validate()) _changePin("Mpin");
             },
             icon: const Icon(Icons.sync),
-            backgroundColor: kSecondaryColor,
+            backgroundColor: Light.secondary,
             label: "Update MPIN",
           ).withIcon,
         ],
@@ -206,7 +206,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
               if (_tpin_formKey.currentState!.validate()) _changePin("Tpin");
             },
             icon: const Icon(Icons.sync),
-            backgroundColor: kSecondaryColor,
+            backgroundColor: Light.secondary,
             label: "Update TPIN",
           ).withIcon,
         ],

@@ -49,7 +49,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               kCard(
-                cardColor: kPrimaryColor,
+                cardColor: Light.primary,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -274,83 +274,83 @@ class _WalletUIState extends ConsumerState<WalletUI> {
     );
   }
 
-  Widget _bankCard() {
-    return Card(
-      color: Colors.black,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Icon(
-                Icons.security_rounded,
-                size: 70,
-                color: Colors.white.withOpacity(.2),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.account_balance_outlined,
-                      color: Colors.white,
-                    ),
-                    width10,
-                    const Flexible(
-                      child: Text(
-                        "BankName",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                kHeight(40),
-                const Text(
-                  "Acc No",
-                  style: TextStyle(
-                    fontSize: 20,
-                    letterSpacing: 5,
-                    color: Colors.white,
-                  ),
-                ),
-                const Text(
-                  "IFSC",
-                  style: TextStyle(
-                    fontSize: 12,
-                    letterSpacing: 2,
-                    color: Colors.white,
-                  ),
-                ),
-                kHeight(30),
-                const Text(
-                  "Holder Name",
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.white,
-                  ),
-                ),
-                height5,
-                const Text(
-                  "Admin Name",
-                  style: TextStyle(
-                    fontSize: 16,
-                    letterSpacing: 2,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _bankCard() {
+  //   return Card(
+  //     color: Colors.black,
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(12),
+  //       child: Stack(
+  //         children: [
+  //           Align(
+  //             alignment: Alignment.topRight,
+  //             child: Icon(
+  //               Icons.security_rounded,
+  //               size: 70,
+  //               color: Colors.white.withOpacity(.2),
+  //             ),
+  //           ),
+  //           Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Row(
+  //                 children: [
+  //                   const Icon(
+  //                     Icons.account_balance_outlined,
+  //                     color: Colors.white,
+  //                   ),
+  //                   width10,
+  //                   const Flexible(
+  //                     child: Text(
+  //                       "BankName",
+  //                       style: TextStyle(
+  //                         fontSize: 15,
+  //                         color: Colors.white,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //               kHeight(40),
+  //               const Text(
+  //                 "Acc No",
+  //                 style: TextStyle(
+  //                   fontSize: 20,
+  //                   letterSpacing: 5,
+  //                   color: Colors.white,
+  //                 ),
+  //               ),
+  //               const Text(
+  //                 "IFSC",
+  //                 style: TextStyle(
+  //                   fontSize: 12,
+  //                   letterSpacing: 2,
+  //                   color: Colors.white,
+  //                 ),
+  //               ),
+  //               kHeight(30),
+  //               const Text(
+  //                 "Holder Name",
+  //                 style: TextStyle(
+  //                   fontSize: 11,
+  //                   color: Colors.white,
+  //                 ),
+  //               ),
+  //               height5,
+  //               const Text(
+  //                 "Admin Name",
+  //                 style: TextStyle(
+  //                   fontSize: 16,
+  //                   letterSpacing: 2,
+  //                   color: Colors.white,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _statCard(
     String label,
@@ -362,7 +362,7 @@ class _WalletUIState extends ConsumerState<WalletUI> {
       shape: RoundedRectangleBorder(
         borderRadius: kRadius(10),
       ),
-      color: kCardColor,
+      color: Light.card,
       child: SizedBox(
         width: double.maxFinite,
         child: Padding(

@@ -49,7 +49,7 @@ class _HelpUIState extends State<HelpUI> {
         title: const Text(
           "Support",
           style: TextStyle(
-            color: kPrimaryColor,
+            color: Light.primary,
             fontWeight: FontWeight.w600,
             letterSpacing: 1,
             fontFamily: 'DmSans',
@@ -60,7 +60,7 @@ class _HelpUIState extends State<HelpUI> {
           child: _progress == 0 || _progress == 1
               ? const SizedBox()
               : LinearProgressIndicator(
-                  color: kPrimaryColor,
+                  color: Light.primary,
                   value: _progress,
                 ),
         ),

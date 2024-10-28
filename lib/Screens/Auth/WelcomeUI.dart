@@ -67,7 +67,7 @@ class _WelcomeUIState extends State<WelcomeUI> {
           },
           label: "Proceed",
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-          backgroundColor: kSecondaryColor,
+          backgroundColor: Light.secondary,
         ).thickPill,
       ),
     );

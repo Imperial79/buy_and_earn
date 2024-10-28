@@ -192,7 +192,7 @@ class _EditProfileUIState extends ConsumerState<EditProfileUI> {
                       Icons.update,
                       color: Colors.black,
                     ),
-                    backgroundColor: kColor4,
+                    backgroundColor: Light.quarternary,
                     foregroundColor: Colors.black,
                   ).withIcon,
                 ],

@@ -89,7 +89,7 @@ class _Mobile_Providers_UIState extends ConsumerState<Providers_UI> {
                         },
                         child: Container(
                           padding: const EdgeInsets.all(12),
-                          color: kCardColor,
+                          color: Light.card,
                           child: Row(
                             children: [
                               SizedBox(

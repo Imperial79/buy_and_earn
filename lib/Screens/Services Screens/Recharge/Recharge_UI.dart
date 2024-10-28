@@ -151,7 +151,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
         setState(() {});
       },
       child: Container(
-        color: kCardColor,
+        color: Light.card,
         padding: const EdgeInsets.all(12),
         child: Row(
           children: [

@@ -237,7 +237,7 @@ class _Recharge_Loading_UIState extends ConsumerState<Recharge_Loading_UI> {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: KButton(
-                backgroundColor: kSecondaryColor,
+                backgroundColor: Light.secondary,
                 onPressed: () {
                   navPopUntilPush(context, const RootUI());
                 },

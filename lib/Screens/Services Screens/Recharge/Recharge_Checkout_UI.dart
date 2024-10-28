@@ -241,7 +241,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                 ),
               );
             },
-            backgroundColor: kPrimaryColor,
+            backgroundColor: Light.primary,
             label: "Pay",
             icon: Text(kCurrencyFormat("$netPayable")),
             fontSize: 16,

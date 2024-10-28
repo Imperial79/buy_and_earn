@@ -95,7 +95,7 @@ void KSnackbar(
     snackbarDuration: const Duration(seconds: 3),
     builder: (context) => ToastCard(
       shadowColor: Colors.transparent,
-      color: isDanger ? Colors.red.shade700 : kSecondaryColor,
+      color: isDanger ? Colors.red.shade700 : Light.secondary,
       leading: Icon(
         isDanger ? Icons.dangerous : Icons.verified,
         size: 28,

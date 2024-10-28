@@ -66,29 +66,29 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
     setState(() => _isLoading = false);
   }
 
-  _sendOtp() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
-      final res = await ref
-          .read(authRepository)
-          .sendOtp({"phone": phone.text, "otpType": "Register"});
-      if (!res.error) {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          enableDrag: true,
-          isDismissible: false,
-          builder: (BuildContext context) {
-            return confirmationOTPModal();
-          },
-        );
-        _startTimer();
-      } else {
-        KSnackbar(context, content: res.message, isDanger: res.error);
-      }
-      setState(() => _isLoading = false);
-    }
-  }
+  // _sendOtp() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     setState(() => _isLoading = true);
+  //     final res = await ref
+  //         .read(authRepository)
+  //         .sendOtp({"phone": phone.text, "otpType": "Register"});
+  //     if (!res.error) {
+  //       showModalBottomSheet(
+  //         context: context,
+  //         isScrollControlled: true,
+  //         enableDrag: true,
+  //         isDismissible: false,
+  //         builder: (BuildContext context) {
+  //           return confirmationOTPModal();
+  //         },
+  //       );
+  //       _startTimer();
+  //     } else {
+  //       KSnackbar(context, content: res.message, isDanger: res.error);
+  //     }
+  //     setState(() => _isLoading = false);
+  //   }
+  // }
 
   _resendOtp() async {
     if (_formKey.currentState!.validate()) {
@@ -180,11 +180,9 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
                       onTap: () async {
                         await launchUrl(Uri.parse("https://wa.me/7454038717"));
                       },
-                      child: CircleAvatar(
-                        radius: 18,
-                        child: SvgPicture.asset(
-                          "assets/icons/whatsapp.svg",
-                        ),
+                      child: SvgPicture.asset(
+                        "assets/icons/whatsapp.svg",
+                        height: 40,
                       ),
                     )
                   ],

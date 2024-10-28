@@ -10,9 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../Repository/auth_repository.dart';
-import '../Repository/notification_methods.dart';
-
 final navigationProvider = StateProvider<int>((ref) => 0);
 
 class RootUI extends ConsumerStatefulWidget {
@@ -106,27 +103,27 @@ class _RootUIState extends ConsumerState<RootUI> {
   // }
 
   bool canPop = false;
-  _popScope() {
-    setState(() {
-      canPop = true;
-    });
+  // _popScope() {
+  //   setState(() {
+  //     canPop = true;
+  //   });
 
-    KSnackbar(
-      context,
-      content: "Click back again to exit...",
-      isDanger: false,
-      showIcon: false,
-    );
+  //   KSnackbar(
+  //     context,
+  //     content: "Click back again to exit...",
+  //     isDanger: false,
+  //     showIcon: false,
+  //   );
 
-    Future.delayed(
-      const Duration(seconds: 3),
-      () {
-        setState(() {
-          canPop = false;
-        });
-      },
-    );
-  }
+  //   Future.delayed(
+  //     const Duration(seconds: 3),
+  //     () {
+  //       setState(() {
+  //         canPop = false;
+  //       });
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +157,7 @@ class _RootUIState extends ConsumerState<RootUI> {
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: kCardColor,
+          color: Light.card,
           borderRadius: kRadius(12),
           border: Border.all(color: Colors.grey.shade300, width: 1),
           // boxShadow: [
@@ -226,7 +223,7 @@ class _RootUIState extends ConsumerState<RootUI> {
             SvgPicture.asset(
               isActive ? selectedIconPath : iconPath,
               height: 20,
-              colorFilter: kSvgColor(isActive ? kSecondaryColor : Colors.grey),
+              colorFilter: kSvgColor(isActive ? Light.secondary : Colors.grey),
             ),
             Flexible(
               child: AnimatedSize(
@@ -238,22 +235,20 @@ class _RootUIState extends ConsumerState<RootUI> {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom:
-                                BorderSide(color: kSecondaryColor, width: 2),
+                                BorderSide(color: Light.secondary, width: 2),
                           ),
                         ),
                         child: Text(
                           label,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            color: kSecondaryColor,
+                            color: Light.secondary,
                           ),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
                       )
-                    : Container(
-                        child: const Text(""),
-                      ),
+                    : const Text(""),
               ),
             ),
           ],

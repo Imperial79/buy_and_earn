@@ -88,9 +88,9 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                       onTap: () async {
                         await launchUrl(Uri.parse("https://wa.me/7454038717"));
                       },
-                      child: CircleAvatar(
-                        radius: 18,
-                        child: SvgPicture.asset("assets/icons/whatsapp.svg"),
+                      child: SvgPicture.asset(
+                        "assets/icons/whatsapp.svg",
+                        height: 40,
                       ),
                     )
                   ],

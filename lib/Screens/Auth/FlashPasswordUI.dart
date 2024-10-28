@@ -9,8 +9,8 @@ import '../../Utils/Common Widgets/kButton.dart';
 import '../../Utils/commons.dart';
 
 class FlashPasswordUI extends ConsumerStatefulWidget {
-  final mpin;
-  final tpin;
+  final String mpin;
+  final String tpin;
   const FlashPasswordUI({super.key, required this.mpin, required this.tpin});
 
   @override
@@ -19,8 +19,8 @@ class FlashPasswordUI extends ConsumerStatefulWidget {
 }
 
 class _FlashPasswordUIState extends ConsumerState<FlashPasswordUI> {
-  final mpin;
-  final tpin;
+  final String mpin;
+  final String tpin;
   _FlashPasswordUIState({required this.mpin, required this.tpin});
 
   String decryptedMpin = "";

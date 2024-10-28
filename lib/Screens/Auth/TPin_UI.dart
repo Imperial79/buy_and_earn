@@ -30,7 +30,7 @@ class _TPin_UIState extends State<TPin_UI> {
                       "Verification",
                       style: TextStyle(
                         fontSize: 30,
-                        color: kPrimaryColor,
+                        color: Light.primary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -109,7 +109,7 @@ class _TPin_UIState extends State<TPin_UI> {
         padding: const EdgeInsets.all(3.0),
         child: InkWell(
           borderRadius: kRadius(5),
-          splashColor: kPrimaryColor,
+          splashColor: Light.primary,
           onLongPress: () {
             if (isDelete) {
               setState(() {

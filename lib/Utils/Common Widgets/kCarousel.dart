@@ -147,7 +147,7 @@ class _KCarouselState extends State<KCarousel> {
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
             borderRadius: kRadius(100),
-            color: isActive ? kSecondaryColor : Colors.grey.shade300,
+            color: isActive ? Light.secondary : Colors.grey.shade300,
           ),
         );
       }),

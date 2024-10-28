@@ -16,7 +16,7 @@ class KButton {
   KButton({
     required this.onPressed,
     this.label = "Label",
-    this.backgroundColor = kPrimaryColor,
+    this.backgroundColor = Light.primary,
     this.foregroundColor = Colors.white,
     this.fontSize = 15,
     this.icon,
@@ -57,7 +57,7 @@ class KButton {
         onPressed: onPressed,
         style: customStyle ??
             _buttonStyle(
-              backgroundColor: backgroundColor ?? kSecondaryColor,
+              backgroundColor: backgroundColor ?? Light.secondary,
               foregroundColor: foregroundColor ?? Colors.white,
             ),
         child: SizedBox(
@@ -74,9 +74,9 @@ class KButton {
         onPressed: onPressed,
         style: customStyle ??
             _buttonStyle(
-              side: BorderSide(color: backgroundColor ?? kPrimaryColor),
+              side: BorderSide(color: backgroundColor ?? Light.primary),
               backgroundColor: Colors.transparent,
-              foregroundColor: backgroundColor ?? kPrimaryColor,
+              foregroundColor: backgroundColor ?? Light.primary,
             ),
         child: SizedBox(
           width: double.maxFinite,
@@ -100,9 +100,9 @@ class KButton {
         onPressed: onPressed,
         style: customStyle ??
             _buttonStyle(
-              side: BorderSide(color: backgroundColor ?? kPrimaryColor),
+              side: BorderSide(color: backgroundColor ?? Light.primary),
               backgroundColor: Colors.transparent,
-              foregroundColor: backgroundColor ?? kPrimaryColor,
+              foregroundColor: backgroundColor ?? Light.primary,
               padding: const EdgeInsets.symmetric(horizontal: 15),
             ),
         child: Row(
@@ -123,7 +123,7 @@ class KButton {
         onPressed: onPressed,
         style: customStyle ??
             _buttonStyle(
-              backgroundColor: backgroundColor ?? kPrimaryColor,
+              backgroundColor: backgroundColor ?? Light.primary,
               foregroundColor: foregroundColor ?? Colors.white,
             ),
         child: Text(
@@ -137,7 +137,7 @@ class KButton {
         onPressed: onPressed,
         style: customStyle ??
             _buttonStyle(
-              backgroundColor: backgroundColor ?? kPrimaryColor,
+              backgroundColor: backgroundColor ?? Light.primary,
               foregroundColor: foregroundColor ?? Colors.white,
             ),
         child: Row(
@@ -159,7 +159,7 @@ class KButton {
           shape: RoundedRectangleBorder(
             borderRadius: kRadius(100),
           ),
-          backgroundColor: backgroundColor ?? kPrimaryColor,
+          backgroundColor: backgroundColor ?? Light.primary,
           foregroundColor: foregroundColor ?? Colors.white,
           padding: padding ?? const EdgeInsets.symmetric(horizontal: 15),
         ),
@@ -171,7 +171,7 @@ class KButton {
         onPressed: onPressed,
         style: customStyle ??
             _buttonStyle(
-              backgroundColor: backgroundColor ?? kSecondaryColor,
+              backgroundColor: backgroundColor ?? Light.secondary,
               foregroundColor: foregroundColor ?? Colors.white,
               padding: padding ??
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 17),

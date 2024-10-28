@@ -78,7 +78,9 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                     ],
                   ),
                   referSettings.when(
-                    data: (data) => data.response['referralAmount'] > 0
+                    data: (data) => parseToDouble(
+                                data.response['referralAmount']) >
+                            0
                         ? Padding(
                             padding: const EdgeInsets.only(top: 20.0),
                             child: Card(
@@ -225,7 +227,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) => Card(
-                                  color: kCardColor,
+                                  color: Light.card,
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: Row(
@@ -322,7 +324,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
       scrollDirection: Axis.horizontal,
       child: DataTable(
         decoration: BoxDecoration(
-          color: kCardColor,
+          color: Light.card,
           borderRadius: kRadius(10),
         ),
         columns: const [
