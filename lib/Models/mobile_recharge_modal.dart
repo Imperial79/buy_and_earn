@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:buy_and_earn/Utils/commons.dart';
+
 class Mobile_Recharge_Model {
   String service = "";
   int? providerId = 0;
@@ -64,7 +66,7 @@ class Mobile_Recharge_Model {
       circle: map['circle'],
       customerName: map['customerName'],
       customerPhone: map['customerPhone'],
-      planAmount: double.parse("${map['planAmount']}"),
+      planAmount: parseToDouble(map['planAmount']),
     );
   }
 

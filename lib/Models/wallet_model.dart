@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:buy_and_earn/Utils/commons.dart';
+
 class WalletModel {
   int id = 0;
   int customerId = 0;
@@ -77,17 +79,16 @@ class WalletModel {
     return WalletModel(
       id: map['id']?.toInt() ?? 0,
       customerId: map['customerId']?.toInt() ?? 0,
-      selfCashback: map['selfCashback']?.toDouble() ?? 0.0,
-      levelCommission: map['levelCommission']?.toDouble() ?? 0.0,
-      workingBonus: map['workingBonus']?.toDouble() ?? 0.0,
-      reward: map['reward']?.toDouble() ?? 0.0,
-      clubhouseCommission: map['clubhouseCommission']?.toDouble() ?? 0.0,
-      royalAchieversCommission:
-          map['royalAchieversCommission']?.toDouble() ?? 0.0,
-      lastMonthTdsDeducted: map['lastMonthTdsDeducted']?.toDouble() ?? 0.0,
-      balance: map['balance']?.toDouble() ?? 0.0,
+      selfCashback: parseToDouble(map['selfCashback']),
+      levelCommission: parseToDouble(map['levelCommission']),
+      workingBonus: parseToDouble(map['workingBonus']),
+      reward: parseToDouble(map['reward']),
+      clubhouseCommission: parseToDouble(map['clubhouseCommission']),
+      royalAchieversCommission: parseToDouble(map['royalAchieversCommission']),
+      lastMonthTdsDeducted: parseToDouble(map['lastMonthTdsDeducted']),
+      balance: parseToDouble(map['balance']),
       lastMonthCommissionEarned:
-          map['lastMonthCommissionEarned']?.toDouble() ?? 0.0,
+          parseToDouble(map['lastMonthCommissionEarned']),
     );
   }
 

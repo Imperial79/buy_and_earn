@@ -133,6 +133,9 @@ class _KycUIState extends ConsumerState<KycUI> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text("${serverData?["status"]}"),
+                Text("${serverData?["remarks"]}"),
+                height10,
                 kCard(
                   width: double.maxFinite,
                   child: Column(
@@ -294,8 +297,9 @@ class _KycUIState extends ConsumerState<KycUI> {
                         validator: (val) {
                           if (val!.isEmpty) {
                             return "Required!";
-                          } else if (val.length != 10)
+                          } else if (val.length != 10) {
                             return "Length must be 10!";
+                          }
                           return null;
                         },
                       ).regular,

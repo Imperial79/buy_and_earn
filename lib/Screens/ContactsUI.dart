@@ -46,7 +46,6 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
         ref.read(hasContactPermission.notifier).state = false;
       }
     } catch (e) {
-      log("$e");
       KSnackbar(context, content: "Something went wrong!", isDanger: true);
     } finally {
       setState(() {

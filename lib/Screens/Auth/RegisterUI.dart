@@ -11,6 +11,8 @@ import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Utils/Common Widgets/kButton.dart';
 import '../../Utils/Common Widgets/kTextfield.dart';
 import '../../Utils/commons.dart';
@@ -164,12 +166,28 @@ class _RegisterUIState extends ConsumerState<RegisterUI> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 height15,
-                const Text(
-                  "Create Account",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 25,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Create Account",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 25,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        await launchUrl(Uri.parse("https://wa.me/7454038717"));
+                      },
+                      child: CircleAvatar(
+                        radius: 18,
+                        child: SvgPicture.asset(
+                          "assets/icons/whatsapp.svg",
+                        ),
+                      ),
+                    )
+                  ],
                 ),
                 height15,
                 Row(

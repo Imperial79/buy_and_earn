@@ -110,8 +110,9 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             validator: (val) {
               if (val!.isEmpty) {
                 return "Required!";
-              } else if (val.length < 4)
+              } else if (val.length < 4) {
                 return "Length must be greater than 3 chars!";
+              }
               return null;
             },
           ).regular,
@@ -126,8 +127,9 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             validator: (val) {
               if (val!.isEmpty) {
                 return "Required!";
-              } else if (val.length < 4)
+              } else if (val.length < 4) {
                 return "Length must be greater than 3 chars!";
+              }
               return null;
             },
           ).regular,
@@ -172,7 +174,9 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             validator: (val) {
               if (val!.isEmpty) {
                 return "Required!";
-              } else if (val.length != 6) return "Length must be 6";
+              } else if (val.length != 6) {
+                return "Length must be 6";
+              }
               return null;
             },
           ).regular,
@@ -187,7 +191,9 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
             validator: (val) {
               if (val!.isEmpty) {
                 return "Required!";
-              } else if (val.length != 6) return "Length must be 6";
+              } else if (val.length != 6) {
+                return "Length must be 6";
+              }
               return null;
             },
           ).regular,

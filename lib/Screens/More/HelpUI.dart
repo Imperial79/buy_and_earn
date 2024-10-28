@@ -23,7 +23,6 @@ class _HelpUIState extends State<HelpUI> {
           onProgress: (int progress) {
             setState(() {
               _progress = progress / 100;
-              print(_progress);
             });
           },
           onPageStarted: (String url) {},

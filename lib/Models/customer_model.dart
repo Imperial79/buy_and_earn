@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:buy_and_earn/Utils/commons.dart';
 
 class CustomerModel {
   int id = 0;
@@ -20,7 +21,7 @@ class CustomerModel {
   double idActiveAmount = 0;
   double idActiveMinThreshold = 0;
   bool isMember = false;
-  bool isKycDone = false;
+  String kycStatus = "";
   CustomerModel({
     required this.id,
     this.dp,
@@ -41,7 +42,7 @@ class CustomerModel {
     required this.idActiveAmount,
     required this.idActiveMinThreshold,
     required this.isMember,
-    required this.isKycDone,
+    required this.kycStatus,
   });
 
   CustomerModel copyWith({
@@ -64,7 +65,7 @@ class CustomerModel {
     double? idActiveAmount,
     double? idActiveMinThreshold,
     bool? isMember,
-    bool? isKycDone,
+    String? kycStatus,
   }) {
     return CustomerModel(
       id: id ?? this.id,
@@ -86,7 +87,7 @@ class CustomerModel {
       idActiveAmount: idActiveAmount ?? this.idActiveAmount,
       idActiveMinThreshold: idActiveMinThreshold ?? this.idActiveMinThreshold,
       isMember: isMember ?? this.isMember,
-      isKycDone: isKycDone ?? this.isKycDone,
+      kycStatus: kycStatus ?? this.kycStatus,
     );
   }
 
@@ -111,7 +112,7 @@ class CustomerModel {
       'idActiveAmount': idActiveAmount,
       'idActiveMinThreshold': idActiveMinThreshold,
       'isMember': isMember,
-      'isKycDone': isKycDone,
+      'kycStatus': kycStatus,
     };
   }
 
@@ -133,10 +134,10 @@ class CustomerModel {
       status: map['status'] ?? '',
       lastLogin: map['lastLogin'] ?? '',
       date: map['date'] ?? '',
-      idActiveAmount: map['idActiveAmount']?.toDouble() ?? 0.0,
-      idActiveMinThreshold: map['idActiveMinThreshold']?.toDouble() ?? 0.0,
+      idActiveAmount: parseToDouble(map['idActiveAmount']),
+      idActiveMinThreshold: parseToDouble(map['idActiveMinThreshold']),
       isMember: map['isMember'] == "true",
-      isKycDone: map['isKycDone'] == "true",
+      kycStatus: map['kycStatus'] ?? '',
     );
   }
 
@@ -147,7 +148,7 @@ class CustomerModel {
 
   @override
   String toString() {
-    return 'CustomerModel(id: $id, name: $name, phone: $phone, email: $email, state: $state, city: $city, referCode: $referCode, level: $level, firstService: $firstService, referrerCode: $referrerCode, fcmToken: $fcmToken, status: $status, lastLogin: $lastLogin, date: $date, idActiveAmount: $idActiveAmount, idActiveMinThreshold: $idActiveMinThreshold)';
+    return 'CustomerModel(id: $id, dp: $dp, name: $name, phone: $phone, email: $email, state: $state, city: $city, pinCode: $pinCode, referCode: $referCode, level: $level, firstService: $firstService, referrerCode: $referrerCode, fcmToken: $fcmToken, status: $status, lastLogin: $lastLogin, date: $date, idActiveAmount: $idActiveAmount, idActiveMinThreshold: $idActiveMinThreshold, isMember: $isMember, kycStatus: $kycStatus)';
   }
 
   @override
@@ -174,17 +175,19 @@ class CustomerModel {
         other.idActiveAmount == idActiveAmount &&
         other.idActiveMinThreshold == idActiveMinThreshold &&
         other.isMember == isMember &&
-        other.isKycDone == isKycDone;
+        other.kycStatus == kycStatus;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
+        dp.hashCode ^
         name.hashCode ^
         phone.hashCode ^
         email.hashCode ^
         state.hashCode ^
         city.hashCode ^
+        pinCode.hashCode ^
         referCode.hashCode ^
         level.hashCode ^
         firstService.hashCode ^
@@ -194,6 +197,8 @@ class CustomerModel {
         lastLogin.hashCode ^
         date.hashCode ^
         idActiveAmount.hashCode ^
-        idActiveMinThreshold.hashCode;
+        idActiveMinThreshold.hashCode ^
+        isMember.hashCode ^
+        kycStatus.hashCode;
   }
 }

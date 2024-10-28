@@ -48,19 +48,19 @@ class _RootUIState extends ConsumerState<RootUI> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) => _init(),
-    );
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //   (timeStamp) => _init(),
+    // );
   }
 
-  _init() {
-    if (!ref.read(customerProvider)!.isKycDone) {
-      ref.read(sendNotificationRepository).localNotification(
-            title: "KYC Pending",
-            body: "Upload documents to complete your KYC.",
-          );
-    }
-  }
+  // _init() {
+  //   if (!ref.read(customerProvider)!.isKycDone) {
+  //     ref.read(sendNotificationRepository).localNotification(
+  //           title: "KYC Pending",
+  //           body: "Upload documents to complete your KYC.",
+  //         );
+  //   }
+  // }
 
   // Future<void> _buyMembership() async {
   //   try {

@@ -1,4 +1,3 @@
-import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Models/customer_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/notification_methods.dart';
@@ -11,6 +10,8 @@ import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginUI extends ConsumerStatefulWidget {
   const LoginUI({super.key});
@@ -24,13 +25,6 @@ class _LoginUIState extends ConsumerState<LoginUI> {
   final phone = TextEditingController();
   final mpin = TextEditingController();
   bool _isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // print(encryptDecryptText("encrypt", "1234"));
-    print(encryptDecryptText("decrypt", "hFG8q/vivaVSKkMwojycrA=="));
-  }
 
   @override
   void dispose() {
@@ -80,12 +74,26 @@ class _LoginUIState extends ConsumerState<LoginUI> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 height15,
-                const Text(
-                  "Login",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 25,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Login",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 25,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        await launchUrl(Uri.parse("https://wa.me/7454038717"));
+                      },
+                      child: CircleAvatar(
+                        radius: 18,
+                        child: SvgPicture.asset("assets/icons/whatsapp.svg"),
+                      ),
+                    )
+                  ],
                 ),
                 height15,
                 Row(
@@ -119,7 +127,9 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                   validator: (val) {
                     if (val!.isEmpty) {
                       return "Required!";
-                    } else if (val.length != 10) return "Length must be 10!";
+                    } else if (val.length != 10) {
+                      return "Length must be 10!";
+                    }
                     return null;
                   },
                 ).regular,

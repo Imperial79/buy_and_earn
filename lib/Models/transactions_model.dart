@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:buy_and_earn/Utils/commons.dart';
+
 class Transactions_Model {
   int id = 0;
   int customerId = 0;
@@ -63,7 +65,7 @@ class Transactions_Model {
       id: map['id']?.toInt() ?? 0,
       customerId: map['customerId']?.toInt() ?? 0,
       title: map['title'] ?? '',
-      amount: map['amount']?.toDouble() ?? 0.0,
+      amount: parseToDouble(map['amount']),
       paymentBreakdown: jsonDecode(map['paymentBreakdown'] ?? '{}'),
       type: map['type'] ?? '',
       source: map['source'] ?? '',

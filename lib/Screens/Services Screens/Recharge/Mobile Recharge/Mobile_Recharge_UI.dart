@@ -78,8 +78,9 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                         validator: (val) {
                           if (val!.isEmpty) {
                             return "Required!";
-                          } else if (val.length != 10)
+                          } else if (val.length != 10) {
                             return "Length must be 10!";
+                          }
                           return null;
                         },
                       ).regular,

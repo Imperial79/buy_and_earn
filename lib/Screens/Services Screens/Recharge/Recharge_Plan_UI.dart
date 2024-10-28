@@ -85,8 +85,9 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
                         validator: (val) {
                           if (val!.isEmpty) {
                             return "Required!";
-                          } else if (int.parse(val) < 1)
+                          } else if (int.parse(val) < 1) {
                             return "Enter valid amount!";
+                          }
                           return null;
                         },
                       ).regular,

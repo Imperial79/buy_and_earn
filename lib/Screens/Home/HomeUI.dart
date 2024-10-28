@@ -49,12 +49,23 @@ class _HomeUIState extends ConsumerState<HomeUI> {
               height15,
               kReminderCard(
                 context,
-                visible: ref.watch(showKycReminder) && !customer!.isKycDone,
+                visible: ref.watch(showKycReminder) &&
+                    customer!.kycStatus != "Verified",
+                cardColor: customer!.kycStatus == "Processing"
+                    ? Colors.amber.shade100
+                    : customer.kycStatus == "Rejected"
+                        ? Colors.red.shade100
+                        : Colors.amber.shade100,
+                iconColor: customer.kycStatus == "Processing"
+                    ? Colors.amber.shade900
+                    : customer.kycStatus == "Rejected"
+                        ? Colors.red.shade900
+                        : Colors.amber.shade900,
                 onTap: () {
                   navPush(context, const KycUI());
                 },
-                title: "KYC Pending",
-                subTitle: "Upload necessary documents to complete your KYC.",
+                title: "KYC ${customer.kycStatus}",
+                subTitle: "Tap to view KYC Details",
                 onClose: () {
                   ref.read(showKycReminder.notifier).state = false;
                 },
@@ -63,7 +74,7 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                 context,
                 icon: Icons.info,
                 visible: ref.watch(showProfileReminder) &&
-                    customer!.status == "Pending",
+                    customer.status == "Pending",
                 cardColor: Colors.amber.shade100,
                 iconColor: Colors.amber.shade900,
                 title: "Profile Pending",
