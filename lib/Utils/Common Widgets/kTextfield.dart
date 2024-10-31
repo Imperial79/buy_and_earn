@@ -47,9 +47,6 @@ class KValidation {
 }
 
 class KTextfield {
-  static double kFontSize = 16;
-  static const double kTextHeight = 1;
-
   final bool showRequiredStar;
   final bool autoFocus;
   final void Function()? onTap;
@@ -102,23 +99,7 @@ class KTextfield {
     this.onChanged,
     this.validator,
     this.onFieldSubmitted,
-  }) {
-    kFontSize = fontSize ?? 0;
-  }
-
-  static TextStyle kFieldTextstyle = TextStyle(
-    fontWeight: FontWeight.w500,
-    fontSize: kFontSize,
-    letterSpacing: .5,
-    height: kTextHeight,
-  );
-
-  static TextStyle kHintTextstyle = TextStyle(
-    fontWeight: FontWeight.w400,
-    fontSize: kFontSize,
-    height: kTextHeight,
-    color: Colors.grey.shade700,
-  );
+  });
 
   InputBorder borderStyle(Color? customBorder) => OutlineInputBorder(
         borderRadius: kRadius(10),
@@ -168,8 +149,11 @@ class KTextfield {
                   focusNode: focusNode,
                   controller: controller,
                   textCapitalization: textCapitalization,
-                  style: kFieldTextstyle.copyWith(
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
                     fontSize: fontSize,
+                    letterSpacing: .5,
+                    height: 1.5,
                   ),
                   readOnly: readOnly ?? false,
                   obscureText: obscureText ?? false,
@@ -191,8 +175,11 @@ class KTextfield {
                             padding: const EdgeInsets.only(left: 12, right: 5),
                             child: Text(
                               prefixText!,
-                              style: kFieldTextstyle.copyWith(
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
                                 fontSize: fontSize,
+                                letterSpacing: .5,
+                                height: 1.5,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -216,7 +203,12 @@ class KTextfield {
                     focusedBorder: borderStyle(Colors.grey.shade500),
                     enabledBorder: borderStyle(null),
                     hintText: hintText,
-                    hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: fontSize,
+                      height: 1.5,
+                      color: Colors.grey.shade700,
+                    ),
                   ),
                   onChanged: onChanged,
                   validator: validator,
@@ -291,8 +283,11 @@ class KTextfield {
                 child: TextFormField(
                   controller: controller,
                   textCapitalization: textCapitalization,
-                  style: kFieldTextstyle.copyWith(
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
                     fontSize: fontSize,
+                    letterSpacing: .5,
+                    height: 1.5,
                   ),
                   textAlign: TextAlign.center,
                   readOnly: readOnly ?? false,
@@ -324,7 +319,12 @@ class KTextfield {
                       borderSide: const BorderSide(color: Light.border),
                     ),
                     hintText: hintText,
-                    hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: fontSize,
+                      height: 1.5,
+                      color: Colors.grey.shade700,
+                    ),
                   ),
                   onChanged: onChanged,
                   validator: validator,
@@ -375,8 +375,11 @@ class KTextfield {
           DropdownMenu(
             controller: controller,
             hintText: hintText,
-            textStyle: kFieldTextstyle.copyWith(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w500,
               fontSize: fontSize,
+              letterSpacing: .5,
+              height: 1.5,
             ),
             onSelected: onSelected,
             expandedInsets: EdgeInsets.zero,
@@ -400,7 +403,12 @@ class KTextfield {
               ),
               filled: true,
               fillColor: Light.card,
-              hintStyle: kHintTextstyle.copyWith(fontSize: fontSize),
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: fontSize,
+                height: 1.5,
+                color: Colors.grey.shade700,
+              ),
             ),
             selectedTrailingIcon: const Icon(Icons.keyboard_arrow_up_rounded),
             trailingIcon: const Icon(Icons.keyboard_arrow_down_rounded),
