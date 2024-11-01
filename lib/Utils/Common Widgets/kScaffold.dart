@@ -181,7 +181,7 @@ Container kFullLoading(BuildContext context, {String? loadingText}) {
                 ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 60,
           child: LinearProgressIndicator(
             backgroundColor: Light.secondary,

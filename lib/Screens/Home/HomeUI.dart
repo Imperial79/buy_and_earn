@@ -3,6 +3,7 @@ import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/carousel_repository.dart';
 import 'package:buy_and_earn/Repository/kyc_repository.dart';
+import 'package:buy_and_earn/Screens/Home/Reminder_Card.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Providers_UI.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kCarousel.dart';
@@ -46,60 +47,50 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                   ],
                 ),
               ),
-              height15,
-              kReminderCard(
-                context,
-                visible: ref.watch(showKycReminder) &&
-                    customer!.kycStatus != "Verified",
-                cardColor: customer!.kycStatus == "Processing"
-                    ? Colors.amber.shade100
-                    : customer.kycStatus == "Rejected"
-                        ? Colors.red.shade100
-                        : Colors.amber.shade100,
-                iconColor: customer.kycStatus == "Processing"
-                    ? Colors.amber.shade900
-                    : customer.kycStatus == "Rejected"
-                        ? Colors.red.shade900
-                        : Colors.amber.shade900,
-                onTap: () {
-                  navPush(context, const KycUI());
-                },
-                title: "KYC ${customer.kycStatus}",
-                subTitle: "Tap to view KYC Details",
-                onClose: () {
-                  ref.read(showKycReminder.notifier).state = false;
-                },
-              ),
-              kReminderCard(
-                context,
-                icon: Icons.info,
-                visible: ref.watch(showProfileReminder) &&
-                    customer.status == "Pending",
-                cardColor: Colors.amber.shade100,
-                iconColor: Colors.amber.shade900,
-                title: "Profile Pending",
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
                   children: [
-                    height5,
-                    const Text(
-                      "Reasons -",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                    Expanded(
+                      child: ReminderCard(
+                        visible: ref.watch(showKycReminder) &&
+                            customer!.kycStatus != "Verified",
+                        cardColor: customer!.kycStatus == "Processing"
+                            ? Colors.amber.shade100
+                            : customer.kycStatus == "Rejected"
+                                ? Colors.red.shade100
+                                : Colors.amber.shade100,
+                        iconColor: customer.kycStatus == "Processing"
+                            ? Colors.amber.shade900
+                            : customer.kycStatus == "Rejected"
+                                ? Colors.red.shade900
+                                : Colors.amber.shade900,
+                        onTap: () {
+                          navPush(context, const KycUI());
+                        },
+                        title: "KYC ${customer.kycStatus}",
+                        onClose: () {
+                          ref.read(showKycReminder.notifier).state = false;
+                        },
+                      ),
                     ),
-                    const Text(
-                      "• No purchase since 3 months, OR",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    const Text(
-                      "• Newly created account.",
-                      style: TextStyle(fontSize: 12),
+                    width15,
+                    Expanded(
+                      child: ReminderCard(
+                        icon: Icons.person,
+                        visible: ref.watch(showProfileReminder) &&
+                            customer.status == "Pending",
+                        cardColor: Colors.amber.shade100,
+                        iconColor: Colors.amber.shade900,
+                        title: "Profile Pending",
+                        onTap: () {},
+                        onClose: () {
+                          ref.read(showProfileReminder.notifier).state = false;
+                        },
+                      ),
                     ),
                   ],
                 ),
-                onClose: () {
-                  ref.read(showProfileReminder.notifier).state = false;
-                },
               ),
               carouselData.when(
                 data: (data) => KCarousel(
@@ -286,82 +277,82 @@ class _HomeUIState extends ConsumerState<HomeUI> {
     );
   }
 
-  Widget kReminderCard(
-    BuildContext context, {
-    bool visible = true,
-    void Function()? onTap,
-    String title = "Title",
-    String subTitle = "Subtitle",
-    Widget? content,
-    void Function()? onClose,
-    Color? cardColor,
-    Color? iconColor,
-    IconData? icon,
-  }) {
-    return Visibility(
-      visible: visible,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Card(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: iconColor ?? kColor(context).secondary,
-              width: .5,
-            ),
-            borderRadius: kRadius(10),
-          ),
-          color: cardColor ?? kColor(context).secondaryContainer,
-          margin: EdgeInsets.only(
-            left: kPadding,
-            right: kPadding,
-            bottom: kPadding,
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(kPadding),
-            child: Row(
-              children: [
-                Icon(
-                  icon ?? Icons.warning,
-                  color: iconColor ?? kColor(context).secondary,
-                ),
-                width20,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      if (content == null)
-                        Text(
-                          subTitle,
-                          style: const TextStyle(fontSize: 13),
-                        )
-                      else
-                        content,
-                    ],
-                  ),
-                ),
-                IconButton(
-                  onPressed: onClose,
-                  visualDensity: VisualDensity.compact,
-                  icon: Icon(
-                    Icons.close,
-                    color: iconColor ?? kColor(context).secondary,
-                    size: 20,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget kReminderCard(
+  //   BuildContext context, {
+  //   bool visible = true,
+  //   void Function()? onTap,
+  //   String title = "Title",
+  //   String subTitle = "Subtitle",
+  //   Widget? content,
+  //   void Function()? onClose,
+  //   Color? cardColor,
+  //   Color? iconColor,
+  //   IconData? icon,
+  // }) {
+  //   return Visibility(
+  //     visible: visible,
+  //     child: GestureDetector(
+  //       onTap: onTap,
+  //       child: Card(
+  //         shape: RoundedRectangleBorder(
+  //           side: BorderSide(
+  //             color: iconColor ?? kColor(context).secondary,
+  //             width: .5,
+  //           ),
+  //           borderRadius: kRadius(10),
+  //         ),
+  //         color: cardColor ?? kColor(context).secondaryContainer,
+  //         margin: EdgeInsets.only(
+  //           left: kPadding,
+  //           right: kPadding,
+  //           bottom: kPadding,
+  //         ),
+  //         child: Padding(
+  //           padding: EdgeInsets.all(kPadding),
+  //           child: Row(
+  //             children: [
+  //               Icon(
+  //                 icon ?? Icons.warning,
+  //                 color: iconColor ?? kColor(context).secondary,
+  //               ),
+  //               width20,
+  //               Expanded(
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Text(
+  //                       title,
+  //                       style: const TextStyle(
+  //                         fontSize: 15,
+  //                         fontWeight: FontWeight.w600,
+  //                       ),
+  //                     ),
+  //                     if (content == null)
+  //                       Text(
+  //                         subTitle,
+  //                         style: const TextStyle(fontSize: 13),
+  //                       )
+  //                     else
+  //                       content,
+  //                   ],
+  //                 ),
+  //               ),
+  //               IconButton(
+  //                 onPressed: onClose,
+  //                 visualDensity: VisualDensity.compact,
+  //                 icon: Icon(
+  //                   Icons.close,
+  //                   color: iconColor ?? kColor(context).secondary,
+  //                   size: 20,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _header() {
     return Consumer(

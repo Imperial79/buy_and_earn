@@ -232,7 +232,7 @@ class _RootUIState extends ConsumerState<RootUI> {
                 child: isActive
                     ? Container(
                         margin: const EdgeInsets.only(left: 5),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom:
                                 BorderSide(color: Light.secondary, width: 2),
@@ -240,7 +240,7 @@ class _RootUIState extends ConsumerState<RootUI> {
                         ),
                         child: Text(
                           label,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Light.secondary,
                           ),

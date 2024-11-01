@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../colors.dart';
@@ -34,11 +35,19 @@ class KCarousel extends StatefulWidget {
       onTap: onTap,
       child: Padding(
         padding: padding ?? const EdgeInsets.symmetric(horizontal: 5.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: kRadius(radius ?? 15),
-            image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
-          ),
+        child: CachedNetworkImage(
+          imageUrl: url,
+          imageBuilder: (context, img) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: kRadius(radius ?? 15),
+                image: DecorationImage(
+                  image: img,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -138,19 +147,26 @@ class _KCarouselState extends State<KCarousel> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
-      children: List.generate(length, (index) {
-        bool isActive = activeImage == index;
-        return AnimatedContainer(
-          margin: const EdgeInsets.symmetric(horizontal: 2),
-          height: 10,
-          width: isActive ? 20 : 10,
-          duration: const Duration(milliseconds: 300),
-          decoration: BoxDecoration(
-            borderRadius: kRadius(100),
-            color: isActive ? Light.secondary : Colors.grey.shade300,
-          ),
-        );
-      }),
+      children: List.generate(
+        length,
+        (index) {
+          bool isActive = activeImage == index;
+          return AnimatedScale(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.ease,
+            scale: isActive ? 2 : 1,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              height: 5,
+              width: 5,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isActive ? kColor(context).primary : Light.tertiary,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

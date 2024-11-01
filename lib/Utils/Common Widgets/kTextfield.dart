@@ -92,7 +92,7 @@ class KTextfield {
     this.maxLines = 1,
     this.focusNode,
     this.label,
-    this.fontSize,
+    this.fontSize = 17,
     this.labelIcon,
     this.textCapitalization = TextCapitalization.words,
     this.inputFormatters,
