@@ -362,196 +362,199 @@ Widget kClubModal(
         padding: EdgeInsets.all(kPadding),
         child: SafeArea(
           child: clubData.when(
-            data: (data) => data != null
-                ? Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.close)),
-                      ),
-                      data["isMember"] == "true"
-                          ? Column(
-                              children: [
+            data: (data) {
+              if (data != null) {
+                double mySpent = parseToDouble(data["mySpent"]);
+                double clubHouseYearlySpend =
+                    parseToDouble(data["clubHouseYearlySpend"]);
+                return Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.close)),
+                    ),
+                    data["isMember"] == "true"
+                        ? Column(
+                            children: [
+                              const Text(
+                                "Club House Stats",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              height20,
+                              Text(
+                                "FY ${data['targetFy']} spend",
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Light.primary,
+                                ),
+                              ),
+                              height10,
+                              Text(
+                                "${kCurrencyFormat(mySpent, decimalDigit: 0)} / ${kCurrencyFormat(clubHouseYearlySpend, decimalDigit: 0)}",
+                                style: const TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w900,
+                                  color: Light.primary,
+                                ),
+                              ),
+                              height20,
+                              if (mySpent > clubHouseYearlySpend)
                                 const Text(
-                                  "Club House Stats",
+                                  "Target Achieved!",
                                   style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                height20,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                      color: Light.primary),
+                                )
+                              else
                                 Text(
-                                  "FY ${data['targetFy']} spend",
+                                  "${(mySpent / clubHouseYearlySpend).floor() * 100}% completed",
                                   style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Light.primary,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                height10,
-                                Text(
-                                  "${kCurrencyFormat(data["mySpent"], decimalDigit: 0)} / ${kCurrencyFormat(data["clubHouseYearlySpend"], decimalDigit: 0)}",
-                                  style: const TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w900,
-                                    color: Light.primary,
+                              height5,
+                              if (mySpent < clubHouseYearlySpend)
+                                ClipRRect(
+                                  borderRadius: kRadius(10),
+                                  child: LinearProgressIndicator(
+                                    value: (mySpent / clubHouseYearlySpend),
+                                    minHeight: 20,
+                                    backgroundColor:
+                                        Colors.white.withOpacity(.5),
                                   ),
                                 ),
-                                height20,
-                                if (data["mySpent"] >
-                                    data["clubHouseYearlySpend"])
+                            ],
+                          )
+                        : data['isHousefull'] == "true"
+                            ? Column(
+                                children: [
                                   const Text(
-                                    "Target Achieved!",
+                                    "Club Housefull",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20,
-                                        color: Light.primary),
-                                  )
-                                else
-                                  Text(
-                                    "${(data["mySpent"] / data["clubHouseYearlySpend"]).floor() * 100}% completed",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                                height5,
-                                if (data["mySpent"] <
-                                    data["clubHouseYearlySpend"])
-                                  ClipRRect(
-                                    borderRadius: kRadius(10),
-                                    child: LinearProgressIndicator(
-                                      value: (data["mySpent"] /
-                                          data["clubHouseYearlySpend"]),
-                                      minHeight: 20,
-                                      backgroundColor:
-                                          Colors.white.withOpacity(.5),
-                                    ),
+                                  height20,
+                                  const Text(
+                                    "Check back later!",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
                                   ),
-                              ],
-                            )
-                          : data['isHousefull'] == "true"
-                              ? Column(
-                                  children: [
-                                    const Text(
-                                      "Club Housefull",
+                                ],
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Center(
+                                    child: Text(
+                                      "Club Membership",
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    height20,
-                                    const Text(
-                                      "Check back later!",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15),
-                                    ),
-                                  ],
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Center(
+                                  ),
+                                  height20,
+                                  Center(
+                                    child: Container(
+                                      padding: const EdgeInsets.only(bottom: 2),
+                                      decoration: const BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Light.primary,
+                                                  width: 2))),
                                       child: Text(
-                                        "Club Membership",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
+                                        "At just ${kCurrencyFormat(data["clubHouseMembership"], decimalDigit: 0)}*",
+                                        style: const TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w900,
+                                          color: Light.primary,
                                         ),
                                       ),
                                     ),
-                                    height20,
-                                    Center(
-                                      child: Container(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 2),
-                                        decoration: const BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                                    color: Light.primary,
-                                                    width: 2))),
-                                        child: Text(
-                                          "At just ${kCurrencyFormat(data["clubHouseMembership"], decimalDigit: 0)}*",
-                                          style: const TextStyle(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.w900,
-                                            color: Light.primary,
-                                          ),
-                                        ),
+                                  ),
+                                  height20,
+                                  const Text(
+                                    "Benefits",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w800),
+                                  ),
+                                  Text(
+                                    "- Member of Fiscal Year ${data['targetFy']}.",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  const Text(
+                                    "- Receive 10% of company's profit in the end of the fiscal year, distributed equally among all Clubhouse Achievers.",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  height20,
+                                  const Text(
+                                    "Terms",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w800),
+                                  ),
+                                  Text(
+                                    "- Yearly target of ${kCurrencyFormat(clubHouseYearlySpend)} must be completed individually.",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  const Text(
+                                    "- Spends will be accumulated from 1st April - 31st March of the Fiscal Year.",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  const Text(
+                                    "- Non-Refundable.",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  height20,
+                                  const Center(
+                                    child: Text(
+                                      "*Terms and Conditions apply",
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ),
+                                  height5,
+                                  Center(
+                                    child: MaterialButton(
+                                      onPressed: onPressed,
+                                      elevation: 0,
+                                      highlightElevation: 0,
+                                      color: Light.primary,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: kRadius(100),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 40),
+                                      textColor: Colors.white,
+                                      child: const Text(
+                                        "Buy Now",
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
-                                    height20,
-                                    const Text(
-                                      "Benefits",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                    Text(
-                                      "- Member of Fiscal Year ${data['targetFy']}.",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const Text(
-                                      "- Receive 10% of company's profit in the end of the fiscal year, distributed equally among all Clubhouse Achievers.",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    height20,
-                                    const Text(
-                                      "Terms",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                    Text(
-                                      "- Yearly target of ${kCurrencyFormat(data['clubHouseYearlySpend'])} must be completed individually.",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const Text(
-                                      "- Spends will be accumulated from 1st April - 31st March of the Fiscal Year.",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const Text(
-                                      "- Non-Refundable.",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    height20,
-                                    const Center(
-                                      child: Text(
-                                        "*Terms and Conditions apply",
-                                        style: TextStyle(fontSize: 10),
-                                      ),
-                                    ),
-                                    height5,
-                                    Center(
-                                      child: MaterialButton(
-                                        onPressed: onPressed,
-                                        elevation: 0,
-                                        highlightElevation: 0,
-                                        color: Light.primary,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: kRadius(100),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 40),
-                                        textColor: Colors.white,
-                                        child: const Text(
-                                          "Buy Now",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                    ],
-                  )
-                : kNoData(title: "Oops!", subtitle: "Try again later!"),
+                                  ),
+                                ],
+                              ),
+                  ],
+                );
+              } else {
+                return kNoData(title: "Oops!", subtitle: "Try again later!");
+              }
+            },
             error: (error, stackTrace) =>
                 kNoData(title: "Oops!", subtitle: "Try again later!"),
             loading: () => const Center(child: CircularProgressIndicator()),

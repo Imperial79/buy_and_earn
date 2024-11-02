@@ -1,3 +1,5 @@
+import 'package:buy_and_earn/Utils/CustomLoading.dart';
+import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,56 +47,9 @@ class _KScaffoldState extends ConsumerState<KScaffold> {
               ? kFullLoading(context, loadingText: widget.loadingText)
               : const SizedBox(),
         ),
-        // hasInternet.when(
-        //   data: (data) => data == InternetStatus.disconnected
-        //       ? _noInternetPill(context)
-        //       : Container(),
-        //   error: (error, stackTrace) => SizedBox(),
-        //   loading: () => SizedBox(),
-        // ),
       ],
     );
   }
-
-  // Align _noInternetPill(BuildContext context) {
-  //   return Align(
-  //     alignment: Alignment.topCenter,
-  //     child: SafeArea(
-  //       child: Container(
-  //         margin: const EdgeInsets.only(top: 20),
-  //         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-  //         decoration: BoxDecoration(
-  //           color: kColor(context).errorContainer,
-  //           borderRadius: kRadius(100),
-  //           boxShadow: [
-  //             BoxShadow(
-  //               color: kColor(context).errorContainer.withOpacity(.5),
-  //               blurRadius: 30,
-  //               spreadRadius: 5,
-  //             ),
-  //           ],
-  //         ),
-  //         child: Row(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             Icon(
-  //               Icons.signal_wifi_connected_no_internet_4_rounded,
-  //               color: kColor(context).onErrorContainer,
-  //             ),
-  //             width10,
-  //             Text(
-  //               "No Internet",
-  //               style: TextStyle(
-  //                 color: kColor(context).onErrorContainer,
-  //                 fontWeight: FontWeight.w700,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
 
 AppBar KAppBar(
@@ -171,23 +126,15 @@ Container kFullLoading(BuildContext context, {String? loadingText}) {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10.0),
-          child: Text(
-            loadingText ?? "Please wait...",
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: .7,
-                ),
-          ),
-        ),
-        const SizedBox(
-          width: 60,
-          child: LinearProgressIndicator(
-            backgroundColor: Light.secondary,
-            color: Light.primary,
-            minHeight: 6,
-          ),
+        const CustomLoading(),
+        height20,
+        Text(
+          loadingText ?? "Please wait...",
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.w800,
+                fontSize: 17,
+                letterSpacing: .5,
+              ),
         ),
       ],
     ),

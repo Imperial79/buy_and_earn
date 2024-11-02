@@ -161,7 +161,7 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                           child: Text(customer.name[0]),
                         ),
                 ),
-                width10,
+                width20,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

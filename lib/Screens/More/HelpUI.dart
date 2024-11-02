@@ -1,4 +1,4 @@
-import 'package:buy_and_earn/Utils/colors.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -44,27 +44,7 @@ class _HelpUIState extends State<HelpUI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Support",
-          style: TextStyle(
-            color: Light.primary,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 1,
-            fontFamily: 'DmSans',
-          ),
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: _progress == 0 || _progress == 1
-              ? const SizedBox()
-              : LinearProgressIndicator(
-                  color: Light.primary,
-                  value: _progress,
-                ),
-        ),
-      ),
+      appBar: KAppBar(context, title: "Support", isLoading: _progress != 1),
       body: SafeArea(
         child: WebViewWidget(controller: controller),
       ),

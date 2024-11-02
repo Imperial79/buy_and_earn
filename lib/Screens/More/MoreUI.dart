@@ -86,6 +86,7 @@ class _MoreUIState extends ConsumerState<MoreUI> {
         body: customer != null
             ? SafeArea(
                 child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,18 +106,28 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                             ? Colors.amber.shade100
                             : Colors.lightGreen.shade100,
                         width: double.maxFinite,
-                        child: Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(
-                              customer.status == "Pending"
-                                  ? Icons.do_disturb_outlined
-                                  : Icons.done,
-                              size: 20,
+                            const Text(
+                              "Action Required",
+                              style: TextStyle(fontWeight: FontWeight.w700),
                             ),
-                            width10,
-                            Text(customer.status == "Pending"
-                                ? "ID Not Activated"
-                                : "ID Activated"),
+                            height10,
+                            Row(
+                              children: [
+                                Icon(
+                                  customer.status == "Pending"
+                                      ? Icons.do_disturb_outlined
+                                      : Icons.done,
+                                  size: 20,
+                                ),
+                                width10,
+                                Text(customer.status == "Pending"
+                                    ? "ID Not Activated"
+                                    : "ID Activated"),
+                              ],
+                            ),
                           ],
                         ),
                       ),
