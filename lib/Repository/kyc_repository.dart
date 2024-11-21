@@ -6,12 +6,12 @@ final kyc_repository = Provider(
   (ref) => KycRepository(),
 );
 
-final showKycReminder = StateProvider(
-  (ref) => true,
-);
-final showProfileReminder = StateProvider(
-  (ref) => true,
-);
+// final showKycReminder = StateProvider(
+//   (ref) => true,
+// );
+// final showProfileReminder = StateProvider(
+//   (ref) => true,
+// );
 
 // final kycFuture = FutureProvider<Map?>(
 //   (ref) async {

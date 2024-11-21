@@ -88,20 +88,23 @@ class StatusTextColor {
 
 // Card Colors for Different States
 class StatusCardColor {
-  static const neutral = Color(0xFFB6DBFF);
-  static const pending = Color(0xFFFFECB3);
-  static const success = Color(0xFFD2FFD5);
-  static const danger = Color(0xFFFFD9CF);
-  static const completed = Color(0xFFD2FFD5);
+  // static const neutral = Color(0xFFB6DBFF);
+  // static const pending = Color(0xFFFFECB3);
+  // static const success = Color(0xFFD2FFD5);
+  // static const danger = Color(0xFFFFD9CF);
+  // static const completed = Color(0xFFD2FFD5);
+  static const neutral = Color(0xFF1976D2);
+  static const pending = Color(0xFFD18400);
+  static const success = Color(0xFF0A8812);
+  static const danger = Color(0xFFA72A0B);
 }
 
 // Card Colors for Different States
 class StatusIcon {
-  // static const neutral = Color(0xFFB6DBFF);
   static const pending = Icons.schedule;
-  // static const success = Color(0xFFD2FFD5);
   static const danger = Icons.dangerous;
   static const success = Icons.done;
+  static const outgoing = Icons.arrow_outward_rounded;
 }
 
 // Map for Text Color by Status
@@ -125,13 +128,10 @@ final Map<String, Color> kColorMapText = {
 Map kColorMap = {
   'Pending': StatusCardColor.pending,
   'Verified': StatusCardColor.success,
-  'Accepted': StatusCardColor.success,
-  'Delivered': StatusCardColor.success,
   'Offline': StatusCardColor.danger,
   'Cancelled': StatusCardColor.danger,
+  'Failed': StatusCardColor.danger,
   'Online': StatusCardColor.success,
-  'Out for delivery': StatusCardColor.success,
-  'In Transit': StatusCardColor.neutral,
   "Refund": StatusCardColor.neutral,
   "Success": StatusCardColor.success,
 };
@@ -141,4 +141,6 @@ Map kStatusIconMap = {
   "Processing": StatusIcon.pending,
   "Pending": StatusIcon.pending,
   "Verified": StatusIcon.success,
+  "Success": StatusIcon.success,
+  "Refund": StatusIcon.outgoing,
 };

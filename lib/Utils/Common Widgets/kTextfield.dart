@@ -59,7 +59,7 @@ class KTextfield {
   final Widget? suffix;
   final Color? fieldColor;
   final Color? borderColor;
-  final bool? obscureText;
+  final bool obscureText;
   final int? maxLength;
   final int? minLines;
   final int? maxLines;
@@ -86,7 +86,7 @@ class KTextfield {
     this.suffix,
     this.fieldColor,
     this.borderColor,
-    this.obscureText,
+    this.obscureText = false,
     this.maxLength,
     this.minLines = 1,
     this.maxLines = 1,
@@ -152,11 +152,11 @@ class KTextfield {
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: fontSize,
-                    letterSpacing: .5,
+                    letterSpacing: obscureText ? 10 : .5,
                     height: 1.5,
                   ),
                   readOnly: readOnly ?? false,
-                  obscureText: obscureText ?? false,
+                  obscureText: obscureText,
                   keyboardType: keyboardType,
                   maxLength: maxLength,
                   maxLines: maxLines,
@@ -206,6 +206,7 @@ class KTextfield {
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: fontSize,
+                      letterSpacing: 1,
                       height: 1.5,
                       color: Colors.grey.shade700,
                     ),
@@ -291,7 +292,7 @@ class KTextfield {
                   ),
                   textAlign: TextAlign.center,
                   readOnly: readOnly ?? false,
-                  obscureText: obscureText ?? false,
+                  obscureText: obscureText,
                   keyboardType: keyboardType,
                   maxLength: maxLength,
                   maxLines: maxLines,

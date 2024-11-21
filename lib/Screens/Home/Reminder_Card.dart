@@ -10,7 +10,6 @@ class ReminderCard extends StatelessWidget {
   final String title;
 
   final Widget? content;
-  final void Function()? onClose;
   final Color? cardColor;
   final Color? iconColor;
   final IconData? icon;
@@ -20,7 +19,6 @@ class ReminderCard extends StatelessWidget {
     this.onTap,
     required this.title,
     this.content,
-    this.onClose,
     this.cardColor,
     this.iconColor,
     this.icon,
@@ -33,11 +31,8 @@ class ReminderCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Card(
+          margin: const EdgeInsets.symmetric(horizontal: 5),
           shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: iconColor ?? kColor(context).secondary,
-              width: .5,
-            ),
             borderRadius: kRadius(10),
           ),
           color: cardColor ?? kColor(context).secondaryContainer,
@@ -51,10 +46,11 @@ class ReminderCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CircleAvatar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: iconColor,
                       child: Icon(
                         icon ?? Icons.warning,
-                        color: iconColor ?? kColor(context).secondary,
+                        color: Colors.white,
+                        size: 20,
                       ),
                     ),
                     const Icon(

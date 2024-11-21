@@ -86,7 +86,6 @@ class _MoreUIState extends ConsumerState<MoreUI> {
         body: customer != null
             ? SafeArea(
                 child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

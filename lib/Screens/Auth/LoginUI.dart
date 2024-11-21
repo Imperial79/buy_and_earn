@@ -25,6 +25,7 @@ class _LoginUIState extends ConsumerState<LoginUI> {
   final phone = TextEditingController();
   final mpin = TextEditingController();
   bool _isLoading = false;
+  bool showPassword = false;
 
   @override
   void dispose() {
@@ -138,8 +139,19 @@ class _LoginUIState extends ConsumerState<LoginUI> {
                   controller: mpin,
                   label: "Mpin",
                   textCapitalization: TextCapitalization.none,
-                  obscureText: true,
+                  obscureText: !showPassword,
                   hintText: "Enter your MPIN",
+                  suffix: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        showPassword = !showPassword;
+                      });
+                    },
+                    icon: Icon(
+                      !showPassword ? Icons.visibility : Icons.visibility_off,
+                      size: 20,
+                    ),
+                  ),
                   validator: (val) {
                     if (val!.isEmpty) return "Required!";
                     return null;

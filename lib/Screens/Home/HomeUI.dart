@@ -2,7 +2,6 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/carousel_repository.dart';
-import 'package:buy_and_earn/Repository/kyc_repository.dart';
 import 'package:buy_and_earn/Screens/Home/Reminder_Card.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Providers_UI.dart';
@@ -53,9 +52,8 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                   children: [
                     Expanded(
                       child: ReminderCard(
-                        visible: ref.watch(showKycReminder) &&
-                            customer!.kycStatus != "Verified",
-                        cardColor: customer!.kycStatus == "Processing"
+                        visible: customer!.kycStatus != "Verified",
+                        cardColor: customer.kycStatus == "Processing"
                             ? Colors.amber.shade100
                             : customer.kycStatus == "Rejected"
                                 ? Colors.red.shade100
@@ -69,23 +67,17 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                           navPush(context, const KycUI());
                         },
                         title: "KYC ${customer.kycStatus}",
-                        onClose: () {
-                          ref.read(showKycReminder.notifier).state = false;
-                        },
                       ),
                     ),
-                    width15,
                     Expanded(
                       child: ReminderCard(
                         icon: Icons.person,
-                        visible: ref.watch(showProfileReminder) &&
-                            customer.status == "Pending",
+                        visible: customer.status == "Pending",
                         cardColor: Colors.amber.shade100,
                         iconColor: Colors.amber.shade900,
                         title: "Profile Pending",
-                        onTap: () {},
-                        onClose: () {
-                          ref.read(showProfileReminder.notifier).state = false;
+                        onTap: () {
+                          ref.read(navigationProvider.notifier).state = 3;
                         },
                       ),
                     ),

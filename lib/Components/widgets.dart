@@ -137,7 +137,7 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
   bool isCredit = data.type == "Credit";
   return InkWell(
     onTap: () {
-      navPush(context, TransactionDetailUI(txnDetails: data));
+      navPush(context, TransactionDetailUI(txn: data));
     },
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
