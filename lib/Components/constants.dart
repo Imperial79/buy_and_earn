@@ -5,8 +5,8 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
-const kAppVersion = "1.1.1";
-const kAppBuild = "10";
+const kAppVersion = "1.1.2";
+const kAppBuild = "12";
 
 const String kImagePath = "assets/images";
 const String welcomeImages = "$kImagePath/welcome-images";
