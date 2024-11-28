@@ -3,6 +3,7 @@
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/More/EditProfileUI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
@@ -206,9 +207,29 @@ class _KProfileCardState extends ConsumerState<KProfileCard> {
                           )
                         ],
                       ),
+                      height10,
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.phone,
+                            size: 15,
+                          ),
+                          width5,
+                          Expanded(
+                              child: Label("+91 ${customer.phone}").regular),
+                        ],
+                      ),
                       height5,
-                      Text("+91 ${customer.phone}"),
-                      Text("${customer.email}"),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.email,
+                            size: 15,
+                          ),
+                          width5,
+                          Expanded(child: Label(customer.email!).regular),
+                        ],
+                      ),
                       if (widget.showEdit)
                         Padding(
                           padding: const EdgeInsets.only(top: 5.0),

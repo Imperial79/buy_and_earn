@@ -40,7 +40,7 @@ class _Mobile_Plan_UIState extends ConsumerState<Recharge_Plan_UI> {
       appBar: KAppBar(context, title: "plan details", showBack: true),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(kPadding),
+          padding: const EdgeInsets.all(kPadding),
           child: Form(
             key: _formKey,
             child: Column(

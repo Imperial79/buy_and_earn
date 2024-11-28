@@ -1,3 +1,4 @@
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -74,7 +75,7 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
             children: [
               height10,
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: kPadding),
+                padding: const EdgeInsets.symmetric(horizontal: kPadding),
                 child: KTextfield(
                   controller: searchKey,
                   hintText: "Search name or phone",
@@ -87,14 +88,13 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
                   },
                 ).regular,
               ),
-              // height10,
               Expanded(
                 child: hasPermission
                     ? _contacts.isNotEmpty
                         ? ListView.builder(
                             itemCount: _contacts.length,
                             shrinkWrap: true,
-                            padding: EdgeInsets.all(kPadding),
+                            padding: const EdgeInsets.all(kPadding),
                             itemBuilder: (context, index) {
                               if (_contacts[index].phones.isNotEmpty) {
                                 if (kCompare(searchKey.text,
@@ -170,20 +170,17 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
         child: Row(
           children: [
             CircleAvatar(
+              radius: 20,
               child: Text(data.displayName[0].toUpperCase()),
             ),
-            width10,
+            width20,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  Label(
                     data.displayName,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  ).regular,
                   height5,
                   Text("+91 $phone"),
                 ],
@@ -194,31 +191,4 @@ class _ContactsUIState extends ConsumerState<ContactsUI> {
       ),
     );
   }
-
-  // ListTile _contactCard(Contact data) {
-  //   return ListTile(
-  // onTap: () {
-  //   Navigator.pop(context, {
-  //     "name": data.displayName,
-  //     "phone": data.phones[0].normalizedNumber,
-  //   });
-  // },
-  //     contentPadding: EdgeInsets.zero,
-  //     leading: CircleAvatar(
-  //       backgroundImage: data.photo != null ? MemoryImage(data.photo!) : null,
-  //       child: Visibility(
-  //         visible: data.photo == null,
-  //         child: Text(
-  //           data.displayName[0],
-  //           style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
-  //         ),
-  //       ),
-  //     ),
-  //     title: Text(
-  //       data.displayName,
-  //       style: TextStyle(fontWeight: FontWeight.w500),
-  //     ),
-  //     subtitle: Text("${data.phones[0].normalizedNumber}"),
-  //   );
-  // }
 }

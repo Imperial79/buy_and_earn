@@ -55,46 +55,45 @@ class _TransactionsUIState extends ConsumerState<TransactionsUI> {
             context,
             showBack: false,
             title: "Transactions",
-            actions: [
-              // MaterialButton(
-              //   onPressed: () {
-              //     showModalBottomSheet(
-              //       context: context,
-              //       enableDrag: false,
-              //       isDismissible: false,
-              //       isScrollControlled: true,
-              //       useSafeArea: true,
-              //       elevation: 0,
-              //       backgroundColor: Colors.white,
-              //       builder: (context) => _filterModal(),
-              //     );
-              //   },
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: kRadius(10),
-              //     side: BorderSide(
-              //       color: Colors.black,
-              //     ),
-              //   ),
-              //   visualDensity: VisualDensity.compact,
-              //   child: Row(
-              //     children: [
-              //       Text("Filters"),
-              //       width5,
-              //       Icon(
-              //         Icons.filter_alt,
-              //         size: 17,
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              width10,
-            ],
+            // actions: [
+            //   // MaterialButton(
+            //   //   onPressed: () {
+            //   //     showModalBottomSheet(
+            //   //       context: context,
+            //   //       enableDrag: false,
+            //   //       isDismissible: false,
+            //   //       isScrollControlled: true,
+            //   //       useSafeArea: true,
+            //   //       elevation: 0,
+            //   //       backgroundColor: Colors.white,
+            //   //       builder: (context) => _filterModal(),
+            //   //     );
+            //   //   },
+            //   //   shape: RoundedRectangleBorder(
+            //   //     borderRadius: kRadius(10),
+            //   //     side: BorderSide(
+            //   //       color: Colors.black,
+            //   //     ),
+            //   //   ),
+            //   //   visualDensity: VisualDensity.compact,
+            //   //   child: Row(
+            //   //     children: [
+            //   //       Text("Filters"),
+            //   //       width5,
+            //   //       Icon(
+            //   //         Icons.filter_alt,
+            //   //         size: 17,
+            //   //       ),
+            //   //     ],
+            //   //   ),
+            //   // ),
+            //   width10,
+            // ],
             isLoading: asyncData.isLoading,
           ),
           body: SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.only(
-                  bottom: 120, left: 12, right: 12, top: 12),
+              padding: const EdgeInsets.all(kPadding).copyWith(bottom: 120),
               child: !asyncData.hasError
                   ? transactionData.isNotEmpty
                       ? Column(

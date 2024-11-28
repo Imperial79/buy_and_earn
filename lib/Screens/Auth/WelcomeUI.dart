@@ -36,9 +36,9 @@ class _WelcomeUIState extends State<WelcomeUI> {
               ],
             ),
             kHeight(40),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(kPadding),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

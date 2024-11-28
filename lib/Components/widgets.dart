@@ -8,23 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 import '../Screens/Transactions/TransactionDetailUI.dart';
 import '../Utils/colors.dart';
 import '../Utils/commons.dart';
 import 'constants.dart';
-
-Widget kLabel(String label, {double top = 20, double bottom = 15}) {
-  return Padding(
-    padding: EdgeInsets.only(bottom: bottom, top: top),
-    child: Text(
-      label,
-      style: const TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 15,
-      ),
-    ),
-  );
-}
 
 Widget kHeading(String label) {
   return Text(
@@ -36,40 +24,65 @@ Widget kHeading(String label) {
   );
 }
 
+Widget kInfoCard(
+  String text,
+) {
+  return kCard(
+    borderWidth: 0,
+    color: Colors.amber.shade100,
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          Icons.info,
+          color: Colors.amber.shade900,
+        ),
+        width10,
+        Expanded(
+          child: Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 Widget kCard({
   Widget? child,
   double? width,
-  Color? cardColor,
+  Color borderColor = Light.border,
+  double borderWidth = 1,
+  Color color = Light.card,
+  double radius = 15,
   EdgeInsetsGeometry? padding,
+  EdgeInsetsGeometry? margin,
   bool isPremium = false,
 }) {
-  return SizedBox(
-    width: width,
-    child: isPremium
-        ? Container(
-            padding: EdgeInsets.all(kPadding),
-            decoration: BoxDecoration(
-              borderRadius: kRadius(5),
-              gradient: LinearGradient(
-                colors: kPremiumColors,
-              ),
-            ),
-            child: child,
-          )
-        : Card(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.grey.shade300,
-              ),
-              borderRadius: kRadius(7),
-            ),
-            color: cardColor ?? Light.card,
-            child: Padding(
-              padding: padding ?? const EdgeInsets.all(12),
-              child: child,
+  return isPremium
+      ? Container(
+          width: width,
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            borderRadius: kRadius(radius),
+            gradient: LinearGradient(
+              colors: kPremiumColors,
             ),
           ),
-  );
+          child: child,
+        )
+      : Container(
+          width: width,
+          decoration: BoxDecoration(
+            borderRadius: kRadius(radius),
+            color: color,
+            border: Border.all(color: borderColor, width: borderWidth),
+          ),
+          margin: margin,
+          padding: padding ?? const EdgeInsets.all(15),
+          child: child,
+        );
 }
 
 Widget kWalletCard(context) {
@@ -77,14 +90,19 @@ Widget kWalletCard(context) {
     builder: (context, ref, child) {
       final wallet = ref.watch(walletFuture);
 
-      return Card(
-        child: Padding(
+      return SimpleShadow(
+        opacity: .1,
+        sigma: 20,
+        child: kCard(
+          margin: const EdgeInsets.symmetric(vertical: 20),
+          color: Light.card,
+          borderColor: Light.scaffold,
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundColor: Colors.white.withOpacity(.2),
-                child: const Icon(
+              const CircleAvatar(
+                backgroundColor: Light.primary,
+                child: Icon(
                   Icons.wallet,
                   color: Colors.white,
                 ),
@@ -95,11 +113,11 @@ Widget kWalletCard(context) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Wallet Balance",
+                      "Available Balance",
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         fontSize: 12,
-                        color: Colors.white,
+                        // color: Colors.white,
                       ),
                     ),
                     Text(
@@ -111,7 +129,7 @@ Widget kWalletCard(context) {
                       style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 20,
-                        color: Colors.white,
+                        // color: Colors.white,
                       ),
                     ),
                   ],
@@ -122,7 +140,6 @@ Widget kWalletCard(context) {
                   navPush(context, const WalletUI());
                 },
                 backgroundColor: Light.quarternary,
-                foregroundColor: Colors.black,
                 label: "Recharge",
               ).pill,
             ],
@@ -145,11 +162,12 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
         CircleAvatar(
           radius: 22,
           backgroundColor:
-              isCredit ? Colors.greenAccent.shade100 : const Color(0xFFFFDAD7),
+              isCredit ? Colors.lightGreen.shade100 : const Color(0xFFFFDAD7),
           child: SvgPicture.asset(
             kIconMap[data.source] ?? "$kServiceIcon/mobile.svg",
             height: 20,
-            colorFilter: kSvgColor(Light.primary),
+            colorFilter:
+                kSvgColor(isCredit ? Colors.lightGreen.shade900 : Colors.red),
           ),
         ),
         width10,
@@ -160,27 +178,33 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
               Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      data.title.split('for').first.trim(),
-                      style: const TextStyle(
-                        // fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          data.title.split('for').first.trim(),
+                          style: const TextStyle(
+                            // fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          data.status,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: kColorMapText[data.status]),
+                        ),
+                      ],
                     ),
                   ),
                   Text(
                     "${isCredit ? "+" : "-"} ${kCurrencyFormat("${data.amount}", decimalDigit: 2)}",
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                    ),
                   ),
                 ],
-              ),
-              Text(
-                data.title.split('for').last.trim(),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
-                ),
               ),
               height5,
               Row(
@@ -191,33 +215,17 @@ Widget kRecentHistoryCard(context, Transactions_Model data) {
                           .format(DateTime.parse(data.date)),
                       style: const TextStyle(
                         fontSize: 13,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  // width10,
-                  // Flexible(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.end,
-                  //     children: [
-                  //       Expanded(
-                  //           child: Text(
-                  //         'Debited from',
-                  //         style: TextStyle(
-                  //             fontSize: 13,
-                  //             color: Colors.grey,
-                  //             fontWeight: FontWeight.w600),
-                  //         textAlign: TextAlign.end,
-                  //       )),
-                  //       width5,
-                  //       Icon(
-                  //         Icons.wallet,
-                  //         size: 15,
-                  //       )
-                  //     ],
-                  //   ),
-                  // )
+                  Text(
+                    DateFormat('hh:mm a').format(DateTime.parse(data.date)),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -288,8 +296,8 @@ Widget kPlanCard(
         CachedNetworkImage(
           imageUrl: providerImage,
           imageBuilder: (context, imageProvider) => Container(
-            height: 50,
-            width: 50,
+            height: 40,
+            width: 40,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: imageProvider,
@@ -350,16 +358,11 @@ Widget kClubModal(
   return Consumer(
     builder: (context, ref, _) {
       final clubData = ref.watch(clubHouseFuture);
-      return Container(
+      return kCard(
+        isPremium: true,
+        radius: 0,
         width: double.maxFinite,
-        decoration: BoxDecoration(
-          borderRadius: kRadius(30),
-          color: Colors.white,
-          gradient: LinearGradient(
-            colors: kPremiumColors,
-          ),
-        ),
-        padding: EdgeInsets.all(kPadding),
+        padding: const EdgeInsets.all(kPadding),
         child: SafeArea(
           child: clubData.when(
             data: (data) {
@@ -369,31 +372,37 @@ Widget kClubModal(
                     parseToDouble(data["clubHouseYearlySpend"]);
                 return Column(
                   children: [
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.close)),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text(
+                            "Club House Stats",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton.filledTonal(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(Icons.close)),
+                        ),
+                      ],
                     ),
                     data["isMember"] == "true"
                         ? Column(
                             children: [
-                              const Text(
-                                "Club House Stats",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
                               height20,
                               Text(
-                                "FY ${data['targetFy']} spend",
+                                "FY ${data['targetFy']} Spent",
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: Light.primary,
+                                  color: Colors.black,
                                 ),
                               ),
                               height10,
@@ -402,7 +411,7 @@ Widget kClubModal(
                                 style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w900,
-                                  color: Light.primary,
+                                  color: Colors.black,
                                 ),
                               ),
                               height20,
@@ -410,9 +419,10 @@ Widget kClubModal(
                                 const Text(
                                   "Target Achieved!",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                      color: Light.primary),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                  ),
                                 )
                               else
                                 Text(
@@ -571,12 +581,17 @@ Widget kPoint(int index, String text) {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 15,
-          child: Text("$index."),
+        Text(
+          "$index.",
+          style: const TextStyle(fontWeight: FontWeight.w700),
         ),
         width10,
-        Expanded(child: Text(text))
+        Expanded(
+          child: Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+        ),
       ],
     ),
   );
@@ -602,6 +617,8 @@ Widget kPagination({
       ),
       width20,
       CircleAvatar(
+        backgroundColor: Light.secondary,
+        foregroundColor: Colors.white,
         child: IconButton(
           onPressed: onIncrement,
           icon: const Icon(Icons.arrow_forward),

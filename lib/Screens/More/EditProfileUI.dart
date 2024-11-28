@@ -104,7 +104,7 @@ class _EditProfileUIState extends ConsumerState<EditProfileUI> {
         body: SafeArea(
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.all(kPadding),
+            padding: const EdgeInsets.all(kPadding),
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,

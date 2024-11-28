@@ -4,6 +4,7 @@ import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/mobile_recharge_modal.dart';
 import 'package:buy_and_earn/Repository/recharge_repository.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Recharge_Plan_UI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
@@ -48,7 +49,7 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
           title: "${widget.masterdata.service} Recharge", showBack: true),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(kPadding),
+          padding: const EdgeInsets.all(kPadding),
           child: Form(
             key: _formKey,
             child: Column(
@@ -105,12 +106,10 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                     ),
                   ],
                 ),
-                height5,
-                const Text(
-                  "Note - Please do search for the correct plan amount and provider before trying to recharge.",
-                  style: TextStyle(fontSize: 13),
-                ),
-                height10,
+                height15,
+                kInfoCard(
+                    "Please do search for the correct plan amount and provider before trying to recharge."),
+                height15,
                 KButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -134,7 +133,9 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                   },
                   label: "Proceed",
                 ).full,
-                kLabel("Recent contacts"),
+                height20,
+                Label("Recent contacts").regular,
+                height10,
                 historyAsync.when(
                   data: (data) => data.isNotEmpty
                       ? ListView.separated(
@@ -189,8 +190,8 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
         child: Row(
           children: [
             SizedBox(
-              width: 45,
-              height: 45,
+              width: 30,
+              height: 30,
               child: CachedNetworkImage(
                 imageUrl: data["image"],
                 fit: BoxFit.contain,
@@ -202,15 +203,15 @@ class _Mobile_Recharge_UIState extends ConsumerState<Mobile_Recharge_UI> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${data["providerName"]}",
-                    style: const TextStyle(fontWeight: FontWeight.w500),
+                    "${data["providerName"]} - ${data["consumerNo"]}",
+                    style: const TextStyle(fontWeight: FontWeight.w700),
                   ),
-                  Text("${data["consumerNo"]}"),
                   height5,
                   Text(
                     "Last recharged ₹${data["amount"]} on ${kFormatDateInWords(data["date"])}",
                     style: const TextStyle(
                       fontSize: 12,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],

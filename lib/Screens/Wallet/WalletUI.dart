@@ -2,6 +2,7 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/wallet_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
@@ -9,6 +10,7 @@ import 'package:buy_and_earn/Utils/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,43 +46,50 @@ class _WalletUIState extends ConsumerState<WalletUI> {
       ]),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(kPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              kCard(
-                cardColor: Light.primary,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Available balance",
-                            style: TextStyle(
+              SimpleShadow(
+                opacity: .1,
+                sigma: 10,
+                child: kCard(
+                  color: Light.card,
+                  borderWidth: 0,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Available balance",
+                              style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15,
-                                color: Colors.white),
-                          ),
-                          height10,
-                          Text(
-                            wallet.when(
-                              data: (data) => kCurrencyFormat(data!.balance),
-                              error: (error, stackTrace) => "-",
-                              loading: () => "...",
+                                // color: Colors.white,
+                              ),
                             ),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 30,
-                              color: Colors.white,
+                            height10,
+                            Text(
+                              wallet.when(
+                                data: (data) => kCurrencyFormat(data!.balance),
+                                error: (error, stackTrace) => "-",
+                                loading: () => "...",
+                              ),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Light.primary,
+                                fontSize: 30,
+                                // color: Colors.white,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               // height15,
@@ -145,37 +154,52 @@ class _WalletUIState extends ConsumerState<WalletUI> {
               //   onPressed: amount.text.isNotEmpty ? () {} : null,
               //   label: "Proceed to recharge",
               // ),
-              kLabel(
-                "How to recharge wallet:",
-              ),
-              kPoint(1, "Transfer amount on the details given below."),
-              kPoint(2, "Share payment details on WhatsApp/Telegram."),
 
               // _bankCard(),
               height20,
-              Center(
-                child: Container(
-                  height: 300,
-                  width: 300,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("$kImagePath/admin-gpay.jpg"),
+              const Text(
+                "How to recharge wallet ?",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+              ),
+              height20,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 150,
+                    width: 150,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("$kImagePath/admin-gpay.jpg"),
+                      ),
                     ),
                   ),
-                ),
+                  width20,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        kPoint(1,
+                            "Transfer amount on the QR Code with any UPI enabled payments app."),
+                        kPoint(
+                            2, "Share payment details on WhatsApp/Telegram."),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               height20,
               Row(
                 children: [
                   Expanded(
                     child: KButton(
-                            onPressed: () async {
-                              await launchUrl(Uri.parse("https://t.me/BSPL2"));
-                            },
-                            backgroundColor: Colors.blue.shade700,
-                            label: "Telegram",
-                            fontSize: 15)
-                        .full,
+                      onPressed: () async {
+                        await launchUrl(Uri.parse("https://t.me/BSPL2"));
+                      },
+                      backgroundColor: Colors.blue.shade700,
+                      label: "Telegram",
+                      fontSize: 15,
+                    ).full,
                   ),
                   width10,
                   Expanded(
@@ -190,8 +214,8 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                   ),
                 ],
               ),
-
-              kLabel("Today's Earnings"),
+              height20,
+              Label("Today's Earnings").regular, height10,
 
               wallet.when(
                 data: (data) => Column(
@@ -251,7 +275,9 @@ class _WalletUIState extends ConsumerState<WalletUI> {
                         ),
                       ],
                     ),
-                    kLabel("Last month earning", top: 10),
+                    height20,
+                    Label("Last month earning").regular,
+                    height10,
                     _statCard(
                       kCurrencyFormat(
                         data.lastMonthCommissionEarned,
@@ -358,56 +384,49 @@ class _WalletUIState extends ConsumerState<WalletUI> {
     Color? contentColor,
     String? title,
   }) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: kRadius(10),
-      ),
+    return kCard(
       color: Light.card,
-      child: SizedBox(
-        width: double.maxFinite,
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (title != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5.0),
-                  child: Row(
-                    children: [
-                      const Expanded(child: Text("Commission Earned")),
-                      Text(
-                        title.toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5.0),
+              child: Row(
+                children: [
+                  const Expanded(child: Text("Commission Earned")),
+                  Text(
+                    title.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
+                ],
               ),
-              height10,
-              Text(
-                content,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: contentColor,
-                  letterSpacing: .5,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+            ),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
+          height10,
+          Text(
+            content,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: contentColor,
+              letterSpacing: .5,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }

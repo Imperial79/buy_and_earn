@@ -10,6 +10,7 @@ import 'package:buy_and_earn/Screens/More/HelpUI.dart';
 import 'package:buy_and_earn/Screens/More/KProfileCard.dart';
 import 'package:buy_and_earn/Screens/More/KycUI.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
@@ -86,12 +87,11 @@ class _MoreUIState extends ConsumerState<MoreUI> {
         body: customer != null
             ? SafeArea(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(kPadding).copyWith(top: 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       kWalletCard(context),
-                      height15,
                       KProfileCard(
                         isLoading: (loading) {
                           setState(() {
@@ -99,11 +99,12 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                           });
                         },
                       ),
-                      height5,
+                      height20,
                       kCard(
-                        cardColor: customer.status == "Pending"
+                        borderWidth: 1,
+                        borderColor: customer.status == "Pending"
                             ? Colors.amber.shade100
-                            : Colors.lightGreen.shade100,
+                            : Colors.lightGreen.shade500,
                         width: double.maxFinite,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,24 +119,28 @@ class _MoreUIState extends ConsumerState<MoreUI> {
                                 Icon(
                                   customer.status == "Pending"
                                       ? Icons.do_disturb_outlined
-                                      : Icons.done,
-                                  size: 20,
+                                      : Icons.check_circle_outline_outlined,
+                                  size: 30,
+                                  color: Colors.lightGreen.shade900,
                                 ),
                                 width10,
-                                Text(customer.status == "Pending"
-                                    ? "ID Not Activated"
-                                    : "ID Activated"),
+                                Label(
+                                  customer.status == "Pending"
+                                      ? "ID Not Activated"
+                                      : "ID Activated",
+                                ).regular,
                               ],
                             ),
                           ],
                         ),
                       ),
-                      height15,
+                      height20,
                       kCard(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            kLabel("Refer Code", top: 0),
+                            Label("Refer Code").regular,
+                            height10,
                             Row(
                               children: [
                                 Expanded(

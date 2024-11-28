@@ -30,7 +30,7 @@ class KButton {
     Color? foregroundColor,
     BorderSide? side,
     EdgeInsetsGeometry? padding,
-    double borderRadius = 5,
+    double borderRadius = 15,
     double elevation = 0,
   }) =>
       ElevatedButton.styleFrom(
@@ -75,7 +75,7 @@ class KButton {
         style: customStyle ??
             _buttonStyle(
               side: BorderSide(color: backgroundColor ?? Light.primary),
-              backgroundColor: Colors.transparent,
+              backgroundColor: Light.scaffold,
               foregroundColor: backgroundColor ?? Light.primary,
             ),
         child: SizedBox(
@@ -160,7 +160,7 @@ class KButton {
             borderRadius: kRadius(100),
           ),
           backgroundColor: backgroundColor ?? Light.primary,
-          foregroundColor: foregroundColor ?? Colors.white,
+          foregroundColor: Colors.white,
           padding: padding ?? const EdgeInsets.symmetric(horizontal: 15),
         ),
         child: Text(label),

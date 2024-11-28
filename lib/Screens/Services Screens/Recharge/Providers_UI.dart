@@ -48,7 +48,7 @@ class _Mobile_Providers_UIState extends ConsumerState<Providers_UI> {
         ),
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(kPadding),
+            padding: const EdgeInsets.all(kPadding),
             child: providersListData.when(
               data: (data) => data.isNotEmpty
                   ? ListView.separated(

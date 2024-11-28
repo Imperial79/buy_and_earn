@@ -4,6 +4,7 @@ import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/recharge_model.dart';
 import 'package:buy_and_earn/Repository/recharge_repository.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Recharge_Plan_UI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
@@ -61,7 +62,7 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
           title: "${masterdata.service} Recharge", showBack: true),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(kPadding),
+          padding: const EdgeInsets.all(kPadding),
           child: Form(
             key: _formKey,
             child: Column(
@@ -86,12 +87,10 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                     return null;
                   },
                 ).regular,
-                height5,
-                const Text(
-                  "Note - Please do search for the correct plan amount and provider before trying to recharge.",
-                  style: TextStyle(fontSize: 13),
-                ),
-                height10,
+                height15,
+                kInfoCard(
+                    "Please do search for the correct plan amount and provider before trying to recharge."),
+                height15,
                 KButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -112,7 +111,9 @@ class _Recharge_UIState extends ConsumerState<Recharge_UI> {
                   },
                   label: "Proceed",
                 ).full,
-                kLabel("Recent"),
+                height20,
+                Label("Recent").regular,
+                height10,
                 historyAsync.when(
                   data: (data) => data.isNotEmpty
                       ? ListView.separated(

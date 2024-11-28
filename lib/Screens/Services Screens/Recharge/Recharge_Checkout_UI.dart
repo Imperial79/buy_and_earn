@@ -5,6 +5,7 @@ import 'package:buy_and_earn/Models/recharge_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Screens/Auth/TPin_UI.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Recharge_Loading_UI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
@@ -75,7 +76,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
       appBar: KAppBar(context, title: "Checkout", showBack: true),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(kPadding),
+          padding: const EdgeInsets.all(kPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -88,7 +89,9 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                     ? "+91 $consumerNo"
                     : consumerNo,
               ),
-              kLabel("Plan Details"),
+              height20,
+              Label("Plan Details").regular,
+              height10,
               kCard(
                 width: double.maxFinite,
                 child: Column(
@@ -128,7 +131,9 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                   ],
                 ),
               ),
-              kLabel("Total breakdown"),
+              height20,
+              Label("Total breakdown").regular,
+              height10,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -172,7 +177,7 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                   margin: const EdgeInsets.only(top: 20),
                   color: Colors.amber.shade100,
                   child: Padding(
-                    padding: EdgeInsets.all(kPadding),
+                    padding: const EdgeInsets.all(kPadding),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -208,12 +213,16 @@ class _Recharge_Checkout_UIState extends ConsumerState<Recharge_Checkout_UI> {
                           fontSize: 16,
                         ),
                       ),
-                      kLabel("Terms", top: 10),
+                      height20,
+                      Label("Terms").regular,
+                      height10,
                       kPoint(1,
                           "Min. one time purchase of ${kCurrencyFormat(customer.idActiveMinThreshold, decimalDigit: 0)} or more."),
                       kPoint(2,
                           "One time ${kCurrencyFormat(customer.idActiveAmount, decimalDigit: 0)} will be deducted as part of activation."),
-                      kLabel("Benefits"),
+                      height20,
+                      Label("Benefits").regular,
+                      height10,
                       kPoint(1,
                           "All source of commission income will be activated which includes self cashback, level commission, working bonus and rewards."),
                     ],

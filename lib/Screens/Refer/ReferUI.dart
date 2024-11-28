@@ -8,6 +8,7 @@ import 'package:buy_and_earn/Models/response_model.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/refer_repository.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
@@ -56,12 +57,12 @@ class _ReferUIState extends ConsumerState<ReferUI> {
           body: SafeArea(
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(12),
+              padding:
+                  const EdgeInsets.all(kPadding).copyWith(top: 0, bottom: 120),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   kWalletCard(context),
-                  height15,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -78,137 +79,115 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                     ],
                   ),
                   referSettings.when(
-                    data: (data) => parseToDouble(
-                                data.response['referralAmount']) >
-                            0
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Card(
-                              color: kColor(context).tertiary,
-                              child: SizedBox(
-                                width: double.maxFinite,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Get ${kCurrencyFormat("${data.response['referralAmount']}", decimalDigit: 0)} bonus on referal*",
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                      height10,
-                                      Card(
-                                        color: kColor(context)
-                                            .onTertiaryFixedVariant,
-                                        child: const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Note: Valid for only complete registrations and id activation during offer period",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                      ),
-                                      height15,
-                                      Row(
-                                        children: [
-                                          kWidgetPill(
-                                            context,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 15,
-                                                      vertical: 5),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(
-                                                    customer.referCode,
-                                                    style: TextStyle(
-                                                      color: kColor(context)
-                                                          .tertiary,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          width10,
-                                          IconButton.filledTonal(
-                                            onPressed: () {
-                                              Clipboard.setData(ClipboardData(
-                                                  text: customer.referCode));
-
-                                              KSnackbar(context,
-                                                  content:
-                                                      "Refer code copied to clipboard!");
-                                            },
-                                            visualDensity:
-                                                VisualDensity.compact,
-                                            icon: Icon(
-                                              Icons.copy,
-                                              color: kColor(context).tertiary,
-                                              size: 15,
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          IconButton.filledTonal(
-                                            onPressed: () async {
-                                              await FlutterShare.share(
-                                                title: "Download now!",
-                                                text:
-                                                    "Use my refer code for signing up in Buy N Earn. Let's earn together",
-                                                linkUrl:
-                                                    "https://play.google.com/store/apps/details?id=com.buynearn.shop.customer&hl=en",
-                                              );
-                                            },
-                                            visualDensity:
-                                                VisualDensity.compact,
-                                            icon: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.share,
-                                                  color:
-                                                      kColor(context).tertiary,
-                                                  size: 15,
-                                                ),
-                                                width5,
-                                                const Text(
-                                                  "Invite",
-                                                  style: TextStyle(
+                    data: (data) {
+                      return parseToDouble(data.response['referralAmount']) > 0
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: kCard(
+                                color: kColor(context).secondaryContainer,
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Label(
+                                      "Get ${kCurrencyFormat("${data.response['referralAmount']}", decimalDigit: 0)} bonus on referal *",
+                                    ).title,
+                                    height10,
+                                    kCard(
+                                      radius: 8,
+                                      padding: const EdgeInsets.all(8.0),
+                                      color: kColor(context).surface,
+                                      child: Label(
+                                        "Note: Valid for only complete registrations and id activation during offer period",
+                                      ).subtitle,
+                                    ),
+                                    height15,
+                                    Row(
+                                      children: [
+                                        kWidgetPill(
+                                          context,
+                                          backgroundColor:
+                                              kColor(context).primary,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 5),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                customer.referCode,
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                                    color: Colors.white),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                        ),
+                                        width10,
+                                        IconButton.filled(
+                                          onPressed: () {
+                                            Clipboard.setData(ClipboardData(
+                                                text: customer.referCode));
+
+                                            KSnackbar(context,
+                                                content:
+                                                    "Refer code copied to clipboard!");
+                                          },
+                                          visualDensity: VisualDensity.compact,
+                                          icon: const Icon(
+                                            Icons.copy,
+                                            size: 15,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        IconButton.filled(
+                                          onPressed: () async {
+                                            await FlutterShare.share(
+                                              title: "Download now!",
+                                              text:
+                                                  "Use my refer code for signing up in Buy N Earn. Let's earn together",
+                                              linkUrl:
+                                                  "https://play.google.com/store/apps/details?id=com.buynearn.shop.customer&hl=en",
+                                            );
+                                          },
+                                          visualDensity: VisualDensity.compact,
+                                          icon: Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.share,
+                                                size: 15,
+                                              ),
+                                              width5,
+                                              const Text(
+                                                "Invite",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
-                            ),
-                          )
-                        : const SizedBox(),
+                            )
+                          : const SizedBox();
+                    },
                     error: (error, stackTrace) => const SizedBox(),
                     loading: () => const SizedBox(),
                   ),
-                  kLabel("Distribution"),
+                  height20,
+                  Label("Distribution").regular,
+                  height10,
                   referSettings.when(
                     data: (data) => _distributionChart(data),
                     error: (error, stackTrace) => const SizedBox(),
                     loading: () => const SizedBox(),
                   ),
-                  kLabel("My Referals"),
+                  height20,
+                  Label("My Referals").regular,
+                  height10,
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -291,7 +270,7 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                         kPagination(
                           pageNo: pageNo,
                           onDecrement: () {
-                            if (pageNo > 1) {
+                            if (pageNo > 0) {
                               setState(() {
                                 pageNo -= 1;
                               });
@@ -309,7 +288,6 @@ class _ReferUIState extends ConsumerState<ReferUI> {
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
                   ),
-                  kHeight(100),
                 ],
               ),
             ),
@@ -319,71 +297,83 @@ class _ReferUIState extends ConsumerState<ReferUI> {
     );
   }
 
-  SingleChildScrollView _distributionChart(ResponseModel data) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        decoration: BoxDecoration(
-          color: Light.card,
-          borderRadius: kRadius(10),
-        ),
-        columns: const [
-          DataColumn(
-            label: Text("Level/Tier"),
-          ),
-          DataColumn(
-            label: Text("Commission"),
-          ),
-          DataColumn(
-            label: Text("Direct Refers"),
-          ),
-        ],
-        rows: List.generate(data.response['charts'].length, (index) {
-          final item = data.response['charts'][index];
-          return DataRow(
-            cells: [
-              DataCell(
-                Center(
-                  child: Text(
-                    "${item['level']}",
-                  ),
-                ),
+  Widget _distributionChart(ResponseModel data) {
+    return Center(
+      child: kCard(
+        padding: const EdgeInsets.all(5),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DataTable(
+            decoration: BoxDecoration(
+              color: Light.card,
+              borderRadius: kRadius(10),
+            ),
+            columns: [
+              DataColumn(
+                label: Label("Level/Tier").regular,
               ),
-              DataCell(
-                Center(
-                  child: Text(
-                    "${item['commission']}%",
-                  ),
-                ),
+              DataColumn(
+                label: Label("Commission").regular,
               ),
-              DataCell(
-                Center(
-                  child: Text(
-                    "${item['threshold']}",
-                  ),
-                ),
+              DataColumn(
+                label: Label("Direct Refers").regular,
               ),
             ],
-          );
-        }),
+            rows: List.generate(data.response['charts'].length, (index) {
+              final item = data.response['charts'][index];
+              return DataRow(
+                cells: [
+                  DataCell(
+                    Center(
+                      child:
+                          Label("${item['level']}", fontWeight: FontWeight.w700)
+                              .regular,
+                    ),
+                  ),
+                  DataCell(
+                    Center(
+                      child: Text(
+                        "${item['commission']}%",
+                      ),
+                    ),
+                  ),
+                  DataCell(
+                    Center(
+                      child: Text(
+                        "${item['threshold']}",
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }),
+          ),
+        ),
       ),
     );
   }
 
   Widget _levelBtn(index) {
     bool isActive = _selectedTier == index;
-    return MaterialButton(
-      onPressed: () {
-        setState(() {
-          pageNo = 0;
-          _selectedTier = index;
-        });
-      },
-      color: isActive ? kColor(context).primaryContainer : Colors.transparent,
-      elevation: 0,
-      highlightElevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: kRadius(10)),
-      child: Text("Tier $index"),
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0),
+      child: ChoiceChip(
+        label: Text(
+          "Tier $index",
+          style: TextStyle(
+            color: isActive ? Colors.white : Colors.black,
+          ),
+        ),
+        onSelected: (value) {
+          setState(() {
+            pageNo = 0;
+            _selectedTier = index;
+          });
+        },
+        selected: isActive,
+        selectedColor: kColor(context).primary,
+        checkmarkColor: Colors.white,
+      ),
     );
   }
 }

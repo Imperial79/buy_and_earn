@@ -5,6 +5,7 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Repository/auth_repository.dart';
 import 'package:buy_and_earn/Repository/kyc_repository.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kTextfield.dart';
@@ -127,7 +128,7 @@ class _KycUIState extends ConsumerState<KycUI> {
       appBar: KAppBar(context, title: "kyc"),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(kPadding),
+          padding: const EdgeInsets.all(kPadding),
           child: Form(
             key: _formKey,
             child: Column(
@@ -178,7 +179,9 @@ class _KycUIState extends ConsumerState<KycUI> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      kLabel("Front Side"),
+                      height20,
+                      Label("Front Side").regular,
+                      height10,
                       _imageCard(
                         onTap: () async {
                           _adhaarFront =
@@ -188,7 +191,9 @@ class _KycUIState extends ConsumerState<KycUI> {
                         image: _adhaarFront,
                         imageLink: serverData?["adhaarFront"],
                       ),
-                      kLabel("Back Side"),
+                      height20,
+                      Label("Back Side").regular,
+                      height10,
                       _imageCard(
                         onTap: () async {
                           _adhaarBack =
@@ -221,7 +226,9 @@ class _KycUIState extends ConsumerState<KycUI> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      kLabel("Front Side"),
+                      height20,
+                      Label("Front Side").regular,
+                      height10,
                       _imageCard(
                         onTap: () async {
                           _panFront =
@@ -266,7 +273,9 @@ class _KycUIState extends ConsumerState<KycUI> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      kLabel("Front Side"),
+                      height20,
+                      Label("Front Side").regular,
+                      height10,
                       _imageCard(
                         onTap: () async {
                           _bankFront =
@@ -340,7 +349,9 @@ class _KycUIState extends ConsumerState<KycUI> {
                           ),
                         ),
                       ),
-                      kLabel("Nominee ID Proof (PAN / Aadhaar / Voter)"),
+                      height20,
+                      Label("Nominee ID Proof (PAN / Aadhaar / Voter)").regular,
+                      height10,
                       _imageCard(
                         onTap: () async {
                           _nomineeId =
@@ -367,7 +378,6 @@ class _KycUIState extends ConsumerState<KycUI> {
                   },
                   backgroundColor: Light.quarternary,
                   label: "Update KYC Details",
-                  foregroundColor: Colors.black,
                 ).full,
               ],
             ),

@@ -9,7 +9,7 @@ import 'colors.dart';
 const String kIconPath = "assets/icons";
 const String kServiceIcon = "assets/icons/Service Icons";
 
-double get kPadding => 12;
+const double kPadding = 20;
 
 SizedBox get height5 => const SizedBox(height: 5);
 SizedBox get height10 => const SizedBox(height: 10);

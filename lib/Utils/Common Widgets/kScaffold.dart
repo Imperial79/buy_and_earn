@@ -63,37 +63,32 @@ AppBar KAppBar(
   String title0 = title;
   if (!showOriginal) title0 = title.toLowerCase();
   return AppBar(
-    title: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (showBack)
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const RotatedBox(
-                quarterTurns: 10,
-                child: Icon(
-                  Icons.arrow_right_alt_sharp,
-                  size: 30,
-                ),
-              ),
-              visualDensity: VisualDensity.compact,
+    leading: showBack
+        ? IconButton.filled(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            style: IconButton.styleFrom(
+              backgroundColor: Light.card,
+              side: const BorderSide(color: Light.border),
             ),
-          ),
-        Text(
-          title0,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 20,
-          ),
-        ),
-      ],
+            padding: const EdgeInsets.all(5),
+            icon: const Icon(
+              Icons.arrow_back,
+            ),
+          )
+        : null,
+    leadingWidth: 70,
+    title: Text(
+      title0,
+      style: const TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 20,
+      ),
     ),
     automaticallyImplyLeading: false,
     actions: actions,
+    titleSpacing: showBack ? 0 : 20,
     titleTextStyle: const TextStyle(
       fontSize: 20,
       color: Colors.black,

@@ -5,6 +5,7 @@ import 'package:buy_and_earn/Repository/carousel_repository.dart';
 import 'package:buy_and_earn/Screens/Home/Reminder_Card.dart';
 import 'package:buy_and_earn/Screens/RootUI.dart';
 import 'package:buy_and_earn/Screens/Services%20Screens/Recharge/Providers_UI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kCarousel.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/colors.dart';
@@ -36,80 +37,73 @@ class _HomeUIState extends ConsumerState<HomeUI> {
             children: [
               height10,
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: kPadding),
+                padding: const EdgeInsets.symmetric(horizontal: kPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _header(),
-                    height20,
                     kWalletCard(context),
                   ],
                 ),
               ),
+              ReminderCard(
+                visible: customer!.kycStatus != "Verified",
+                cardColor: customer.kycStatus == "Processing"
+                    ? Colors.amber.shade100
+                    : customer.kycStatus == "Rejected"
+                        ? Colors.red.shade100
+                        : Colors.amber.shade100,
+                iconColor: customer.kycStatus == "Processing"
+                    ? Colors.amber.shade900
+                    : customer.kycStatus == "Rejected"
+                        ? Colors.red.shade900
+                        : Colors.amber.shade900,
+                onTap: () {
+                  navPush(context, const KycUI());
+                },
+                title: "KYC ${customer.kycStatus}",
+              ),
               Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ReminderCard(
-                        visible: customer!.kycStatus != "Verified",
-                        cardColor: customer.kycStatus == "Processing"
-                            ? Colors.amber.shade100
-                            : customer.kycStatus == "Rejected"
-                                ? Colors.red.shade100
-                                : Colors.amber.shade100,
-                        iconColor: customer.kycStatus == "Processing"
-                            ? Colors.amber.shade900
-                            : customer.kycStatus == "Rejected"
-                                ? Colors.red.shade900
-                                : Colors.amber.shade900,
-                        onTap: () {
-                          navPush(context, const KycUI());
-                        },
-                        title: "KYC ${customer.kycStatus}",
-                      ),
-                    ),
-                    Expanded(
-                      child: ReminderCard(
-                        icon: Icons.person,
-                        visible: customer.status == "Pending",
-                        cardColor: Colors.amber.shade100,
-                        iconColor: Colors.amber.shade900,
-                        title: "Profile Pending",
-                        onTap: () {
-                          ref.read(navigationProvider.notifier).state = 3;
-                        },
-                      ),
-                    ),
-                  ],
+                padding: const EdgeInsets.only(top: 10.0),
+                child: ReminderCard(
+                  icon: Icons.person,
+                  visible: customer.status == "Pending",
+                  cardColor: Colors.amber.shade100,
+                  iconColor: Colors.amber.shade900,
+                  title: "Profile Pending",
+                  onTap: () {
+                    ref.read(navigationProvider.notifier).state = 3;
+                  },
                 ),
               ),
-              carouselData.when(
-                data: (data) => KCarousel(
-                  height: 200,
-                  isLooped: data.length == 1 ? false : true,
-                  children: List.generate(
-                    data.length,
-                    (index) => KCarousel.Item(
-                      onTap: () async {
-                        if (data[index]["action"] == "External Link") {
-                          await launchUrlString(
-                            data[index]["remarks"],
-                            mode: LaunchMode.externalApplication,
-                          );
-                        }
-                      },
-                      radius: 10,
-                      url: data[index]["image"],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: carouselData.when(
+                  data: (data) => KCarousel(
+                    height: 200,
+                    isLooped: data.length == 1 ? false : true,
+                    children: List.generate(
+                      data.length,
+                      (index) => KCarousel.Item(
+                        onTap: () async {
+                          if (data[index]["action"] == "External Link") {
+                            await launchUrlString(
+                              data[index]["remarks"],
+                              mode: LaunchMode.externalApplication,
+                            );
+                          }
+                        },
+                        radius: 10,
+                        url: data[index]["image"],
+                      ),
                     ),
                   ),
+                  error: (error, stackTrace) => const SizedBox(),
+                  loading: () => const Text("Loading..."),
                 ),
-                error: (error, stackTrace) => const SizedBox(),
-                loading: () => const Text("Loading..."),
               ),
-              height20,
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: kPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -117,7 +111,8 @@ class _HomeUIState extends ConsumerState<HomeUI> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          kLabel('Recharge', top: 0),
+                          Label('Recharge').regular,
+                          height10,
                           GridView(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -418,15 +413,23 @@ class _HomeUIState extends ConsumerState<HomeUI> {
       icon: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: Light.quarternary,
-            child: SvgPicture.asset(
-              kIconMap[label]!,
-              colorFilter: kSvgColor(Light.primary),
+          Container(
+            height: 50,
+            width: 50,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Light.card,
+              border: Border.all(color: Light.border),
+            ),
+            child: FittedBox(
+              child: SvgPicture.asset(
+                kIconMap[label]!,
+                colorFilter: kSvgColor(Light.primary),
+              ),
             ),
           ),
-          height5,
+          height10,
           Text(
             label,
             style: const TextStyle(

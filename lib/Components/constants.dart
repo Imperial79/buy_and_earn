@@ -151,7 +151,7 @@ bool kCompare(String searchKey, String text) {
 
 String kCurrencyFormat(dynamic number, {int decimalDigit = 2}) {
   var f = NumberFormat.currency(
-    symbol: "₹ ",
+    symbol: "₹",
     locale: 'en_US',
     decimalDigits: decimalDigit,
   );

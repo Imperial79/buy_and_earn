@@ -142,7 +142,7 @@ class _RootUIState extends ConsumerState<RootUI> {
             },
             child: _screens[activeIndex],
           ),
-          const Kbottomnavbar(),
+          const KNavigationBar(),
         ],
       ),
     );

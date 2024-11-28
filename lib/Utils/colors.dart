@@ -60,19 +60,18 @@ ColorScheme kColor(BuildContext context) => Theme.of(context).colorScheme;
 ColorFilter kSvgColor(Color color) => ColorFilter.mode(color, BlendMode.srcIn);
 
 List<Color> kPremiumColors = [
-  const Color.fromARGB(255, 255, 220, 232),
-  const Color.fromARGB(255, 220, 255, 240),
-  const Color.fromARGB(255, 247, 255, 220),
+  const Color(0xFFFFC0D5),
+  const Color(0xFF82B1FF),
 ];
 
 // Light Theme Colors
 class Light {
   static const scaffold = Color(0xfff9f9f9);
-  static const primary = Color(0xff16325B);
+  static const primary = Color(0xff7695FF);
   static const primaryAccent = Color(0xFFCBDDEB);
   static const secondary = Color(0xFF227B94);
   static const tertiary = Color(0xff78B7D0);
-  static const quarternary = Color(0xffFFDC7F);
+  static const quarternary = Color(0xff7695FF);
   static const card = Colors.white;
   static const border = Color(0xFFE0E0E0);
   static const link = Color(0xFF1565C0);
@@ -103,7 +102,7 @@ class StatusCardColor {
 class StatusIcon {
   static const pending = Icons.schedule;
   static const danger = Icons.dangerous;
-  static const success = Icons.done;
+  static const success = Icons.check_circle_outline_outlined;
   static const outgoing = Icons.arrow_outward_rounded;
 }
 
@@ -138,6 +137,7 @@ Map kColorMap = {
 
 Map kStatusIconMap = {
   "Rejected": StatusIcon.danger,
+  "Failed": StatusIcon.danger,
   "Processing": StatusIcon.pending,
   "Pending": StatusIcon.pending,
   "Verified": StatusIcon.success,

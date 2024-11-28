@@ -27,7 +27,7 @@ class _Mobile_Providers_UIState extends ConsumerState<Mobile_Providers_UI> {
       appBar: KAppBar(context, title: "Select Provider", showBack: true),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(kPadding),
+          padding: const EdgeInsets.all(kPadding),
           child: providersListData.when(
             data: (data) => data.isNotEmpty
                 ? ListView.separated(

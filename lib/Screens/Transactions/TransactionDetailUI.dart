@@ -2,6 +2,7 @@ import 'package:buy_and_earn/Components/constants.dart';
 import 'package:buy_and_earn/Components/widgets.dart';
 import 'package:buy_and_earn/Models/transactions_model.dart';
 import 'package:buy_and_earn/Screens/More/HelpUI.dart';
+import 'package:buy_and_earn/Utils/Common%20Widgets/Label.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kButton.dart';
 import 'package:buy_and_earn/Utils/Common%20Widgets/kScaffold.dart';
 import 'package:buy_and_earn/Utils/commons.dart';
@@ -27,120 +28,124 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
   @override
   Widget build(BuildContext context) {
     return KScaffold(
+      appBar: KAppBar(context),
       body: SafeArea(
-        top: false,
         child: SingleChildScrollView(
+          padding: const EdgeInsets.all(kPadding).copyWith(top: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _statusCard(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    kLabel(txn.source),
-                    Row(
+              Center(child: _statusCard()),
+              const Divider(
+                height: 50,
+                color: Light.border,
+                thickness: 1,
+              ),
+              Label(txn.source).regular,
+              height20,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 22,
+                    child: SvgPicture.asset(
+                      kIconMap["Prepaid"]!,
+                    ),
+                  ),
+                  width10,
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CircleAvatar(
-                          radius: 22,
-                          child: SvgPicture.asset(
-                            kIconMap["Prepaid"]!,
-                          ),
-                        ),
-                        width10,
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                txn.title.split('for').first.trim(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 15),
-                              ),
-                              Text(
-                                txn.title.split('for').last.trim(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 12),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          txn.title.split('for').first.trim(),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 15),
                         ),
                         Text(
-                          kCurrencyFormat(txn.amount),
+                          txn.title.split('for').last.trim(),
                           style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 15),
+                              fontWeight: FontWeight.w400, fontSize: 12),
                         ),
                       ],
                     ),
-                    height10,
-                    const Text(
-                      "Note - The amount shown is rounded to 2 decimal places, but the actual amount Credited/Debited may be smaller and cannot be fully displayed here.",
-                      style: TextStyle(fontSize: 13),
-                    ),
-                    height20,
-                    kLabel("Payment Breakdown", top: 0, bottom: 10),
-                    kCard(
-                      child: Column(
-                        children: txn.paymentBreakdown.entries.map((entry) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(entry.key),
-                              Text(kCurrencyFormat(entry.value,
-                                  decimalDigit: 6)),
-                            ],
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    kLabel("Transaction ID", bottom: 10),
-                    Row(
+                  ),
+                  Text(
+                    kCurrencyFormat(txn.amount),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w700, fontSize: 15),
+                  ),
+                ],
+              ),
+              height15,
+              kInfoCard(
+                "The amount shown is rounded to 2 decimal places, but the actual amount Credited/Debited may be smaller and cannot be fully displayed here.",
+              ),
+              height20,
+              Label("Payment Breakdown").regular,
+              height10,
+              kCard(
+                child: Column(
+                  children: txn.paymentBreakdown.entries.map((entry) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: Text(
-                            "BNETXN${txn.id}",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 15),
-                          ),
-                        ),
-                        width10,
-                        IconButton.filledTonal(
-                          onPressed: () {
-                            Clipboard.setData(
-                                    ClipboardData(text: "BNETXN${txn.id}"))
-                                .then(
-                              (value) {
-                                KSnackbar(context,
-                                    content:
-                                        "Transaction ID copied to clipboard!");
-                              },
-                            );
-                          },
-                          visualDensity: VisualDensity.compact,
-                          icon: const Icon(
-                            Icons.copy,
-                            size: 15,
-                          ),
-                        ),
+                        Text(entry.key),
+                        Text(kCurrencyFormat(entry.value, decimalDigit: 6)),
                       ],
-                    ),
-                    height20,
-                    KButton(
-                      onPressed: () {
-                        navPush(context, const HelpUI());
-                      },
-                      label: "Need Help?",
-                      fontSize: 15,
-                      icon: const Icon(
-                        Icons.help,
-                        size: 20,
+                    );
+                  }).toList(),
+                ),
+              ),
+              height20,
+              Label("Transaction ID").regular,
+              height10,
+              kCard(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "BNETXN${txn.id}",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 15),
                       ),
-                    ).outlinedFull,
+                    ),
+                    width10,
+                    IconButton.filled(
+                      onPressed: () {
+                        Clipboard.setData(
+                                ClipboardData(text: "BNETXN${txn.id}"))
+                            .then(
+                          (value) {
+                            KSnackbar(context,
+                                content: "Transaction ID copied to clipboard!");
+                          },
+                        );
+                      },
+                      visualDensity: VisualDensity.compact,
+                      icon: const Icon(
+                        Icons.copy,
+                        size: 15,
+                      ),
+                    ),
                   ],
                 ),
               ),
+              height20,
+              KButton(
+                onPressed: () {
+                  navPush(context, const HelpUI());
+                },
+                label: "Need Help?",
+                fontSize: 15,
+                icon: const Icon(
+                  Icons.help,
+                  size: 20,
+                ),
+                backgroundColor: kColor(context).primary,
+              ).outlinedFull,
             ],
           ),
         ),
@@ -150,38 +155,43 @@ class _TransactionDetailUIState extends State<TransactionDetailUI> {
 
   Widget _statusCard() {
     String status = txn.status;
-    return Container(
-      color: kColorMap[status] ?? Colors.black,
-      width: double.maxFinite,
-      padding: const EdgeInsets.all(20),
-      child: SafeArea(
-        child: Column(
-          children: [
-            Icon(
-              kStatusIconMap[status],
-              color: Colors.white,
-              size: 30,
-            ),
-            Text(
-              "Transaction $status",
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-                fontSize: 20,
-              ),
-            ),
-            Text(
-              DateFormat('dd MMM yyyy • h:mm a')
-                  .format(DateTime.parse(txn.date)),
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+    return Column(
+      children: [
+        Icon(
+          kStatusIconMap[status],
+          color: kColorMap[status] ?? Colors.black,
+          size: 50,
         ),
-      ),
+        Text.rich(
+          TextSpan(
+            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 25),
+            children: [
+              const TextSpan(text: "Transaction "),
+              TextSpan(
+                text: status,
+                style: TextStyle(
+                  color: kColorMap[status],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Divider(
+          height: 20,
+          color: Colors.black,
+          thickness: 1,
+          indent: 70,
+          endIndent: 70,
+        ),
+        Text(
+          DateFormat('dd MMMM yyyy | hh:mm a').format(DateTime.parse(txn.date)),
+          style: const TextStyle(
+            fontSize: 15,
+            wordSpacing: 2,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
     );
   }
 }

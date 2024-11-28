@@ -37,6 +37,7 @@ dependencies:
   image_picker: ^1.1.2
   delightful_toast: ^1.1.0
   flutter_share: ^2.0.0
+  simple_shadow: ^0.3.1
 
 dev_dependencies:
   flutter_test:

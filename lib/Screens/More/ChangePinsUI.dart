@@ -74,7 +74,7 @@ class _ChangePinsUIState extends ConsumerState<ChangePinsUI> {
       appBar: KAppBar(context, title: "change pins"),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(kPadding),
+          padding: const EdgeInsets.all(kPadding),
           child: Column(
             children: [
               _MPIN_Form(),
